@@ -1,15 +1,15 @@
 {
   "expo": {
-    "name": "club-connect",
+    "name": "Club-Connect",
     "slug": "club-connect",
     "version": "1.0.0",
     "orientation": "portrait",
-    "icon": "./assets/icon.png",
+    "icon": "./assets/icon-image.png",
     "userInterfaceStyle": "light",
     "splash": {
-      "image": "./assets/splash.png",
-      "resizeMode": "contain",
-      "backgroundColor": "#ffffff"
+      "image": "./assets/Splash-image.png",
+      "resizeMode": "cover",
+      "backgroundColor": "# "
     },
     "assetBundlePatterns": [
       "**/*"
@@ -19,12 +19,24 @@
     },
     "android": {
       "adaptiveIcon": {
-        "foregroundImage": "./assets/adaptive-icon.png",
+        "foregroundImage": "./assets/adaptive-icon-image.png",
         "backgroundColor": "#ffffff"
       }
     },
     "web": {
       "favicon": "./assets/favicon.png"
+    },
+    "extra": {
+      "eas": {
+        "projectId": "d29ab895-cc52-4d45-b134-f0961e307ab1"
+      }
+    },
+    "owner": "taheri_dev72",
+    "runtimeVersion": {
+      "policy": "appVersion"
+    },
+    "updates": {
+      "url": "https://u.expo.dev/d29ab895-cc52-4d45-b134-f0961e307ab1"
     }
   }
 }
