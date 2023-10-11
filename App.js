@@ -1,7 +1,7 @@
 import React from "react";
 import { Text, View, Image, StatusBar } from "react-native";
 import { useState, useEffect } from "react";
-import { NavigationContainer } from "@react-navigation/native";
+import { DefaultTheme, NavigationContainer } from "@react-navigation/native";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import {
   Home3,
@@ -25,9 +25,18 @@ import CartScreen from "./Screens/CartScreen";
 
 // Stack Screens
 import WelcomeScreen from "./Screens/WelcomeScreen";
+import CreateAccountScreen from "./Screens/CreateAccountScreen";
+import EmailConfirmation from "./Screens/EmailConfirmation";
+import SignInScreen from "./Screens/SignInScreen";
+import LocationPickScreen from "./Screens/LocationPickScreen";
+import CitiesListScreen from "./Screens/CitiesListScreen";
 
 // FONTS LOADING
 import { useFonts } from "expo-font";
+
+// Default Theme
+const navTheme = DefaultTheme;
+navTheme.colors.background = "#867665";
 
 // TAB BOTTOM NAVIGATOR
 const StackScreen = ({ appdata }) => {
@@ -36,9 +45,9 @@ const StackScreen = ({ appdata }) => {
       screenOptions={{
         tabBarStyle: {
           height: 90,
-          backgroundColor: "#D4AF37",
-          borderTopLeftRadius: 20,
-          borderTopRightRadius: 20,
+          backgroundColor: "#C8AE78",
+          borderTopLeftRadius: 24,
+          borderTopRightRadius: 24,
         },
         tabBarHideOnKeyboard: true,
       }}
@@ -50,14 +59,15 @@ const StackScreen = ({ appdata }) => {
         options={{
           headerShown: false,
           tabBarLabelStyle: { display: "none" },
+          ...TransitionPresets.SlideFromRightIOS,
           tabBarIcon: ({ focused, size }) => {
             return (
               <View className="items-center">
                 {focused ? (
                   <>
-                    <Home3 size="32" color="#262223" variant="Bold" />
+                    <Home3 size="32" color="#272727" variant="Bold" />
                     <Text
-                      className={`translate-y-1 text- text-center , ${
+                      className={`translate-y-1 text-[#272727] text-center , ${
                         focused ? "font-bold" : ""
                       }`}
                     >
@@ -66,9 +76,9 @@ const StackScreen = ({ appdata }) => {
                   </>
                 ) : (
                   <>
-                    <Home3 size="32" color="#262223" />
+                    <Home3 size="32" color="#272727" />
                     <Text
-                      className={`translate-y-1 text- text-center , ${
+                      className={`translate-y-1 text-[#272727] text-center , ${
                         focused ? "" : ""
                       }`}
                     >
@@ -89,6 +99,7 @@ const StackScreen = ({ appdata }) => {
         options={{
           headerShown: false,
           tabBarLabelStyle: { display: "none" },
+          ...TransitionPresets.SlideFromRightIOS,
           tabBarIcon: ({ focused, size }) => {
             return (
               <View className="items-center">
@@ -96,12 +107,12 @@ const StackScreen = ({ appdata }) => {
                   <>
                     <Calendar
                       size="32"
-                      color="#262223"
+                      color="#272727"
                       variant="Bold"
                       className="my-auto"
                     />
                     <Text
-                      className={`translate-y-1 text- text-center , ${
+                      className={`translate-y-1 text-[#272727] text-center , ${
                         focused ? "font-bold" : ""
                       }`}
                     >
@@ -110,9 +121,9 @@ const StackScreen = ({ appdata }) => {
                   </>
                 ) : (
                   <>
-                    <Calendar size="32" color="#262223" className="my-auto" />
+                    <Calendar size="32" color="#272727" className="my-auto" />
                     <Text
-                      className={`translate-y-1 text- text-center , ${
+                      className={`translate-y-1 text-[#272727] text-center , ${
                         focused ? "" : ""
                       }`}
                     >
@@ -133,16 +144,24 @@ const StackScreen = ({ appdata }) => {
         options={{
           headerShown: false,
           tabBarLabelStyle: { display: "none" },
+          ...TransitionPresets.ModalSlideFromBottomIOS,
           tabBarIcon: ({ focused, size }) => {
             return (
               <View className="items-center">
                 {focused ? (
-                  <View className="bg-[#262223] p-3 flex-col items-center justify-center rounded-full">
-                    <People size="32" color="#D4AF37" className="my-auto" />
+                  <View
+                    className="bg-[#272727] p-3 flex-col items-center justify-center rounded-full"
+                    style={{
+                      elevation: 32,
+                      shadowColor: "#000",
+                      shadowRadius: 2,
+                    }}
+                  >
+                    <People size="32" color="#EADAAA" className="my-auto" />
                   </View>
                 ) : (
-                  <View className="bg-[#FFDFB9] p-3 flex-col items-center justify-center rounded-full">
-                    <People size="32" color="#262223" className="my-auto" />
+                  <View className="bg-[#EADAAA] p-3 flex-col items-center justify-center rounded-full">
+                    <People size="32" color="#272727" className="my-auto" />
                   </View>
                 )}
               </View>
@@ -158,14 +177,15 @@ const StackScreen = ({ appdata }) => {
         options={{
           headerShown: false,
           tabBarLabelStyle: { display: "none" },
+          ...TransitionPresets.SlideFromRightIOS,
           tabBarIcon: ({ focused, size }) => {
             return (
               <View className="items-center">
                 {focused ? (
                   <>
-                    <Notification size="32" color="#262223" variant="Bold" />
+                    <Notification size="32" color="#272727" variant="Bold" />
                     <Text
-                      className={`translate-y-1 text- text-center , ${
+                      className={`translate-y-1 text-[#272727] text-center , ${
                         focused ? "font-bold" : ""
                       }`}
                     >
@@ -174,9 +194,9 @@ const StackScreen = ({ appdata }) => {
                   </>
                 ) : (
                   <>
-                    <Notification size="32" color="#262223" />
+                    <Notification size="32" color="#272727" />
                     <Text
-                      className={`translate-y-1 text- text-center , ${
+                      className={`translate-y-1 text-[#272727] text-center , ${
                         focused ? "" : ""
                       }`}
                     >
@@ -197,14 +217,15 @@ const StackScreen = ({ appdata }) => {
         options={{
           headerShown: false,
           tabBarLabelStyle: { display: "none" },
+          ...TransitionPresets.SlideFromRightIOS,
           tabBarIcon: ({ focused, size }) => {
             return (
               <View className="items-center">
                 {focused ? (
                   <>
-                    <ShoppingCart size="32" color="#262223" variant="Bold" />
+                    <ShoppingCart size="32" color="#272727" variant="Bold" />
                     <Text
-                      className={`translate-y-1 text- text-center , ${
+                      className={`translate-y-1 text-[#272727] text-center , ${
                         focused ? "font-bold" : ""
                       }`}
                     >
@@ -213,9 +234,9 @@ const StackScreen = ({ appdata }) => {
                   </>
                 ) : (
                   <>
-                    <ShoppingCart size="32" color="#262223" />
+                    <ShoppingCart size="32" color="#272727" />
                     <Text
-                      className={`translate-y-1 text- text-center , ${
+                      className={`translate-y-1 text-[#272727] text-center , ${
                         focused ? "" : ""
                       }`}
                     >
@@ -249,10 +270,10 @@ export default function App() {
   if (fontsLoaded) {
     return (
       <>
-        <NavigationContainer>
+        <NavigationContainer theme={navTheme}>
           <StatusBar
             animated={true}
-            backgroundColor="#D4AF37"
+            backgroundColor="#867665"
             barStyle="dark-content"
           />
           <Stack.Navigator>
@@ -261,12 +282,54 @@ export default function App() {
               component={WelcomeScreen}
               options={{
                 headerShown: false,
+                ...TransitionPresets.SlideFromRightIOS,
+              }}
+            />
+            <Stack.Screen
+              name="SignIn"
+              component={SignInScreen}
+              options={{
+                headerShown: false,
+                ...TransitionPresets.SlideFromRightIOS,
+              }}
+            />
+            <Stack.Screen
+              name="CreateAccount"
+              component={CreateAccountScreen}
+              options={{
+                headerShown: false,
+                ...TransitionPresets.SlideFromRightIOS,
+              }}
+            />
+            <Stack.Screen
+              name="EmailConfirmation"
+              component={EmailConfirmation}
+              options={{
+                headerShown: false,
+                ...TransitionPresets.SlideFromRightIOS,
+              }}
+            />
+            <Stack.Screen
+              name="LocationPick"
+              component={LocationPickScreen}
+              options={{
+                headerShown: false,
+                ...TransitionPresets.SlideFromRightIOS,
+              }}
+            />
+            <Stack.Screen
+              name="CitiesList"
+              component={CitiesListScreen}
+              options={{
+                headerShown: false,
+                ...TransitionPresets.SlideFromRightIOS,
               }}
             />
             <Stack.Screen
               name="Index"
               options={{
                 headerShown: false,
+                ...TransitionPresets.SlideFromRightIOS,
               }}
             >
               {(props) => <StackScreen {...props} />}

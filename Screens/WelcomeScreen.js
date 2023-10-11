@@ -3,34 +3,36 @@ import React from "react";
 import { SafeAreaView } from "react-native-safe-area-context";
 import GlobalStyles from "../Styles/GlobalStyles";
 
-const WelcomeScreen = () => {
+const WelcomeScreen = ({ navigation }) => {
   return (
-    <SafeAreaView className="bg-[#262223] h-screen w-full justify-center items-center mx-auto p-10">
+    <SafeAreaView className="bg-[#867665] h-screen w-full justify-center items-center mx-auto p-10">
       <View className="items-center">
         <Image
-          source={require("../assets/Illustrations/Sparkle.png")}
-          className="w-[370px] h-[320.54px] mx-auto mb-20"
+          source={require("../assets/Illustrations/Glasses.png")}
+          className="w-[346px] h-[249.67px] mx-auto mb-20"
         />
 
         <View className="gap-2">
           <Text
-            className="text-[#FFDFB9] text-4xl text-center"
+            className="text-[#272727] text-4xl text-center"
             style={GlobalStyles.fontBold}
           >
-            Explore the App
+            Let's Jump In!
           </Text>
           <Text
             className="text-[#f9f9f9] w-72 text-center"
             style={GlobalStyles.fontRegular}
           >
-            Your Nightlife is our responsibility and this is a random dummy
-            text!
+            Discover & Savor: Your Nightlife, Your Way! Create a account for free!
           </Text>
         </View>
       </View>
 
       <View className="gap-3 w-full mt-10">
-        <Pressable className="w-full bg-[#D4AF37] p-3 rounded-lg items-center">
+        <Pressable
+          className="w-full bg-[#272727] active:bg-[#393939] p-3 rounded-lg items-center"
+          onPress={() => navigation.navigate("SignIn")}
+        >
           <Text
             className="text-[#f9f9f9] text-lg"
             style={GlobalStyles.fontMedium}
@@ -38,15 +40,21 @@ const WelcomeScreen = () => {
             Sign In
           </Text>
         </Pressable>
-        <Pressable className="w-full border-[1.5px] border-[#FFDFB9] p-3 rounded-lg items-center">
+        <Pressable
+          className="w-full border border-[#EADAAA] active:bg-[#272727]/10 p-3 rounded-lg items-center"
+          onPress={() => navigation.navigate("CreateAccount")}
+        >
           <Text
-            className="text-[#D4AF37] text-lg"
+            className="text-[#272727] active:text-black text-lg"
             style={GlobalStyles.fontMedium}
           >
             Create Account
           </Text>
         </Pressable>
-        <Pressable className="w-full p-3 rounded-lg items-center">
+        <Pressable
+          className="w-full p-3 rounded-lg items-center"
+          onPress={() => navigation.navigate("LocationPick")}
+        >
           <Text
             className="text-[#f9f9f9] text-lg"
             style={GlobalStyles.fontMedium}

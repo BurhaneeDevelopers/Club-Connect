@@ -1,34 +1,35 @@
 {
   "expo": {
-    "name": "Club-Connect",
-    "slug": "club-connect",
+    "name": "Vibe Hotspot",
+    "slug": "vibehotspot",
     "version": "1.0.0",
+    "privacy": "public",
     "orientation": "portrait",
-    "icon": "./assets/icon-image.png",
+    "icon": "./assets/icon.png",
     "userInterfaceStyle": "light",
     "splash": {
-      "image": "./assets/Splash-image.png",
+      "image": "./assets/Splash-final.png",
       "resizeMode": "cover",
       "backgroundColor": "# "
     },
-    "assetBundlePatterns": [
-      "**/*"
-    ],
+    "assetBundlePatterns": ["**/*"],
     "ios": {
-      "supportsTablet": true
+      "supportsTablet": true,
+      "bundleIdentifier": ".vibehotspot"
     },
     "android": {
       "adaptiveIcon": {
-        "foregroundImage": "./assets/adaptive-icon-image.png",
+        "foregroundImage": "./assets/icon.png",
         "backgroundColor": "#ffffff"
-      }
+      },
+      "package": "com.taheri_dev72.vibehotspot"
     },
     "web": {
-      "favicon": "./assets/favicon.png"
+      "favicon": "./assets/icon.png"
     },
     "extra": {
       "eas": {
-        "projectId": "d29ab895-cc52-4d45-b134-f0961e307ab1"
+        "projectId": "a7079c16-20a2-4dfc-b6ea-918c9d2380fa"
       }
     },
     "owner": "taheri_dev72",
@@ -36,7 +37,7 @@
       "policy": "appVersion"
     },
     "updates": {
-      "url": "https://u.expo.dev/d29ab895-cc52-4d45-b134-f0961e307ab1"
+      "url": "https://u.expo.dev/a7079c16-20a2-4dfc-b6ea-918c9d2380fa"
     }
   }
 }
