@@ -8,19 +8,20 @@ import {
   Text,
 } from "react-native";
 import { SearchNormal1, Add } from "iconsax-react-native";
+import { useState } from "react";
 
 const SearchBar = ({
-  clicked,
   searchData,
   setSearchData,
-  setClicked,
+
   handleSearch,
 }) => {
+  const [clicked, setClicked] = useState(false);
   return (
     <View className="px-5">
       <View
-        className={`flex-row justify-between my-5 rounded-xl p-3 ${
-          clicked ? "bg-[#EADAAA]" : "border border-[#EADAAA] "
+        className={`flex-row justify-between my-5 rounded-xl p-3 border border-[#EADAAA]  ${
+          clicked ? "bg-[#EADAAA]" : ""
         }`}
       >
         <View className="flex-row items-center w-72 gap-2">
@@ -41,7 +42,7 @@ const SearchBar = ({
             className="text-lg w-full"
           />
 
-          {console.log(searchData)}
+          {/* {console.log(searchData)} */}
         </View>
 
         {/* cross Icon, depending on whether the search bar is clicked or not */}
@@ -52,6 +53,7 @@ const SearchBar = ({
             onPress={() => {
               Keyboard.dismiss();
               setClicked(false);
+              setSearchData("");
             }}
             className="rotate-45"
           />

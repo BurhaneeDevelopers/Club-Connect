@@ -16,8 +16,11 @@ const useFetch = () => {
         setIsLoading(false);
       } else {
         const options = {
-          method: "GET",
-          url: "https://countriesnow.space/api/v0.1/countries",
+          method: "POST",
+          url: "https://countriesnow.space/api/v0.1/countries/cities",
+          data: {
+            country: "India",
+          },
         };
 
         const response = await axios.request(options);

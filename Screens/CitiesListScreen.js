@@ -2,152 +2,147 @@ import {
   View,
   Text,
   ScrollView,
-  Pressable,
   ActivityIndicator,
+  FlatList,
+  Pressable,
 } from "react-native";
-import React from "react";
-// import { SearchBar } from "@rneui/themed";
-import SearchBar from "../Components/SearchBar";
-import { useState, useEffect } from "react";
-import GlobalStyles from "../Styles/GlobalStyles";
-import HR from "../Components/HR";
+import React, { useState, useEffect, useCallback } from "react";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import HR from "../Components/HR";
+import SearchBar from "../Components/SearchBar";
+import useFetch from "../hook/useFetch";
+import { SafeAreaView } from "react-native-safe-area-context";
 
-const PAGE_SIZE = 10;
+// ICONS
+import { ArrowLeft } from "iconsax-react-native";
+import AuthSparkle from "../assets/Illustrations/AuthSparkle.svg";
 
-const CitiesListScreen = () => {
-  const [data, setData] = useState([]);
+const CitiesListScreen = ({ navigation }) => {
+  const { data, error, refetch } = useFetch();
   const [isLoading, setIsLoading] = useState(true);
-  const [visibleData, setVisibleData] = useState([]);
   const [searchData, setSearchData] = useState("");
-  const [clicked, setClicked] = useState(false);
-  const [currentPage, setCurrentPage] = useState(1);
+  const [citiesData, setCitiesData] = useState([]);
+  const [page, setPage] = useState(1);
+  const [isSearching, setIsSearching] = useState(false);
 
-  const loadInitialData = async () => {
-    // Load the data from local storage
-    try {
-      const cachedData = await AsyncStorage.getItem("cachedData");
-      if (cachedData) {
-        const parsedData = JSON.parse(cachedData);
-        setData(parsedData);
-        loadMoreData(parsedData, currentPage);
-        setIsLoading(false);
-      }
-    } catch (error) {
-      console.log("Error loading data from local storage:", error);
-      setIsLoading(false);
-    }
+  const loadMoreData = () => {
+    setPage(page + 1);
   };
-
-  function loadMoreData(data, page) {
-    const startIndex = (page - 1) * PAGE_SIZE;
-    const endIndex = page * PAGE_SIZE;
-    const nextData = data.slice(startIndex, endIndex);
-    setVisibleData((prevData) => [...prevData, ...nextData]);
-  }
-
-  function handleLoadMore() {
-    const nextPage = currentPage + 1;
-    loadMoreData(data, nextPage);
-    setCurrentPage(nextPage);
-  }
-
-  function filterData(data, searchText) {
-    return data.filter((countryData) => {
-      const countryMatch = countryData.country
-        .toLowerCase()
-        .includes(searchText.toLowerCase());
-      const cityMatch = countryData.cities.some((city) =>
-        city.toLowerCase().includes(searchText.toLowerCase())
-      );
-      return countryMatch || cityMatch;
-    });
-  }
-
-  function handleSearch() {
-    if (searchData.trim() === "") {
-      // If the search input is empty, show the original data
-      setVisibleData(data.slice(0, PAGE_SIZE));
-    } else {
-      const filteredData = filterData(data, searchData);
-      setVisibleData(filteredData.slice(0, PAGE_SIZE));
-    }
-  }
 
   useEffect(() => {
-    loadInitialData();
+    // Retrieve the data from local storage
+    const fetchDataFromLocalStorage = async () => {
+      try {
+        const cachedData = await AsyncStorage.getItem("cachedData");
+        if (cachedData) {
+          setCitiesData(JSON.parse(cachedData));
+          setIsLoading(false);
+        }
+      } catch (error) {
+        console.error("Error retrieving data from local storage:", error);
+      } finally {
+        // Set isLoading to false after trying to fetch data
+        setIsLoading(false);
+      }
+    };
+
+    fetchDataFromLocalStorage();
   }, []);
 
-  const handleScroll = (event) => {
-    const { layoutMeasurement, contentOffset, contentSize } = event.nativeEvent;
-    const paddingToBottom = 20;
+  // Inside the CitiesListScreen component
+  useEffect(() => {
+    if (searchData === "") {
+      // If the search input is empty, reset the data to the original data
+      setCitiesData([...data]);
+      setIsSearching(false);
+    }
+  }, [searchData, data]);
 
-    if (
-      layoutMeasurement.height + contentOffset.y >=
-      contentSize.height - paddingToBottom
-    ) {
-      handleLoadMore();
+  const handleSearch = () => {
+    if (searchData) {
+      const trimmedSearch = searchData.trim(); // Remove leading and trailing spaces
+      const filteredCities = citiesData.filter((city) =>
+        city.toLowerCase().includes(trimmedSearch.toLowerCase())
+      );
+
+      if (filteredCities.length === 0) {
+        // No cities found for the search query
+        setCitiesData([]);
+        setIsSearching(true);
+      } else {
+        // Cities found, update the data
+        setCitiesData(filteredCities);
+        setIsSearching(true);
+      }
     }
   };
-
   return (
-    <View>
+    <SafeAreaView>
+      <View className="flex-row justify-between w-full items-center mt-5 px-5">
+        <Pressable onPress={() => navigation.goBack()}>
+          <ArrowLeft size="24" color="#f9f9f9" />
+        </Pressable>
+        <AuthSparkle width={64} height={64} />
+      </View>
       <SearchBar
         searchData={searchData}
         setSearchData={setSearchData}
-        clicked={clicked}
-        setClicked={setClicked}
         handleSearch={handleSearch}
       />
 
-      <ScrollView onScroll={handleScroll}>
-        {isLoading ? (
-          <View className="my-5">
-            <ActivityIndicator size="32" color="#EADAAA" />
-            {/* <Text
+      {isLoading ? (
+        <View className="my-5">
+          <ActivityIndicator size="32" color="#EADAAA" />
+          {/* <Text
               className="text-center text-xl"
               style={GlobalStyles.fontMedium}
             >
-              Loading Data...
+              Loading Data... 
             </Text> */}
-          </View>
-        ) : (
-          visibleData.map((countryData, index) => {
-            return (
-              <View key={index} className="px-5 mt-7">
-                <Text className="text-white" style={GlobalStyles.fontSemiBold}>
-                  {countryData.country}
-                </Text>
-                {countryData.cities.map((city, cityIndex) => (
-                  <View key={cityIndex}>
-                    <View className="my-2.5">
-                      <HR />
-                    </View>
-                    <Text style={GlobalStyles.fontMedium} className="text-lg">
-                      {city}
-                    </Text>
-                  </View>
-                ))}
-              </View>
-            );
-          })
-        )}
-
-        {!isLoading && (
-          <Pressable
-            onPress={handleLoadMore} // Disable the button when showError is true
-            className="w-full bg-[#272727] active:bg-[#393939] p-3 rounded-lg items-center absolute bottom-10"
-          >
-            <Text
-              className="text-[#f9f9f9] text-lg"
-              style={GlobalStyles.fontMedium}
+        </View>
+      ) : null}
+      <FlatList
+        data={isSearching ? citiesData : data} // Use filtered data when searching, or the original data when not searching
+        className="p-5 bg-[#EADAAA] rounded-t-3xl h-full"
+        keyExtractor={(item, index) => index.toString()}
+        onEndReached={loadMoreData}
+        onEndReachedThreshold={0.1}
+        renderItem={({ item, index }) => (
+          <>
+            <View className="my-0.5">
+              <HR />
+            </View>
+            <Pressable
+              className="active:bg-[#dbc789] py-2 rounded"
+              onPress={() => navigation.navigate("Index")}
             >
-              Load More
-            </Text>
-          </Pressable>
+              <Text style={GlobalStyles.fontMedium} className="text-lg">
+                {item}
+              </Text>
+            </Pressable>
+          </>
         )}
-      </ScrollView>
-    </View>
+        ListHeaderComponent={() => (
+          <>
+            <Text
+              style={GlobalStyles.fontSemiBold}
+              className="text-[#867665] text-xl mb-1"
+            >
+              India
+            </Text>
+
+            {citiesData.length === 0 && (
+              <Text
+                className="text-black text-base my-3"
+                style={GlobalStyles.fontMedium}
+              >
+                No cities found for "{searchData}"
+              </Text>
+            )}
+          </>
+        )}
+      />
+    </SafeAreaView>
   );
 };
 
