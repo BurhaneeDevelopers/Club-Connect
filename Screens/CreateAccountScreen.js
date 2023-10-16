@@ -20,7 +20,7 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import AuthSwitch from "../Components/AuthSwitch";
 
 // SVGS
-import AuthSparkle from "../assets/Illustrations/AuthSparkle.svg";
+import AuthSparklePink from "../assets/Illustrations/AuthSparklePink.svg";
 import Google from "../assets/icons/Google.svg";
 import Mail from "../assets/icons/Mail.svg";
 
@@ -83,27 +83,27 @@ const CreateAccountScreen = ({ navigation, route }) => {
   };
 
   return (
-    <ScrollView
-      refreshControl={
-        <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
-      }
-      className="bg-[#867665]"
+    <KeyboardAvoidingView
+      behavior={Platform.OS === "ios" ? "padding" : "height"}
+      keyboardVerticalOffset={Platform.OS === "ios" ? 32 : 0}
+      className="h-screen w-screen  items-center justify-center mx-auto px-5"
     >
-      <KeyboardAvoidingView
-        behavior={Platform.OS === "ios" ? "padding" : "height"}
-        keyboardVerticalOffset={Platform.OS === "ios" ? 32 : 0}
-        className="bg-[#867665] h-screen w-screen  items-center justify-center mx-auto px-5"
+      <ScrollView
+        refreshControl={
+          <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
+        }
+        className=""
       >
         <View className="flex-row justify-between w-full items-center my-5">
           <Pressable onPress={() => navigation.goBack()}>
             <ArrowLeft size="24" color="#f9f9f9" />
           </Pressable>
-          <AuthSparkle width={64} height={64} />
+          <AuthSparklePink width={64} height={64} />
         </View>
 
         <View className="items-center mt-5 space-y-2">
           <Text
-            className="text-[#272727] text-4xl text-center"
+            className="text-[#f9f9f9] text-4xl text-center"
             style={GlobalStyles.fontBold}
           >
             Create Account
@@ -114,7 +114,7 @@ const CreateAccountScreen = ({ navigation, route }) => {
           >
             New to VibeHotspot? Explore our app by creating a account or&nbsp;
             <Text
-              className="text-[#272727] text-center"
+              className="text-[#FF26B9] text-center"
               onPress={() => navigation.navigate("Index")}
               style={GlobalStyles.fontMedium}
             >
@@ -136,10 +136,10 @@ const CreateAccountScreen = ({ navigation, route }) => {
             value={email}
             placeholder="Enter Your Email..."
             placeholderTextColor={`${
-              activeInput === 1 ? "#867665" : "#272727"
+              activeInput === 1 ? "#101010" : "#f9f9f9"
             }`}
-            className={`border border-[#EADAAA] w-full p-3 py-3 rounded-xl text-[#f9f9f9] text-lg ${
-              activeInput === 1 ? "bg-[#EADAAA] text-[#867665]" : null
+            className={`border border-[#FF26B9] w-full p-3 py-3 rounded-xl text-[#f9f9f9] text-lg ${
+              activeInput === 1 ? "bg-[#FF26B9] text-[#f9f9f9]" : null
             }`}
             onBlur={handleInputBlur}
             onFocus={() => handleInputFocus(1)}
@@ -161,10 +161,10 @@ const CreateAccountScreen = ({ navigation, route }) => {
             value={password}
             placeholder="Enter Your Password..."
             placeholderTextColor={`${
-              activeInput === 2 ? "#867665" : "#272727"
+              activeInput === 2 ? "#101010" : "#f9f9f9"
             }`}
-            className={`border border-[#EADAAA] w-full p-3 py-3 rounded-xl text-[#f9f9f9] place text-lg ${
-              activeInput === 2 ? "bg-[#EADAAA] text-[#867665]" : null
+            className={`border border-[#FF26B9] w-full p-3 py-3 rounded-xl text-[#f9f9f9] place text-lg ${
+              activeInput === 2 ? "bg-[#FF26B9] text-[#f9f9f9]" : null
             }`}
             onBlur={handleInputBlur}
             onFocus={() => handleInputFocus(2)}
@@ -185,10 +185,10 @@ const CreateAccountScreen = ({ navigation, route }) => {
             value={confirmPassword}
             placeholder="Confirm Your Password..."
             placeholderTextColor={`${
-              activeInput === 3 ? "#867665" : "#272727"
+              activeInput === 3 ? "#101010" : "#f9f9f9"
             }`}
-            className={`border border-[#EADAAA] w-full p-3 py-3 rounded-xl text-[#f9f9f9] text-lg ${
-              activeInput === 3 ? "bg-[#EADAAA] text-[#867665]" : null
+            className={`border border-[#FF26B9] w-full p-3 py-3 rounded-xl text-[#f9f9f9] text-lg ${
+              activeInput === 3 ? "bg-[#FF26B9] text-[#f9f9f9]" : null
             }`}
             onBlur={handleInputBlur}
             onFocus={() => handleInputFocus(3)}
@@ -218,8 +218,8 @@ const CreateAccountScreen = ({ navigation, route }) => {
             disabled={isCreateAccountButtonDisabled}
             className={`w-full p-3 rounded-lg items-center ${
               isCreateAccountButtonDisabled
-                ? "bg-[#272727]/70"
-                : "bg-[#272727] active:bg-[#393939]"
+                ? "bg-[#FF26B9]/70"
+                : "bg-[#FF26B9] active:bg-[#FF26B9]/90"
             }`}
             onPress={handleCreateAccount}
           >
@@ -246,13 +246,13 @@ const CreateAccountScreen = ({ navigation, route }) => {
             <Google width={32} height={32} />
           </View>
           <View className="bg-[#f9f9f9] rounded-full p-4">
-            <Apple size="32" color="#272727" variant="Bold" />
+            <Apple size="32" color="#101010" variant="Bold" />
           </View>
           <Pressable
             className="bg-[#f9f9f9] rounded-full p-4"
             onPress={() => navigation.navigate("Index")}
           >
-            <Eye size="32" color="#272727" variant="Bold" />
+            <Eye size="32" color="#101010" variant="Bold" />
           </Pressable>
         </View>
 
@@ -263,15 +263,15 @@ const CreateAccountScreen = ({ navigation, route }) => {
           >
             By creating an account or signing you agree to our&nbsp;
             <Text
-              className="text-[#272727] text-center underline"
+              className="text-[#FF26B9] text-center underline"
               onPress={() => navigation.navigate("Index")}
             >
               Terms and Conditions
             </Text>
           </Text>
         </View>
-      </KeyboardAvoidingView>
-    </ScrollView>
+      </ScrollView>
+    </KeyboardAvoidingView>
   );
 };
 

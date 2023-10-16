@@ -15,17 +15,19 @@ const AuthSwitch = ({ navigation, route }) => {
   };
 
   return (
-    <View className="w-full my-5 bg-[#EADAAA] py-1 rounded-xl flex-row items-center justify-between px-1">
+    <View className="w-full my-5 border border-[#FF26B9] py-1 rounded-xl flex-row items-center justify-between px-1">
       <Pressable
         className={`py-1 w-1/2 text-center rounded-lg  ${
-          isCreateAccountActive ? "bg-[#272727] active:bg-[#393939]" : "active:bg-[#f7d0a0]"
+          isCreateAccountActive
+            ? "bg-[#FF26B9]"
+            : "active:bg-[#FF26B9]/10"
         }`}
         onPress={() => {
           handleButtonPress(1);
         }}
       >
         <Text
-          className={`text-lg text-center ${
+          className={`text-lg text-center text-[#f9f9f9] ${
             isCreateAccountActive ? "text-white" : ""
           }`}
         >
@@ -35,14 +37,16 @@ const AuthSwitch = ({ navigation, route }) => {
 
       <Pressable
         className={`py-1 w-1/2 text-center rounded-lg  ${
-          isSignInActive ? "bg-[#272727] active:bg-[#393939]" : "active:bg-[#f7d0a0]"
+          isSignInActive
+            ? "bg-[#FF26B9]"
+            : "active:bg-[#FF26B9]/10"
         }`}
         onPress={() => {
           handleButtonPress(2);
         }}
       >
         <Text
-          className={`text-lg text-center ${
+          className={`text-lg text-center text-white ${
             isSignInActive ? "text-white font-semibold" : ""
           }`}
         >

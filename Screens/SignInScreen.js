@@ -20,7 +20,7 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import AuthSwitch from "../Components/AuthSwitch";
 
 // SVGS
-import AuthSparkle from "../assets/Illustrations/AuthSparkle.svg";
+import AuthSparklePink from "../assets/Illustrations/AuthSparklePink.svg";
 import Google from "../assets/icons/Google.svg";
 import Mail from "../assets/icons/Mail.svg";
 
@@ -36,7 +36,7 @@ const SignInScreen = ({ navigation, route }) => {
   }, []);
 
   // Active State for inputs
-  const [activeInput, setActiveInput] = useState();
+  const [activeInput, setActiveInput] = useState(0);
 
   const handleInputFocus = (inputNumber) => {
     setActiveInput(inputNumber);
@@ -74,16 +74,16 @@ const SignInScreen = ({ navigation, route }) => {
   };
 
   return (
-    <ScrollView
-      refreshControl={
-        <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
-      }
-      className="bg-[#867665]"
+    <KeyboardAvoidingView
+      behavior={Platform.OS === "ios" ? "padding" : "height"}
+      keyboardVerticalOffset={Platform.OS === "ios" ? 32 : 0}
+      className="w-screen h-screen mx-auto px-5"
     >
-      <KeyboardAvoidingView
-        behavior={Platform.OS === "ios" ? "padding" : "height"}
-        keyboardVerticalOffset={Platform.OS === "ios" ? 32 : 0}
-        className="w-screen h-screen mx-auto px-5"
+      <ScrollView
+        refreshControl={
+          <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
+        }
+        className=""
       >
         <View className="flex-row justify-between w-full items-center my-5">
           <Pressable
@@ -92,12 +92,12 @@ const SignInScreen = ({ navigation, route }) => {
           >
             <ArrowLeft size="24" color="#f9f9f9" />
           </Pressable>
-          <AuthSparkle width={64} height={64} />
+          <AuthSparklePink width={64} height={64} />
         </View>
         <View className="my-auto items-center justify-center">
           <View className="items-center mt-5 space-y-2">
             <Text
-              className="text-[#272727] text-4xl text-center"
+              className="text-[#f9f9f9] text-4xl text-center"
               style={GlobalStyles.fontBold}
             >
               Sign in to Account
@@ -121,10 +121,10 @@ const SignInScreen = ({ navigation, route }) => {
               value={email}
               placeholder="Enter Your Email..."
               placeholderTextColor={`${
-                activeInput === 2 ? "#867665" : "#c5c5c5"
+                activeInput === 1 ? "#101010" : "#c5c5c5"
               }`}
-              className={`border border-[#EADAAA] w-full p-3 py-3 rounded-xl text-[#f9f9f9] place text-lg ${
-                activeInput === 2 ? "bg-[#EADAAA] text-[#867665]" : null
+              className={`border border-[#FF26B9] w-full p-3 py-3 rounded-xl text-[#f9f9f9] place text-lg ${
+                activeInput === 1 ? "bg-[#FF26B9] text-[#f9f9f9]" : null
               }`}
               onBlur={handleInputBlur}
               onFocus={() => handleInputFocus(1)}
@@ -137,17 +137,17 @@ const SignInScreen = ({ navigation, route }) => {
               value={password}
               placeholder="Enter Your Password..."
               placeholderTextColor={`${
-                activeInput === 2 ? "#867665" : "#c5c5c5"
+                activeInput === 2 ? "#101010" : "#c5c5c5"
               }`}
-              className={`border border-[#EADAAA] w-full p-3 py-3 rounded-xl text-[#f9f9f9] place text-lg ${
-                activeInput === 2 ? "bg-[#EADAAA] text-[#867665]" : null
+              className={`border border-[#FF26B9] w-full p-3 py-3 rounded-xl text-[#f9f9f9] place text-lg ${
+                activeInput === 2 ? "bg-[#FF26B9] text-[#f9f9f9]" : null
               }`}
               onBlur={handleInputBlur}
-              onFocus={() => handleInputFocus(1)}
+              onFocus={() => handleInputFocus(2)}
               style={GlobalStyles.fontMedium}
             />
             <View className="flex-row justify-between items-center">
-              <Text className="text-[#272727]">Forgot Password?</Text>
+              <Text className="text-[#f9f9f9]">Forgot Password?</Text>
               <Text></Text>
             </View>
 
@@ -163,10 +163,10 @@ const SignInScreen = ({ navigation, route }) => {
             )}
 
             <Pressable
-              // className={`w-full p-3 rounded-lg items-center bg-[#272727] ${
-              //   error ? "bg-[#272727]/70" : ""
+              // className={`w-full p-3 rounded-lg items-center bg-[#FF26B9] ${
+              //   error ? "bg-[#FF26B9]/70" : ""
               // }`}
-              className="w-full p-3 rounded-lg items-center bg-[#272727] active:bg-[#393939]"
+              className="w-full p-3 rounded-lg items-center bg-[#FF26B9] active:bg-[#393939]"
               onPress={handleSignIn}
             >
               <Text className="text-[#f9f9f9] text-lg">Sign In</Text>
@@ -178,13 +178,13 @@ const SignInScreen = ({ navigation, route }) => {
               <Google width={32} height={32} />
             </View>
             <View className="bg-[#f9f9f9] rounded-full p-4">
-              <Apple size="32" color="#272727" variant="Bold" />
+              <Apple size="32" color="#101010" variant="Bold" />
             </View>
             <Pressable
               className="bg-[#f9f9f9] rounded-full p-4"
               onPress={() => navigation.navigate("Index")}
             >
-              <Eye size="32" color="#272727" variant="Bold" />
+              <Eye size="32" color="#101010" variant="Bold" />
             </Pressable>
           </View>
 
@@ -195,7 +195,7 @@ const SignInScreen = ({ navigation, route }) => {
             >
               New to VibeHotspot?{" "}
               <Text
-                className="text-[#272727] text-center"
+                className="text-[#FF26B9] text-center"
                 onPress={() => navigation.navigate("CreateAccount")}
               >
                 Create Account
@@ -203,8 +203,8 @@ const SignInScreen = ({ navigation, route }) => {
             </Text>
           </View>
         </View>
-      </KeyboardAvoidingView>
-    </ScrollView>
+      </ScrollView>
+    </KeyboardAvoidingView>
   );
 };
 

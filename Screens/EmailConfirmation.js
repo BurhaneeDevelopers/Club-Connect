@@ -11,7 +11,7 @@ import { useState, useRef, useEffect } from "react";
 import { ArrowLeft } from "iconsax-react-native";
 
 // SVGS
-import AuthSparkle from "../assets/Illustrations/AuthSparkle.svg";
+import AuthSparklePink from "../assets/Illustrations/AuthSparklePink.svg";
 
 const EmailConfirmation = ({ navigation, route }) => {
   const { email } = route.params;
@@ -101,20 +101,20 @@ const EmailConfirmation = ({ navigation, route }) => {
     <KeyboardAvoidingView
       behavior={Platform.OS === "ios" ? "padding" : "height"}
       keyboardVerticalOffset={Platform.OS === "ios" ? 64 : 0}
-      className="bg-[#867665] h-screen w-screen mx-auto px-5"
+      className="h-screen w-screen mx-auto px-5"
     >
       <View className="h-screen items-center justify-center">
         <View className="flex-row justify-between w-full items-center my-5 absolute top-0">
           <Pressable onPress={() => navigation.goBack()}>
             <ArrowLeft size="32" color="#f9f9f9" />
           </Pressable>
-          <AuthSparkle width={70} height={70} />
+          <AuthSparklePink width={70} height={70} />
         </View>
 
         <View className="items-center mt-5">
           <View className="gap-2">
             <Text
-              className="text-[#272727] text-4xl text-center"
+              className="text-[#f9f9f9] text-4xl text-center"
               style={GlobalStyles.fontBold}
             >
               Verify your email
@@ -125,7 +125,7 @@ const EmailConfirmation = ({ navigation, route }) => {
             >
               We’ve sent an email Confirmation Code to&nbsp;
               <Text
-                className="text-[#272727] text-center"
+                className="text-[#f9f9f9] text-center"
                 onPress={() => navigation.navigate("Index")}
               >
                 {email}
@@ -143,8 +143,8 @@ const EmailConfirmation = ({ navigation, route }) => {
               ref={inputRefs[index]}
               maxLength={1}
               onFocus={() => setActiveIndex(index)}
-              className={`border border-[#f9f9f9] text-white rounded-xl text-2xl text-center items-center justify-center p-4 ${
-                activeIndex === index && "border-[#272727]"
+              className={`border border-[#f9f9f9] text-[#E9FA00] flex-row rounded-xl text-2xl text-center items-center justify-center p-4 ${
+                activeIndex === index && "border-[#FF26B9]"
               } ${showError ? "border-[#ff0000]" : ""}`}
               style={GlobalStyles.fontSemiBold}
             />
@@ -178,8 +178,8 @@ const EmailConfirmation = ({ navigation, route }) => {
       <View className="items-center">
         <Pressable
           disabled={!fullOtpEntered} // Disable the button when showError is true
-          className={`w-full bg-[#272727] active:bg-[#393939] p-3 rounded-lg items-center absolute bottom-10 ${
-            !fullOtpEntered ? "bg-[#272727]/70" : ""
+          className={`w-full bg-[#FF26B9] active:bg-[#393939] p-3 rounded-lg items-center absolute bottom-10 ${
+            !fullOtpEntered ? "bg-[#FF26B9]/70" : ""
           }`}
           onPress={() => {
             handleVerify();

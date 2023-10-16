@@ -57,7 +57,7 @@ const HomeScreen = ({ navigation }) => {
               >
                 Mohammed Jhansi
               </Text>
-              <Text className="text-[#272727]" style={GlobalStyles.fontMedium}>
+              <Text className="text-[#f9f9f9]" style={GlobalStyles.fontMedium}>
                 Mohammed_jhansi72
               </Text>
             </View>

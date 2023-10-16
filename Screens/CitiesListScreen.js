@@ -15,7 +15,7 @@ import { SafeAreaView } from "react-native-safe-area-context";
 
 // ICONS
 import { ArrowLeft } from "iconsax-react-native";
-import AuthSparkle from "../assets/Illustrations/AuthSparkle.svg";
+import AuthSparklePink from "../assets/Illustrations/AuthSparklePink.svg";
 
 const CitiesListScreen = ({ navigation }) => {
   const { data, error, refetch } = useFetch();
@@ -82,7 +82,7 @@ const CitiesListScreen = ({ navigation }) => {
         <Pressable onPress={() => navigation.goBack()}>
           <ArrowLeft size="24" color="#f9f9f9" />
         </Pressable>
-        <AuthSparkle width={64} height={64} />
+        <AuthSparklePink width={64} height={64} />
       </View>
       <SearchBar
         searchData={searchData}
@@ -92,7 +92,7 @@ const CitiesListScreen = ({ navigation }) => {
 
       {isLoading ? (
         <View className="my-5">
-          <ActivityIndicator size="32" color="#EADAAA" />
+          <ActivityIndicator size="32" color="#FF26B9" />
           {/* <Text
               className="text-center text-xl"
               style={GlobalStyles.fontMedium}
@@ -103,7 +103,7 @@ const CitiesListScreen = ({ navigation }) => {
       ) : null}
       <FlatList
         data={isSearching ? citiesData : data} // Use filtered data when searching, or the original data when not searching
-        className="p-5 bg-[#EADAAA] rounded-t-3xl h-full"
+        className="p-5 bg-[#101010] rounded-t-3xl h-full"
         keyExtractor={(item, index) => index.toString()}
         onEndReached={loadMoreData}
         onEndReachedThreshold={0.1}
@@ -113,10 +113,13 @@ const CitiesListScreen = ({ navigation }) => {
               <HR />
             </View>
             <Pressable
-              className="active:bg-[#dbc789] py-2 rounded"
+              className="py-2 rounded active:text-[#FF26B9]/70"
               onPress={() => navigation.navigate("Index")}
             >
-              <Text style={GlobalStyles.fontMedium} className="text-lg">
+              <Text
+                style={GlobalStyles.fontMedium}
+                className="text-lg text-[#FF26B9] active:text-[#FF26B9]/70"
+              >
                 {item}
               </Text>
             </Pressable>
@@ -126,14 +129,14 @@ const CitiesListScreen = ({ navigation }) => {
           <>
             <Text
               style={GlobalStyles.fontSemiBold}
-              className="text-[#867665] text-xl mb-1"
+              className="text-[#f9f9f9] text-xl mb-1"
             >
               India
             </Text>
 
             {citiesData.length === 0 && (
               <Text
-                className="text-black text-base my-3"
+                className="text-[#f9f9f9] text-base my-3"
                 style={GlobalStyles.fontMedium}
               >
                 No cities found for "{searchData}"

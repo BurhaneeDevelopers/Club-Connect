@@ -5,16 +5,15 @@ import GlobalStyles from "../Styles/GlobalStyles";
 
 const WelcomeScreen = ({ navigation }) => {
   return (
-    <SafeAreaView className="bg-[#867665] h-screen w-full justify-center items-center mx-auto p-10">
+    <SafeAreaView className="bg-[#101010] h-screen w-full justify-end items-center mx-auto p-10">
+      <Image
+        source={require("../assets/Illustrations/DiscoBall.png")}
+        className="w-[300px] h-[337.5px] mx-auto mb-10 absolute top-0"
+      />
       <View className="items-center">
-        <Image
-          source={require("../assets/Illustrations/Glasses.png")}
-          className="w-[346px] h-[249.67px] mx-auto mb-20"
-        />
-
         <View className="gap-2">
           <Text
-            className="text-[#272727] text-4xl text-center"
+            className="text-[#f9f9f9] text-4xl text-center"
             style={GlobalStyles.fontBold}
           >
             Let's Jump In!
@@ -23,14 +22,15 @@ const WelcomeScreen = ({ navigation }) => {
             className="text-[#f9f9f9] w-72 text-center"
             style={GlobalStyles.fontRegular}
           >
-            Discover & Savor: Your Nightlife, Your Way! Create a account for free!
+            Discover & Savor: Your Nightlife, Your Way! Create a account for
+            free!
           </Text>
         </View>
       </View>
 
       <View className="gap-3 w-full mt-10">
         <Pressable
-          className="w-full bg-[#272727] active:bg-[#393939] p-3 rounded-lg items-center"
+          className="w-full bg-[#FF26B9] active:bg-[#FF26B9]/70 p-3 rounded-lg items-center"
           onPress={() => navigation.navigate("SignIn")}
         >
           <Text
@@ -41,11 +41,11 @@ const WelcomeScreen = ({ navigation }) => {
           </Text>
         </Pressable>
         <Pressable
-          className="w-full border border-[#EADAAA] active:bg-[#272727]/10 p-3 rounded-lg items-center"
+          className="w-full border border-[#f9f9f9] active:bg-[#FF26B9]/10 p-3 rounded-lg items-center"
           onPress={() => navigation.navigate("CreateAccount")}
         >
           <Text
-            className="text-[#272727] active:text-black text-lg"
+            className="text-[#f9f9f9] active:text-black text-lg"
             style={GlobalStyles.fontMedium}
           >
             Create Account
@@ -56,7 +56,7 @@ const WelcomeScreen = ({ navigation }) => {
           onPress={() => navigation.navigate("LocationPick")}
         >
           <Text
-            className="text-[#f9f9f9] text-lg"
+            className="text-[#FF26B9] text-lg"
             style={GlobalStyles.fontMedium}
           >
             Continue as Guest!

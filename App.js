@@ -36,7 +36,7 @@ import { useFonts } from "expo-font";
 
 // Default Theme
 const navTheme = DefaultTheme;
-navTheme.colors.background = "#867665";
+navTheme.colors.background = "#101010";
 
 // TAB BOTTOM NAVIGATOR
 const StackScreen = ({ appdata }) => {
@@ -67,7 +67,7 @@ const StackScreen = ({ appdata }) => {
                   <>
                     <Home3 size="32" color="#272727" variant="Bold" />
                     <Text
-                      className={`translate-y-1 text-[#272727] text-center , ${
+                      className={`translate-y-1 text-[#f9f9f9] text-center , ${
                         focused ? "font-bold" : ""
                       }`}
                     >
@@ -78,7 +78,7 @@ const StackScreen = ({ appdata }) => {
                   <>
                     <Home3 size="32" color="#272727" />
                     <Text
-                      className={`translate-y-1 text-[#272727] text-center , ${
+                      className={`translate-y-1 text-[#f9f9f9] text-center , ${
                         focused ? "" : ""
                       }`}
                     >
@@ -112,7 +112,7 @@ const StackScreen = ({ appdata }) => {
                       className="my-auto"
                     />
                     <Text
-                      className={`translate-y-1 text-[#272727] text-center , ${
+                      className={`translate-y-1 text-[#f9f9f9] text-center , ${
                         focused ? "font-bold" : ""
                       }`}
                     >
@@ -123,7 +123,7 @@ const StackScreen = ({ appdata }) => {
                   <>
                     <Calendar size="32" color="#272727" className="my-auto" />
                     <Text
-                      className={`translate-y-1 text-[#272727] text-center , ${
+                      className={`translate-y-1 text-[#f9f9f9] text-center , ${
                         focused ? "" : ""
                       }`}
                     >
@@ -150,7 +150,7 @@ const StackScreen = ({ appdata }) => {
               <View className="items-center">
                 {focused ? (
                   <View
-                    className="bg-[#272727] p-3 flex-col items-center justify-center rounded-full"
+                    className="bg-[#FF26B9] p-3 flex-col items-center justify-center rounded-full"
                     style={{
                       elevation: 32,
                       shadowColor: "#000",
@@ -185,7 +185,7 @@ const StackScreen = ({ appdata }) => {
                   <>
                     <Notification size="32" color="#272727" variant="Bold" />
                     <Text
-                      className={`translate-y-1 text-[#272727] text-center , ${
+                      className={`translate-y-1 text-[#f9f9f9] text-center , ${
                         focused ? "font-bold" : ""
                       }`}
                     >
@@ -196,7 +196,7 @@ const StackScreen = ({ appdata }) => {
                   <>
                     <Notification size="32" color="#272727" />
                     <Text
-                      className={`translate-y-1 text-[#272727] text-center , ${
+                      className={`translate-y-1 text-[#f9f9f9] text-center , ${
                         focused ? "" : ""
                       }`}
                     >
@@ -225,7 +225,7 @@ const StackScreen = ({ appdata }) => {
                   <>
                     <ShoppingCart size="32" color="#272727" variant="Bold" />
                     <Text
-                      className={`translate-y-1 text-[#272727] text-center , ${
+                      className={`translate-y-1 text-[#f9f9f9] text-center , ${
                         focused ? "font-bold" : ""
                       }`}
                     >
@@ -236,7 +236,7 @@ const StackScreen = ({ appdata }) => {
                   <>
                     <ShoppingCart size="32" color="#272727" />
                     <Text
-                      className={`translate-y-1 text-[#272727] text-center , ${
+                      className={`translate-y-1 text-[#f9f9f9] text-center , ${
                         focused ? "" : ""
                       }`}
                     >
@@ -273,8 +273,8 @@ export default function App() {
         <NavigationContainer theme={navTheme}>
           <StatusBar
             animated={true}
-            backgroundColor="#867665"
-            barStyle="dark-content"
+            backgroundColor="#101010"
+            // barStyle="dark-content"
           />
           <Stack.Navigator>
             <Stack.Screen

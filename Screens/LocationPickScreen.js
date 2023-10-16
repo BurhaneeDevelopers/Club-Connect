@@ -8,7 +8,7 @@ import axios from "axios";
 
 // ICONS
 import { ArrowLeft } from "iconsax-react-native";
-import AuthSparkle from "../assets/Illustrations/AuthSparkle.svg";
+import AuthSparklePink from "../assets/Illustrations/AuthSparklePink.svg";
 
 const LocationPickScreen = ({ navigation }) => {
   const clearCache = async () => {
@@ -67,7 +67,7 @@ const LocationPickScreen = ({ navigation }) => {
         <Pressable onPress={() => navigation.goBack()}>
           <ArrowLeft size="24" color="#f9f9f9" />
         </Pressable>
-        <AuthSparkle width={64} height={64} />
+        <AuthSparklePink width={64} height={64} />
       </View>
       <View className="">
         <Text
@@ -77,7 +77,7 @@ const LocationPickScreen = ({ navigation }) => {
           See What's On Near You
         </Text>
         <Text
-          className="text-[#272727] text-lg text-center"
+          className="text-[#f9f9f9] text-lg text-center"
           style={GlobalStyles.fontMedium}
         >
           Pick an area!
@@ -85,7 +85,7 @@ const LocationPickScreen = ({ navigation }) => {
 
         <View className="my-5 space-y-1">
           <Pressable
-            className="bg-[#272727] w-full p-3 rounded-lg flex-row justify-center items-center space-x-3"
+            className="bg-[#FF26B9] w-full p-3 rounded-lg flex-row justify-center items-center space-x-3"
             onPress={handleLocationRequest}
           >
             {loading ? (
@@ -103,27 +103,27 @@ const LocationPickScreen = ({ navigation }) => {
           </Pressable>
 
           <Text
-            className="text-[#F3EBD5] text-lg text-center"
+            className="text-[#FF26B9] text-lg text-center"
             style={GlobalStyles.fontMedium}
             onPress={() => navigation.navigate("CitiesList")}
           >
             Choose Location!
           </Text>
 
-          <Text
+          {/* <Text
             className="text-[#F3EBD5] text-lg text-center"
             style={GlobalStyles.fontMedium}
             onPress={clearCache}
           >
             Clear Cache
-          </Text>
+          </Text> */}
         </View>
       </View>
       {location && (
         <View className="absolute bottom-10 w-72">
           <Text className="text-center" style={GlobalStyles.fontMedium}>
-            <Text className="text-white">Location Fetched:</Text>
-            {text}
+            <Text className="text-[#FF26B9]">Location Fetched:</Text>
+            <Text className="text-[#f9f9f9]">{text}</Text>
           </Text>
         </View>
       )}

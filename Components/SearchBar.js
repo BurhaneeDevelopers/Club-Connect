@@ -20,13 +20,13 @@ const SearchBar = ({
   return (
     <View className="px-5">
       <View
-        className={`flex-row justify-between my-5 rounded-xl p-3 border border-[#EADAAA]  ${
-          clicked ? "bg-[#EADAAA]" : ""
+        className={`flex-row justify-between my-5 rounded-xl p-3 border border-[#FF26B9]  ${
+          clicked ? "bg-[#FF26B9]" : ""
         }`}
       >
         <View className="flex-row items-center w-72 gap-2">
           {/* search Icon */}
-          <SearchNormal1 size={28} color="black" />
+          <SearchNormal1 size={28} color="#f9f9f9" />
           {/* Input field */}
           <TextInput
             placeholder="Find your city"
@@ -38,7 +38,7 @@ const SearchBar = ({
             onFocus={() => {
               setClicked(true);
             }}
-            placeholderTextColor={"#262626"}
+            placeholderTextColor={"#f9f9f9"}
             className="text-lg w-full"
           />
 
@@ -49,7 +49,7 @@ const SearchBar = ({
         {clicked && (
           <Add
             size={32}
-            color="black"
+            color="white"
             onPress={() => {
               Keyboard.dismiss();
               setClicked(false);
