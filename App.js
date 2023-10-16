@@ -45,7 +45,7 @@ const StackScreen = ({ appdata }) => {
       screenOptions={{
         tabBarStyle: {
           height: 90,
-          backgroundColor: "#C8AE78",
+          backgroundColor: "#E9FA00",
           borderTopLeftRadius: 24,
           borderTopRightRadius: 24,
         },
@@ -65,9 +65,9 @@ const StackScreen = ({ appdata }) => {
               <View className="items-center">
                 {focused ? (
                   <>
-                    <Home3 size="32" color="#272727" variant="Bold" />
+                    <Home3 size="32" color="#FF26B9" variant="Bold" />
                     <Text
-                      className={`translate-y-1 text-[#f9f9f9] text-center , ${
+                      className={`translate-y-1 text-[#FF26B9] text-center , ${
                         focused ? "font-bold" : ""
                       }`}
                     >
@@ -76,9 +76,9 @@ const StackScreen = ({ appdata }) => {
                   </>
                 ) : (
                   <>
-                    <Home3 size="32" color="#272727" />
+                    <Home3 size="32" color="#101010" />
                     <Text
-                      className={`translate-y-1 text-[#f9f9f9] text-center , ${
+                      className={`translate-y-1 text-[#101010] text-center , ${
                         focused ? "" : ""
                       }`}
                     >
@@ -107,12 +107,12 @@ const StackScreen = ({ appdata }) => {
                   <>
                     <Calendar
                       size="32"
-                      color="#272727"
+                      color="#FF26B9"
                       variant="Bold"
                       className="my-auto"
                     />
                     <Text
-                      className={`translate-y-1 text-[#f9f9f9] text-center , ${
+                      className={`translate-y-1 text-[#FF26B9] text-center , ${
                         focused ? "font-bold" : ""
                       }`}
                     >
@@ -121,9 +121,9 @@ const StackScreen = ({ appdata }) => {
                   </>
                 ) : (
                   <>
-                    <Calendar size="32" color="#272727" className="my-auto" />
+                    <Calendar size="32" color="#101010" className="my-auto" />
                     <Text
-                      className={`translate-y-1 text-[#f9f9f9] text-center , ${
+                      className={`translate-y-1 text-[#101010] text-center , ${
                         focused ? "" : ""
                       }`}
                     >
@@ -160,8 +160,8 @@ const StackScreen = ({ appdata }) => {
                     <People size="32" color="#EADAAA" className="my-auto" />
                   </View>
                 ) : (
-                  <View className="bg-[#EADAAA] p-3 flex-col items-center justify-center rounded-full">
-                    <People size="32" color="#272727" className="my-auto" />
+                  <View className="bg-[#101010] p-3 flex-col items-center justify-center rounded-full">
+                    <People size="32" color="#F9F9F9" className="my-auto" />
                   </View>
                 )}
               </View>
@@ -183,9 +183,9 @@ const StackScreen = ({ appdata }) => {
               <View className="items-center">
                 {focused ? (
                   <>
-                    <Notification size="32" color="#272727" variant="Bold" />
+                    <Notification size="32" color="#FF26B9" variant="Bold" />
                     <Text
-                      className={`translate-y-1 text-[#f9f9f9] text-center , ${
+                      className={`translate-y-1 text-[#FF26B9] text-center , ${
                         focused ? "font-bold" : ""
                       }`}
                     >
@@ -194,9 +194,9 @@ const StackScreen = ({ appdata }) => {
                   </>
                 ) : (
                   <>
-                    <Notification size="32" color="#272727" />
+                    <Notification size="32" color="#101010" />
                     <Text
-                      className={`translate-y-1 text-[#f9f9f9] text-center , ${
+                      className={`translate-y-1 text-[#101010] text-center , ${
                         focused ? "" : ""
                       }`}
                     >
@@ -223,9 +223,9 @@ const StackScreen = ({ appdata }) => {
               <View className="items-center">
                 {focused ? (
                   <>
-                    <ShoppingCart size="32" color="#272727" variant="Bold" />
+                    <ShoppingCart size="32" color="#FF26B9" variant="Bold" />
                     <Text
-                      className={`translate-y-1 text-[#f9f9f9] text-center , ${
+                      className={`translate-y-1 text-[#FF26B9] text-center , ${
                         focused ? "font-bold" : ""
                       }`}
                     >
@@ -234,9 +234,9 @@ const StackScreen = ({ appdata }) => {
                   </>
                 ) : (
                   <>
-                    <ShoppingCart size="32" color="#272727" />
+                    <ShoppingCart size="32" color="#101010" />
                     <Text
-                      className={`translate-y-1 text-[#f9f9f9] text-center , ${
+                      className={`translate-y-1 text-[#101010] text-center , ${
                         focused ? "" : ""
                       }`}
                     >
