@@ -1,0 +1,150 @@
+import {
+  FlatList,
+  Image,
+  Text,
+  View,
+  Dimensions,
+  ImageBackground,
+  Pressable,
+  LogBox,
+} from "react-native";
+import React, { useEffect, useRef, useState } from "react";
+import { Star1, Location } from "iconsax-react-native";
+
+const HotDealsSlider = () => {
+  const flatlistRef = useRef();
+  // Get Dimesnions
+  const screenWidth = Dimensions.get("window").width;
+  const [activeIndex, setActiveIndex] = useState(0);
+
+  // Auto Scroll
+  useEffect(() => {
+    let interval = setInterval(() => {
+      if (carouselData) {
+        const nextIndex = (activeIndex + 1) % carouselData.length; // Ensure it's within the valid range
+        flatlistRef.current.scrollToIndex({
+          index: nextIndex,
+          animated: true,
+        });
+      }
+    }, 2000);
+
+    return () => clearInterval(interval);
+  }, [activeIndex, carouselData]);
+
+  const getItemLayout = (data, index) => ({
+    length: screenWidth,
+    offset: screenWidth * index, // for first image - 300 * 0 = 0pixels, 300 * 1 = 300, 300*2 = 600
+    index: index,
+  });
+  // Data for carousel
+  const carouselData = [
+    {
+      id: "01",
+      image: require("../assets/Images/Santorini.jpg"),
+    },
+    {
+      id: "02",
+      image: require("../assets/Images/Santorini.jpg"),
+    },
+    {
+      id: "03",
+      image: require("../assets/Images/Santorini.jpg"),
+    },
+  ];
+
+  //  Display Images // UI
+  const renderItem = ({ item, index }) => {
+    return (
+      <View>
+        {/* <Image
+          source={item.image}
+          style={{ height: 200, width: screenWidth }}
+        /> */}
+        <HotDealsCard />
+      </View>
+    );
+  };
+
+  // Handle Scroll
+  const handleScroll = (event) => {
+    const contentOffset = event.nativeEvent.contentOffset.x;
+    const totalContentWidth = carouselData.length * screenWidth;
+    const centerOffset = contentOffset + screenWidth / 2;
+    const centerIndex = Math.floor(
+      (centerOffset / totalContentWidth) * carouselData.length
+    );
+
+    // Update the index
+    setActiveIndex(centerIndex);
+  };
+
+  return (
+    <View>
+      <FlatList
+        data={carouselData}
+        ref={flatlistRef}
+        getItemLayout={getItemLayout}
+        renderItem={renderItem}
+        keyExtractor={(item) => item.id}
+        horizontal={true}
+        pagingEnabled={true}
+        onScroll={handleScroll}
+      />
+    </View>
+  );
+};
+
+export default HotDealsSlider;
+
+const HotDealsCard = () => {
+  const screenWidth = Dimensions.get("window").width;
+  return (
+    <View className="">
+      <ImageBackground
+        source={require("../assets/Images/Santorini.jpg")}
+        className="h-40 rounded-3xl my-4 overflow-hidden"
+        style={{ width: screenWidth }}
+      >
+        <View className="bg-[#101010]/40 w-full h-14 absolute bottom-0"></View>
+        <View className="h-14 w-full px-5 absolute bottom-0">
+          <View className="flex-row justify-between items-end">
+            <Text
+              className="text-xl text-[#f9f9f9]"
+              style={GlobalStyles.fontBold}
+            >
+              Santorini
+            </Text>
+            {/* Rating  */}
+            <View className="flex-row items-center">
+              <Star1 size="18" color="#f9f9f9" variant="Bold" />
+              <Text className="text-[#f9f9f9]" style={GlobalStyles.fontRegular}>
+                4.9
+              </Text>
+            </View>
+          </View>
+          <View className="flex-row justify-between">
+            <View className="flex-row items-center">
+              <Location size="18" color="#f9f9f9" variant="Bold" />
+              <Text
+                className="text-base text-[#f9f9f9]"
+                style={GlobalStyles.fontRegular}
+              >
+                Greece
+              </Text>
+            </View>
+
+            <View className="flex-row">
+              <Text className="text-[#f9f9f9]" style={GlobalStyles.fontBold}>
+                $100
+              </Text>
+              <Text className="text-[#f9f9f9]" style={GlobalStyles.fontRegular}>
+                /night
+              </Text>
+            </View>
+          </View>
+        </View>
+      </ImageBackground>
+    </View>
+  );
+};

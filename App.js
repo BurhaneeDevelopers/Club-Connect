@@ -33,6 +33,7 @@ import CitiesListScreen from "./Screens/CitiesListScreen";
 
 // FONTS LOADING
 import { useFonts } from "expo-font";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 // Default Theme
 const navTheme = DefaultTheme;
@@ -254,7 +255,7 @@ const StackScreen = ({ appdata }) => {
 };
 const Tab = createBottomTabNavigator();
 
-export default function App() {
+export default function App({ navigation }) {
   const Stack = createStackNavigator();
 
   // const [fontsLoaded, setFontsLoaded] = useState(false);

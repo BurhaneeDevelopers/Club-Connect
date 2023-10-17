@@ -2,8 +2,18 @@ import { View, Text, Image, Pressable } from "react-native";
 import React from "react";
 import { SafeAreaView } from "react-native-safe-area-context";
 import GlobalStyles from "../Styles/GlobalStyles";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import { useEffect } from "react";
 
 const WelcomeScreen = ({ navigation }) => {
+  useEffect(() => {
+    const hasSignedIn = AsyncStorage.getItem("hasSignedIn");
+    if (hasSignedIn) {
+      // Redirect to sign-in page if the user hasn't signed in
+      // window.location.href = "/signin";
+      navigation.navigate("Index");
+    }
+  }, [navigation]);
   return (
     <SafeAreaView className="bg-[#101010] h-screen w-full justify-end items-center mx-auto p-10">
       <Image

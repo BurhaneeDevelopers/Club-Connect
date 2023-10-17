@@ -4,11 +4,15 @@ import {
   RefreshControl,
   ScrollView,
   Image,
+  Pressable,
   ImageBackground,
+  Dimensions,
+  FlatList,
 } from "react-native";
 import React from "react";
 import { useState, useEffect } from "react";
 import { SafeAreaView } from "react-native-safe-area-context";
+import HotDealsSlider from "../Components/HotDealsSlider";
 import {
   SearchNormal1,
   Buildings2,
@@ -22,6 +26,8 @@ import axios from "axios";
 
 // Components
 import SectionTitles from "../Components/SectionTitles";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+// import HotDealsSlider from "../Components/HotDealsSlider";
 
 // FONTS
 import GlobalStyles from "../Styles/GlobalStyles";
@@ -29,6 +35,7 @@ import GlobalStyles from "../Styles/GlobalStyles";
 const HomeScreen = ({ navigation }) => {
   // Refresh API when user reloads
   const [refreshing, setRefreshing] = React.useState(false);
+  const [loading, setLoading] = useState(false);
 
   // const onRefresh = React.useCallback(() => {
   //   setRefreshing(true);
@@ -42,6 +49,7 @@ const HomeScreen = ({ navigation }) => {
   UNSPLASH_ACCESS_KEY = "6KEJery9EMaZFtuiQjELpzqV5sgo9vVWqm52b_gKYZ4";
 
   const fetchHotspotImages = async () => {
+    setLoading(true);
     try {
       const response = await axios.get(
         "https://api.unsplash.com/search/photos",
@@ -57,6 +65,7 @@ const HomeScreen = ({ navigation }) => {
 
       const images = response.data.results.map((result) => result.urls.regular);
       setHotspotImages(images);
+      setLoading(true);
     } catch (error) {
       console.error("Error fetching images from Unsplash:", error);
     }
@@ -81,6 +90,15 @@ const HomeScreen = ({ navigation }) => {
     price: "100",
     rating: "4.5",
   }));
+
+  useEffect(() => {
+    const hasSignedIn = AsyncStorage.getItem("hasSignedIn");
+    if (!hasSignedIn) {
+      // Redirect to sign-in page if the user hasn't signed in
+      // window.location.href = "/signin";
+      navigation.navigate("SignIn");
+    }
+  }, [navigation]);
 
   return (
     <ScrollView
@@ -125,6 +143,34 @@ const HomeScreen = ({ navigation }) => {
                 return <TopPickCard key={index} {...item} />;
               })}
             </View>
+            {loading && (
+              <>
+                {/* <Animatable.View
+                  animation="pulse"
+                  easing="ease-out"
+                  iterationCount="infinite"
+                  className="w-40 h-64 rounded-[30px] overflow-hidden mx-2 bg-gray-100 animate-pulse"
+                />
+                <Animatable.View
+                  animation="pulse"
+                  easing="ease-out"
+                  iterationCount="infinite"
+                  className="w-40 h-64 rounded-[30px] overflow-hidden mx-2 bg-gray-100 animate-pulse"
+                />
+                <Animatable.View
+                  animation="pulse"
+                  easing="ease-out"
+                  iterationCount="infinite"
+                  className="w-40 h-64 rounded-[30px] overflow-hidden mx-2 bg-gray-100 animate-pulse"
+                />
+                <Animatable.View
+                  animation="pulse"
+                  easing="ease-out"
+                  iterationCount="infinite"
+                  className="w-40 h-64 rounded-[30px] overflow-hidden mx-2 bg-gray-100 animate-pulse"
+                /> */}
+              </>
+            )}
           </ScrollView>
         </View>
 
@@ -134,10 +180,12 @@ const HomeScreen = ({ navigation }) => {
           showsHorizontalScrollIndicator={false}
         >
           <View className="flex-row pl-5">
-            <MenuCards
-              icon={<Buildings2 size="32" color="#f9f9f9" variant="Broken" />}
-              title="Hotspot"
-            />
+            <Pressable onPress={() => navigation.navigate("SignIn")}>
+              <MenuCards
+                icon={<Buildings2 size="32" color="#f9f9f9" variant="Broken" />}
+                title="Hotspot"
+              />
+            </Pressable>
             <MenuCards
               icon={<Coffee size="32" color="#f9f9f9" variant="Broken" />}
               title="Cafe"
@@ -160,58 +208,9 @@ const HomeScreen = ({ navigation }) => {
         <View className="p-5">
           <SectionTitles title="Hot Deals" />
 
-          <ImageBackground
-            source={require("../assets/Images/Santorini.jpg")}
-            className="h-40 rounded-3xl my-4 overflow-hidden"
-          >
-            <View className="bg-[#101010]/40 w-full h-14 absolute bottom-0"></View>
-            <View className="h-14 w-full px-5 absolute bottom-0">
-              <View className="flex-row justify-between items-end">
-                <Text
-                  className="text-xl text-[#f9f9f9]"
-                  style={GlobalStyles.fontBold}
-                >
-                  Santorini
-                </Text>
-                {/* Rating  */}
-                <View className="flex-row items-center">
-                  <Star1 size="18" color="#f9f9f9" variant="Bold" />
-                  <Text
-                    className="text-[#f9f9f9]"
-                    style={GlobalStyles.fontRegular}
-                  >
-                    4.9
-                  </Text>
-                </View>
-              </View>
-              <View className="flex-row justify-between">
-                <View className="flex-row items-center">
-                  <Location size="18" color="#f9f9f9" variant="Bold" />
-                  <Text
-                    className="text-base text-[#f9f9f9]"
-                    style={GlobalStyles.fontRegular}
-                  >
-                    Greece
-                  </Text>
-                </View>
-
-                <View className="flex-row">
-                  <Text
-                    className="text-[#f9f9f9]"
-                    style={GlobalStyles.fontBold}
-                  >
-                    $100
-                  </Text>
-                  <Text
-                    className="text-[#f9f9f9]"
-                    style={GlobalStyles.fontRegular}
-                  >
-                    /night
-                  </Text>
-                </View>
-              </View>
-            </View>
-          </ImageBackground>
+          {/* <ScrollView horizontal={true} showsHorizontalScrollIndicator={false}>
+          </ScrollView> */}
+            <HotDealsSlider />
         </View>
       </SafeAreaView>
     </ScrollView>
@@ -288,5 +287,55 @@ const TopPickCard = ({ title, img, location, price, rating }) => {
         </ImageBackground>
       </View>
     </>
+  );
+};
+
+const HotDealsCard = () => {
+  return (
+    <View className="">
+      <ImageBackground
+        source={require("../assets/Images/Santorini.jpg")}
+        className="h-40 rounded-3xl my-4 overflow-hidden w-[340px] mx-2"
+      >
+        <View className="bg-[#101010]/40 w-full h-14 absolute bottom-0"></View>
+        <View className="h-14 w-full px-5 absolute bottom-0">
+          <View className="flex-row justify-between items-end">
+            <Text
+              className="text-xl text-[#f9f9f9]"
+              style={GlobalStyles.fontBold}
+            >
+              Santorini
+            </Text>
+            {/* Rating  */}
+            <View className="flex-row items-center">
+              <Star1 size="18" color="#f9f9f9" variant="Bold" />
+              <Text className="text-[#f9f9f9]" style={GlobalStyles.fontRegular}>
+                4.9
+              </Text>
+            </View>
+          </View>
+          <View className="flex-row justify-between">
+            <View className="flex-row items-center">
+              <Location size="18" color="#f9f9f9" variant="Bold" />
+              <Text
+                className="text-base text-[#f9f9f9]"
+                style={GlobalStyles.fontRegular}
+              >
+                Greece
+              </Text>
+            </View>
+
+            <View className="flex-row">
+              <Text className="text-[#f9f9f9]" style={GlobalStyles.fontBold}>
+                $100
+              </Text>
+              <Text className="text-[#f9f9f9]" style={GlobalStyles.fontRegular}>
+                /night
+              </Text>
+            </View>
+          </View>
+        </View>
+      </ImageBackground>
+    </View>
   );
 };

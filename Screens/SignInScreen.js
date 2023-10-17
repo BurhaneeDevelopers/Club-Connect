@@ -1,3 +1,4 @@
+import React from "react";
 import {
   View,
   Text,
@@ -9,7 +10,6 @@ import {
   Keyboard,
   ScrollView,
 } from "react-native";
-import React from "react";
 import { SafeAreaView } from "react-native-safe-area-context";
 import GlobalStyles from "../Styles/GlobalStyles";
 import { useState } from "react";
@@ -61,6 +61,9 @@ const SignInScreen = ({ navigation, route }) => {
           parsedUserData.password === password
         ) {
           // User is signed in successfully
+          // When the user successfully signs in, call setUserSignedIn(true)
+          AsyncStorage.setItem("hasSignedIn", "true");
+
           navigation.navigate("Index");
         } else {
           setError(!error);
