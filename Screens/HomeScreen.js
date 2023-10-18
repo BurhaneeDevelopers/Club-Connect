@@ -6,8 +6,7 @@ import {
   Image,
   Pressable,
   ImageBackground,
-  Dimensions,
-  FlatList,
+  ActivityIndicator,
 } from "react-native";
 import React from "react";
 import { useState, useEffect } from "react";
@@ -21,8 +20,11 @@ import {
   Shop,
   Location,
   Star1,
+  Gift,
 } from "iconsax-react-native";
 import axios from "axios";
+import Banner1 from "../assets/Banners/Banner-1.svg";
+import HR from "../Components/HR";
 
 // Components
 import SectionTitles from "../Components/SectionTitles";
@@ -65,7 +67,7 @@ const HomeScreen = ({ navigation }) => {
 
       const images = response.data.results.map((result) => result.urls.regular);
       setHotspotImages(images);
-      setLoading(true);
+      setLoading(false);
     } catch (error) {
       console.error("Error fetching images from Unsplash:", error);
     }
@@ -109,6 +111,7 @@ const HomeScreen = ({ navigation }) => {
     >
       <SafeAreaView className="h-full w-full">
         <View className="flex-row justify-between items-center p-5">
+          {/* USERNAME AND SEARCH MENU  */}
           <View className="flex-row items-center gap-2">
             <Image
               source={require("../assets/Illustrations/Avatar.jpg")}
@@ -133,47 +136,12 @@ const HomeScreen = ({ navigation }) => {
           </View>
         </View>
 
-        <View className="py-5">
-          <View className="px-5 pb-4">
-            <SectionTitles title="Top Hotspots" />
-          </View>
-          <ScrollView horizontal={true} showsHorizontalScrollIndicator={false}>
-            <View className="px-5 flex-row">
-              {HotspotCards.map((item, index) => {
-                return <TopPickCard key={index} {...item} />;
-              })}
-            </View>
-            {loading && (
-              <>
-                {/* <Animatable.View
-                  animation="pulse"
-                  easing="ease-out"
-                  iterationCount="infinite"
-                  className="w-40 h-64 rounded-[30px] overflow-hidden mx-2 bg-gray-100 animate-pulse"
-                />
-                <Animatable.View
-                  animation="pulse"
-                  easing="ease-out"
-                  iterationCount="infinite"
-                  className="w-40 h-64 rounded-[30px] overflow-hidden mx-2 bg-gray-100 animate-pulse"
-                />
-                <Animatable.View
-                  animation="pulse"
-                  easing="ease-out"
-                  iterationCount="infinite"
-                  className="w-40 h-64 rounded-[30px] overflow-hidden mx-2 bg-gray-100 animate-pulse"
-                />
-                <Animatable.View
-                  animation="pulse"
-                  easing="ease-out"
-                  iterationCount="infinite"
-                  className="w-40 h-64 rounded-[30px] overflow-hidden mx-2 bg-gray-100 animate-pulse"
-                /> */}
-              </>
-            )}
-          </ScrollView>
+        {/* AUTO SLIDING HOT DEALS  */}
+        <View className="">
+          <HotDealsSlider />
         </View>
 
+        {/* MENU CARDS  */}
         <ScrollView
           horizontal={true}
           className="my-5"
@@ -205,12 +173,41 @@ const HomeScreen = ({ navigation }) => {
           </View>
         </ScrollView>
 
-        <View className="p-5">
-          <SectionTitles title="Hot Deals" />
+        {/* TOP HOTSPOTS CARDS  */}
+        <View className="py-5">
+          <View className="px-5 pb-4">
+            <SectionTitles title="Top Hotspots" />
+          </View>
+          <ScrollView horizontal={true} showsHorizontalScrollIndicator={false}>
+            <View className="px-5 flex-row items-center justify-center">
+              {HotspotCards.map((item, index) => {
+                return <TopPickCard key={index} {...item} />;
+              })}
+              {loading && <ActivityIndicator size="32" color="#E9FA00" />}
+            </View>
+          </ScrollView>
+        </View>
 
-          {/* <ScrollView horizontal={true} showsHorizontalScrollIndicator={false}>
-          </ScrollView> */}
-            <HotDealsSlider />
+        {/* COUPAN CARD  */}
+        <CoupanCard />
+
+        {/* TOP HOTSPOTS CARDS  */}
+        <View className="py-5">
+          <View className="px-5 pb-4">
+            <SectionTitles title="Top Picks Near You!" />
+          </View>
+          <ScrollView horizontal={true} showsHorizontalScrollIndicator={false}>
+            <View className="px-5 flex-row items-center justify-center">
+              {HotspotCards.map((item, index) => {
+                return <NearestPickCard key={index} {...item} />;
+              })}
+              {loading && <ActivityIndicator size="32" color="#E9FA00" />}
+            </View>
+          </ScrollView>
+        </View>
+
+        <View className="justify-center items-center p-5">
+          <Banner1 width={320} height={60} />
         </View>
       </SafeAreaView>
     </ScrollView>
@@ -290,52 +287,108 @@ const TopPickCard = ({ title, img, location, price, rating }) => {
   );
 };
 
-const HotDealsCard = () => {
+const CoupanCard = () => {
   return (
-    <View className="">
-      <ImageBackground
-        source={require("../assets/Images/Santorini.jpg")}
-        className="h-40 rounded-3xl my-4 overflow-hidden w-[340px] mx-2"
-      >
-        <View className="bg-[#101010]/40 w-full h-14 absolute bottom-0"></View>
-        <View className="h-14 w-full px-5 absolute bottom-0">
-          <View className="flex-row justify-between items-end">
+    <View className="p-5">
+      <View className="bg-[#262223] h-24 rounded-2xl w-full p-5">
+        <View className="flex-row gap-2 items-center">
+          {/* ICON GIFT  */}
+          <View className="bg-[#FF26B9] p-2 rounded-xl">
+            <Gift size="44" color="#E9FA00" />
+          </View>
+
+          {/* OFFER CONTENT  */}
+          <View className="">
             <Text
-              className="text-xl text-[#f9f9f9]"
-              style={GlobalStyles.fontBold}
+              className="text-[#E9FA00] text-2xl"
+              style={GlobalStyles.fontSemiBold}
             >
-              Santorini
+              CLAIM
+              <Text className="text-[#FF26B9]"> FREE </Text>
+              PESO!
             </Text>
+            <Text
+              className="text-[#f9f9f9] text-xs w-64"
+              style={GlobalStyles.fontRegular}
+            >
+              Share the app and win your 100 peso in your wallet!
+            </Text>
+          </View>
+        </View>
+      </View>
+    </View>
+  );
+};
+
+const NearestPickCard = ({ title, img, location, price, rating }) => {
+  return (
+    <>
+      <View>
+        <View className="w-72 h-72 rounded-[30px] overflow-hidden mx-2 bg-[#262223]">
+          <Image source={img} className="w-full h-32" />
+          {/* <View className="absolute bg-[#101010]/30 w-full h-full" /> */}
+          <View className="flex-col p-4 w-full space-y-1 z-10">
+            <View className="flex-row justify-between items-center">
+              {/* Location Name */}
+              <Text
+                className="text-2xl text-[#f9f9f9]"
+                style={GlobalStyles.fontBold}
+              >
+                {title}
+              </Text>
+
+              <View className="flex-row justify-between items-center">
+                {/* Price  */}
+                <View className="flex-row items-center">
+                  <Text
+                    className="text-[#f9f9f9] text-xl"
+                    style={GlobalStyles.fontBold}
+                  >
+                    ${price}
+                  </Text>
+                  <Text
+                    className="text-[#f9f9f9]"
+                    style={GlobalStyles.fontRegular}
+                  >
+                    /night
+                  </Text>
+                </View>
+              </View>
+            </View>
+
             {/* Rating  */}
             <View className="flex-row items-center">
-              <Star1 size="18" color="#f9f9f9" variant="Bold" />
+              <Star1 size="18" color="#E9FA00" variant="Bold" />
               <Text className="text-[#f9f9f9]" style={GlobalStyles.fontRegular}>
-                4.9
+                {rating}
               </Text>
             </View>
-          </View>
-          <View className="flex-row justify-between">
+
+            {/* Location  */}
             <View className="flex-row items-center">
-              <Location size="18" color="#f9f9f9" variant="Bold" />
+              <Location size="18" color="#E9FA00" variant="Bold" />
               <Text
                 className="text-base text-[#f9f9f9]"
                 style={GlobalStyles.fontRegular}
               >
-                Greece
+                {location}
               </Text>
             </View>
 
-            <View className="flex-row">
-              <Text className="text-[#f9f9f9]" style={GlobalStyles.fontBold}>
-                $100
-              </Text>
-              <Text className="text-[#f9f9f9]" style={GlobalStyles.fontRegular}>
-                /night
+            <HR customClass={"bg-[#f9f9f9] mt-3 mb-1"} />
+
+            <View>
+              <Text
+                className="text-gray-400 text-xs"
+                style={GlobalStyles.fontRegular}
+              >
+                Follows all safety measures for a clean and hygiene food
+                experience
               </Text>
             </View>
           </View>
         </View>
-      </ImageBackground>
-    </View>
+      </View>
+    </>
   );
 };

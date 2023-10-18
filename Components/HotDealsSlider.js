@@ -11,6 +11,7 @@ import {
 import React, { useEffect, useRef, useState } from "react";
 import { Star1, Location } from "iconsax-react-native";
 
+
 const HotDealsSlider = () => {
   const flatlistRef = useRef();
   // Get Dimesnions
@@ -27,7 +28,7 @@ const HotDealsSlider = () => {
           animated: true,
         });
       }
-    }, 2000);
+    }, 5000);
 
     return () => clearInterval(interval);
   }, [activeIndex, carouselData]);
@@ -37,6 +38,7 @@ const HotDealsSlider = () => {
     offset: screenWidth * index, // for first image - 300 * 0 = 0pixels, 300 * 1 = 300, 300*2 = 600
     index: index,
   });
+
   // Data for carousel
   const carouselData = [
     {
@@ -56,11 +58,7 @@ const HotDealsSlider = () => {
   //  Display Images // UI
   const renderItem = ({ item, index }) => {
     return (
-      <View>
-        {/* <Image
-          source={item.image}
-          style={{ height: 200, width: screenWidth }}
-        /> */}
+      <View className="">
         <HotDealsCard />
       </View>
     );
@@ -80,7 +78,7 @@ const HotDealsSlider = () => {
   };
 
   return (
-    <View>
+    <View className="">
       <FlatList
         data={carouselData}
         ref={flatlistRef}
@@ -100,14 +98,19 @@ export default HotDealsSlider;
 const HotDealsCard = () => {
   const screenWidth = Dimensions.get("window").width;
   return (
-    <View className="">
+    <View className="w-screen">
       <ImageBackground
         source={require("../assets/Images/Santorini.jpg")}
-        className="h-40 rounded-3xl my-4 overflow-hidden"
+        className="h-44 my-4 overflow-hidden"
         style={{ width: screenWidth }}
       >
+        <View className="absolute top-3 right-5 bg-[#E9FA00] rounded-full items-center justify-center px-3.5 py-0.5 ">
+          <Text className="text-[#101010]" style={GlobalStyles.fontSemiBold}>
+            25% Off
+          </Text>
+        </View>
         <View className="bg-[#101010]/40 w-full h-14 absolute bottom-0"></View>
-        <View className="h-14 w-full px-5 absolute bottom-0">
+        <View className="w-full px-5 absolute bottom-0">
           <View className="flex-row justify-between items-end">
             <Text
               className="text-xl text-[#f9f9f9]"
