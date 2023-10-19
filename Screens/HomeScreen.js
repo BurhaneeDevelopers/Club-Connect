@@ -112,7 +112,10 @@ const HomeScreen = ({ navigation }) => {
       <SafeAreaView className="h-full w-full">
         <View className="flex-row justify-between items-center p-5">
           {/* USERNAME AND SEARCH MENU  */}
-          <View className="flex-row items-center gap-2">
+          <Pressable
+            className="flex-row items-center space-x-2"
+            onPress={() => navigation.navigate("Profile")}
+          >
             <Image
               source={require("../assets/Illustrations/Avatar.jpg")}
               className="w-16 rounded-full h-16"
@@ -129,7 +132,7 @@ const HomeScreen = ({ navigation }) => {
                 Mohammed_jhansi72
               </Text>
             </View>
-          </View>
+          </Pressable>
 
           <View>
             <SearchNormal1 size="32" color="#E9FA00" variant="Broken" />

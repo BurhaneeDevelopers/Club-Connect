@@ -30,6 +30,7 @@ import EmailConfirmation from "./Screens/EmailConfirmation";
 import SignInScreen from "./Screens/SignInScreen";
 import LocationPickScreen from "./Screens/LocationPickScreen";
 import CitiesListScreen from "./Screens/CitiesListScreen";
+import ProfileScreen from "./Screens/ProfileScreen";
 
 // FONTS LOADING
 import { useFonts } from "expo-font";
@@ -335,6 +336,14 @@ export default function App({ navigation }) {
             >
               {(props) => <StackScreen {...props} />}
             </Stack.Screen>
+            <Stack.Screen
+              name="Profile"
+              component={ProfileScreen}
+              options={{
+                headerShown: false,
+                ...TransitionPresets.SlideFromRightIOS,
+              }}
+            />
           </Stack.Navigator>
         </NavigationContainer>
       </>

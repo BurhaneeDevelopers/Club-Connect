@@ -11,7 +11,6 @@ import {
 import React, { useEffect, useRef, useState } from "react";
 import { Star1, Location } from "iconsax-react-native";
 
-
 const HotDealsSlider = () => {
   const flatlistRef = useRef();
   // Get Dimesnions
@@ -101,49 +100,56 @@ const HotDealsCard = () => {
     <View className="w-screen">
       <ImageBackground
         source={require("../assets/Images/Santorini.jpg")}
-        className="h-44 my-4 overflow-hidden"
-        style={{ width: screenWidth }}
+        className="h-44 my-4 overflow-hidden w-[360px] mx-auto rounded-[30px]"
+        // style={{ width: screenWidth }}
       >
         <View className="absolute top-3 right-5 bg-[#E9FA00] rounded-full items-center justify-center px-3.5 py-0.5 ">
           <Text className="text-[#101010]" style={GlobalStyles.fontSemiBold}>
             25% Off
           </Text>
         </View>
-        <View className="bg-[#101010]/40 w-full h-14 absolute bottom-0"></View>
-        <View className="w-full px-5 absolute bottom-0">
-          <View className="flex-row justify-between items-end">
-            <Text
-              className="text-xl text-[#f9f9f9]"
-              style={GlobalStyles.fontBold}
-            >
-              Santorini
-            </Text>
-            {/* Rating  */}
-            <View className="flex-row items-center">
-              <Star1 size="18" color="#f9f9f9" variant="Bold" />
-              <Text className="text-[#f9f9f9]" style={GlobalStyles.fontRegular}>
-                4.9
-              </Text>
-            </View>
-          </View>
-          <View className="flex-row justify-between">
-            <View className="flex-row items-center">
-              <Location size="18" color="#f9f9f9" variant="Bold" />
+        <View className="bg-[#101010]/40 w-full h-14 absolute bottom-0 justify-center items-center">
+          <View className="w-full px-5">
+            <View className="flex-row justify-between items-end">
               <Text
-                className="text-base text-[#f9f9f9]"
-                style={GlobalStyles.fontRegular}
+                className="text-xl text-[#f9f9f9]"
+                style={GlobalStyles.fontBold}
               >
-                Greece
+                Santorini
               </Text>
+              {/* Rating  */}
+              <View className="flex-row items-center">
+                <Star1 size="18" color="#f9f9f9" variant="Bold" />
+                <Text
+                  className="text-[#f9f9f9]"
+                  style={GlobalStyles.fontRegular}
+                >
+                  4.9
+                </Text>
+              </View>
             </View>
+            <View className="flex-row justify-between">
+              <View className="flex-row items-center">
+                <Location size="18" color="#f9f9f9" variant="Bold" />
+                <Text
+                  className="text-base text-[#f9f9f9]"
+                  style={GlobalStyles.fontRegular}
+                >
+                  Greece
+                </Text>
+              </View>
 
-            <View className="flex-row">
-              <Text className="text-[#f9f9f9]" style={GlobalStyles.fontBold}>
-                $100
-              </Text>
-              <Text className="text-[#f9f9f9]" style={GlobalStyles.fontRegular}>
-                /night
-              </Text>
+              <View className="flex-row">
+                <Text className="text-[#f9f9f9]" style={GlobalStyles.fontBold}>
+                  $100
+                </Text>
+                <Text
+                  className="text-[#f9f9f9]"
+                  style={GlobalStyles.fontRegular}
+                >
+                  /night
+                </Text>
+              </View>
             </View>
           </View>
         </View>
