@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { View, Text, TouchableOpacity, StyleSheet } from "react-native";
+import { View, Text, Pressable, StyleSheet } from "react-native";
 
 const TabBar = ({ setPosts, setSaved, setLive }) => {
   const [activeTab, setActiveTab] = useState("Posts");
@@ -23,7 +23,7 @@ const TabBar = ({ setPosts, setSaved, setLive }) => {
   };
   return (
     <View className="flex-row justify-between items-center border border-transparent border-b-white">
-      <TouchableOpacity
+      <Pressable
         className={`flex-1 py-3 border border-transparent ${
           activeTab === "Posts" ? "border-b-[#E9FA00]" : ""
         }`}
@@ -35,8 +35,8 @@ const TabBar = ({ setPosts, setSaved, setLive }) => {
         >
           Posts
         </Text>
-      </TouchableOpacity>
-      <TouchableOpacity
+      </Pressable>
+      <Pressable
         className={`flex-1 py-3 border border-transparent ${
           activeTab === "Saved" ? "border-b-[#E9FA00]" : ""
         }`}
@@ -48,8 +48,8 @@ const TabBar = ({ setPosts, setSaved, setLive }) => {
         >
           Saved
         </Text>
-      </TouchableOpacity>
-      <TouchableOpacity
+      </Pressable>
+      <Pressable
         className={`flex-1 py-3 border border-transparent ${
           activeTab === "Live" ? "border-b-[#E9FA00]" : ""
         }`}
@@ -61,7 +61,7 @@ const TabBar = ({ setPosts, setSaved, setLive }) => {
         >
           Live
         </Text>
-      </TouchableOpacity>
+      </Pressable>
     </View>
   );
 };

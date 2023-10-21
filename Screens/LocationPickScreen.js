@@ -110,13 +110,13 @@ const LocationPickScreen = ({ navigation }) => {
             Choose Location!
           </Text>
 
-          {/* <Text
+          <Text
             className="text-[#F3EBD5] text-lg text-center"
             style={GlobalStyles.fontMedium}
             onPress={clearCache}
           >
             Clear Cache
-          </Text> */}
+          </Text>
         </View>
       </View>
       {location && (

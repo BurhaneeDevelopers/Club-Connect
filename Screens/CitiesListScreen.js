@@ -10,7 +10,7 @@ import React, { useState, useEffect, useCallback } from "react";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import HR from "../Components/HR";
 import SearchBar from "../Components/SearchBar";
-import useFetch from "../hook/useFetch";
+import useFetch from "../Models/auth.js";
 import CitiesList from "../CitiesList.json";
 
 import { SafeAreaView } from "react-native-safe-area-context";

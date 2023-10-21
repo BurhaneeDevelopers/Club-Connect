@@ -15,6 +15,9 @@ import {
   TransitionPresets,
 } from "@react-navigation/stack";
 
+import { UserProvider } from "./context/UserContext";
+import { UserContextProvider } from "./context/UserContextProvider";
+
 //SCREENS
 // Tab Screens
 import HomeScreen from "./Screens/HomeScreen";
@@ -31,6 +34,7 @@ import SignInScreen from "./Screens/SignInScreen";
 import LocationPickScreen from "./Screens/LocationPickScreen";
 import CitiesListScreen from "./Screens/CitiesListScreen";
 import ProfileScreen from "./Screens/ProfileScreen";
+import ProfileEditScreen from "./Screens/ProfileEditScreen";
 
 // FONTS LOADING
 import { useFonts } from "expo-font";
@@ -272,80 +276,92 @@ export default function App({ navigation }) {
   if (fontsLoaded) {
     return (
       <>
-        <NavigationContainer theme={navTheme}>
-          <StatusBar
-            animated={true}
-            backgroundColor="#101010"
-            // barStyle="dark-content"
-          />
-          <Stack.Navigator>
-            <Stack.Screen
-              name="Welcome"
-              component={WelcomeScreen}
-              options={{
-                headerShown: false,
-                ...TransitionPresets.SlideFromRightIOS,
-              }}
-            />
-            <Stack.Screen
-              name="SignIn"
-              component={SignInScreen}
-              options={{
-                headerShown: false,
-                ...TransitionPresets.SlideFromRightIOS,
-              }}
-            />
-            <Stack.Screen
-              name="CreateAccount"
-              component={CreateAccountScreen}
-              options={{
-                headerShown: false,
-                ...TransitionPresets.SlideFromRightIOS,
-              }}
-            />
-            <Stack.Screen
-              name="EmailConfirmation"
-              component={EmailConfirmation}
-              options={{
-                headerShown: false,
-                ...TransitionPresets.SlideFromRightIOS,
-              }}
-            />
-            <Stack.Screen
-              name="LocationPick"
-              component={LocationPickScreen}
-              options={{
-                headerShown: false,
-                ...TransitionPresets.SlideFromRightIOS,
-              }}
-            />
-            <Stack.Screen
-              name="CitiesList"
-              component={CitiesListScreen}
-              options={{
-                headerShown: false,
-                ...TransitionPresets.SlideFromRightIOS,
-              }}
-            />
-            <Stack.Screen
-              name="Index"
-              options={{
-                headerShown: false,
-                ...TransitionPresets.SlideFromRightIOS,
-              }}
-            >
-              {(props) => <StackScreen {...props} />}
-            </Stack.Screen>
-            <Stack.Screen
-              name="Profile"
-              component={ProfileScreen}
-              options={{
-                headerShown: false,
-                ...TransitionPresets.SlideFromRightIOS,
-              }}
-            />
-          </Stack.Navigator>
-        </NavigationContainer>
+        <UserProvider>
+          <UserContextProvider>
+            <NavigationContainer theme={navTheme}>
+              <StatusBar
+                animated={true}
+                backgroundColor="#101010"
+                // barStyle="dark-content"
+              />
+              <Stack.Navigator>
+                <Stack.Screen
+                  name="Welcome"
+                  component={WelcomeScreen}
+                  options={{
+                    headerShown: false,
+                    ...TransitionPresets.SlideFromRightIOS,
+                  }}
+                />
+                <Stack.Screen
+                  name="SignIn"
+                  component={SignInScreen}
+                  options={{
+                    headerShown: false,
+                    ...TransitionPresets.SlideFromRightIOS,
+                  }}
+                />
+                <Stack.Screen
+                  name="CreateAccount"
+                  component={CreateAccountScreen}
+                  options={{
+                    headerShown: false,
+                    ...TransitionPresets.SlideFromRightIOS,
+                  }}
+                />
+                <Stack.Screen
+                  name="EmailConfirmation"
+                  component={EmailConfirmation}
+                  options={{
+                    headerShown: false,
+                    ...TransitionPresets.SlideFromRightIOS,
+                  }}
+                />
+                <Stack.Screen
+                  name="LocationPick"
+                  component={LocationPickScreen}
+                  options={{
+                    headerShown: false,
+                    ...TransitionPresets.SlideFromRightIOS,
+                  }}
+                />
+                <Stack.Screen
+                  name="CitiesList"
+                  component={CitiesListScreen}
+                  options={{
+                    headerShown: false,
+                    ...TransitionPresets.SlideFromRightIOS,
+                  }}
+                />
+                <Stack.Screen
+                  name="Index"
+                  options={{
+                    headerShown: false,
+                    ...TransitionPresets.SlideFromRightIOS,
+                  }}
+                >
+                  {(props) => <StackScreen {...props} />}
+                </Stack.Screen>
+                <Stack.Screen
+                  name="Profile"
+                  component={ProfileScreen}
+                  options={{
+                    headerShown: false,
+                    ...TransitionPresets.SlideFromRightIOS,
+                  }}
+                />
+                <Stack.Screen
+                  name="ProfileEdit"
+                  component={ProfileEditScreen}
+                  options={{
+                    headerShown: false,
+                    ...TransitionPresets.SlideFromRightIOS,
+                  }}
+                />
+              </Stack.Navigator>
+            </NavigationContainer>
+          </UserContextProvider>
+        </UserProvider>
       </>
     );
   } else {
