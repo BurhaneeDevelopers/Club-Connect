@@ -80,6 +80,7 @@ const HomeScreen = ({ navigation }) => {
   const onRefresh = () => {
     setRefreshing(true);
     fetchHotspotImages();
+    getUserEditedData();
     setTimeout(() => {
       setRefreshing(false);
     }, 1000);
@@ -93,11 +94,38 @@ const HomeScreen = ({ navigation }) => {
     rating: "4.5",
   }));
 
+  const [editedProfileData, setEditedProfileData] = useState({}); // Initialize as an empty object
+
+  const getUserEditedData = async () => {
+    const userEditedData = await AsyncStorage.getItem("userEditedData");
+
+    if (userEditedData) {
+      const parsedUserEditedData = JSON.parse(userEditedData);
+      setEditedProfileData(parsedUserEditedData);
+    }
+  };
+
+  useEffect(() => {
+    getUserEditedData();
+  }, []);
+
+  // useEffect(() => {
+  //   AsyncStorage.getItem("hasSignedIn")
+  //     .then((hasSignedIn) => {
+  //       if (!hasSignedIn) {
+  //         // Redirect to the sign-in page if the user hasn't signed in
+  //         navigation.navigate("CreateAccount");
+  //       }
+  //     })
+  //     .catch((error) => {
+  //       console.error("Error reading AsyncStorage:", error);
+  //     });
+  // }, [navigation]);
+
   useEffect(() => {
     const hasSignedIn = AsyncStorage.getItem("hasSignedIn");
     if (!hasSignedIn) {
       // Redirect to sign-in page if the user hasn't signed in
-      // window.location.href = "/signin";
       navigation.navigate("SignIn");
     }
   }, [navigation]);
@@ -126,10 +154,10 @@ const HomeScreen = ({ navigation }) => {
                 className="text-xl text-[#FF26B9]"
                 style={GlobalStyles.fontSemiBold}
               >
-                Mohammed Jhansi
+                {editedProfileData?.name || "Loading.."}
               </Text>
               <Text className="text-[#f9f9f9]" style={GlobalStyles.fontMedium}>
-                Mohammed_jhansi72
+                {editedProfileData?.userName || "Loading.."}
               </Text>
             </View>
           </Pressable>
@@ -160,6 +188,8 @@ const HomeScreen = ({ navigation }) => {
             <MenuCards
               icon={<Coffee size="32" color="#f9f9f9" variant="Broken" />}
               title="Cafe"
+              navigateTo={"CafeExplore"}
+              navigation={navigation}
             />
             <MenuCards
               icon={<Building size="32" color="#f9f9f9" variant="Broken" />}
@@ -219,15 +249,18 @@ const HomeScreen = ({ navigation }) => {
 
 export default HomeScreen;
 
-const MenuCards = ({ icon, title }) => {
+const MenuCards = ({ icon, title, navigateTo, navigation }) => {
   return (
     <>
-      <View className="bg-[#FF26B9] rounded-3xl w-24 h-24 justify-center items-center flex-col mx-2">
+      <Pressable
+        className="bg-[#FF26B9] active:bg-[#c52d95] rounded-3xl w-24 h-24 justify-center items-center flex-col mx-2"
+        onPress={() => navigation.navigate(navigateTo)}
+      >
         {icon}
         <Text style={GlobalStyles.fontSemiBold} className="text-[#101010]">
           {title}
         </Text>
-      </View>
+      </Pressable>
     </>
   );
 };

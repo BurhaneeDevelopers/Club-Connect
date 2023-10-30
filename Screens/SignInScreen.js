@@ -56,15 +56,18 @@ const SignInScreen = ({ navigation, route }) => {
       const userData = await AsyncStorage.getItem("userData");
       if (userData) {
         const parsedUserData = JSON.parse(userData);
-        if (
-          parsedUserData.email === email &&
-          parsedUserData.password === password
-        ) {
-          // User is signed in successfully
-          // When the user successfully signs in, call setUserSignedIn(true)
-          AsyncStorage.setItem("hasSignedIn", "true");
+        const accessToken = parsedUserData.accessToken;
 
-          navigation.navigate("Index");
+        if (parsedUserData.email === email) {
+          // Check if the provided access token matches the stored access token
+          if (parsedUserData.accessToken === accessToken) {
+            // User is signed in successfully
+            // When the user successfully signs in, set a user session or flag
+            await AsyncStorage.setItem("hasSignedIn", "true");
+            navigation.navigate("Index");
+          } else {
+            setError(!error);
+          }
         } else {
           setError(!error);
         }
@@ -169,7 +172,7 @@ const SignInScreen = ({ navigation, route }) => {
               // className={`w-full p-3 rounded-lg items-center bg-[#FF26B9] ${
               //   error ? "bg-[#FF26B9]/70" : ""
               // }`}
-              className="w-full p-3 rounded-lg items-center bg-[#FF26B9] active:bg-[#393939]"
+              className="w-full p-3 rounded-lg items-center bg-[#FF26B9] active:bg-[#c52d95]"
               onPress={handleSignIn}
             >
               <Text className="text-[#f9f9f9] text-lg">Sign In</Text>

@@ -9,6 +9,8 @@ import {
   People,
   Notification,
   ShoppingCart,
+  Wallet,
+  EmptyWallet,
 } from "iconsax-react-native";
 import {
   createStackNavigator,
@@ -17,6 +19,10 @@ import {
 
 import { UserProvider } from "./context/UserContext";
 import { UserContextProvider } from "./context/UserContextProvider";
+
+// ICONS
+import Castle from "./assets/icons/Castle.svg";
+import CastleBold from "./assets/icons/CastleBold.svg";
 
 //SCREENS
 // Tab Screens
@@ -35,6 +41,10 @@ import LocationPickScreen from "./Screens/LocationPickScreen";
 import CitiesListScreen from "./Screens/CitiesListScreen";
 import ProfileScreen from "./Screens/ProfileScreen";
 import ProfileEditScreen from "./Screens/ProfileEditScreen";
+import SettingScreen from "./Screens/SettingScreen";
+import WalletScreen from "./Screens/WalletScreen";
+import CafeExploreScreen from "./Screens/CafeExploreScreen";
+import CafeDetailsScreen from "./Screens/CafeDetailsScreen";
 
 // FONTS LOADING
 import { useFonts } from "expo-font";
@@ -189,24 +199,25 @@ const StackScreen = ({ appdata }) => {
               <View className="items-center">
                 {focused ? (
                   <>
-                    <Notification size="32" color="#FF26B9" variant="Bold" />
+                    {/* <Notification size="32" color="#FF26B9" variant="Bold" /> */}
+                    <CastleBold width={32} height={32} />
                     <Text
                       className={`translate-y-1 text-[#FF26B9] text-center , ${
                         focused ? "font-bold" : ""
                       }`}
                     >
-                      Notification
+                      VibeCity
                     </Text>
                   </>
                 ) : (
                   <>
-                    <Notification size="32" color="#101010" />
+                    <Castle width={32} height={32} />
                     <Text
                       className={`translate-y-1 text-[#101010] text-center , ${
                         focused ? "" : ""
                       }`}
                     >
-                      Notification
+                      VibeCity
                     </Text>
                   </>
                 )}
@@ -218,8 +229,8 @@ const StackScreen = ({ appdata }) => {
 
       {/* Cart Screen  */}
       <Tab.Screen
-        name="Cart"
-        component={CartScreen}
+        name="Wallet"
+        component={WalletScreen}
         options={{
           headerShown: false,
           tabBarLabelStyle: { display: "none" },
@@ -229,24 +240,24 @@ const StackScreen = ({ appdata }) => {
               <View className="items-center">
                 {focused ? (
                   <>
-                    <ShoppingCart size="32" color="#FF26B9" variant="Bold" />
+                    <EmptyWallet size="32" color="#FF26B9" variant="Bold" />
                     <Text
                       className={`translate-y-1 text-[#FF26B9] text-center , ${
                         focused ? "font-bold" : ""
                       }`}
                     >
-                      Cart
+                      Wallet
                     </Text>
                   </>
                 ) : (
                   <>
-                    <ShoppingCart size="32" color="#101010" />
+                    <EmptyWallet size="32" color="#101010" />
                     <Text
                       className={`translate-y-1 text-[#101010] text-center , ${
                         focused ? "" : ""
                       }`}
                     >
-                      Cart
+                      Wallet
                     </Text>
                   </>
                 )}
@@ -353,6 +364,38 @@ export default function App({ navigation }) {
                 <Stack.Screen
                   name="ProfileEdit"
                   component={ProfileEditScreen}
+                  options={{
+                    headerShown: false,
+                    ...TransitionPresets.SlideFromRightIOS,
+                  }}
+                />
+                <Stack.Screen
+                  name="Setting"
+                  component={SettingScreen}
+                  options={{
+                    headerShown: false,
+                    ...TransitionPresets.SlideFromRightIOS,
+                  }}
+                />
+                <Stack.Screen
+                  name="Wallet"
+                  component={WalletScreen}
+                  options={{
+                    headerShown: false,
+                    ...TransitionPresets.SlideFromRightIOS,
+                  }}
+                />
+                <Stack.Screen
+                  name="CafeExplore"
+                  component={CafeExploreScreen}
+                  options={{
+                    headerShown: false,
+                    ...TransitionPresets.SlideFromRightIOS,
+                  }}
+                />
+                <Stack.Screen
+                  name="CafeDetails"
+                  component={CafeDetailsScreen}
                   options={{
                     headerShown: false,
                     ...TransitionPresets.SlideFromRightIOS,

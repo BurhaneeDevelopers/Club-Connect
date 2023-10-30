@@ -16,10 +16,13 @@ const WelcomeScreen = ({ navigation }) => {
   }, [navigation]);
   return (
     <SafeAreaView className="bg-[#101010] h-screen w-full justify-end items-center mx-auto p-10">
-      <Image
-        source={require("../assets/Illustrations/DiscoBall.png")}
-        className="w-[300px] h-[337.5px] mx-auto mb-10 absolute top-0"
-      />
+      <View className="mb-10">
+        <Image
+          source={require("../assets/Illustrations/CreateAccount.png")}
+          className="w-96 h-64"
+        />
+      </View>
+
       <View className="items-center">
         <View className="gap-2">
           <Text

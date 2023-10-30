@@ -15,12 +15,15 @@ import GlobalStyles from "../Styles/GlobalStyles";
 import { useState } from "react";
 import { ArrowLeft, Apple, Eye } from "iconsax-react-native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import { v4 as uuidv4 } from "uuid";
+import "react-native-get-random-values";
 
 // Components
 import AuthSwitch from "../Components/AuthSwitch";
 
 // SVGS
 import AuthSparklePink from "../assets/Illustrations/AuthSparklePink.svg";
+// import CreateAccount from "../assets/Illustrations/CreateAccount.svg";
 import Google from "../assets/icons/Google.svg";
 import Mail from "../assets/icons/Mail.svg";
 
@@ -60,18 +63,28 @@ const CreateAccountScreen = ({ navigation, route }) => {
     password.length < 8 ||
     password !== confirmPassword;
 
+  // This function generates a unique AccessToken for a user.
+  const generateAccessToken = () => {
+    // Generate a UUIDv4 token for the user.
+    const accessToken = uuidv4();
+    return accessToken;
+  };
+
   const handleCreateAccount = async () => {
     if (!isCreateAccountButtonDisabled) {
-      // Create the user and store data in AsyncStorage
+      // Generate an AccessToken for the user.
+      const accessToken = generateAccessToken();
+
+      // Create the user data object with the AccessToken.
       const userData = {
         email,
         password, // Note: You should never store passwords in plain text in a real application
+        accessToken,
       };
 
       try {
+        // Store user data, including the AccessToken, in AsyncStorage.
         await AsyncStorage.setItem("userData", JSON.stringify(userData));
-        // console.log(userData);
-
         // Redirect to a success or profile page
         navigation.navigate("EmailConfirmation", { email });
       } catch (error) {

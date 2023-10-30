@@ -108,6 +108,7 @@ const HotDealsCard = () => {
             25% Off
           </Text>
         </View>
+        
         <View className="bg-[#101010]/40 w-full h-14 absolute bottom-0 justify-center items-center">
           <View className="w-full px-5">
             <View className="flex-row justify-between items-end">

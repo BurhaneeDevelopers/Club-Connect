@@ -15,8 +15,7 @@ import GlobalStyles from "../Styles/GlobalStyles";
 import TabBar from "../Components/TabBar";
 import { useState, useEffect } from "react";
 import axios from "axios";
-// import { userEditedData } from "../context/UserContextProvider";
-import { useUserContext } from "../context/UserContextProvider";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 const ProfileScreen = ({ navigation }) => {
   const [post, setPosts] = useState(true);
@@ -71,13 +70,26 @@ const ProfileScreen = ({ navigation }) => {
 
   const onRefresh = () => {
     setRefreshing(true);
-    // fetchPostItem();
+    getUserEditedData();
     setTimeout(() => {
       setRefreshing(false);
     }, 1000);
   };
 
-  const userEditedData = useUserContext();
+  const [editedProfileData, setEditedProfileData] = useState({}); // Initialize as an empty object
+
+  const getUserEditedData = async () => {
+    const userEditedData = await AsyncStorage.getItem("userEditedData");
+
+    if (userEditedData) {
+      const parsedUserEditedData = JSON.parse(userEditedData);
+      setEditedProfileData(parsedUserEditedData);
+    }
+  };
+
+  useEffect(() => {
+    getUserEditedData();
+  }, []);
   return (
     <SafeAreaView>
       <View className="bg-[#E9FA00] h-80 rounded-b-[30px]">
@@ -90,7 +102,7 @@ const ProfileScreen = ({ navigation }) => {
             <Pressable onPress={() => navigation.navigate("ProfileEdit")}>
               <Edit size="32" color="#101010" />
             </Pressable>
-            <Pressable>
+            <Pressable onPress={() => navigation.navigate("Setting")}>
               <Setting2 size="32" color="#101010" />
             </Pressable>
           </View>
@@ -103,17 +115,12 @@ const ProfileScreen = ({ navigation }) => {
               className="w-24 h-24 rounded-full"
             />
 
-            {userEditedData && (
-              <>
-                <Text
-                  className="text-[#101010] text-xl"
-                  style={GlobalStyles.fontSemiBold}
-                >
-                  @{userEditedData.userName}
-                </Text>
-                {console.log(userEditedData.userName)}
-              </>
-            )}
+            <Text
+              className="text-[#101010] text-xl"
+              style={GlobalStyles.fontSemiBold}
+            >
+              @{editedProfileData?.userName || "Loading..."}
+            </Text>
           </View>
 
           <View className="flex-row justify-center w-full items-center p-5 space-x-5">

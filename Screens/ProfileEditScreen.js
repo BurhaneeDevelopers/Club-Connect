@@ -14,9 +14,6 @@ import React from "react";
 import { SafeAreaView } from "react-native-safe-area-context";
 import {
   ArrowLeft,
-  Setting2,
-  Edit,
-  Location,
   Camera,
 } from "iconsax-react-native";
 import GlobalStyles from "../Styles/GlobalStyles";
@@ -24,8 +21,11 @@ import TabBar from "../Components/TabBar";
 import { useState, useEffect } from "react";
 import axios from "axios";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import { UserContext } from "../context/UserContext";
+import { useContext } from "react";
 
 const ProfileEditScreen = ({ navigation }) => {
+  const { userData, dispatch } = useContext(UserContext);
   // Active State for inputs
   const [activeInput, setActiveInput] = useState();
 
@@ -37,21 +37,79 @@ const ProfileEditScreen = ({ navigation }) => {
     setActiveInput(null);
   };
 
+  // FETCH EDITED PROFILE DATA
+
   const [name, setName] = useState("");
   const [userName, setUserName] = useState("");
   const [bio, setBio] = useState("");
   const [location, setLocation] = useState("");
 
+  const [editedProfileData, setEditedProfileData] = useState({}); // Initialize as an empty object
+  const getUserEditedData = async () => {
+    const userEditedData = await AsyncStorage.getItem("userEditedData");
+
+    if (userEditedData) {
+      const parsedUserEditedData = JSON.parse(userEditedData);
+      setEditedProfileData(parsedUserEditedData);
+    }
+  };
+
+  useEffect(() => {
+    getUserEditedData();
+    setName(editedProfileData.name);
+    setUserName(editedProfileData.userName);
+    setBio(editedProfileData.bio);
+    setLocation(editedProfileData.location);
+  }, []);
+
+  // FIND ACCESSTOKEN
+  const [accessToken, setAccessToken] = useState("");
+
+  useEffect(() => {
+    // Retrieve the access token from AsyncStorage
+    const getAccessToken = async () => {
+      try {
+        const storedAccessToken = await AsyncStorage.getItem("accessToken");
+        if (storedAccessToken) {
+          setAccessToken(storedAccessToken);
+        }
+      } catch (error) {
+        console.error("Error retrieving access token: ", error);
+      }
+    };
+
+    getAccessToken();
+  }, []);
+
   const SaveEditChanges = async () => {
     const userEditedData = { name, userName, bio, location };
+    dispatch({ type: "UPDATE_PROFILE", payload: userEditedData });
+
     try {
-      await AsyncStorage.setItem(
-        "userEditedData",
-        JSON.stringify(userEditedData)
-      );
-      console.log(userEditedData);
+      // Retrieve the access token from AsyncStorage and use it
+      const userData = await AsyncStorage.getItem("userData");
+
+      if (userData) {
+        const parsedUserData = JSON.parse(userData);
+        const accessToken = parsedUserData.accessToken;
+
+        // Simulate sending the edited profile data to a server
+        console.log(
+          "Sending profile data to server with access token:",
+          accessToken
+        );
+        console.log(userEditedData);
+
+        // Update the userEditedData in AsyncStorage, if needed
+        await AsyncStorage.setItem(
+          "userEditedData",
+          JSON.stringify(userEditedData)
+        );
+      } else {
+        console.error("Access token not found.");
+      }
     } catch (error) {
-      console.log("Error storing user data: ", error);
+      console.error("Error editing user profile: ", error);
     }
   };
 
@@ -98,7 +156,7 @@ const ProfileEditScreen = ({ navigation }) => {
               Name:
             </Text>
             <TextInput
-              placeholder="Enter Your Email..."
+              placeholder="Enter Your Name..."
               placeholderTextColor={`${
                 activeInput === 1 ? "#101010" : "#f9f9f9"
               }`}

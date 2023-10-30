@@ -1,50 +1,24 @@
-// UserContext.js
-import React, { createContext, useContext, useReducer } from "react";
+import React, { createContext, useReducer } from "react";
 
-const UserContext = createContext();
+// Define your context
+export const UserContext = createContext();
 
-const initialState = {
-  user: null,
-  token: null,
-  email: null,
-};
-
+// Define your reducer function (userReducer) to update the user data
 const userReducer = (state, action) => {
   switch (action.type) {
-    case "SET_USER":
-      return {
-        ...state,
-        user: action.payload,
-      };
-    case "SET_TOKEN":
-      return {
-        ...state,
-        token: action.payload,
-      };
-    case "SET_EMAIL":
-      return {
-        ...state,
-        email: action.payload, // Store the email in the context
-      };
+    case "UPDATE_PROFILE":
+      return { ...state, ...action.payload };
     default:
       return state;
   }
 };
 
 export const UserProvider = ({ children }) => {
-  const [state, dispatch] = useReducer(userReducer, initialState);
+  const [userData, dispatch] = useReducer(userReducer, {});
 
   return (
-    <UserContext.Provider value={{ state, dispatch }}>
+    <UserContext.Provider value={{ userData, dispatch }}>
       {children}
     </UserContext.Provider>
   );
-};
-
-export const useUser = () => {
-  const context = useContext(UserContext);
-  if (!context) {
-    throw new Error("useUser must be used within a UserProvider");
-  }
-  return context;
 };

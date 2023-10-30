@@ -178,7 +178,7 @@ const EmailConfirmation = ({ navigation, route }) => {
       <View className="items-center">
         <Pressable
           disabled={!fullOtpEntered} // Disable the button when showError is true
-          className={`w-full bg-[#FF26B9] active:bg-[#393939] p-3 rounded-lg items-center absolute bottom-10 ${
+          className={`w-full bg-[#FF26B9] active:bg-[#c52d95] p-3 rounded-lg items-center absolute bottom-10 ${
             !fullOtpEntered ? "bg-[#FF26B9]/70" : ""
           }`}
           onPress={() => {
