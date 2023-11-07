@@ -22,6 +22,7 @@
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#ffffff"
       },
+      "googleServicesFile":"google-services.json",
       "package": "com.taheri_dev72.vibehotspot"
     },
     "web": {
@@ -36,6 +37,15 @@
     "runtimeVersion": {
       "policy": "appVersion"
     },
+    "plugins":[
+      "@react-native-firebase/app",[
+        "expo-build-properties",{
+          "android":{
+            "useFrameworks":"static"
+          }
+        }
+      ]
+    ],
     "updates": {
       "url": "https://u.expo.dev/a7079c16-20a2-4dfc-b6ea-918c9d2380fa"
     }
