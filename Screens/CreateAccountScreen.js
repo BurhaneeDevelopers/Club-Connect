@@ -18,6 +18,9 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import { v4 as uuidv4 } from "uuid";
 import "react-native-get-random-values";
 
+// FIREBASE
+import auth from "@react-native-firebase/auth";
+
 // Components
 import AuthSwitch from "../Components/AuthSwitch";
 
@@ -72,26 +75,35 @@ const CreateAccountScreen = ({ navigation, route }) => {
 
   const handleCreateAccount = async () => {
     if (!isCreateAccountButtonDisabled) {
-      // Generate an AccessToken for the user.
-      const accessToken = generateAccessToken();
-
-      // Create the user data object with the AccessToken.
-      const userData = {
-        email,
-        password, // Note: You should never store passwords in plain text in a real application
-        accessToken,
-      };
-
       try {
+        const userCredential = await auth().createUserWithEmailAndPassword(
+          email,
+          password
+        );
+
+        // You can access the user's information through userCredential.user
+        const user = userCredential.user;
+
+        // Generate an AccessToken for the user.
+        const accessToken = generateAccessToken();
+
+        // Create the user data object with the AccessToken.
+        const userData = {
+          email,
+          accessToken,
+          uid: user.uid, // You can store the user's UID for future reference
+        };
+
         // Store user data, including the AccessToken, in AsyncStorage.
         await AsyncStorage.setItem("userData", JSON.stringify(userData));
         // Redirect to a success or profile page
         navigation.navigate("EmailConfirmation", { email });
       } catch (error) {
-        console.error("Error storing user data: ", error);
+        console.error("Error creating user: ", error);
+        setError(true);
       }
     } else {
-      setError(!error);
+      setError(true);
     }
   };
 
