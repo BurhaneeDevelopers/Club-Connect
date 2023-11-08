@@ -12,14 +12,15 @@ import {
 import React from "react";
 import { SafeAreaView } from "react-native-safe-area-context";
 import GlobalStyles from "../Styles/GlobalStyles";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { ArrowLeft, Apple, Eye } from "iconsax-react-native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { v4 as uuidv4 } from "uuid";
 import "react-native-get-random-values";
 
 // FIREBASE
-import auth from "@react-native-firebase/auth";
+import { getAuth, createUserWithEmailAndPassword } from "firebase/auth";
+import { firebase } from "firebase";
 
 // Components
 import AuthSwitch from "../Components/AuthSwitch";
@@ -58,6 +59,93 @@ const CreateAccountScreen = ({ navigation, route }) => {
   const [confirmPassword, setConfirmPassword] = useState("");
   const [error, setError] = useState(false);
 
+  // useEffect(() => {
+  //   const unsubscribe = auth.onAuthStateChanged(user => {
+  //     if (user) {
+  //       navigation.replace("Index")
+  //     }
+  //   })
+
+  //   return unsubscribe
+  // }, [])
+
+  const auth = getAuth();
+
+  const handleSignUp = async () => {
+    await createUserWithEmailAndPassword(auth, email, password)
+      .then((userCredential) => {
+        // User created successfully
+        const user = userCredential.user;
+        console.log("User created:", user);
+        setEmail("");
+        setPassword("");
+        setConfirmPassword("");
+        // navigation.navigate("EmailConfirmation") Your will get a error (email undefined) pass email prop from here to emailconfirmation to get email there
+      })
+      .catch((error) => {
+        // Handle any errors here
+        console.error("Error creating user:", error);
+      });
+  };
+
+  // Gotcha Bro Create Account Done!! Check firebase user is created. Try to create a function to send user confirmation Email for OTP!
+
+  // Well done bro
+
+ // Function to send a user confirmation email with OTP
+const sendConfirmationEmail = async (userEmail) => {
+  try {
+    const user = firebase.auth().currentUser;
+
+    // Generate a random OTP
+    const otp = Math.floor(1000 + Math.random() * 7000);
+
+    // Send the confirmation email with the OTP
+    await user.sendEmailVerification();
+
+    // Return the OTP
+    return otp;
+  } catch (error) {
+    console.error('Error sending confirmation email:', error);
+    throw error;
+  }
+};
+
+// And this is how we validate the OTP
+const userEmail = 'user@example.com';
+sendConfirmationEmail(userEmail)
+  .then((otp) => {
+    console.log(`Email sent to ${userEmail} with OTP: ${otp}`);
+  })
+  .catch((error) => {
+    console.error('Error:', error);
+  });
+
+// And this is the OTP verification
+
+function OTPVerificationScreen() {
+  const [otp, setOTP] = useState('');
+
+  const handleVerifyOTP = async () => {
+    try {
+      // Verify the entered OTP
+      const user = firebase.auth().currentUser;
+      const credential = firebase.auth.EmailAuthProvider.credential(user.email, otp);
+      await user.reauthenticateWithCredential(credential);
+
+      // At this point, the user is verified
+      console.log('User is verified.');
+    } catch (error) {
+      console.error('Error verifying OTP:', error);
+    }
+  };
+  
+}
+
+
+
+
+
   const isCreateAccountButtonDisabled =
     email === "" ||
     password === "" ||
@@ -73,39 +161,39 @@ const CreateAccountScreen = ({ navigation, route }) => {
     return accessToken;
   };
 
-  const handleCreateAccount = async () => {
-    if (!isCreateAccountButtonDisabled) {
-      try {
-        const userCredential = await auth().createUserWithEmailAndPassword(
-          email,
-          password
-        );
+  // const handleCreateAccount = async () => {
+  //   if (!isCreateAccountButtonDisabled) {
+  //     try {
+  //       const userCredential = await auth().createUserWithEmailAndPassword(
+  //         email,
+  //         password
+  //       );
 
-        // You can access the user's information through userCredential.user
-        const user = userCredential.user;
+  //       // You can access the user's information through userCredential.user
+  //       const user = userCredential.user;
 
-        // Generate an AccessToken for the user.
-        const accessToken = generateAccessToken();
+  //       // Generate an AccessToken for the user.
+  //       const accessToken = generateAccessToken();
 
-        // Create the user data object with the AccessToken.
-        const userData = {
-          email,
-          accessToken,
-          uid: user.uid, // You can store the user's UID for future reference
-        };
+  //       // Create the user data object with the AccessToken.
+  //       const userData = {
+  //         email,
+  //         accessToken,
+  //         uid: user.uid, // You can store the user's UID for future reference
+  //       };
 
-        // Store user data, including the AccessToken, in AsyncStorage.
-        await AsyncStorage.setItem("userData", JSON.stringify(userData));
-        // Redirect to a success or profile page
-        navigation.navigate("EmailConfirmation", { email });
-      } catch (error) {
-        console.error("Error creating user: ", error);
-        setError(true);
-      }
-    } else {
-      setError(true);
-    }
-  };
+  //       // Store user data, including the AccessToken, in AsyncStorage.
+  //       await AsyncStorage.setItem("userData", JSON.stringify(userData));
+  //       // Redirect to a success or profile page
+  //       navigation.navigate("EmailConfirmation", { email });
+  //     } catch (error) {
+  //       console.error("Error creating user: ", error);
+  //       setError(true);
+  //     }
+  //   } else {
+  //     setError(true);
+  //   }
+  // };
 
   return (
     <KeyboardAvoidingView
@@ -246,7 +334,7 @@ const CreateAccountScreen = ({ navigation, route }) => {
                 ? "bg-[#FF26B9]/70"
                 : "bg-[#FF26B9] active:bg-[#FF26B9]/90"
             }`}
-            onPress={handleCreateAccount}
+            onPress={handleSignUp}
           >
             <Text
               className="text-[#f9f9f9] text-lg"

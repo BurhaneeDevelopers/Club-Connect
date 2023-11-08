@@ -23,6 +23,7 @@ import AuthSwitch from "../Components/AuthSwitch";
 import AuthSparklePink from "../assets/Illustrations/AuthSparklePink.svg";
 import Google from "../assets/icons/Google.svg";
 import Mail from "../assets/icons/Mail.svg";
+import useAuth from "../Hooks/useAuth";
 
 const SignInScreen = ({ navigation, route }) => {
   const [refreshing, setRefreshing] = React.useState(false);
@@ -50,33 +51,38 @@ const SignInScreen = ({ navigation, route }) => {
   const [password, setPassword] = useState("");
   const [error, setError] = useState(false);
 
+
+
+
   const handleSignIn = async () => {
     // Retrieve user data from AsyncStorage
-    try {
-      const userData = await AsyncStorage.getItem("userData");
-      if (userData) {
-        const parsedUserData = JSON.parse(userData);
-        const accessToken = parsedUserData.accessToken;
+    // try {
+    //   const userData = await AsyncStorage.getItem("userData");
+    //   if (userData) {
+    //     const parsedUserData = JSON.parse(userData);
+    //     const accessToken = parsedUserData.accessToken;
 
-        if (parsedUserData.email === email) {
-          // Check if the provided access token matches the stored access token
-          if (parsedUserData.accessToken === accessToken) {
-            // User is signed in successfully
-            // When the user successfully signs in, set a user session or flag
-            await AsyncStorage.setItem("hasSignedIn", "true");
-            navigation.navigate("Index");
-          } else {
-            setError(!error);
-          }
-        } else {
-          setError(!error);
-        }
-      } else {
-        setError(!error);
-      }
-    } catch (error) {
-      console.error("Error while signing in: ", error);
-    }
+    //     if (parsedUserData.email === email) {
+    //       // Check if the provided access token matches the stored access token
+    //       if (parsedUserData.accessToken === accessToken) {
+    //         // User is signed in successfully
+    //         // When the user successfully signs in, set a user session or flag
+    //         await AsyncStorage.setItem("hasSignedIn", "true");
+    //         navigation.navigate("Index");
+    //       } else {
+    //         setError(!error);
+    //       }
+    //     } else {
+    //       setError(!error);
+    //     }
+    //   } else {
+    //     setError(!error);
+    //   }
+    // } catch (error) {
+    //   console.error("Error while signing in: ", error);
+    // }
+
+
   };
 
   return (
@@ -212,6 +218,7 @@ const SignInScreen = ({ navigation, route }) => {
       </ScrollView>
     </KeyboardAvoidingView>
   );
+
 };
 
 export default SignInScreen;

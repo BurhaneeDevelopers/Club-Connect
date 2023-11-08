@@ -8,7 +8,7 @@ import { useEffect } from "react";
 const WelcomeScreen = ({ navigation }) => {
   useEffect(() => {
     const hasSignedIn = AsyncStorage.getItem("hasSignedIn");
-    if (hasSignedIn) {
+    if (!hasSignedIn) {
       // Redirect to sign-in page if the user hasn't signed in
       // window.location.href = "/signin";
       navigation.navigate("Index");
