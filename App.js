@@ -49,6 +49,7 @@ import CafeDetailsScreen from "./Screens/CafeDetailsScreen";
 // FONTS LOADING
 import { useFonts } from "expo-font";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import useAuth, { AuthProvider } from "./Hooks/useAuth";
 
 // Default Theme
 const navTheme = DefaultTheme;
@@ -56,218 +57,7 @@ navTheme.colors.background = "#101010";
 
 // TAB BOTTOM NAVIGATOR
 const StackScreen = ({ appdata }) => {
-  return (
-    <Tab.Navigator
-      screenOptions={{
-        tabBarStyle: {
-          height: 90,
-          backgroundColor: "#E9FA00",
-          borderTopLeftRadius: 24,
-          borderTopRightRadius: 24,
-        },
-        tabBarHideOnKeyboard: true,
-      }}
-    >
-      {/* Home Screen  */}
-      <Tab.Screen
-        name="Home"
-        component={HomeScreen}
-        options={{
-          headerShown: false,
-          tabBarLabelStyle: { display: "none" },
-          ...TransitionPresets.SlideFromRightIOS,
-          tabBarIcon: ({ focused, size }) => {
-            return (
-              <View className="items-center">
-                {focused ? (
-                  <>
-                    <Home3 size="32" color="#FF26B9" variant="Bold" />
-                    <Text
-                      className={`translate-y-1 text-[#FF26B9] text-center , ${
-                        focused ? "font-bold" : ""
-                      }`}
-                    >
-                      Home
-                    </Text>
-                  </>
-                ) : (
-                  <>
-                    <Home3 size="32" color="#101010" />
-                    <Text
-                      className={`translate-y-1 text-[#101010] text-center , ${
-                        focused ? "" : ""
-                      }`}
-                    >
-                      Home
-                    </Text>
-                  </>
-                )}
-              </View>
-            );
-          },
-        }}
-      />
-
-      {/* Events Screen  */}
-      <Tab.Screen
-        name="Events"
-        component={EventsScreen}
-        options={{
-          headerShown: false,
-          tabBarLabelStyle: { display: "none" },
-          ...TransitionPresets.SlideFromRightIOS,
-          tabBarIcon: ({ focused, size }) => {
-            return (
-              <View className="items-center">
-                {focused ? (
-                  <>
-                    <Calendar
-                      size="32"
-                      color="#FF26B9"
-                      variant="Bold"
-                      className="my-auto"
-                    />
-                    <Text
-                      className={`translate-y-1 text-[#FF26B9] text-center , ${
-                        focused ? "font-bold" : ""
-                      }`}
-                    >
-                      Events
-                    </Text>
-                  </>
-                ) : (
-                  <>
-                    <Calendar size="32" color="#101010" className="my-auto" />
-                    <Text
-                      className={`translate-y-1 text-[#101010] text-center , ${
-                        focused ? "" : ""
-                      }`}
-                    >
-                      Events
-                    </Text>
-                  </>
-                )}
-              </View>
-            );
-          },
-        }}
-      />
-
-      {/* Events Screen  */}
-      <Tab.Screen
-        name="Community"
-        component={CommunityScreen}
-        options={{
-          headerShown: false,
-          tabBarLabelStyle: { display: "none" },
-          ...TransitionPresets.ModalSlideFromBottomIOS,
-          tabBarIcon: ({ focused, size }) => {
-            return (
-              <View className="items-center">
-                {focused ? (
-                  <View
-                    className="bg-[#FF26B9] p-3 flex-col items-center justify-center rounded-full"
-                    style={{
-                      elevation: 32,
-                      shadowColor: "#000",
-                      shadowRadius: 2,
-                    }}
-                  >
-                    <People size="32" color="#EADAAA" className="my-auto" />
-                  </View>
-                ) : (
-                  <View className="bg-[#101010] p-3 flex-col items-center justify-center rounded-full">
-                    <People size="32" color="#F9F9F9" className="my-auto" />
-                  </View>
-                )}
-              </View>
-            );
-          },
-        }}
-      />
-
-      {/* Notifications Screen  */}
-      <Tab.Screen
-        name="Notifications"
-        component={NotificationsScreen}
-        options={{
-          headerShown: false,
-          tabBarLabelStyle: { display: "none" },
-          ...TransitionPresets.SlideFromRightIOS,
-          tabBarIcon: ({ focused, size }) => {
-            return (
-              <View className="items-center">
-                {focused ? (
-                  <>
-                    {/* <Notification size="32" color="#FF26B9" variant="Bold" /> */}
-                    <CastleBold width={32} height={32} />
-                    <Text
-                      className={`translate-y-1 text-[#FF26B9] text-center , ${
-                        focused ? "font-bold" : ""
-                      }`}
-                    >
-                      VibeCity
-                    </Text>
-                  </>
-                ) : (
-                  <>
-                    <Castle width={32} height={32} />
-                    <Text
-                      className={`translate-y-1 text-[#101010] text-center , ${
-                        focused ? "" : ""
-                      }`}
-                    >
-                      VibeCity
-                    </Text>
-                  </>
-                )}
-              </View>
-            );
-          },
-        }}
-      />
-
-      {/* Cart Screen  */}
-      <Tab.Screen
-        name="Wallet"
-        component={WalletScreen}
-        options={{
-          headerShown: false,
-          tabBarLabelStyle: { display: "none" },
-          ...TransitionPresets.SlideFromRightIOS,
-          tabBarIcon: ({ focused, size }) => {
-            return (
-              <View className="items-center">
-                {focused ? (
-                  <>
-                    <EmptyWallet size="32" color="#FF26B9" variant="Bold" />
-                    <Text
-                      className={`translate-y-1 text-[#FF26B9] text-center , ${
-                        focused ? "font-bold" : ""
-                      }`}
-                    >
-                      Wallet
-                    </Text>
-                  </>
-                ) : (
-                  <>
-                    <EmptyWallet size="32" color="#101010" />
-                    <Text
-                      className={`translate-y-1 text-[#101010] text-center , ${
-                        focused ? "" : ""
-                      }`}
-                    >
-                      Wallet
-                    </Text>
-                  </>
-                )}
-              </View>
-            );
-          },
-        }}
-      />
-    </Tab.Navigator>
-  );
+  return <TabNavigator Tab={Tab} />;
 };
 const Tab = createBottomTabNavigator();
 
@@ -284,124 +74,137 @@ export default function App({ navigation }) {
     "Livvic-Light": require("./assets/fonts/Livvic-Light.ttf"),
   });
 
+  const { user } = useAuth();
   if (fontsLoaded) {
     return (
       <>
         <UserProvider>
           <UserContextProvider>
             <NavigationContainer theme={navTheme}>
-              <StatusBar
-                animated={true}
-                backgroundColor="#101010"
-                // barStyle="dark-content"
-              />
-              <Stack.Navigator>
-                <Stack.Screen
-                  name="Welcome"
-                  component={WelcomeScreen}
-                  options={{
-                    headerShown: false,
-                    ...TransitionPresets.SlideFromRightIOS,
-                  }}
+              {/* HOC - Higher Order Component */}
+              <AuthProvider>
+                <StatusBar
+                  animated={true}
+                  backgroundColor="#101010"
+                  // barStyle="dark-content"
                 />
-                <Stack.Screen
-                  name="SignIn"
-                  component={SignInScreen}
-                  options={{
-                    headerShown: false,
-                    ...TransitionPresets.SlideFromRightIOS,
-                  }}
-                />
-                <Stack.Screen
-                  name="CreateAccount"
-                  component={CreateAccountScreen}
-                  options={{
-                    headerShown: false,
-                    ...TransitionPresets.SlideFromRightIOS,
-                  }}
-                />
-                <Stack.Screen
-                  name="EmailConfirmation"
-                  component={EmailConfirmation}
-                  options={{
-                    headerShown: false,
-                    ...TransitionPresets.SlideFromRightIOS,
-                  }}
-                />
-                <Stack.Screen
-                  name="LocationPick"
-                  component={LocationPickScreen}
-                  options={{
-                    headerShown: false,
-                    ...TransitionPresets.SlideFromRightIOS,
-                  }}
-                />
-                <Stack.Screen
-                  name="CitiesList"
-                  component={CitiesListScreen}
-                  options={{
-                    headerShown: false,
-                    ...TransitionPresets.SlideFromRightIOS,
-                  }}
-                />
-                <Stack.Screen
-                  name="Index"
-                  options={{
-                    headerShown: false,
-                    ...TransitionPresets.SlideFromRightIOS,
-                  }}
-                >
-                  {(props) => <StackScreen {...props} />}
-                </Stack.Screen>
-                <Stack.Screen
-                  name="Profile"
-                  component={ProfileScreen}
-                  options={{
-                    headerShown: false,
-                    ...TransitionPresets.SlideFromRightIOS,
-                  }}
-                />
-                <Stack.Screen
-                  name="ProfileEdit"
-                  component={ProfileEditScreen}
-                  options={{
-                    headerShown: false,
-                    ...TransitionPresets.SlideFromRightIOS,
-                  }}
-                />
-                <Stack.Screen
-                  name="Setting"
-                  component={SettingScreen}
-                  options={{
-                    headerShown: false,
-                    ...TransitionPresets.SlideFromRightIOS,
-                  }}
-                />
-                <Stack.Screen
-                  name="Wallet"
-                  component={WalletScreen}
-                  options={{
-                    headerShown: false,
-                    ...TransitionPresets.SlideFromRightIOS,
-                  }}
-                />
-                <Stack.Screen
-                  name="CafeExplore"
-                  component={CafeExploreScreen}
-                  options={{
-                    headerShown: false,
-                    ...TransitionPresets.SlideFromRightIOS,
-                  }}
-                />
-                <Stack.Screen
-                  name="CafeDetails"
-                  component={CafeDetailsScreen}
-                  options={{
-                    headerShown: false,
-                    ...TransitionPresets.SlideFromRightIOS,
-                  }}
-                />
-              </Stack.Navigator>
+
+                <Stack.Navigator>
+                  
+                  {user ? (
+                    (<><Stack.Screen
+                      name="Index"
+                      options={{
+                        headerShown: false,
+                        ...TransitionPresets.SlideFromRightIOS,
+                      }}
+                    >
+                      {(props) => <StackScreen {...props} />}
+                    </Stack.Screen>
+                    <Stack.Screen
+                      name="Profile"
+                      component={ProfileScreen}
+                      options={{
+                        headerShown: false,
+                        ...TransitionPresets.SlideFromRightIOS,
+                      }}
+                    />
+                    <Stack.Screen
+                      name="ProfileEdit"
+                      component={ProfileEditScreen}
+                      options={{
+                        headerShown: false,
+                        ...TransitionPresets.SlideFromRightIOS,
+                      }}
+                    />
+                    <Stack.Screen
+                      name="Setting"
+                      component={SettingScreen}
+                      options={{
+                        headerShown: false,
+                        ...TransitionPresets.SlideFromRightIOS,
+                      }}
+                    />
+                    <Stack.Screen
+                      name="Wallet"
+                      component={WalletScreen}
+                      options={{
+                        headerShown: false,
+                        ...TransitionPresets.SlideFromRightIOS,
+                      }}
+                    />
+                    <Stack.Screen
+                      name="CafeExplore"
+                      component={CafeExploreScreen}
+                      options={{
+                        headerShown: false,
+                        ...TransitionPresets.SlideFromRightIOS,
+                      }}
+                    />
+                    <Stack.Screen
+                      name="CafeDetails"
+                      component={CafeDetailsScreen}
+                      options={{
+                        headerShown: false,
+                        ...TransitionPresets.SlideFromRightIOS,
+                      }}
+                    />
+                    </>)
+                  ) : (
+                    <>
+                      
+                      <Stack.Screen
+                        name="Welcome"
+                        component={WelcomeScreen}
+                        options={{
+                          headerShown: false,
+                          ...TransitionPresets.SlideFromRightIOS,
+                        }}
+                      />
+                      <Stack.Screen
+                        name="SignIn"
+                        component={SignInScreen}
+                        options={{
+                          headerShown: false,
+                          ...TransitionPresets.SlideFromRightIOS,
+                        }}
+                      />
+                      <Stack.Screen
+                        name="CreateAccount"
+                        component={CreateAccountScreen}
+                        options={{
+                          headerShown: false,
+                          ...TransitionPresets.SlideFromRightIOS,
+                        }}
+                      />
+                      <Stack.Screen
+                        name="EmailConfirmation"
+                        component={EmailConfirmation}
+                        options={{
+                          headerShown: false,
+                          ...TransitionPresets.SlideFromRightIOS,
+                        }}
+                      />
+                      <Stack.Screen
+                        name="LocationPick"
+                        component={LocationPickScreen}
+                        options={{
+                          headerShown: false,
+                          ...TransitionPresets.SlideFromRightIOS,
+                        }}
+                      />
+                      <Stack.Screen
+                        name="CitiesList"
+                        component={CitiesListScreen}
+                        options={{
+                          headerShown: false,
+                          ...TransitionPresets.SlideFromRightIOS,
+                        }}
+                      />
+                    </>
+                  )}
+                </Stack.Navigator>
+              </AuthProvider>
             </NavigationContainer>
           </UserContextProvider>
         </UserProvider>
@@ -411,3 +214,220 @@ export default function App({ navigation }) {
     return null;
   }
 }
+
+const TabNavigator = ({ Tab }) => {
+  return (
+    <>
+      <Tab.Navigator
+        screenOptions={{
+          tabBarStyle: {
+            height: 90,
+            backgroundColor: "#E9FA00",
+            borderTopLeftRadius: 24,
+            borderTopRightRadius: 24,
+          },
+          tabBarHideOnKeyboard: true,
+        }}
+      >
+        {/* Home Screen  */}
+        <Tab.Screen
+          name="Home"
+          component={HomeScreen}
+          options={{
+            headerShown: false,
+            tabBarLabelStyle: { display: "none" },
+            ...TransitionPresets.SlideFromRightIOS,
+            tabBarIcon: ({ focused, size }) => {
+              return (
+                <View className="items-center">
+                  {focused ? (
+                    <>
+                      <Home3 size="32" color="#FF26B9" variant="Bold" />
+                      <Text
+                        className={`translate-y-1 text-[#FF26B9] text-center , ${
+                          focused ? "font-bold" : ""
+                        }`}
+                      >
+                        Home
+                      </Text>
+                    </>
+                  ) : (
+                    <>
+                      <Home3 size="32" color="#101010" />
+                      <Text
+                        className={`translate-y-1 text-[#101010] text-center , ${
+                          focused ? "" : ""
+                        }`}
+                      >
+                        Home
+                      </Text>
+                    </>
+                  )}
+                </View>
+              );
+            },
+          }}
+        />
+
+        {/* Events Screen  */}
+        <Tab.Screen
+          name="Events"
+          component={EventsScreen}
+          options={{
+            headerShown: false,
+            tabBarLabelStyle: { display: "none" },
+            ...TransitionPresets.SlideFromRightIOS,
+            tabBarIcon: ({ focused, size }) => {
+              return (
+                <View className="items-center">
+                  {focused ? (
+                    <>
+                      <Calendar
+                        size="32"
+                        color="#FF26B9"
+                        variant="Bold"
+                        className="my-auto"
+                      />
+                      <Text
+                        className={`translate-y-1 text-[#FF26B9] text-center , ${
+                          focused ? "font-bold" : ""
+                        }`}
+                      >
+                        Events
+                      </Text>
+                    </>
+                  ) : (
+                    <>
+                      <Calendar size="32" color="#101010" className="my-auto" />
+                      <Text
+                        className={`translate-y-1 text-[#101010] text-center , ${
+                          focused ? "" : ""
+                        }`}
+                      >
+                        Events
+                      </Text>
+                    </>
+                  )}
+                </View>
+              );
+            },
+          }}
+        />
+
+        {/* Events Screen  */}
+        <Tab.Screen
+          name="Community"
+          component={CommunityScreen}
+          options={{
+            headerShown: false,
+            tabBarLabelStyle: { display: "none" },
+            ...TransitionPresets.ModalSlideFromBottomIOS,
+            tabBarIcon: ({ focused, size }) => {
+              return (
+                <View className="items-center">
+                  {focused ? (
+                    <View
+                      className="bg-[#FF26B9] p-3 flex-col items-center justify-center rounded-full"
+                      style={{
+                        elevation: 32,
+                        shadowColor: "#000",
+                        shadowRadius: 2,
+                      }}
+                    >
+                      <People size="32" color="#EADAAA" className="my-auto" />
+                    </View>
+                  ) : (
+                    <View className="bg-[#101010] p-3 flex-col items-center justify-center rounded-full">
+                      <People size="32" color="#F9F9F9" className="my-auto" />
+                    </View>
+                  )}
+                </View>
+              );
+            },
+          }}
+        />
+
+        {/* Notifications Screen  */}
+        <Tab.Screen
+          name="Notifications"
+          component={NotificationsScreen}
+          options={{
+            headerShown: false,
+            tabBarLabelStyle: { display: "none" },
+            ...TransitionPresets.SlideFromRightIOS,
+            tabBarIcon: ({ focused, size }) => {
+              return (
+                <View className="items-center">
+                  {focused ? (
+                    <>
+                      {/* <Notification size="32" color="#FF26B9" variant="Bold" /> */}
+                      <CastleBold width={32} height={32} />
+                      <Text
+                        className={`translate-y-1 text-[#FF26B9] text-center , ${
+                          focused ? "font-bold" : ""
+                        }`}
+                      >
+                        VibeCity
+                      </Text>
+                    </>
+                  ) : (
+                    <>
+                      <Castle width={32} height={32} />
+                      <Text
+                        className={`translate-y-1 text-[#101010] text-center , ${
+                          focused ? "" : ""
+                        }`}
+                      >
+                        VibeCity
+                      </Text>
+                    </>
+                  )}
+                </View>
+              );
+            },
+          }}
+        />
+
+        {/* Cart Screen  */}
+        <Tab.Screen
+          name="Wallet"
+          component={WalletScreen}
+          options={{
+            headerShown: false,
+            tabBarLabelStyle: { display: "none" },
+            ...TransitionPresets.SlideFromRightIOS,
+            tabBarIcon: ({ focused, size }) => {
+              return (
+                <View className="items-center">
+                  {focused ? (
+                    <>
+                      <EmptyWallet size="32" color="#FF26B9" variant="Bold" />
+                      <Text
+                        className={`translate-y-1 text-[#FF26B9] text-center , ${
+                          focused ? "font-bold" : ""
+                        }`}
+                      >
+                        Wallet
+                      </Text>
+                    </>
+                  ) : (
+                    <>
+                      <EmptyWallet size="32" color="#101010" />
+                      <Text
+                        className={`translate-y-1 text-[#101010] text-center , ${
+                          focused ? "" : ""
+                        }`}
+                      >
+                        Wallet
+                      </Text>
+                    </>
+                  )}
+                </View>
+              );
+            },
+          }}
+        />
+      </Tab.Navigator>
+    </>
+  );
+};

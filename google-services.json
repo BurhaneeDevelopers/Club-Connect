@@ -1,21 +1,21 @@
 {
   "project_info": {
-    "project_number": "569526941391",
-    "project_id": "vibe-hotspot",
-    "storage_bucket": "vibe-hotspot.appspot.com"
+    "project_number": "534268671571",
+    "project_id": "vibe-hotspot-new",
+    "storage_bucket": "vibe-hotspot-new.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:569526941391:android:96584cddcabe5858b5e9ba",
+        "mobilesdk_app_id": "1:534268671571:android:0e43a4a041295460cd78a6",
         "android_client_info": {
-          "package_name": "com.vibehotspot.com"
+          "package_name": "host.exp.exponent"
         }
       },
       "oauth_client": [],
       "api_key": [
         {
-          "current_key": "AIzaSyDiSQhh2ycEf_nmDvpNXmxuRfE8yFWjhpA"
+          "current_key": "AIzaSyBVOaEKBaMujuyOqDFd4fHGpHKVWj4kFQk"
         }
       ],
       "services": {
