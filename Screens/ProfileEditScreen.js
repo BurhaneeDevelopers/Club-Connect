@@ -12,10 +12,7 @@ import {
 } from "react-native";
 import React from "react";
 import { SafeAreaView } from "react-native-safe-area-context";
-import {
-  ArrowLeft,
-  Camera,
-} from "iconsax-react-native";
+import { ArrowLeft, Camera } from "iconsax-react-native";
 import GlobalStyles from "../Styles/GlobalStyles";
 import TabBar from "../Components/TabBar";
 import { useState, useEffect } from "react";
@@ -23,9 +20,16 @@ import axios from "axios";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { UserContext } from "../context/UserContext";
 import { useContext } from "react";
+import firestore from "@react-native-firebase/firestore";
+import { getDoc, setDoc, updateDoc } from "firebase/firestore";
+import { getAuth } from "firebase/auth";
+import app from "../firebase";
+import { firebase } from "@react-native-firebase/firestore";
+import useAuth from "../Hooks/useAuth";
+import { Alert } from "react-native";
+import { updateProfile } from "firebase/auth";
 
 const ProfileEditScreen = ({ navigation }) => {
-  const { userData, dispatch } = useContext(UserContext);
   // Active State for inputs
   const [activeInput, setActiveInput] = useState();
 
@@ -38,78 +42,54 @@ const ProfileEditScreen = ({ navigation }) => {
   };
 
   // FETCH EDITED PROFILE DATA
+  const auth = getAuth();
+  const [userData, setUserData] = useState({
+    name: "",
+    userName: "",
+    bio: "",
+    location: "",
+  });
 
-  const [name, setName] = useState("");
-  const [userName, setUserName] = useState("");
-  const [bio, setBio] = useState("");
-  const [location, setLocation] = useState("");
+  const { user } = useAuth();
+  const userDocRef = firestore().collection("users").doc(user.uid);
 
-  const [editedProfileData, setEditedProfileData] = useState({}); // Initialize as an empty object
-  const getUserEditedData = async () => {
-    const userEditedData = await AsyncStorage.getItem("userEditedData");
+  const [userSnapshot, loading, error] = useDocumentData(userDocRef);
 
-    if (userEditedData) {
-      const parsedUserEditedData = JSON.parse(userEditedData);
-      setEditedProfileData(parsedUserEditedData);
+  useEffect(() => {
+    // Load user data when the component mounts
+    if (!loading && userSnapshot) {
+      setUserData(userSnapshot.data());
     }
-  };
+  }, [loading, userSnapshot]);
 
-  useEffect(() => {
-    getUserEditedData();
-    setName(editedProfileData.name);
-    setUserName(editedProfileData.userName);
-    setBio(editedProfileData.bio);
-    setLocation(editedProfileData.location);
-  }, []);
+  // const profileEditRef = firestore().collection("users");
 
-  // FIND ACCESSTOKEN
-  const [accessToken, setAccessToken] = useState("");
-
-  useEffect(() => {
-    // Retrieve the access token from AsyncStorage
-    const getAccessToken = async () => {
-      try {
-        const storedAccessToken = await AsyncStorage.getItem("accessToken");
-        if (storedAccessToken) {
-          setAccessToken(storedAccessToken);
-        }
-      } catch (error) {
-        console.error("Error retrieving access token: ", error);
-      }
-    };
-
-    getAccessToken();
-  }, []);
-
-  const SaveEditChanges = async () => {
-    const userEditedData = { name, userName, bio, location };
-    dispatch({ type: "UPDATE_PROFILE", payload: userEditedData });
-
+  const handleEditProfile = async () => {
     try {
-      // Retrieve the access token from AsyncStorage and use it
-      const userData = await AsyncStorage.getItem("userData");
-
-      if (userData) {
-        const parsedUserData = JSON.parse(userData);
-        const accessToken = parsedUserData.accessToken;
-
-        // Simulate sending the edited profile data to a server
-        console.log(
-          "Sending profile data to server with access token:",
-          accessToken
-        );
-        console.log(userEditedData);
-
-        // Update the userEditedData in AsyncStorage, if needed
-        await AsyncStorage.setItem(
-          "userEditedData",
-          JSON.stringify(userEditedData)
-        );
+      if (!userSnapshot.exists) {
+        // If the user document doesn't exist, create a new document
+        await setDoc(userDocRef, {
+          name: userData.name,
+          userName: userData.userName,
+          bio: userData.bio,
+          location: userData.location,
+        });
       } else {
-        console.error("Access token not found.");
+        // If the user document exists, update the existing document
+        await updateDoc(userDocRef, {
+          name: userData.name,
+          userName: userData.userName,
+          bio: userData.bio,
+          location: userData.location,
+        });
       }
+
+      // Display a success message or navigate to another screen
+      // ...
     } catch (error) {
-      console.error("Error editing user profile: ", error);
+      console.error("Error updating profile:", error);
+      // Display an error message to the user
+      // ...
     }
   };
 
@@ -165,8 +145,8 @@ const ProfileEditScreen = ({ navigation }) => {
               }`}
               onBlur={handleInputBlur}
               onFocus={() => handleInputFocus(1)}
-              value={name}
-              onChangeText={(e) => setName(e)}
+              value={userData ? userData.name : ""}
+              onChangeText={(txt) => setUserData({ ...userData, name: txt })}
               style={GlobalStyles.fontMedium}
             />
           </View>
@@ -189,8 +169,10 @@ const ProfileEditScreen = ({ navigation }) => {
               }`}
               onBlur={handleInputBlur}
               onFocus={() => handleInputFocus(2)}
-              value={userName}
-              onChangeText={(e) => setUserName(e)}
+              value={userData ? userData.userName : ""}
+              onChangeText={(txt) =>
+                setUserData({ ...userData, userName: txt })
+              }
               style={GlobalStyles.fontMedium}
             />
           </View>
@@ -213,8 +195,8 @@ const ProfileEditScreen = ({ navigation }) => {
               }`}
               onBlur={handleInputBlur}
               onFocus={() => handleInputFocus(3)}
-              onChangeText={(e) => setBio(e)}
-              value={bio}
+              value={userData ? userData.bio : ""}
+              onChangeText={(txt) => setUserData({ ...userData, bio: txt })}
               style={GlobalStyles.fontMedium}
             />
           </View>
@@ -237,8 +219,10 @@ const ProfileEditScreen = ({ navigation }) => {
               }`}
               onBlur={handleInputBlur}
               onFocus={() => handleInputFocus(4)}
-              value={location}
-              onChangeText={(e) => setLocation(e)}
+              value={userData ? userData.location : ""}
+              onChangeText={(txt) =>
+                setUserData({ ...userData, location: txt })
+              }
               style={GlobalStyles.fontMedium}
             />
           </View>
@@ -247,7 +231,7 @@ const ProfileEditScreen = ({ navigation }) => {
         <View className="p-5 flex-row justify-center items-center space-x-5">
           <Pressable
             className="w-40 bg-[#FF26B9] active:bg-[#FF26B9]/70 p-3 rounded-lg items-center"
-            onPress={SaveEditChanges}
+            onPress={handleEditProfile}
           >
             <Text
               className="text-[#f9f9f9] text-lg"
@@ -268,7 +252,7 @@ const ProfileEditScreen = ({ navigation }) => {
             </Text>
           </Pressable>
 
-          {console.log([name, userName, bio, location])}
+          {/* {console.log([name, userName, bio, location])} */}
         </View>
       </ScrollView>
     </KeyboardAvoidingView>

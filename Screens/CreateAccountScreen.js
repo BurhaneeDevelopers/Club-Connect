@@ -13,23 +13,31 @@ import React from "react";
 import { SafeAreaView } from "react-native-safe-area-context";
 import GlobalStyles from "../Styles/GlobalStyles";
 import { useState, useEffect } from "react";
-import { ArrowLeft, Apple, Eye } from "iconsax-react-native";
+import { ArrowLeft, Apple, Eye, EyeSlash } from "iconsax-react-native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import { v4 as uuidv4 } from "uuid";
+// import { v4 as uuidv4 } from "uuid";
 import "react-native-get-random-values";
+import Toast from "react-native-toast-message";
+
+// JSON DATA
+import names from "../randomName.json";
+import userNames from "../randomUserName.json";
 
 // FIREBASE
-import { getAuth, createUserWithEmailAndPassword } from "firebase/auth";
-import { firebase } from "firebase";
+import {
+  getAuth,
+  createUserWithEmailAndPassword,
+  // onAuthStateChanged,
+  signInAnonymously,
+} from "firebase/auth";
+import app from "../firebase";
 
 // Components
 import AuthSwitch from "../Components/AuthSwitch";
 
 // SVGS
 import AuthSparklePink from "../assets/Illustrations/AuthSparklePink.svg";
-// import CreateAccount from "../assets/Illustrations/CreateAccount.svg";
 import Google from "../assets/icons/Google.svg";
-import Mail from "../assets/icons/Mail.svg";
 
 const CreateAccountScreen = ({ navigation, route }) => {
   const [refreshing, setRefreshing] = React.useState(false);
@@ -58,20 +66,26 @@ const CreateAccountScreen = ({ navigation, route }) => {
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const [error, setError] = useState(false);
-
-  // useEffect(() => {
-  //   const unsubscribe = auth.onAuthStateChanged(user => {
-  //     if (user) {
-  //       navigation.replace("Index")
-  //     }
-  //   })
-
-  //   return unsubscribe
-  // }, [])
+  const [isPasswordVisible, setIsPasswordVisible] = useState(false);
+  const [isConfirmPasswordVisible, setIsConfirmPasswordVisible] =
+    useState(false);
 
   const auth = getAuth();
 
-  const handleSignUp = async () => {
+  const [toast, setToast] = useState(false);
+
+  const navigateAfterAccountCreated = (navigation) => {
+    setToast(true);
+
+    // Wait for 4-5 seconds and then navigate
+    setTimeout(() => {
+      setToast(false);
+      // Navigate to the next screen (e.g., EmailConfirmation)
+      navigation.navigate("SignIn");
+    }, 4000); // Adjust the timeout as needed
+  };
+
+  const handleCreateAccount = async () => {
     await createUserWithEmailAndPassword(auth, email, password)
       .then((userCredential) => {
         // User created successfully
@@ -80,71 +94,57 @@ const CreateAccountScreen = ({ navigation, route }) => {
         setEmail("");
         setPassword("");
         setConfirmPassword("");
-        // navigation.navigate("EmailConfirmation") Your will get a error (email undefined) pass email prop from here to emailconfirmation to get email there
+        AsyncStorage.setItem("playAnimation", "true");
+        navigateAfterAccountCreated(navigation);
       })
       .catch((error) => {
-        // Handle any errors here
-        console.error("Error creating user:", error);
+        if (error.code === "auth/email-already-in-use") {
+          setError("Email is already in use. Please use a different email.");
+        } else {
+          setError("An error occurred. Please try again.");
+        }
+
+        // console.error("Error creating user:", error);
       });
   };
 
-  // Gotcha Bro Create Account Done!! Check firebase user is created. Try to create a function to send user confirmation Email for OTP!
-
-  // Well done bro
-
- // Function to send a user confirmation email with OTP
-const sendConfirmationEmail = async (userEmail) => {
-  try {
-    const user = firebase.auth().currentUser;
-
-    // Generate a random OTP
-    const otp = Math.floor(1000 + Math.random() * 7000);
-
-    // Send the confirmation email with the OTP
-    await user.sendEmailVerification();
-
-    // Return the OTP
-    return otp;
-  } catch (error) {
-    console.error('Error sending confirmation email:', error);
-    throw error;
-  }
-};
-
-// And this is how we validate the OTP
-const userEmail = 'user@example.com';
-sendConfirmationEmail(userEmail)
-  .then((otp) => {
-    console.log(`Email sent to ${userEmail} with OTP: ${otp}`);
-  })
-  .catch((error) => {
-    console.error('Error:', error);
-  });
-
-// And this is the OTP verification
-
-function OTPVerificationScreen() {
-  const [otp, setOTP] = useState('');
-
-  const handleVerifyOTP = async () => {
+  // signInAnonymously
+  const handleSignInAnonymously = async () => {
     try {
-      // Verify the entered OTP
-      const user = firebase.auth().currentUser;
-      const credential = firebase.auth.EmailAuthProvider.credential(user.email, otp);
-      await user.reauthenticateWithCredential(credential);
+      // Generate a random index to select a name and username from the JSON
+      const randomIndex = Math.floor(Math.random() * 35);
+      const selectedName = names.names[randomIndex];
+      const selectedUsername = userNames.usernames[randomIndex];
 
-      // At this point, the user is verified
-      console.log('User is verified.');
+      await signInAnonymously(auth)
+        .then(() => {
+          // User created successfully
+
+          // Store the selected name and username in local storage
+          AsyncStorage.setItem("Name", selectedName);
+          AsyncStorage.setItem("UserName", selectedUsername);
+
+          AsyncStorage.setItem("playAnimation", "true");
+          navigation.navigate("Index");
+        })
+        .catch((error) => {
+          setError("An error occurred. Please try again.");
+          console.error("Error signing in Anonymously:", error);
+        });
     } catch (error) {
-      console.error('Error verifying OTP:', error);
+      console.error("Error while signing in anonymously:", error);
     }
   };
-  
-}
 
+  const togglePasswordVisibility = () => {
+    // Toggles Password Visibility and Invisibility
+    setIsPasswordVisible(!isPasswordVisible);
+  };
 
-
-
+  const toggleConfirmPasswordVisibility = () => {
+    // Toggles Confirm Password Visibility and Invisibility
+    setIsConfirmPasswordVisible(!isConfirmPasswordVisible);
+  };
 
   const isCreateAccountButtonDisabled =
     email === "" ||
@@ -155,11 +155,11 @@ function OTPVerificationScreen() {
     password !== confirmPassword;
 
   // This function generates a unique AccessToken for a user.
-  const generateAccessToken = () => {
-    // Generate a UUIDv4 token for the user.
-    const accessToken = uuidv4();
-    return accessToken;
-  };
+  // const generateAccessToken = () => {
+  //   // Generate a UUIDv4 token for the user.
+  //   const accessToken = uuidv4();
+  //   return accessToken;
+  // };
 
   // const handleCreateAccount = async () => {
   //   if (!isCreateAccountButtonDisabled) {
@@ -208,11 +208,20 @@ function OTPVerificationScreen() {
         className=""
       >
         <View className="flex-row justify-between w-full items-center my-5">
-          <Pressable onPress={() => navigation.goBack()}>
+          {/* <Pressable onPress={() => navigation.goBack()}>
             <ArrowLeft size="24" color="#f9f9f9" />
-          </Pressable>
+          </Pressable> */}
           <AuthSparklePink width={64} height={64} />
         </View>
+
+        {toast && (
+          <Text
+            className="text-[#101010] p-2 rounded-lg px-10 absolute top-10 bg-[#E9FA00] -right-5"
+            style={GlobalStyles.fontBold}
+          >
+            Yayy! Account Created!
+          </Text>
+        )}
 
         <View className="items-center mt-5 space-y-2">
           <Text
@@ -269,20 +278,34 @@ function OTPVerificationScreen() {
           ) : null}
 
           {/* Password Input  */}
-          <TextInput
-            onChangeText={(text) => setPassword(text)}
-            value={password}
-            placeholder="Enter Your Password..."
-            placeholderTextColor={`${
-              activeInput === 2 ? "#101010" : "#f9f9f9"
-            }`}
-            className={`border border-[#FF26B9] w-full p-3 py-3 rounded-xl text-[#f9f9f9] place text-lg ${
-              activeInput === 2 ? "bg-[#FF26B9] text-[#f9f9f9]" : null
-            }`}
-            onBlur={handleInputBlur}
-            onFocus={() => handleInputFocus(2)}
-            style={GlobalStyles.fontMedium}
-          />
+          <View className="items-end justify-center">
+            <TextInput
+              onChangeText={(text) => setPassword(text)}
+              value={password}
+              secureTextEntry={!isPasswordVisible ? true : false}
+              placeholder="Enter Your Password..."
+              placeholderTextColor={`${
+                activeInput === 2 ? "#101010" : "#f9f9f9"
+              }`}
+              className={`border border-[#FF26B9] w-full p-3 py-3 rounded-xl text-[#f9f9f9] place text-lg ${
+                activeInput === 2 ? "bg-[#FF26B9] text-[#f9f9f9]" : null
+              }`}
+              onBlur={handleInputBlur}
+              onFocus={() => handleInputFocus(2)}
+              style={GlobalStyles.fontMedium}
+            />
+
+            <View className="absolute px-5">
+              <Pressable onPress={togglePasswordVisibility}>
+                {isPasswordVisible ? (
+                  <Eye size="28" color="#f9f9f9" />
+                ) : (
+                  <EyeSlash size="28" color="#f9f9f9" />
+                )}
+              </Pressable>
+            </View>
+          </View>
+
           {/* If password is empty or is less than 8 characters  */}
           {password !== "" && password.length < 8 ? (
             <>
@@ -293,20 +316,33 @@ function OTPVerificationScreen() {
           ) : null}
 
           {/* Confirm Password Input  */}
-          <TextInput
-            onChangeText={(text) => setConfirmPassword(text)}
-            value={confirmPassword}
-            placeholder="Confirm Your Password..."
-            placeholderTextColor={`${
-              activeInput === 3 ? "#101010" : "#f9f9f9"
-            }`}
-            className={`border border-[#FF26B9] w-full p-3 py-3 rounded-xl text-[#f9f9f9] text-lg ${
-              activeInput === 3 ? "bg-[#FF26B9] text-[#f9f9f9]" : null
-            }`}
-            onBlur={handleInputBlur}
-            onFocus={() => handleInputFocus(3)}
-            style={GlobalStyles.fontMedium}
-          />
+          <View className="items-end justify-center">
+            <TextInput
+              onChangeText={(text) => setConfirmPassword(text)}
+              value={confirmPassword}
+              secureTextEntry={!isConfirmPasswordVisible ? true : false}
+              placeholder="Confirm Your Password..."
+              placeholderTextColor={`${
+                activeInput === 3 ? "#101010" : "#f9f9f9"
+              }`}
+              className={`border border-[#FF26B9] w-full p-3 py-3 rounded-xl text-[#f9f9f9] text-lg ${
+                activeInput === 3 ? "bg-[#FF26B9] text-[#f9f9f9]" : null
+              }`}
+              onBlur={handleInputBlur}
+              onFocus={() => handleInputFocus(3)}
+              style={GlobalStyles.fontMedium}
+            />
+
+            <View className="absolute px-5">
+              <Pressable onPress={toggleConfirmPasswordVisibility}>
+                {isConfirmPasswordVisible ? (
+                  <Eye size="28" color="#f9f9f9" />
+                ) : (
+                  <EyeSlash size="28" color="#f9f9f9" />
+                )}
+              </Pressable>
+            </View>
+          </View>
           {/* If confirm Password is not matching with password and it is empty  */}
           {confirmPassword !== "" && password !== confirmPassword ? (
             <>
@@ -322,7 +358,7 @@ function OTPVerificationScreen() {
                 className="text-[#ff0000] text-center mt-3 text-base"
                 style={GlobalStyles.fontMedium}
               >
-                Invalid Email or Password
+                {error}
               </Text>
             </>
           )}
@@ -334,7 +370,7 @@ function OTPVerificationScreen() {
                 ? "bg-[#FF26B9]/70"
                 : "bg-[#FF26B9] active:bg-[#FF26B9]/90"
             }`}
-            onPress={handleSignUp}
+            onPress={handleCreateAccount}
           >
             <Text
               className="text-[#f9f9f9] text-lg"
@@ -363,7 +399,7 @@ function OTPVerificationScreen() {
           </View>
           <Pressable
             className="bg-[#f9f9f9] rounded-full p-4"
-            onPress={() => navigation.navigate("Index")}
+            onPress={handleSignInAnonymously}
           >
             <Eye size="32" color="#101010" variant="Bold" />
           </Pressable>

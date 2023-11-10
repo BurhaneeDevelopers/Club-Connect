@@ -263,7 +263,7 @@ const CafeExploreScreen = ({ navigation }) => {
         {/* Recommended CARDS  */}
         <View className="py-5">
           <View className="px-5 pb-4">
-            <SectionTitles title="Recommended For you!" />
+            <SectionTitles title="All Places In Delhi!" />
           </View>
           <ScrollView horizontal={true} showsHorizontalScrollIndicator={false}>
             <View className="px-5 flex-row items-center justify-center">
@@ -368,6 +368,9 @@ const NearestPickCard = ({
           </View>
         </View>
       </Pressable>
+
+
+      {/* TODO:  */}
     </>
   );
 };

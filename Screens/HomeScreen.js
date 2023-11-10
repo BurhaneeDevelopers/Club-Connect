@@ -9,7 +9,7 @@ import {
   ActivityIndicator,
 } from "react-native";
 import React from "react";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { SafeAreaView } from "react-native-safe-area-context";
 import HotDealsSlider from "../Components/HotDealsSlider";
 import {
@@ -25,6 +25,7 @@ import {
 import axios from "axios";
 import Banner1 from "../assets/Banners/Banner-1.svg";
 import HR from "../Components/HR";
+import LottieView from "lottie-react-native";
 
 // Components
 import SectionTitles from "../Components/SectionTitles";
@@ -34,7 +35,33 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 // FONTS
 import GlobalStyles from "../Styles/GlobalStyles";
 
-const HomeScreen = ({ navigation }) => {
+const HomeScreen = ({ navigation, route }) => {
+  // FIRE CONFETTI when user signs In for the first Time anonymously
+  const [animationPlayed, setAnimationPlayed] = useState(false);
+  const animation = useRef(null);
+
+  const handleAnimationFinish = () => {
+    setAnimationPlayed(true);
+  };
+
+  useEffect(() => {
+    // Check if the animation has already been played
+    if (!animationPlayed) {
+      AsyncStorage.getItem("playAnimation")
+        .then((playAnimation) => {
+          if (playAnimation === "true") {
+            // Play the animation
+            animation.current?.play();
+
+            AsyncStorage.setItem("playAnimation", "false");
+          }
+        })
+        .catch((error) => {
+          console.error("Error checking AsyncStorage:", error);
+        });
+    }
+  }, [animationPlayed]);
+
   // Refresh API when user reloads
   const [refreshing, setRefreshing] = React.useState(false);
   const [loading, setLoading] = useState(false);
@@ -130,6 +157,33 @@ const HomeScreen = ({ navigation }) => {
     }
   }, [navigation]);
 
+  // Display Dummy Random UserName and Name when username not set
+  const [name, setName] = useState("");
+  const [userName, setUserName] = useState("");
+
+  useEffect(() => {
+    // Retrieve the Name and UserName from AsyncStorage
+    AsyncStorage.getItem("Name")
+      .then((storedName) => {
+        if (storedName) {
+          setName(storedName);
+        }
+      })
+      .catch((error) => {
+        console.error("Error retrieving Name:", error);
+      });
+
+    AsyncStorage.getItem("UserName")
+      .then((storedUserName) => {
+        if (storedUserName) {
+          setUserName(storedUserName);
+        }
+      })
+      .catch((error) => {
+        console.error("Error retrieving UserName:", error);
+      });
+  }, []);
+
   return (
     <ScrollView
       refreshControl={
@@ -137,6 +191,17 @@ const HomeScreen = ({ navigation }) => {
       }
       className=""
     >
+      <LottieView
+        ref={animation}
+        loop={false}
+        autoPlay={false}
+        onAnimationFinish={handleAnimationFinish}
+        className={`w-[700px] h-[1000px] absolute left-0 items-start justify-start top-0 -translate-x-20 ${
+          !animationPlayed ? "z-50" : "z-0"
+        }`}
+        source={require("../assets/Illustrations/confetti.json")}
+      />
+
       <SafeAreaView className="h-full w-full">
         <View className="flex-row justify-between items-center p-5">
           {/* USERNAME AND SEARCH MENU  */}
@@ -154,10 +219,10 @@ const HomeScreen = ({ navigation }) => {
                 className="text-xl text-[#FF26B9]"
                 style={GlobalStyles.fontSemiBold}
               >
-                {editedProfileData?.name || "Loading.."}
+                {name || <View className="bg-gray-400 w-44 h-2 rounded" />}
               </Text>
               <Text className="text-[#f9f9f9]" style={GlobalStyles.fontMedium}>
-                {editedProfileData?.userName || "Loading.."}
+                {userName || <View className="bg-gray-500 w-32 h-2 rounded" />}
               </Text>
             </View>
           </Pressable>

@@ -3,7 +3,8 @@ import React from "react";
 import { SafeAreaView } from "react-native-safe-area-context";
 import GlobalStyles from "../Styles/GlobalStyles";
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import { useEffect } from "react";
+import { useEffect, useRef } from "react";
+import LottieView from "lottie-react-native";
 
 const WelcomeScreen = ({ navigation }) => {
   useEffect(() => {
@@ -14,12 +15,24 @@ const WelcomeScreen = ({ navigation }) => {
       navigation.navigate("Index");
     }
   }, [navigation]);
+
+  const animation = useRef(null);
+
+  useEffect(() => {
+    animation.current?.play();
+  }, []);
+
   return (
     <SafeAreaView className="bg-[#101010] h-screen w-full justify-end items-center mx-auto p-10">
-      <View className="mb-10">
-        <Image
+      <View className="mb-10 ">
+        {/* <Image
           source={require("../assets/Illustrations/CreateAccount.png")}
           className="w-96 h-64"
+        /> */}
+        <LottieView
+          ref={animation}
+          className="w-full"
+          source={require("../assets/Illustrations/Dancing-Bunnies.json")}
         />
       </View>
 

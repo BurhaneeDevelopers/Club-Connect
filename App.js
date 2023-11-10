@@ -90,69 +90,8 @@ export default function App({ navigation }) {
                 />
 
                 <Stack.Navigator>
-                  
-                  {user ? (
-                    (<><Stack.Screen
-                      name="Index"
-                      options={{
-                        headerShown: false,
-                        ...TransitionPresets.SlideFromRightIOS,
-                      }}
-                    >
-                      {(props) => <StackScreen {...props} />}
-                    </Stack.Screen>
-                    <Stack.Screen
-                      name="Profile"
-                      component={ProfileScreen}
-                      options={{
-                        headerShown: false,
-                        ...TransitionPresets.SlideFromRightIOS,
-                      }}
-                    />
-                    <Stack.Screen
-                      name="ProfileEdit"
-                      component={ProfileEditScreen}
-                      options={{
-                        headerShown: false,
-                        ...TransitionPresets.SlideFromRightIOS,
-                      }}
-                    />
-                    <Stack.Screen
-                      name="Setting"
-                      component={SettingScreen}
-                      options={{
-                        headerShown: false,
-                        ...TransitionPresets.SlideFromRightIOS,
-                      }}
-                    />
-                    <Stack.Screen
-                      name="Wallet"
-                      component={WalletScreen}
-                      options={{
-                        headerShown: false,
-                        ...TransitionPresets.SlideFromRightIOS,
-                      }}
-                    />
-                    <Stack.Screen
-                      name="CafeExplore"
-                      component={CafeExploreScreen}
-                      options={{
-                        headerShown: false,
-                        ...TransitionPresets.SlideFromRightIOS,
-                      }}
-                    />
-                    <Stack.Screen
-                      name="CafeDetails"
-                      component={CafeDetailsScreen}
-                      options={{
-                        headerShown: false,
-                        ...TransitionPresets.SlideFromRightIOS,
-                      }}
-                    />
-                    </>)
-                  ) : (
+                  {!user ? (
                     <>
-                      
                       <Stack.Screen
                         name="Welcome"
                         component={WelcomeScreen}
@@ -161,6 +100,7 @@ export default function App({ navigation }) {
                           ...TransitionPresets.SlideFromRightIOS,
                         }}
                       />
+
                       <Stack.Screen
                         name="SignIn"
                         component={SignInScreen}
@@ -202,7 +142,65 @@ export default function App({ navigation }) {
                         }}
                       />
                     </>
-                  )}
+                  ) : null}
+
+                  <Stack.Screen
+                    name="Index"
+                    options={{
+                      headerShown: false,
+                      ...TransitionPresets.SlideFromRightIOS,
+                    }}
+                  >
+                    {(props) => <StackScreen {...props} />}
+                  </Stack.Screen>
+                  <Stack.Screen
+                    name="Profile"
+                    component={ProfileScreen}
+                    options={{
+                      headerShown: false,
+                      ...TransitionPresets.SlideFromRightIOS,
+                    }}
+                  />
+                  <Stack.Screen
+                    name="ProfileEdit"
+                    component={ProfileEditScreen}
+                    options={{
+                      headerShown: false,
+                      ...TransitionPresets.SlideFromRightIOS,
+                    }}
+                  />
+                  <Stack.Screen
+                    name="Setting"
+                    component={SettingScreen}
+                    options={{
+                      headerShown: false,
+                      ...TransitionPresets.SlideFromRightIOS,
+                    }}
+                  />
+                  <Stack.Screen
+                    name="Wallet"
+                    component={WalletScreen}
+                    options={{
+                      headerShown: false,
+                      ...TransitionPresets.SlideFromRightIOS,
+                    }}
+                  />
+                  <Stack.Screen
+                    name="CafeExplore"
+                    component={CafeExploreScreen}
+                    options={{
+                      headerShown: false,
+                      ...TransitionPresets.SlideFromRightIOS,
+                    }}
+                  />
+                  <Stack.Screen
+                    name="CafeDetails"
+                    component={CafeDetailsScreen}
+                    options={{
+                      headerShown: false,
+                      ...TransitionPresets.SlideFromRightIOS,
+                    }}
+                  />
                 </Stack.Navigator>
               </AuthProvider>
             </NavigationContainer>
