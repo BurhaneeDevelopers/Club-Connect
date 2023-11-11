@@ -17,8 +17,16 @@ import {
   TransitionPresets,
 } from "@react-navigation/stack";
 
+// Contexts
 import { UserProvider } from "./context/UserContext";
 import { UserContextProvider } from "./context/UserContextProvider";
+import {
+  UserDetailsProvider,
+  UserDetailsContext,
+} from "./context/UserDetailsContext";
+import { useContext } from "react";
+import { onAuthStateChanged } from "firebase/auth";
+import { getAuth } from "firebase/auth";
 
 // ICONS
 import Castle from "./assets/icons/Castle.svg";
@@ -74,137 +82,149 @@ export default function App({ navigation }) {
     "Livvic-Light": require("./assets/fonts/Livvic-Light.ttf"),
   });
 
-  const { user } = useAuth();
+  // const { user } = useAuth();
+  const [islogged, setisLogged] = useState(false);
+  const checkIfLoggedIn = async () => {
+    try {
+      const data = await AsyncStorage.getItem("hasSignedIn");
+      setisLogged(data);
+    } catch (error) {
+      navigation.navigate("SignIn");
+    }
+  };
+
+  useEffect(() => {
+    checkIfLoggedIn();
+  }, []);
+
   if (fontsLoaded) {
     return (
       <>
         <UserProvider>
-          <UserContextProvider>
-            <NavigationContainer theme={navTheme}>
-              {/* HOC - Higher Order Component */}
-              <AuthProvider>
-                <StatusBar
-                  animated={true}
-                  backgroundColor="#101010"
-                  // barStyle="dark-content"
-                />
+          <UserDetailsProvider>
+            <UserContextProvider>
+              <NavigationContainer theme={navTheme}>
+                {/* HOC - Higher Order Component */}
+                <AuthProvider>
+                  <StatusBar
+                    animated={true}
+                    backgroundColor="#101010"
+                    // barStyle="dark-content"
+                  />
 
-                <Stack.Navigator>
-                  {!user ? (
-                    <>
-                      <Stack.Screen
-                        name="Welcome"
-                        component={WelcomeScreen}
-                        options={{
-                          headerShown: false,
-                          ...TransitionPresets.SlideFromRightIOS,
-                        }}
-                      />
+                  <Stack.Navigator>
+                    <Stack.Screen
+                      name="Welcome"
+                      component={WelcomeScreen}
+                      options={{
+                        headerShown: false,
+                        ...TransitionPresets.SlideFromRightIOS,
+                      }}
+                    />
 
-                      <Stack.Screen
-                        name="SignIn"
-                        component={SignInScreen}
-                        options={{
-                          headerShown: false,
-                          ...TransitionPresets.SlideFromRightIOS,
-                        }}
-                      />
-                      <Stack.Screen
-                        name="CreateAccount"
-                        component={CreateAccountScreen}
-                        options={{
-                          headerShown: false,
-                          ...TransitionPresets.SlideFromRightIOS,
-                        }}
-                      />
-                      <Stack.Screen
-                        name="EmailConfirmation"
-                        component={EmailConfirmation}
-                        options={{
-                          headerShown: false,
-                          ...TransitionPresets.SlideFromRightIOS,
-                        }}
-                      />
-                      <Stack.Screen
-                        name="LocationPick"
-                        component={LocationPickScreen}
-                        options={{
-                          headerShown: false,
-                          ...TransitionPresets.SlideFromRightIOS,
-                        }}
-                      />
-                      <Stack.Screen
-                        name="CitiesList"
-                        component={CitiesListScreen}
-                        options={{
-                          headerShown: false,
-                          ...TransitionPresets.SlideFromRightIOS,
-                        }}
-                      />
-                    </>
-                  ) : null}
+                    <Stack.Screen
+                      name="SignIn"
+                      component={SignInScreen}
+                      options={{
+                        headerShown: false,
+                        ...TransitionPresets.SlideFromRightIOS,
+                      }}
+                    />
+                    <Stack.Screen
+                      name="CreateAccount"
+                      component={CreateAccountScreen}
+                      options={{
+                        headerShown: false,
+                        ...TransitionPresets.SlideFromRightIOS,
+                      }}
+                    />
+                    <Stack.Screen
+                      name="EmailConfirmation"
+                      component={EmailConfirmation}
+                      options={{
+                        headerShown: false,
+                        ...TransitionPresets.SlideFromRightIOS,
+                      }}
+                    />
+                    <Stack.Screen
+                      name="LocationPick"
+                      component={LocationPickScreen}
+                      options={{
+                        headerShown: false,
+                        ...TransitionPresets.SlideFromRightIOS,
+                      }}
+                    />
+                    <Stack.Screen
+                      name="CitiesList"
+                      component={CitiesListScreen}
+                      options={{
+                        headerShown: false,
+                        ...TransitionPresets.SlideFromRightIOS,
+                      }}
+                    />
 
-                  <Stack.Screen
-                    name="Index"
-                    options={{
-                      headerShown: false,
-                      ...TransitionPresets.SlideFromRightIOS,
-                    }}
-                  >
-                    {(props) => <StackScreen {...props} />}
-                  </Stack.Screen>
-                  <Stack.Screen
-                    name="Profile"
-                    component={ProfileScreen}
-                    options={{
-                      headerShown: false,
-                      ...TransitionPresets.SlideFromRightIOS,
-                    }}
-                  />
-                  <Stack.Screen
-                    name="ProfileEdit"
-                    component={ProfileEditScreen}
-                    options={{
-                      headerShown: false,
-                      ...TransitionPresets.SlideFromRightIOS,
-                    }}
-                  />
-                  <Stack.Screen
-                    name="Setting"
-                    component={SettingScreen}
-                    options={{
-                      headerShown: false,
-                      ...TransitionPresets.SlideFromRightIOS,
-                    }}
-                  />
-                  <Stack.Screen
-                    name="Wallet"
-                    component={WalletScreen}
-                    options={{
-                      headerShown: false,
-                      ...TransitionPresets.SlideFromRightIOS,
-                    }}
-                  />
-                  <Stack.Screen
-                    name="CafeExplore"
-                    component={CafeExploreScreen}
-                    options={{
-                      headerShown: false,
-                      ...TransitionPresets.SlideFromRightIOS,
-                    }}
-                  />
-                  <Stack.Screen
-                    name="CafeDetails"
-                    component={CafeDetailsScreen}
-                    options={{
-                      headerShown: false,
-                      ...TransitionPresets.SlideFromRightIOS,
-                    }}
-                  />
-                </Stack.Navigator>
-              </AuthProvider>
-            </NavigationContainer>
-          </UserContextProvider>
+                    <Stack.Screen
+                      name="Index"
+                      options={{
+                        headerShown: false,
+                        ...TransitionPresets.SlideFromRightIOS,
+                      }}
+                    >
+                      {(props) => <StackScreen {...props} />}
+                    </Stack.Screen>
+                    <Stack.Screen
+                      name="Profile"
+                      component={ProfileScreen}
+                      options={{
+                        headerShown: false,
+                        ...TransitionPresets.SlideFromRightIOS,
+                      }}
+                    />
+                    <Stack.Screen
+                      name="ProfileEdit"
+                      component={ProfileEditScreen}
+                      options={{
+                        headerShown: false,
+                        ...TransitionPresets.SlideFromRightIOS,
+                      }}
+                    />
+                    <Stack.Screen
+                      name="Setting"
+                      component={SettingScreen}
+                      options={{
+                        headerShown: false,
+                        ...TransitionPresets.SlideFromRightIOS,
+                      }}
+                    />
+                    <Stack.Screen
+                      name="Wallet"
+                      component={WalletScreen}
+                      options={{
+                        headerShown: false,
+                        ...TransitionPresets.SlideFromRightIOS,
+                      }}
+                    />
+                    <Stack.Screen
+                      name="CafeExplore"
+                      component={CafeExploreScreen}
+                      options={{
+                        headerShown: false,
+                        ...TransitionPresets.SlideFromRightIOS,
+                      }}
+                    />
+                    <Stack.Screen
+                      name="CafeDetails"
+                      component={CafeDetailsScreen}
+                      options={{
+                        headerShown: false,
+                        ...TransitionPresets.SlideFromRightIOS,
+                      }}
+                    />
+                  </Stack.Navigator>
+                </AuthProvider>
+              </NavigationContainer>
+            </UserContextProvider>
+          </UserDetailsProvider>
         </UserProvider>
       </>
     );

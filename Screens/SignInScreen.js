@@ -17,6 +17,11 @@ import { useState } from "react";
 import { ArrowLeft, Apple, Eye, EyeSlash } from "iconsax-react-native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
+// Context
+import { useContext } from "react";
+import { UserDetailsContext } from "../context/UserDetailsContext";
+import useAuth from "../Hooks/useAuth";
+
 // JSON Data
 import names from "../randomName.json";
 import userNames from "../randomUserName.json";
@@ -36,8 +41,6 @@ import app from "../firebase";
 import AuthSparklePink from "../assets/Illustrations/AuthSparklePink.svg";
 import Google from "../assets/icons/Google.svg";
 import Mail from "../assets/icons/Mail.svg";
-import useAuth from "../Hooks/useAuth";
-import { initializeAuth } from "firebase/auth";
 
 const SignInScreen = ({ navigation, route }) => {
   const [refreshing, setRefreshing] = React.useState(false);
@@ -87,13 +90,19 @@ const SignInScreen = ({ navigation, route }) => {
     }, 1000); // Adjust the timeout as needed
   };
 
+  const { fetchUserDetails } = useContext(UserDetailsContext);
+
   const handleSignIn = async () => {
     setLoading(true);
     await signInWithEmailAndPassword(auth, email, password)
       .then((userCredentials) => {
         const user = userCredentials.user;
+        if (user) {
+          fetchUserDetails(auth.currentUser.uid);
+        }
         console.log("Logged in with:", user.email);
         setError(false);
+        AsyncStorage.setItem("hasSignedIn", "true");
         AsyncStorage.setItem("playAnimation", "true");
         setLoading(false);
         navigateAfterAccountCreated(navigation);
@@ -103,34 +112,6 @@ const SignInScreen = ({ navigation, route }) => {
         setLoading(false);
       });
   };
-
-  // const handleSignIn = async () => {
-  // Retrieve user data from AsyncStorage
-  //   try {
-  //     const userData = await AsyncStorage.getItem("userData");
-  //     if (userData) {
-  //       const parsedUserData = JSON.parse(userData);
-  //       const accessToken = parsedUserData.accessToken;
-  //       if (parsedUserData.email === email) {
-  //         // Check if the provided access token matches the stored access token
-  //         if (parsedUserData.accessToken === accessToken) {
-  //           // User is signed in successfully
-  //           // When the user successfully signs in, set a user session or flag
-  //           await AsyncStorage.setItem("hasSignedIn", "true");
-  //           navigation.navigate("Index");
-  //         } else {
-  //           setError(!error);
-  //         }
-  //       } else {
-  //         setError(!error);
-  //       }
-  //     } else {
-  //       setError(!error);
-  //     }
-  //   } catch (error) {
-  //     console.error("Error while signing in: ", error);
-  //   }
-  // };
 
   // signInAnonymously
   const handleSignInAnonymously = async () => {
@@ -192,7 +173,7 @@ const SignInScreen = ({ navigation, route }) => {
         )}
 
         {loading ? (
-          <View className="p-2 rounded-lg px-10 items-start justify-start absolute top-10 bg-[#E9FA00] -right-5">
+          <View className="p-2 rounded-lg px-2 items-start justify-start absolute top-10 bg-[#E9FA00] right-0">
             <ActivityIndicator color="#101010" size={24} />
           </View>
         ) : null}

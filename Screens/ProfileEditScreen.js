@@ -16,18 +16,17 @@ import { ArrowLeft, Camera } from "iconsax-react-native";
 import GlobalStyles from "../Styles/GlobalStyles";
 import TabBar from "../Components/TabBar";
 import { useState, useEffect } from "react";
-import axios from "axios";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import firestore from "@react-native-firebase/firestore";
+import { getDoc, setDoc, updateDoc, doc } from "firebase/firestore";
+import { getAuth } from "firebase/auth";
+import { db } from "../firebase";
+import useAuth from "../Hooks/useAuth";
+
+// Contexts
 import { UserContext } from "../context/UserContext";
 import { useContext } from "react";
-import firestore from "@react-native-firebase/firestore";
-import { getDoc, setDoc, updateDoc } from "firebase/firestore";
-import { getAuth } from "firebase/auth";
-import app from "../firebase";
-import { firebase } from "@react-native-firebase/firestore";
-import useAuth from "../Hooks/useAuth";
-import { Alert } from "react-native";
-import { updateProfile } from "firebase/auth";
+import { UserDetailsContext } from "../context/UserDetailsContext";
 
 const ProfileEditScreen = ({ navigation }) => {
   // Active State for inputs
@@ -42,54 +41,67 @@ const ProfileEditScreen = ({ navigation }) => {
   };
 
   // FETCH EDITED PROFILE DATA
+  const [name, setName] = useState(null);
+  const [userName, setUserName] = useState(null);
+  const [bio, setBio] = useState(null);
+  const [location, setLocation] = useState(null);
+  const [success, setSuccess] = useState(false);
+  const { userDetails, setUserDetails } = useContext(UserDetailsContext);
+
   const auth = getAuth();
-  const [userData, setUserData] = useState({
-    name: "",
-    userName: "",
-    bio: "",
-    location: "",
-  });
-
-  const { user } = useAuth();
-  const userDocRef = firestore().collection("users").doc(user.uid);
-
-  const [userSnapshot, loading, error] = useDocumentData(userDocRef);
-
   useEffect(() => {
-    // Load user data when the component mounts
-    if (!loading && userSnapshot) {
-      setUserData(userSnapshot.data());
-    }
-  }, [loading, userSnapshot]);
+    const cleanup = () => {
+      // Reset state when component unmounts
+      setName(null);
+      setUserName(null);
+      setBio(null);
+      setLocation(null);
+      setSuccess(false);
+    };
 
-  // const profileEditRef = firestore().collection("users");
+    const ReadData = async () => {
+      const docRef = doc(db, "users", auth.currentUser.uid);
+      const docSnap = await getDoc(docRef);
 
-  const handleEditProfile = async () => {
-    try {
-      if (!userSnapshot.exists) {
-        // If the user document doesn't exist, create a new document
-        await setDoc(userDocRef, {
-          name: userData.name,
-          userName: userData.userName,
-          bio: userData.bio,
-          location: userData.location,
-        });
-      } else {
-        // If the user document exists, update the existing document
-        await updateDoc(userDocRef, {
-          name: userData.name,
-          userName: userData.userName,
-          bio: userData.bio,
-          location: userData.location,
-        });
+      if (docSnap.exists()) {
+        setName(docSnap.data().name);
+        setUserName(docSnap.data().userName);
+        setBio(docSnap.data().bio);
+        setLocation(docSnap.data().location);
       }
+    };
 
-      // Display a success message or navigate to another screen
-      // ...
+    ReadData();
+
+    // Cleanup function will be called when the component unmounts
+    return cleanup;
+  }, [auth.currentUser.uid]);
+
+
+  // Save data in DB and in CONTEXT
+  const handleSaveData = async () => {
+    try {
+      await setDoc(doc(db, "users", auth.currentUser.uid), {
+        name: name,
+        userName: userName,
+        bio: bio,
+        location: location,
+      });
+
+      // Update the context with the new user details
+      setUserDetails({
+        name: name,
+        userName: userName,
+        bio: bio,
+        location: location,
+      });
+
+      setSuccess(true);
+
+      // Log the updated user details after setting the state
+      console.log(userDetails);
     } catch (error) {
-      console.error("Error updating profile:", error);
-      // Display an error message to the user
-      // ...
+      console.log(error);
     }
   };
 
@@ -145,8 +157,8 @@ const ProfileEditScreen = ({ navigation }) => {
               }`}
               onBlur={handleInputBlur}
               onFocus={() => handleInputFocus(1)}
-              value={userData ? userData.name : ""}
-              onChangeText={(txt) => setUserData({ ...userData, name: txt })}
+              value={name}
+              onChangeText={(text) => setName(text)}
               style={GlobalStyles.fontMedium}
             />
           </View>
@@ -169,10 +181,8 @@ const ProfileEditScreen = ({ navigation }) => {
               }`}
               onBlur={handleInputBlur}
               onFocus={() => handleInputFocus(2)}
-              value={userData ? userData.userName : ""}
-              onChangeText={(txt) =>
-                setUserData({ ...userData, userName: txt })
-              }
+              value={userName}
+              onChangeText={(text) => setUserName(text)}
               style={GlobalStyles.fontMedium}
             />
           </View>
@@ -195,8 +205,8 @@ const ProfileEditScreen = ({ navigation }) => {
               }`}
               onBlur={handleInputBlur}
               onFocus={() => handleInputFocus(3)}
-              value={userData ? userData.bio : ""}
-              onChangeText={(txt) => setUserData({ ...userData, bio: txt })}
+              value={bio}
+              onChangeText={(text) => setBio(text)}
               style={GlobalStyles.fontMedium}
             />
           </View>
@@ -219,19 +229,26 @@ const ProfileEditScreen = ({ navigation }) => {
               }`}
               onBlur={handleInputBlur}
               onFocus={() => handleInputFocus(4)}
-              value={userData ? userData.location : ""}
-              onChangeText={(txt) =>
-                setUserData({ ...userData, location: txt })
-              }
+              value={location}
+              onChangeText={(text) => setLocation(text)}
               style={GlobalStyles.fontMedium}
             />
           </View>
         </View>
 
+        {success && (
+          <Text
+            className="text-[#E9FA00] px-5 mt-2"
+            style={GlobalStyles.fontMedium}
+          >
+            Hoorraayy!! Profile Saved Successfuly!
+          </Text>
+        )}
+
         <View className="p-5 flex-row justify-center items-center space-x-5">
           <Pressable
             className="w-40 bg-[#FF26B9] active:bg-[#FF26B9]/70 p-3 rounded-lg items-center"
-            onPress={handleEditProfile}
+            onPress={handleSaveData}
           >
             <Text
               className="text-[#f9f9f9] text-lg"
@@ -251,8 +268,6 @@ const ProfileEditScreen = ({ navigation }) => {
               Cancel
             </Text>
           </Pressable>
-
-          {/* {console.log([name, userName, bio, location])} */}
         </View>
       </ScrollView>
     </KeyboardAvoidingView>

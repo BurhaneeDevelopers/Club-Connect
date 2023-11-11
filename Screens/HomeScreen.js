@@ -27,10 +27,13 @@ import Banner1 from "../assets/Banners/Banner-1.svg";
 import HR from "../Components/HR";
 import LottieView from "lottie-react-native";
 
+// Contexts
+import { useContext } from "react";
+import { UserDetailsContext } from "../context/UserDetailsContext";
+
 // Components
 import SectionTitles from "../Components/SectionTitles";
 import AsyncStorage from "@react-native-async-storage/async-storage";
-// import HotDealsSlider from "../Components/HotDealsSlider";
 
 // FONTS
 import GlobalStyles from "../Styles/GlobalStyles";
@@ -65,14 +68,6 @@ const HomeScreen = ({ navigation, route }) => {
   // Refresh API when user reloads
   const [refreshing, setRefreshing] = React.useState(false);
   const [loading, setLoading] = useState(false);
-
-  // const onRefresh = React.useCallback(() => {
-  //   setRefreshing(true);
-  //   navigation.replace("Index");
-  //   setTimeout(() => {
-  //     setRefreshing(false);
-  //   }, 1000);
-  // }, []);
 
   const [hotspotImages, setHotspotImages] = useState([]);
   UNSPLASH_ACCESS_KEY = "6KEJery9EMaZFtuiQjELpzqV5sgo9vVWqm52b_gKYZ4";
@@ -136,19 +131,6 @@ const HomeScreen = ({ navigation, route }) => {
     getUserEditedData();
   }, []);
 
-  // useEffect(() => {
-  //   AsyncStorage.getItem("hasSignedIn")
-  //     .then((hasSignedIn) => {
-  //       if (!hasSignedIn) {
-  //         // Redirect to the sign-in page if the user hasn't signed in
-  //         navigation.navigate("CreateAccount");
-  //       }
-  //     })
-  //     .catch((error) => {
-  //       console.error("Error reading AsyncStorage:", error);
-  //     });
-  // }, [navigation]);
-
   useEffect(() => {
     const hasSignedIn = AsyncStorage.getItem("hasSignedIn");
     if (!hasSignedIn) {
@@ -184,6 +166,13 @@ const HomeScreen = ({ navigation, route }) => {
       });
   }, []);
 
+  // Fetch UserName and other Details when user edits his profile
+  const { userDetails } = useContext(UserDetailsContext);
+
+  // useEffect(() => {
+  //   fetchUserDetails();
+  // }, []);
+
   return (
     <ScrollView
       refreshControl={
@@ -191,16 +180,18 @@ const HomeScreen = ({ navigation, route }) => {
       }
       className=""
     >
-      <LottieView
-        ref={animation}
-        loop={false}
-        autoPlay={false}
-        onAnimationFinish={handleAnimationFinish}
-        className={`w-[700px] h-[1000px] absolute left-0 items-start justify-start top-0 -translate-x-20 ${
-          !animationPlayed ? "z-50" : "z-0"
-        }`}
-        source={require("../assets/Illustrations/confetti.json")}
-      />
+      {!animationPlayed && (
+        <LottieView
+          ref={animation}
+          loop={false}
+          autoPlay={false}
+          onAnimationFinish={handleAnimationFinish}
+          className={`w-[700px] h-[1000px] absolute left-0 items-start justify-start top-0 -translate-x-20 ${
+            !animationPlayed ? "" : ""
+          }`}
+          source={require("../assets/Illustrations/confetti.json")}
+        />
+      )}
 
       <SafeAreaView className="h-full w-full">
         <View className="flex-row justify-between items-center p-5">
@@ -219,10 +210,15 @@ const HomeScreen = ({ navigation, route }) => {
                 className="text-xl text-[#FF26B9]"
                 style={GlobalStyles.fontSemiBold}
               >
-                {name || <View className="bg-gray-400 w-44 h-2 rounded" />}
+                {userDetails?.name || name || (
+                  <View className="bg-gray-400 w-44 h-2 rounded" />
+                )}
+                {/* {console.log(userDetails?.name)} */}
               </Text>
               <Text className="text-[#f9f9f9]" style={GlobalStyles.fontMedium}>
-                {userName || <View className="bg-gray-500 w-32 h-2 rounded" />}
+                {userDetails?.userName || userName || (
+                  <View className="bg-gray-500 w-32 h-2 rounded" />
+                )}
               </Text>
             </View>
           </Pressable>
