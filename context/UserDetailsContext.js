@@ -12,6 +12,7 @@ export const UserDetailsProvider = ({ children }) => {
     userName: null,
     bio: null,
     location: null,
+    profileImage: null,
   });
 
   const auth = getAuth();

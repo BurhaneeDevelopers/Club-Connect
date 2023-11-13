@@ -81,20 +81,20 @@ const ProfileScreen = ({ navigation }) => {
   };
 
   // Display Dummy Random UserName and Name when username not set
-  const [name, setName] = useState("");
+  // const [name, setName] = useState("");
   const [userName, setUserName] = useState("");
 
   useEffect(() => {
     // Retrieve the Name and UserName from AsyncStorage
-    AsyncStorage.getItem("Name")
-      .then((storedName) => {
-        if (storedName) {
-          setName(storedName);
-        }
-      })
-      .catch((error) => {
-        console.error("Error retrieving Name:", error);
-      });
+    // AsyncStorage.getItem("Name")
+    //   .then((storedName) => {
+    //     if (storedName) {
+    //       setName(storedName);
+    //     }
+    //   })
+    //   .catch((error) => {
+    //     console.error("Error retrieving Name:", error);
+    //   });
 
     AsyncStorage.getItem("UserName")
       .then((storedUserName) => {
@@ -107,20 +107,20 @@ const ProfileScreen = ({ navigation }) => {
       });
   }, []);
 
-  const [editedProfileData, setEditedProfileData] = useState({}); // Initialize as an empty object
+  // const [editedProfileData, setEditedProfileData] = useState({}); // Initialize as an empty object
 
-  const getUserEditedData = async () => {
-    const userEditedData = await AsyncStorage.getItem("userEditedData");
+  // const getUserEditedData = async () => {
+  //   const userEditedData = await AsyncStorage.getItem("userEditedData");
 
-    if (userEditedData) {
-      const parsedUserEditedData = JSON.parse(userEditedData);
-      setEditedProfileData(parsedUserEditedData);
-    }
-  };
+  //   if (userEditedData) {
+  //     const parsedUserEditedData = JSON.parse(userEditedData);
+  //     setEditedProfileData(parsedUserEditedData);
+  //   }
+  // };
 
-  useEffect(() => {
-    getUserEditedData();
-  }, []);
+  // useEffect(() => {
+  //   getUserEditedData();
+  // }, []);
 
   // Fetch UserDetails from Context
   const { userDetails } = useContext(UserDetailsContext);
@@ -144,10 +144,19 @@ const ProfileScreen = ({ navigation }) => {
 
         <View className="w-full justify-center items-center">
           <View className="space-y-2 justify-center items-center">
-            <Image
-              source={require("../assets/Illustrations/Avatar.jpg")}
-              className="w-24 h-24 rounded-full"
-            />
+            {userDetails.profileImage ? (
+              <Image
+                source={{ uri: userDetails.profileImage }}
+                className="w-24 h-24 rounded-full"
+              />
+            ) : (
+              <Image
+                source={require("../assets/Illustrations/Avatar.jpg")}
+                className="w-24 h-24 rounded-full"
+              />
+            )}
+
+            {/* {console.log(userDetails.profileImage)} */}
 
             <Text
               className="text-[#101010] text-xl"

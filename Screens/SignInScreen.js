@@ -35,7 +35,6 @@ import {
   signInWithEmailAndPassword,
   signInAnonymously,
 } from "firebase/auth";
-import app from "../firebase";
 
 // SVGS
 import AuthSparklePink from "../assets/Illustrations/AuthSparklePink.svg";

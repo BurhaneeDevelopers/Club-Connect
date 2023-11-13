@@ -200,10 +200,17 @@ const HomeScreen = ({ navigation, route }) => {
             className="flex-row items-center space-x-2"
             onPress={() => navigation.navigate("Profile")}
           >
-            <Image
-              source={require("../assets/Illustrations/Avatar.jpg")}
-              className="w-16 rounded-full h-16"
-            />
+            {userDetails.profileImage ? (
+              <Image
+                source={{ uri: userDetails.profileImage }}
+                className="w-16 h-16 rounded-full"
+              />
+            ) : (
+              <Image
+                source={require("../assets/Illustrations/Avatar.jpg")}
+                className="w-16 h-16 rounded-full"
+              />
+            )}
 
             <View className="">
               <Text
