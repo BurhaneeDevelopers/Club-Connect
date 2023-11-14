@@ -15,6 +15,9 @@ import { SafeAreaView } from "react-native-safe-area-context";
 import { ArrowLeft, Camera } from "iconsax-react-native";
 import GlobalStyles from "../Styles/GlobalStyles";
 
+import { getAuth, signOut } from "@firebase/auth";
+import app from "../firebase";
+
 // ICONS
 import {
   ShieldTick,
@@ -86,6 +89,19 @@ const SettingScreen = ({ navigation }) => {
   const categories = [
     ...new Set(SettingsTitle.map((setting) => setting.category)),
   ];
+
+  // SIGN OUT
+  const auth = getAuth();
+
+  const handleSignOut = () => {
+    auth
+      .signOut()
+      .then(() => {
+        navigation.replace("SignIn");
+      })
+      .catch((error) => alert(error.message));
+  };
+
   return (
     <KeyboardAvoidingView
       behavior={Platform.OS === "ios" ? "padding" : "height"}
@@ -135,9 +151,12 @@ const SettingScreen = ({ navigation }) => {
         ))}
 
         <View className="px-5">
-          <View className="bg-[#ff0000] w-full py-3 mb-5 rounded-xl">
+          <Pressable
+            onPress={handleSignOut}
+            className="bg-[#ff0000] active:bg-[#e14242] w-full py-3 mb-5 rounded-xl"
+          >
             <Text className="text-white text-2xl text-center">Log Out</Text>
-          </View>
+          </Pressable>
         </View>
       </ScrollView>
     </KeyboardAvoidingView>

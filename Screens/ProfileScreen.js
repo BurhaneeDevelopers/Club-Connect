@@ -17,6 +17,10 @@ import { useState, useEffect } from "react";
 import axios from "axios";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
+// Context
+import { useContext } from "react";
+import { UserDetailsContext } from "../context/UserDetailsContext";
+
 const ProfileScreen = ({ navigation }) => {
   const [post, setPosts] = useState(true);
   const [saved, setSaved] = useState(false);
@@ -76,20 +80,50 @@ const ProfileScreen = ({ navigation }) => {
     }, 1000);
   };
 
-  const [editedProfileData, setEditedProfileData] = useState({}); // Initialize as an empty object
-
-  const getUserEditedData = async () => {
-    const userEditedData = await AsyncStorage.getItem("userEditedData");
-
-    if (userEditedData) {
-      const parsedUserEditedData = JSON.parse(userEditedData);
-      setEditedProfileData(parsedUserEditedData);
-    }
-  };
+  // Display Dummy Random UserName and Name when username not set
+  // const [name, setName] = useState("");
+  const [userName, setUserName] = useState("");
 
   useEffect(() => {
-    getUserEditedData();
+    // Retrieve the Name and UserName from AsyncStorage
+    // AsyncStorage.getItem("Name")
+    //   .then((storedName) => {
+    //     if (storedName) {
+    //       setName(storedName);
+    //     }
+    //   })
+    //   .catch((error) => {
+    //     console.error("Error retrieving Name:", error);
+    //   });
+
+    AsyncStorage.getItem("UserName")
+      .then((storedUserName) => {
+        if (storedUserName) {
+          setUserName(storedUserName);
+        }
+      })
+      .catch((error) => {
+        console.error("Error retrieving UserName:", error);
+      });
   }, []);
+
+  // const [editedProfileData, setEditedProfileData] = useState({}); // Initialize as an empty object
+
+  // const getUserEditedData = async () => {
+  //   const userEditedData = await AsyncStorage.getItem("userEditedData");
+
+  //   if (userEditedData) {
+  //     const parsedUserEditedData = JSON.parse(userEditedData);
+  //     setEditedProfileData(parsedUserEditedData);
+  //   }
+  // };
+
+  // useEffect(() => {
+  //   getUserEditedData();
+  // }, []);
+
+  // Fetch UserDetails from Context
+  const { userDetails } = useContext(UserDetailsContext);
   return (
     <SafeAreaView>
       <View className="bg-[#E9FA00] h-80 rounded-b-[30px]">
@@ -110,16 +144,25 @@ const ProfileScreen = ({ navigation }) => {
 
         <View className="w-full justify-center items-center">
           <View className="space-y-2 justify-center items-center">
-            <Image
-              source={require("../assets/Illustrations/Avatar.jpg")}
-              className="w-24 h-24 rounded-full"
-            />
+            {userDetails.profileImage ? (
+              <Image
+                source={{ uri: userDetails.profileImage }}
+                className="w-24 h-24 rounded-full"
+              />
+            ) : (
+              <Image
+                source={require("../assets/Illustrations/Avatar.jpg")}
+                className="w-24 h-24 rounded-full"
+              />
+            )}
+
+            {/* {console.log(userDetails.profileImage)} */}
 
             <Text
               className="text-[#101010] text-xl"
               style={GlobalStyles.fontSemiBold}
             >
-              @{editedProfileData?.userName || "Loading..."}
+              @{userDetails?.userName || userName || "Loading..."}
             </Text>
           </View>
 

@@ -4,7 +4,8 @@ import GlobalStyles from "../Styles/GlobalStyles";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import * as Location from "expo-location";
 import { useState, useEffect } from "react";
-import axios from "axios";
+// import axios from "axios";
+import { reverseGeocodeAsync } from "expo-location";
 
 // ICONS
 import { ArrowLeft } from "iconsax-react-native";
@@ -22,43 +23,47 @@ const LocationPickScreen = ({ navigation }) => {
 
   // GET USERS LIVE LOCATION
   const [location, setLocation] = useState(null);
-  const [address, setAddress] = useState("");
   const [errorMsg, setErrorMsg] = useState(null);
   const [loading, setLoading] = useState(false);
+  const [liveLocation, setLiveLocation] = useState("");
 
   const handleLocationRequest = async () => {
-    let { status } = await Location.requestForegroundPermissionsAsync();
     setLoading(true);
-    if (status === "granted") {
-      let userLocation = await Location.getCurrentPositionAsync({});
-      setLocation(userLocation);
-      setErrorMsg(null);
-
-      // Reverse geocode the coordinates to get the address using Nominatim
-      try {
-        const response = await axios.get(
-          `https://nominatim.openstreetmap.org/reverse?format=json&lat=${userLocation.coords.latitude}&lon=${userLocation.coords.longitude}`
-        );
-        if (response.data.display_name) {
-          setAddress(response.data.display_name);
-          setLoading(false);
-        } else {
-          setAddress("Address not found");
-        }
-      } catch (error) {
-        setAddress("Error fetching address");
-      }
-      console.log(status);
-    } else {
+    let { status } = await Location.requestForegroundPermissionsAsync();
+    if (status !== "granted") {
       setErrorMsg("Permission to access location was denied");
+      return;
+    }
+
+    try {
+      let location = await Location.getCurrentPositionAsync({});
+      setLocation(location);
+
+      // Use reverseGeocodeAsync to get address information
+      let address = await reverseGeocodeAsync({
+        latitude: location.coords.latitude,
+        longitude: location.coords.longitude,
+      });
+
+      // Get the first address from the array
+      const firstAddress = address[0];
+
+      // Log the address information
+      console.log("Address:", firstAddress);
+
+      setLiveLocation(firstAddress);
+      setLoading(false);
+    } catch (error) {
+      console.error("Error getting location:", error);
+      setLoading(false);
     }
   };
 
-  let text = "Waiting...";
+  let text = "Waiting..";
   if (errorMsg) {
     text = errorMsg;
   } else if (location) {
-    text = ` ${address}`;
+    text = JSON.stringify(location);
   }
 
   return (
@@ -85,7 +90,7 @@ const LocationPickScreen = ({ navigation }) => {
 
         <View className="my-5 space-y-1">
           <Pressable
-            className="bg-[#FF26B9] w-full p-3 rounded-lg flex-row justify-center items-center space-x-3"
+            className="bg-[#FF26B9] active:bg-[#FF26B9]/70 w-full p-3 rounded-lg flex-row justify-center items-center space-x-3"
             onPress={handleLocationRequest}
           >
             {loading ? (
@@ -119,11 +124,16 @@ const LocationPickScreen = ({ navigation }) => {
           </Text>
         </View>
       </View>
-      {location && (
+      {liveLocation && (
         <View className="absolute bottom-10 w-72">
           <Text className="text-center" style={GlobalStyles.fontMedium}>
-            <Text className="text-[#FF26B9]">Location Fetched:</Text>
-            <Text className="text-[#f9f9f9]">{text}</Text>
+            <Text className="text-[#FF26B9]">Live Location Fetched: &nbsp;</Text>
+            <Text className="text-[#f9f9f9]">
+              {liveLocation.name}, {liveLocation.street},&nbsp;
+              {liveLocation.district},&nbsp;
+              {liveLocation.city}, {liveLocation.region},&nbsp;
+              {liveLocation.postalCode}
+            </Text>
           </Text>
         </View>
       )}
