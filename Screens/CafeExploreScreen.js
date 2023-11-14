@@ -25,7 +25,7 @@ import {
 } from "iconsax-react-native";
 import { useState, useEffect } from "react";
 import GlobalStyles from "../Styles/GlobalStyles";
-import axios from "axios";
+import axios from "axiozzs";
 
 // Components
 import SectionTitles from "../Components/SectionTitles";

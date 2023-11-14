@@ -30,6 +30,7 @@ import GlobalStyles from "../Styles/GlobalStyles";
 import axios from "axios";
 
 const CafeDetailsScreen = () => {
+ 
   return (
     <View className="">
       <ImageBackground
@@ -236,8 +237,6 @@ const CafeDetailsScreen = () => {
             </View>
           </ScrollView>
         </View>
-
-        
       </ScrollView>
     </View>
   );
