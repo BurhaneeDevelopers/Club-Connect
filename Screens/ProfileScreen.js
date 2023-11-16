@@ -144,9 +144,9 @@ const ProfileScreen = ({ navigation }) => {
 
         <View className="w-full justify-center items-center">
           <View className="space-y-2 justify-center items-center">
-            {userDetails.profileImage ? (
+            {userDetails?.profileImage ? (
               <Image
-                source={{ uri: userDetails.profileImage }}
+                source={{ uri: userDetails?.profileImage }}
                 className="w-24 h-24 rounded-full"
               />
             ) : (

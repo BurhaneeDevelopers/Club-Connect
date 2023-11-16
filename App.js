@@ -56,6 +56,12 @@ import CafeDetailsScreen from "./Screens/CafeDetailsScreen";
 import { useFonts } from "expo-font";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import useAuth, { AuthProvider } from "./Hooks/useAuth";
+import RestaurantExplore from "./Screens/RestaurantExplore";
+import RestaurantDetailsScreen from "./Screens/RestaurantDetailsScreen";
+import HotspotExplore from "./Screens/HotspotExplore";
+import BarsExploreScreen from "./Screens/BarsExploreScreen";
+import PubsExploreScreen from "./Screens/PubsExploreScreen";
+
 
 // Default Theme
 const navTheme = DefaultTheme;
@@ -198,6 +204,14 @@ export default function App({ navigation }) {
                   ...TransitionPresets.SlideFromRightIOS,
                 }}
               />
+              <Stack.Screen 
+                name="HotspotExplore"
+                component={HotspotExplore}
+                options={{
+                  headerShown:false,
+                  ...TransitionPresets.SlideFromRightIOS,
+                }}
+              />
               <Stack.Screen
                 name="CafeExplore"
                 component={CafeExploreScreen}
@@ -211,6 +225,48 @@ export default function App({ navigation }) {
                 component={CafeDetailsScreen}
                 options={{
                   headerShown: false,
+                  ...TransitionPresets.SlideFromRightIOS,
+                }}
+              />
+              <Stack.Screen 
+                name="RestaurantExplore"
+                component={RestaurantExplore}
+                options={{
+                  headerShown:false,
+                  ...TransitionPresets.SlideFromRightIOS,
+                }}
+              />
+              <Stack.Screen 
+                name="RestaurantDetails"
+                component={RestaurantDetailsScreen}
+                options={{
+                  headerShown:false,
+                  ...TransitionPresets.SlideFromRightIOS,
+                }}
+              />
+              <Stack.Screen  
+                name="BarsExplore"
+                component={BarsExploreScreen}
+                options={{
+                  headerShown:false,
+                  ...TransitionPresets.SlideFromRightIOS,
+                }}
+              />
+              <Stack.Screen 
+                name="PubsExplore"
+                component={PubsExploreScreen}
+                options={{
+                  headerShown:false,
+                  ...TransitionPresets.SlideFromRightIOS,
+                }}
+              />
+
+              
+              <Stack.Screen
+                name="EventScreen"
+                component={EventsScreen}
+                options={{
+                  headerShown:false,
                   ...TransitionPresets.SlideFromRightIOS,
                 }}
               />

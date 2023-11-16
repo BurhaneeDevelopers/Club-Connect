@@ -32,47 +32,55 @@ import SectionTitles from "../Components/SectionTitles";
 import HR from "../Components/HR";
 import HotDealsSlider from "../Components/HotDealsSlider";
 
-const CafeExploreScreen = ({ navigation }) => {
+
+
+const RestaurantExplore = ({navigation}) => {
+
   const [clicked, setClicked] = useState(false);
   const [loading, setLoading] = useState(false);
+  const [restaurants, setRestaurants] = useState([]);
+  
 
   const TopFoodPicks = [
     {
-      title: "Mocha",
+      title: "Biriyani",
       image: "",
     },
     {
-      title: "Late",
+      title: "Chicken",
       image: "",
     },
     {
-      title: "Coffee",
+      title: "Paratha",
       image: "",
     },
     {
-      title: "Chocolate",
+      title: "Pizza",
       image: "",
     },
     {
-      title: "Brownie",
+      title: "Shawarma",
       image: "",
     },
     {
-      title: "Hot Coffee",
+      title: "Sandwich",
       image: "",
     },
     {
-      title: "Milk Shake",
+      title: "Idly",
       image: "",
     },
     {
-      title: "Malai Milk",
+      title: "Dosa",
       image: "",
     },
   ];
 
+
   const [hotspotImages, setHotspotImages] = useState([]);
   UNSPLASH_ACCESS_KEY = "6KEJery9EMaZFtuiQjELpzqV5sgo9vVWqm52b_gKYZ4";
+
+
 
   const fetchHotspotImages = async () => {
     setLoading(true);
@@ -100,7 +108,6 @@ const CafeExploreScreen = ({ navigation }) => {
     }
   };
 
-  // Define a function to generate a random query
   const getRandomQuery = () => {
     const queries = ["beach", "mountain", "city", "forest", "desert"];
     const randomIndex = Math.floor(Math.random() * queries.length);
@@ -110,6 +117,7 @@ const CafeExploreScreen = ({ navigation }) => {
   useEffect(() => {
     fetchHotspotImages();
   }, []);
+
   const HotspotCards = hotspotImages.map((image, index) => ({
     img: { uri: image },
     title: `Hotspot ${index + 1}`,
@@ -117,6 +125,35 @@ const CafeExploreScreen = ({ navigation }) => {
     price: "100",
     rating: "4.5",
   }));
+
+
+
+
+  const fetchRestaurants = async () => {
+    setLoading(true);
+
+    try {
+      const response = await axios.get('https://foodbukka.herokuapp.com/api/v1/menu', {
+        headers: {
+          'Content-Type': 'application/json',
+          // Add any additional headers here if needed
+        },
+      });
+      const restaurantData = response.data; // Adjust this based on the actual API response structure
+
+      setRestaurants(restaurantData);
+      console.log(restaurantData);
+    } catch (error) {
+      console.error('Error fetching restaurants:', error);
+    } finally {
+      setLoading(false);
+    }
+  };
+  useEffect(() => {
+    fetchRestaurants();
+  }, []);
+
+
   return (
     <SafeAreaView>
       <ScrollView>
@@ -132,7 +169,7 @@ const CafeExploreScreen = ({ navigation }) => {
             className="text-3xl text-[#FF26B9] mx-auto"
             style={GlobalStyles.fontSemiBold}
           >
-            Cafe
+            Restaurant
           </Text>
         </View>
 
@@ -147,7 +184,7 @@ const CafeExploreScreen = ({ navigation }) => {
               <SearchNormal1 size={28} color="#f9f9f9" />
               {/* Input field */}
               <TextInput
-                placeholder="Search for any Cafe!"
+                placeholder="Search for any Restaurant!"
                 // value={searchData}
                 // onChangeText={(text) => {
                 //   setSearchData(text);
@@ -185,11 +222,11 @@ const CafeExploreScreen = ({ navigation }) => {
           <View className="flex-row items-center justify-center space-x-5">
             <View className="items-center space-y-3">
               <View className="bg-gray-100 w-16 h-16 rounded-full mt-5"></View>
-              <Text className="text-white">Tea</Text>
+              <Text className="text-white">Veg</Text>
             </View>
             <View className="items-center space-y-3">
               <View className="bg-gray-100 w-16 h-16 rounded-full mt-5"></View>
-              <Text className="text-white">Coffee</Text>
+              <Text className="text-white">Non-Veg</Text>
             </View>
             <View className="items-center space-y-3">
               <View className="bg-gray-100 w-16 h-16 rounded-full mt-5"></View>
@@ -197,7 +234,7 @@ const CafeExploreScreen = ({ navigation }) => {
             </View>
             <View className="items-center space-y-3">
               <View className="bg-gray-100 w-16 h-16 rounded-full mt-5"></View>
-              <Text className="text-white">Quick Eats</Text>
+              <Text className="text-white">Chinese</Text>
             </View>
           </View>
         </View>
@@ -276,10 +313,10 @@ const CafeExploreScreen = ({ navigation }) => {
         </View>
       </ScrollView>
     </SafeAreaView>
-  );
-};
+  )
+}
 
-export default CafeExploreScreen;
+export default RestaurantExplore
 
 const TopPickCards = ({ title }) => {
   return (
@@ -374,7 +411,6 @@ const NearestPickCard = ({
     </>
   );
 };
-
 const PopularCafeCards = ({ title, img, location }) => {
   return (
     <>
@@ -391,7 +427,7 @@ const PopularCafeCards = ({ title, img, location }) => {
                 className="text-lg text-[#f9f9f9]"
                 style={GlobalStyles.fontMedium}
               >
-                Cafe
+                Restaurant
               </Text>
             </View>
 
@@ -451,6 +487,8 @@ const PopularCafeCards = ({ title, img, location }) => {
   );
 };
 
+
+
 const RecommendedCard = ({ title, img, location, price, rating }) => {
   return (
     <>
@@ -485,6 +523,9 @@ const RecommendedCard = ({ title, img, location, price, rating }) => {
     </>
   );
 };
+
+
+
 
 const CoupanCard = () => {
   return (
