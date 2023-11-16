@@ -21,9 +21,11 @@ import {
   Location,
   Star1,
   Gift,
+  Bill,
 } from "iconsax-react-native";
 import axios from "axios";
 import Banner1 from "../assets/Banners/Banner-1.svg";
+import Icon1 from '../assets/icon.png';
 import HR from "../Components/HR";
 import LottieView from "lottie-react-native";
 
@@ -200,7 +202,7 @@ const HomeScreen = ({ navigation, route }) => {
             className="flex-row items-center space-x-2"
             onPress={() => navigation.navigate("Profile")}
           >
-            {userDetails.profileImage ? (
+            {userDetails?.profileImage ? (
               <Image
                 source={{ uri: userDetails.profileImage }}
                 className="w-16 h-16 rounded-full"
@@ -251,6 +253,8 @@ const HomeScreen = ({ navigation, route }) => {
               <MenuCards
                 icon={<Buildings2 size="32" color="#f9f9f9" variant="Broken" />}
                 title="Hotspot"
+                navigateTo={"HotspotExplore"}
+                navigation={navigation}
               />
             </Pressable>
             <MenuCards
@@ -260,13 +264,25 @@ const HomeScreen = ({ navigation, route }) => {
               navigation={navigation}
             />
             <MenuCards
+              icon={<Bill size="32" color="#f9f9f9" variant="Broken" />}
+              title="Restaurant"
+              navigateTo={"RestaurantExplore"}
+              navigation={navigation}
+            />
+            <MenuCards
               icon={<Building size="32" color="#f9f9f9" variant="Broken" />}
               title="Bars"
+              navigateTo={"BarsExplore"}
+              navigation={navigation}
+              
             />
             <MenuCards
               icon={<Shop size="32" color="#f9f9f9" variant="Broken" />}
               title="Pubs"
+              navigateTo={"PubsExplore"}
+              navigation={navigation}
             />
+            
             <MenuCards
               icon={<Location size="32" color="#f9f9f9" variant="Broken" />}
               title="Map"
@@ -312,6 +328,9 @@ const HomeScreen = ({ navigation, route }) => {
         <View className="justify-center items-center p-5">
           <Banner1 width={320} height={60} />
         </View>
+        {/* <View className="justify-center items-center py-5">
+        <CustomBanner />
+        </View> */}
       </SafeAreaView>
     </ScrollView>
   );
@@ -425,6 +444,18 @@ const CoupanCard = () => {
     </View>
   );
 };
+
+// const CustomBanner = () =>{
+//   return(
+//     <>
+//     <View>
+//       <ImageBackground source={Banner1} className="w-40 h-64 rounded-[30px] overflow-hidden mx-2">
+      
+//       </ImageBackground>
+//     </View>
+//     </>
+//   )
+// }
 
 const NearestPickCard = ({ title, img, location, price, rating }) => {
   return (

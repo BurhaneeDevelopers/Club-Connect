@@ -29,8 +29,15 @@ import {
   createUserWithEmailAndPassword,
   // onAuthStateChanged,
   signInAnonymously,
+  
 } from "firebase/auth";
 import app from "../firebase";
+
+// GoogleSignin.configure({
+//   webClientId:
+//     "534268671571-27v1k8ige012ka2jfas25tiqnluilrv6.apps.googleusercontent.com",
+//   offlineAccess: true,
+// });
 
 // Components
 import AuthSwitch from "../Components/AuthSwitch";
@@ -106,7 +113,23 @@ const CreateAccountScreen = ({ navigation, route }) => {
 
         // console.error("Error creating user:", error);
       });
+    
   };
+
+  const handleSignInWithGoogle = async () =>{
+    try{
+      const { idToken } = await GoogleSignin.signIn();
+
+      const googleCredential = auth.GoogleAuthProvider.credential(idToken);
+
+      return auth().signInWithCredential(googleCredential);
+    }catch(error){
+      console.log(error);
+    }
+  }
+
+ 
+
 
   // signInAnonymously
   const handleSignInAnonymously = async () => {
@@ -391,9 +414,12 @@ const CreateAccountScreen = ({ navigation, route }) => {
         </View>
 
         <View className="flex-row space-x-4 mt-5 justify-center items-center">
-          <View className="bg-[#f9f9f9] rounded-full p-4">
+          <Pressable 
+            className="bg-[#f9f9f9] rounded-full p-4"
+            onPress={handleSignInWithGoogle}
+            >
             <Google width={32} height={32} />
-          </View>
+          </Pressable>
           <View className="bg-[#f9f9f9] rounded-full p-4">
             <Apple size="32" color="#101010" variant="Bold" />
           </View>

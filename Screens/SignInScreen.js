@@ -86,7 +86,7 @@ const SignInScreen = ({ navigation, route }) => {
       setToast(false);
       // Navigate to the next screen (e.g., EmailConfirmation)
       navigation.navigate("Index");
-    }, 1000); // Adjust the timeout as needed
+    }, 4000); // Adjust the timeout as needed
   };
 
   const { fetchUserDetails } = useContext(UserDetailsContext);
