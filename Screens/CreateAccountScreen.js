@@ -17,7 +17,7 @@ import { ArrowLeft, Apple, Eye, EyeSlash } from "iconsax-react-native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 // import { v4 as uuidv4 } from "uuid";
 import "react-native-get-random-values";
-import Toast from "react-native-toast-message";
+
 
 // JSON DATA
 import names from "../randomName.json";
@@ -129,8 +129,6 @@ const CreateAccountScreen = ({ navigation, route }) => {
   }
 
  
-
-
   // signInAnonymously
   const handleSignInAnonymously = async () => {
     try {

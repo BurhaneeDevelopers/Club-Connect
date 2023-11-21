@@ -29,7 +29,7 @@ import { useState, useEffect } from "react";
 import GlobalStyles from "../Styles/GlobalStyles";
 import axios from "axios";
 
-const CafeDetailsScreen = () => {
+const CafeDetailsScreen = ({navigation}) => {
  
   return (
     <View className="">

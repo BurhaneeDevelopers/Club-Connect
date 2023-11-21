@@ -4,10 +4,21 @@ import GlobalStyles from "../Styles/GlobalStyles";
 
 const SectionTitles = ({ title }) => {
   return (
-    <Text className="text-[#f9f9f9] text-2xl" style={GlobalStyles.fontBold}>
-      {title}
-    </Text>
+    <View className="relative justify-center items-center w-full flex-row ">
+      <HR />
+      <Text
+        className="text-[#fff]/90 text-lg text-center mx-auto bg-[#101010] px-2.5 z-50 uppercase"
+        style={GlobalStyles.fontMedium}
+      >
+        {title}
+      </Text>
+      <HR />
+    </View>
   );
 };
 
 export default SectionTitles;
+
+const HR = () => {
+  return <View className="h-[1px] w-full rounded-full bg-gray-500" />;
+};

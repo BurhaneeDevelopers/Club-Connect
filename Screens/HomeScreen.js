@@ -25,7 +25,7 @@ import {
 } from "iconsax-react-native";
 import axios from "axios";
 import Banner1 from "../assets/Banners/Banner-1.svg";
-import Icon1 from '../assets/icon.png';
+import Icon1 from "../assets/icon.png";
 import HR from "../Components/HR";
 import LottieView from "lottie-react-native";
 
@@ -39,6 +39,8 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 
 // FONTS
 import GlobalStyles from "../Styles/GlobalStyles";
+import FeaturedHomeRow from "../Components/FeaturedHomerow";
+import client from "../sanity";
 
 const HomeScreen = ({ navigation, route }) => {
   // FIRE CONFETTI when user signs In for the first Time anonymously
@@ -175,6 +177,39 @@ const HomeScreen = ({ navigation, route }) => {
   //   fetchUserDetails();
   // }, []);
 
+  const [featuredCategory, setFeaturedCategory] = useState([]);
+
+  useEffect(() => {
+    // Fetch Categories for restaurant like Top picks near you, Recommended for you!
+    const fetchCategoriesForRestaurant = () => {
+      try {
+        client
+          .fetch(
+            `*[_type == "featured"]{
+              ...,
+              restaurants -> {
+                ...,
+                dishes[]->
+              },
+              cafes -> {
+                ...,
+                dishes[]->
+              },
+            }
+          `
+          )
+          .then((data) => {
+            setFeaturedCategory(data);
+            // console.log(data);
+          });
+      } catch (error) {
+        console.log(error);
+      }
+    };
+
+    fetchCategoriesForRestaurant();
+  }, []);
+
   return (
     <ScrollView
       refreshControl={
@@ -274,7 +309,6 @@ const HomeScreen = ({ navigation, route }) => {
               title="Bars"
               navigateTo={"BarsExplore"}
               navigation={navigation}
-              
             />
             <MenuCards
               icon={<Shop size="32" color="#f9f9f9" variant="Broken" />}
@@ -282,7 +316,7 @@ const HomeScreen = ({ navigation, route }) => {
               navigateTo={"PubsExplore"}
               navigation={navigation}
             />
-            
+
             <MenuCards
               icon={<Location size="32" color="#f9f9f9" variant="Broken" />}
               title="Map"
@@ -310,23 +344,21 @@ const HomeScreen = ({ navigation, route }) => {
         {/* COUPAN CARD  */}
         <CoupanCard />
 
-        {/* TOP HOTSPOTS CARDS  */}
-        <View className="py-5">
-          <View className="px-5 pb-4">
-            <SectionTitles title="Top Picks Near You!" />
-          </View>
-          <ScrollView horizontal={true} showsHorizontalScrollIndicator={false}>
-            <View className="px-5 flex-row items-center justify-center">
-              {HotspotCards.map((item, index) => {
-                return <NearestPickCard key={index} {...item} />;
-              })}
-              {loading && <ActivityIndicator size="32" color="#E9FA00" />}
-            </View>
-          </ScrollView>
-        </View>
+        {featuredCategory?.map((category, index) => {
+          return (
+            <FeaturedHomeRow
+              key={category.id}
+              id={category._id}
+              title={category.name}
+              navigation={navigation}
+              featuredId={category.featuredId}
+              dataType={["restaurants", "cafes"]}
+            />
+          );
+        })}
 
         <View className="justify-center items-center p-5">
-          <Banner1 width={320} height={60} />
+          {/* <Banner1 width={320} height={60} /> */}
         </View>
         {/* <View className="justify-center items-center py-5">
         <CustomBanner />
@@ -450,7 +482,7 @@ const CoupanCard = () => {
 //     <>
 //     <View>
 //       <ImageBackground source={Banner1} className="w-40 h-64 rounded-[30px] overflow-hidden mx-2">
-      
+
 //       </ImageBackground>
 //     </View>
 //     </>

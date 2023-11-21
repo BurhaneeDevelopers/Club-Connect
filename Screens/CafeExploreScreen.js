@@ -31,6 +31,8 @@ import axios from "axios";
 import SectionTitles from "../Components/SectionTitles";
 import HR from "../Components/HR";
 import HotDealsSlider from "../Components/HotDealsSlider";
+import client from "../sanity";
+import FeaturedRow from "../Components/FeaturedRow";
 
 const CafeExploreScreen = ({ navigation }) => {
   const [clicked, setClicked] = useState(false);
@@ -117,6 +119,35 @@ const CafeExploreScreen = ({ navigation }) => {
     price: "100",
     rating: "4.5",
   }));
+
+  const [featuredCategory, setFeaturedCategory] = useState([]);
+
+  useEffect(() => {
+    // Fetch Categories for restaurant like Top picks near you, Recommended for you!
+    const fetchCategoriesForCafe = () => {
+      try {
+        client
+          .fetch(
+            `*[_type == "featured"]{
+                ...,
+                cafe -> {
+                  ...,
+                  dishes[]->
+                }
+              }
+            `
+          )
+          .then((data) => {
+            setFeaturedCategory(data);
+            // console.log(data);
+          });
+      } catch (error) {
+        console.log(error);
+      }
+    };
+
+    fetchCategoriesForCafe();
+  }, []);
   return (
     <SafeAreaView>
       <ScrollView>
@@ -221,58 +252,22 @@ const CafeExploreScreen = ({ navigation }) => {
           <HotDealsSlider />
         </View>
 
-        {/* TOP HOTSPOTS CARDS  */}
-        <View className="py-5">
-          <View className="px-5 pb-4">
-            <SectionTitles title="Top Picks Near You!" />
-          </View>
-          <ScrollView horizontal={true} showsHorizontalScrollIndicator={false}>
-            <View className="px-5 flex-row items-center justify-center">
-              {HotspotCards.map((item, index) => {
-                return (
-                  <NearestPickCard
-                    navigation={navigation}
-                    key={index}
-                    {...item}
-                  />
-                );
-              })}
-              {loading && <ActivityIndicator size="32" color="#E9FA00" />}
-            </View>
-          </ScrollView>
-        </View>
+        <View className="">
+          {/* COUPAN CARD  */}
+          <CoupanCard />
 
-        {/* COUPAN CARD  */}
-        <CoupanCard />
-
-        {/* PopularCards CARDS  */}
-        <View className="py-5">
-          <View className="px-5 pb-4">
-            <SectionTitles title="Popular Places!" />
-          </View>
-          <ScrollView horizontal={true} showsHorizontalScrollIndicator={false}>
-            <View className="px-5 flex-row items-center justify-center">
-              {HotspotCards.map((item, index) => {
-                return <PopularCafeCards key={index} {...item} />;
-              })}
-              {loading && <ActivityIndicator size="32" color="#E9FA00" />}
-            </View>
-          </ScrollView>
-        </View>
-
-        {/* Recommended CARDS  */}
-        <View className="py-5">
-          <View className="px-5 pb-4">
-            <SectionTitles title="All Places In Delhi!" />
-          </View>
-          <ScrollView horizontal={true} showsHorizontalScrollIndicator={false}>
-            <View className="px-5 flex-row items-center justify-center">
-              {HotspotCards.map((item, index) => {
-                return <RecommendedCard key={index} {...item} />;
-              })}
-              {loading && <ActivityIndicator size="32" color="#E9FA00" />}
-            </View>
-          </ScrollView>
+          {featuredCategory?.map((category, index) => {
+            return (
+              <FeaturedRow
+                key={category.id}
+                id={category._id}
+                title={category.name}
+                navigation={navigation}
+                featuredId={category.featuredId}
+                dataType={"cafes"}
+              />
+            );
+          })}
         </View>
       </ScrollView>
     </SafeAreaView>
@@ -368,7 +363,6 @@ const NearestPickCard = ({
           </View>
         </View>
       </Pressable>
-
 
       {/* TODO:  */}
     </>

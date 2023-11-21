@@ -31,15 +31,13 @@ import axios from "axios";
 import SectionTitles from "../Components/SectionTitles";
 import HR from "../Components/HR";
 import HotDealsSlider from "../Components/HotDealsSlider";
+import client, { urlFor } from "../sanity";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import FeaturedRow from "../Components/FeaturedRow";
 
-
-
-const RestaurantExplore = ({navigation}) => {
-
+const RestaurantExplore = ({ navigation }) => {
   const [clicked, setClicked] = useState(false);
   const [loading, setLoading] = useState(false);
-  const [restaurants, setRestaurants] = useState([]);
-  
 
   const TopFoodPicks = [
     {
@@ -76,83 +74,81 @@ const RestaurantExplore = ({navigation}) => {
     },
   ];
 
+  // const [hotspotImages, setHotspotImages] = useState([]);
+  // UNSPLASH_ACCESS_KEY = "6KEJery9EMaZFtuiQjELpzqV5sgo9vVWqm52b_gKYZ4";
 
-  const [hotspotImages, setHotspotImages] = useState([]);
-  UNSPLASH_ACCESS_KEY = "6KEJery9EMaZFtuiQjELpzqV5sgo9vVWqm52b_gKYZ4";
+  // const fetchHotspotImages = async () => {
+  //   setLoading(true);
+  //   try {
+  //     // Generate a random query string to make the request unique
+  //     const randomQuery = getRandomQuery(); // Define the getRandomQuery function
 
+  //     const response = await axios.get(
+  //       "https://api.unsplash.com/search/photos",
+  //       {
+  //         params: {
+  //           query: randomQuery,
+  //         },
+  //         headers: {
+  //           Authorization: `Client-ID ${UNSPLASH_ACCESS_KEY}`,
+  //         },
+  //       }
+  //     );
 
+  //     const images = response.data.results.map((result) => result.urls.regular);
+  //     setHotspotImages(images);
+  //     setLoading(false);
+  //   } catch (error) {
+  //     console.error("Error fetching images from Unsplash:", error);
+  //   }
+  // };
 
-  const fetchHotspotImages = async () => {
-    setLoading(true);
-    try {
-      // Generate a random query string to make the request unique
-      const randomQuery = getRandomQuery(); // Define the getRandomQuery function
+  // const getRandomQuery = () => {
+  //   const queries = ["beach", "mountain", "city", "forest", "desert"];
+  //   const randomIndex = Math.floor(Math.random() * queries.length);
+  //   return queries[randomIndex];
+  // };
 
-      const response = await axios.get(
-        "https://api.unsplash.com/search/photos",
-        {
-          params: {
-            query: randomQuery,
-          },
-          headers: {
-            Authorization: `Client-ID ${UNSPLASH_ACCESS_KEY}`,
-          },
-        }
-      );
+  // useEffect(() => {
+  //   fetchHotspotImages();
+  // }, []);
 
-      const images = response.data.results.map((result) => result.urls.regular);
-      setHotspotImages(images);
-      setLoading(false);
-    } catch (error) {
-      console.error("Error fetching images from Unsplash:", error);
-    }
-  };
+  // const HotspotCards = hotspotImages.map((image, index) => ({
+  //   img: { uri: image },
+  //   title: `Hotspot ${index + 1}`,
+  //   location: "Unknown",
+  //   price: "100",
+  //   rating: "4.5",
+  // }));
 
-  const getRandomQuery = () => {
-    const queries = ["beach", "mountain", "city", "forest", "desert"];
-    const randomIndex = Math.floor(Math.random() * queries.length);
-    return queries[randomIndex];
-  };
+  const [featuredCategory, setFeaturedCategory] = useState([]);
 
   useEffect(() => {
-    fetchHotspotImages();
+    // Fetch Categories for restaurant like Top picks near you, Recommended for you!
+    const fetchCategoriesForRestaurant = () => {
+      try {
+        client
+          .fetch(
+            `*[_type == "featured"]{
+                ...,
+                restaurants -> {
+                  ...,
+                  dishes[]->
+                }
+              }
+            `
+          )
+          .then((data) => {
+            setFeaturedCategory(data);
+            // console.log(data);
+          });
+      } catch (error) {
+        console.log(error);
+      }
+    };
+
+    fetchCategoriesForRestaurant();
   }, []);
-
-  const HotspotCards = hotspotImages.map((image, index) => ({
-    img: { uri: image },
-    title: `Hotspot ${index + 1}`,
-    location: "Unknown",
-    price: "100",
-    rating: "4.5",
-  }));
-
-
-
-
-  const fetchRestaurants = async () => {
-    setLoading(true);
-
-    try {
-      const response = await axios.get('https://foodbukka.herokuapp.com/api/v1/menu', {
-        headers: {
-          'Content-Type': 'application/json',
-          // Add any additional headers here if needed
-        },
-      });
-      const restaurantData = response.data; // Adjust this based on the actual API response structure
-
-      setRestaurants(restaurantData);
-      console.log(restaurantData);
-    } catch (error) {
-      console.error('Error fetching restaurants:', error);
-    } finally {
-      setLoading(false);
-    }
-  };
-  useEffect(() => {
-    fetchRestaurants();
-  }, []);
-
 
   return (
     <SafeAreaView>
@@ -196,8 +192,6 @@ const RestaurantExplore = ({navigation}) => {
                 placeholderTextColor={"#f9f9f9"}
                 className="text-lg w-full"
               />
-
-              {/* {console.log(searchData)} */}
             </View>
 
             {/* cross Icon, depending on whether the search bar is clicked or not */}
@@ -260,63 +254,28 @@ const RestaurantExplore = ({navigation}) => {
 
         {/* TOP HOTSPOTS CARDS  */}
         <View className="py-5">
-          <View className="px-5 pb-4">
-            <SectionTitles title="Top Picks Near You!" />
-          </View>
-          <ScrollView horizontal={true} showsHorizontalScrollIndicator={false}>
-            <View className="px-5 flex-row items-center justify-center">
-              {HotspotCards.map((item, index) => {
-                return (
-                  <NearestPickCard
-                    navigation={navigation}
-                    key={index}
-                    {...item}
-                  />
-                );
-              })}
-              {loading && <ActivityIndicator size="32" color="#E9FA00" />}
-            </View>
-          </ScrollView>
-        </View>
+          {/* COUPAN CARD  */}
+          <CoupanCard />
 
-        {/* COUPAN CARD  */}
-        <CoupanCard />
-
-        {/* PopularCards CARDS  */}
-        <View className="py-5">
-          <View className="px-5 pb-4">
-            <SectionTitles title="Popular Places!" />
-          </View>
-          <ScrollView horizontal={true} showsHorizontalScrollIndicator={false}>
-            <View className="px-5 flex-row items-center justify-center">
-              {HotspotCards.map((item, index) => {
-                return <PopularCafeCards key={index} {...item} />;
-              })}
-              {loading && <ActivityIndicator size="32" color="#E9FA00" />}
-            </View>
-          </ScrollView>
-        </View>
-
-        {/* Recommended CARDS  */}
-        <View className="py-5">
-          <View className="px-5 pb-4">
-            <SectionTitles title="All Places In Delhi!" />
-          </View>
-          <ScrollView horizontal={true} showsHorizontalScrollIndicator={false}>
-            <View className="px-5 flex-row items-center justify-center">
-              {HotspotCards.map((item, index) => {
-                return <RecommendedCard key={index} {...item} />;
-              })}
-              {loading && <ActivityIndicator size="32" color="#E9FA00" />}
-            </View>
-          </ScrollView>
+          {featuredCategory?.map((category, index) => {
+            return (
+              <FeaturedRow
+                key={category.id}
+                id={category._id}
+                title={category.name}
+                navigation={navigation}
+                featuredId={category.featuredId}
+                dataType={"restaurants"}
+              />
+            );
+          })}
         </View>
       </ScrollView>
     </SafeAreaView>
-  )
-}
+  );
+};
 
-export default RestaurantExplore
+export default RestaurantExplore;
 
 const TopPickCards = ({ title }) => {
   return (
@@ -328,204 +287,6 @@ const TopPickCards = ({ title }) => {
     </>
   );
 };
-
-const NearestPickCard = ({
-  title,
-  img,
-  location,
-  price,
-  rating,
-  navigation,
-}) => {
-  return (
-    <>
-      <Pressable onPress={() => navigation.navigate("CafeDetails")}>
-        <View className="w-72 h-72 rounded-[30px] overflow-hidden mx-2 bg-[#262223]">
-          <Image source={img} className="w-full h-32" />
-          {/* <View className="absolute bg-[#101010]/30 w-full h-full" /> */}
-          <View className="flex-col p-4 w-full space-y-1 z-10">
-            <View className="flex-row justify-between items-center">
-              {/* Location Name */}
-              <Text
-                className="text-2xl text-[#f9f9f9]"
-                style={GlobalStyles.fontBold}
-              >
-                {title}
-              </Text>
-
-              <View className="flex-row justify-between items-center">
-                {/* Price  */}
-                <View className="flex-row items-center">
-                  <Text
-                    className="text-[#f9f9f9] text-xl"
-                    style={GlobalStyles.fontBold}
-                  >
-                    ${price}
-                  </Text>
-                  <Text
-                    className="text-[#f9f9f9]"
-                    style={GlobalStyles.fontRegular}
-                  >
-                    /night
-                  </Text>
-                </View>
-              </View>
-            </View>
-
-            {/* Rating  */}
-            <View className="flex-row items-center">
-              <Star1 size="18" color="#E9FA00" variant="Bold" />
-              <Text className="text-[#f9f9f9]" style={GlobalStyles.fontRegular}>
-                {rating}
-              </Text>
-            </View>
-
-            {/* Location  */}
-            <View className="flex-row items-center">
-              <Location size="18" color="#E9FA00" variant="Bold" />
-              <Text
-                className="text-base text-[#f9f9f9]"
-                style={GlobalStyles.fontRegular}
-              >
-                {location}
-              </Text>
-            </View>
-
-            <HR customClass={"bg-[#f9f9f9] mt-3 mb-1"} />
-
-            <View>
-              <Text
-                className="text-gray-400 text-xs"
-                style={GlobalStyles.fontRegular}
-              >
-                Follows all safety measures for a clean and hygiene food
-                experience
-              </Text>
-            </View>
-          </View>
-        </View>
-      </Pressable>
-
-
-      {/* TODO:  */}
-    </>
-  );
-};
-const PopularCafeCards = ({ title, img, location }) => {
-  return (
-    <>
-      <View>
-        <View className="w-72 h-80 rounded-[30px] overflow-hidden mx-2 bg-[#262223]">
-          <ImageBackground source={img} className="w-full h-36">
-            {/* Button to Save Card */}
-            <Pressable className="bg-[#E9FA00] justify-center items-center w-10 h-10 rounded-xl absolute top-3 right-5">
-              <Heart size="24" color="#101010" />
-            </Pressable>
-
-            <View className="bg-black/50 justify-center items-center py-1 px-2 absolute top-3 rounded-lg left-5">
-              <Text
-                className="text-lg text-[#f9f9f9]"
-                style={GlobalStyles.fontMedium}
-              >
-                Restaurant
-              </Text>
-            </View>
-
-            <View className="bg-[#101010]/50 w-full h-14 absolute bottom-0 justify-center items-center">
-              <View className="w-full px-5">
-                <View className="flex-row items-center space-x-2">
-                  <Image
-                    source={require("../assets/Illustrations/Avatar.jpg")}
-                    className="w-10 h-10 rounded-full"
-                  />
-                  <Text
-                    className="text-lg text-[#f9f9f9]"
-                    style={GlobalStyles.fontMedium}
-                  >
-                    Magesh Bhagat
-                  </Text>
-                </View>
-              </View>
-            </View>
-          </ImageBackground>
-          {/* <View className="absolute bg-[#101010]/30 w-full h-full" /> */}
-          <View className="flex-col p-4 w-full z-10">
-            <View className="flex-row justify-between items-center">
-              {/* Location Name */}
-              <Text
-                className="text-2xl text-[#f9f9f9]"
-                style={GlobalStyles.fontBold}
-              >
-                {title}
-              </Text>
-            </View>
-
-            {/* Time  */}
-            <View className="flex-row items-center mt-2">
-              <Clock size={"24"} color="#FF26B9" variant="Bold" />
-              <Text className="text-white text-base">From 9Pm to 10Pm</Text>
-            </View>
-
-            {/* Location  */}
-            <View className="flex-row items-center mt-1">
-              <Location size="24" color="#FF26B9" variant="Bold" />
-              <Text
-                className="text-base text-[#f9f9f9]"
-                style={GlobalStyles.fontRegular}
-              >
-                {location}
-              </Text>
-            </View>
-
-            <View className="p-2 mt-4 bg-[#E9FA00] rounded">
-              <Text className="text-[#101010] text-center">View Details</Text>
-            </View>
-          </View>
-        </View>
-      </View>
-    </>
-  );
-};
-
-
-
-const RecommendedCard = ({ title, img, location, price, rating }) => {
-  return (
-    <>
-      <View>
-        <View className="w-64 h-64 rounded-[30px] overflow-hidden mx-2 bg-[#262223]">
-          <Image source={img} className="w-full h-32" />
-          {/* <View className="absolute bg-[#101010]/30 w-full h-full" /> */}
-          <View className="flex-col p-4 w-full space-y-1 mt-3 z-10">
-            <View className="flex-row justify-between items-center">
-              {/* Location Name */}
-              <Text
-                className="text-2xl text-[#f9f9f9]"
-                style={GlobalStyles.fontBold}
-              >
-                {title}
-              </Text>
-            </View>
-
-            <View className="">
-              <Text
-                className="text-gray-400 text-base"
-                numberOfLines={2}
-                style={GlobalStyles.fontRegular}
-              >
-                Follows all safety measures for a clean and hygiene food
-                experience Lorem ipsum dolor sit amet.
-              </Text>
-            </View>
-          </View>
-        </View>
-      </View>
-    </>
-  );
-};
-
-
-
 
 const CoupanCard = () => {
   return (
