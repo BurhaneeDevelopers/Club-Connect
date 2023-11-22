@@ -13,6 +13,7 @@ import SectionTitles from "./SectionTitles";
 import client, { urlFor } from "../sanity";
 import { Car, Clock, Heart, Location, Star1 } from "iconsax-react-native";
 import HR from "./HR";
+import { useNavigation } from "@react-navigation/native";
 
 const FeaturedHomeRow = ({ id, title, navigation, featuredId, dataType }) => {
   const [itemData, setItemData] = useState([]);
@@ -79,8 +80,9 @@ const FeaturedHomeRow = ({ id, title, navigation, featuredId, dataType }) => {
       <ScrollView horizontal={true} showsHorizontalScrollIndicator={false}>
         {loading && <ActivityIndicator size="32" color="#E9FA00" />}
         <View className="px-5 flex-row items-center justify-center w-full">
-          {featuredId == 4 && renderCards(itemData, ExploreCard)}
+          {featuredId == 5 && renderCards(itemData, TopPickCard)}
           {featuredId == 1 && renderCards(itemData, NearestPickCard)}
+          {featuredId == 4 && renderCards(itemData, ExploreCard)}
           {featuredId == 2 && renderCards(itemData, PopularCafeCards)}
           {featuredId == 3 && renderCards(itemData, RecommendedCard)}
         </View>
@@ -92,17 +94,36 @@ const FeaturedHomeRow = ({ id, title, navigation, featuredId, dataType }) => {
 export default FeaturedHomeRow;
 
 const NearestPickCard = ({
-  title,
-  location,
+  id,
   image,
   rating,
+  title,
+  location,
   shortDescription,
+  ownerName,
+  ownerProfileImage,
+  dataType,
   navigation,
 }) => {
   const urlifiedImage = image ? urlFor(image).url() : null;
   return (
     <>
-      <Pressable onPress={() => navigation.navigate("CafeDetails")}>
+      <Pressable
+        onPress={() =>
+          navigation.navigate("CafeDetails", {
+            id,
+            image,
+            rating,
+            title,
+            location,
+            shortDescription,
+            ownerName,
+            ownerProfileImage,
+            dataType,
+            navigation,
+          })
+        }
+      >
         <View className="w-72 h-72 rounded-[30px] overflow-hidden mx-2 bg-[#262223]">
           <Image
             source={{ uri: urlifiedImage }}
@@ -180,16 +201,24 @@ const NearestPickCard = ({
 };
 
 const PopularCafeCards = ({
+  id,
+  image,
+  rating,
   title,
   location,
-  image,
+  shortDescription,
   ownerName,
   ownerProfileImage,
-  navigation,
   dataType,
+  navigation,
 }) => {
   const urlifiedImage = image ? urlFor(image).url() : null;
   const urlifiedProfileImage = image ? urlFor(ownerProfileImage).url() : null;
+
+  const [isLiked, setIsLiked] = useState(false);
+  const toggleSave = () => {
+    setIsLiked(!isLiked);
+  };
   return (
     <>
       <View className="w-80 h-80 rounded-[30px] overflow-hidden mx-2 bg-[#262223]">
@@ -199,17 +228,26 @@ const PopularCafeCards = ({
           className="w-full h-36"
         >
           {/* Button to Save Card */}
-          <Pressable className="bg-[#E9FA00] justify-center items-center w-10 h-10 rounded-xl absolute top-3 right-5">
-            <Heart size="24" color="#101010" />
+          <Pressable
+            className="bg-[#E9FA00] active:bg-[#f7ff8c] justify-center items-center w-10 h-10 rounded-xl absolute top-3 right-5"
+            onPress={toggleSave}
+          >
+            <Heart
+              size="24"
+              color={isLiked ? "#FF26B9" : "#101010"}
+              variant={isLiked ? "Bold" : "Outline"}
+            />
           </Pressable>
 
-          <View className="bg-black/50 justify-center items-center py-1 px-2 absolute top-3 rounded-lg left-5">
+          <View className="bg-black/40 flex-row justify-center items-center py-1 px-2 absolute top-3 rounded-lg left-5 space-x-1">
             <Text
               className="text-lg text-[#f9f9f9]"
               style={GlobalStyles.fontMedium}
             >
-              {dataType}
+              {rating}
             </Text>
+
+            <Star1 size="14" color="#fff" variant="Bold" />
           </View>
 
           <View className="bg-[#101010]/50 w-full h-14 absolute bottom-0 justify-center items-center">
@@ -268,7 +306,20 @@ const PopularCafeCards = ({
           {/* Button  */}
           <Pressable
             className="p-2 mt-4 bg-[#E9FA00] active:bg-[#f1ff2f] rounded"
-            onPress={() => navigation.navigate("RestaurantDetails")}
+            onPress={() =>
+              navigation.navigate("CafeDetails", {
+                id,
+                image,
+                rating,
+                title,
+                location,
+                shortDescription,
+                ownerName,
+                ownerProfileImage,
+                dataType,
+                navigation,
+              })
+            }
           >
             <Text className="text-[#101010] text-center">View Details</Text>
           </Pressable>
@@ -278,46 +329,80 @@ const PopularCafeCards = ({
   );
 };
 
-const RecommendedCard = ({ title, location, image, navigation }) => {
+const RecommendedCard = ({
+  id,
+  image,
+  rating,
+  title,
+  location,
+  shortDescription,
+  ownerName,
+  ownerProfileImage,
+  dataType,
+  navigation,
+}) => {
   const urlifiedImage = image ? urlFor(image).url() : null;
   return (
-    <>
-      <View className="w-64 h-64 rounded-[30px] overflow-hidden mx-2 bg-[#262223]">
-        <Image
-          source={{ uri: urlifiedImage }}
-          defaultSource={require("../assets/Images/User/Dummy-Profile.png")}
-          className="w-full h-32"
-        />
+    <Pressable
+      className="w-44 h-64 rounded-2xl overflow-hidden mx-2 bg-[#262223]"
+      onPress={() =>
+        navigation.navigate("CafeDetails", {
+          id,
+          image,
+          rating,
+          title,
+          location,
+          shortDescription,
+          ownerName,
+          ownerProfileImage,
+          dataType,
+        })
+      }
+    >
+      <Image
+        source={{ uri: urlifiedImage }}
+        defaultSource={require("../assets/Images/User/Dummy-Profile.png")}
+        className="w-full h-32"
+      />
 
-        {/* <View className="absolute bg-[#101010]/30 w-full h-full" /> */}
-        <View className="flex-col p-4 w-full space-y-1 mt-3 z-10">
-          <View className="flex-row justify-between items-center">
-            {/* Location Name */}
-            <Text
-              className="text-xl text-[#f9f9f9]"
-              style={GlobalStyles.fontBold}
-            >
-              {title}
-            </Text>
-          </View>
+      {/* <View className="absolute bg-[#101010]/30 w-full h-full" /> */}
+      <View className="flex-col p-4 w-full space-y-1 z-10">
+        <View className="flex-row justify-between items-center">
+          {/* Location Name */}
+          <Text
+            className="text-xl text-[#f9f9f9]"
+            style={GlobalStyles.fontBold}
+          >
+            {title}
+          </Text>
+        </View>
 
-          <View className="">
-            <Text
-              className="text-gray-400 text-base"
-              numberOfLines={2}
-              style={GlobalStyles.fontRegular}
-            >
-              Follows all safety measures for a clean and hygiene food
-              experience Lorem ipsum dolor sit amet.
-            </Text>
-          </View>
+        <View className="">
+          <Text
+            className="text-gray-400 text-base"
+            numberOfLines={2}
+            style={GlobalStyles.fontRegular}
+          >
+            {shortDescription}
+          </Text>
         </View>
       </View>
-    </>
+    </Pressable>
   );
 };
 
-const ExploreCard = ({ title, rating, image, navigation }) => {
+const ExploreCard = ({
+  id,
+  image,
+  rating,
+  title,
+  location,
+  shortDescription,
+  ownerName,
+  ownerProfileImage,
+  dataType,
+  navigation,
+}) => {
   const urlifiedImage = image ? urlFor(image).url() : null;
   return (
     <View className="bg-white rounded-2xl w-64 h-24 p-2 flex-row space-x-2 mx-2">
@@ -371,5 +456,81 @@ const ExploreCard = ({ title, rating, image, navigation }) => {
         </View>
       </View>
     </View>
+  );
+};
+
+const TopPickCard = ({
+  id,
+  image,
+  rating,
+  title,
+  location,
+  shortDescription,
+  ownerName,
+  ownerProfileImage,
+  dataType,
+  navigation,
+}) => {
+  const urlifiedImage = image ? urlFor(image).url() : null;
+  return (
+    <Pressable
+      onPress={() =>
+        navigation.navigate("CafeDetails", {
+          id,
+          image,
+          rating,
+          title,
+          location,
+          shortDescription,
+          ownerName,
+          ownerProfileImage,
+          dataType,
+        })
+      }
+    >
+      <ImageBackground
+        source={{ uri: urlifiedImage }}
+        defaultSource={require("../assets/Images/User/Dummy-Profile.png")}
+        className="w-40 h-64 rounded-[30px] overflow-hidden mx-2"
+      >
+        <View className="absolute bg-[#101010]/30 w-full h-full" />
+        <View className="flex-col absolute bottom-5 px-4 w-full space-y-1 z-10">
+          {/* Location Name */}
+          <Text
+            className="text-xl text-[#f9f9f9]"
+            style={GlobalStyles.fontBold}
+          >
+            {title}
+          </Text>
+          {/* Location  */}
+          <View className="flex-row items-center">
+            <Location size="18" color="#f9f9f9" variant="Bold" />
+            <Text
+              className="text-base text-[#f9f9f9]"
+              style={GlobalStyles.fontRegular}
+              numberOfLines={1}
+            >
+              {location}
+            </Text>
+          </View>
+          <View className="flex-row justify-between items-center">
+            {/* Price  */}
+            <View className="flex-row items-center">
+              <Car size="18" color="#f9f9f9" variant="Bold" />
+              <Text className="text-[#f9f9f9]" style={GlobalStyles.fontRegular}>
+                40km
+              </Text>
+            </View>
+            {/* Rating  */}
+            <View className="flex-row items-center">
+              <Star1 size="18" color="#f9f9f9" variant="Bold" />
+              <Text className="text-[#f9f9f9]" style={GlobalStyles.fontRegular}>
+                {rating}
+              </Text>
+            </View>
+          </View>
+        </View>
+      </ImageBackground>
+    </Pressable>
   );
 };

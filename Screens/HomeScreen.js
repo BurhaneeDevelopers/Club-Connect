@@ -7,6 +7,7 @@ import {
   Pressable,
   ImageBackground,
   ActivityIndicator,
+  TextInput,
 } from "react-native";
 import React from "react";
 import { useState, useEffect, useRef } from "react";
@@ -22,10 +23,11 @@ import {
   Star1,
   Gift,
   Bill,
+  SearchNormal,
+  Gps,
 } from "iconsax-react-native";
 import axios from "axios";
 import Banner1 from "../assets/Banners/Banner-1.svg";
-import Icon1 from "../assets/icon.png";
 import HR from "../Components/HR";
 import LottieView from "lottie-react-native";
 
@@ -41,6 +43,9 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import GlobalStyles from "../Styles/GlobalStyles";
 import FeaturedHomeRow from "../Components/FeaturedHomerow";
 import client from "../sanity";
+
+// RN ELEMENTS
+import { Skeleton } from "@rneui/themed";
 
 const HomeScreen = ({ navigation, route }) => {
   // FIRE CONFETTI when user signs In for the first Time anonymously
@@ -177,6 +182,8 @@ const HomeScreen = ({ navigation, route }) => {
   //   fetchUserDetails();
   // }, []);
 
+  const [clicked, setClicked] = useState(false);
+
   const [featuredCategory, setFeaturedCategory] = useState([]);
 
   useEffect(() => {
@@ -231,45 +238,80 @@ const HomeScreen = ({ navigation, route }) => {
       )}
 
       <SafeAreaView className="h-full w-full">
-        <View className="flex-row justify-between items-center p-5">
-          {/* USERNAME AND SEARCH MENU  */}
-          <Pressable
-            className="flex-row items-center space-x-2"
-            onPress={() => navigation.navigate("Profile")}
-          >
-            {userDetails?.profileImage ? (
-              <Image
-                source={{ uri: userDetails.profileImage }}
-                className="w-16 h-16 rounded-full"
-              />
-            ) : (
-              <Image
-                source={require("../assets/Illustrations/Avatar.jpg")}
-                className="w-16 h-16 rounded-full"
-              />
-            )}
+        <View className="rounded-b-3xl bg-[#E9FA00]">
+          {/* MENU  */}
+          <View className="flex-row justify-between items-center p-5">
+            {/* USERNAME AND SEARCH MENU  */}
+            <Pressable
+              className="flex-row items-center space-x-2"
+              onPress={() => navigation.navigate("Profile")}
+            >
+              {userDetails?.profileImage ? (
+                <Image
+                  source={{ uri: userDetails.profileImage }}
+                  className="w-16 h-16 rounded-full"
+                />
+              ) : (
+                <Image
+                  source={require("../assets/Illustrations/Avatar.jpg")}
+                  className="w-16 h-16 rounded-full"
+                />
+              )}
 
-            <View className="">
-              <Text
-                className="text-xl text-[#FF26B9]"
-                style={GlobalStyles.fontSemiBold}
-              >
-                {userDetails?.name || name || (
-                  <View className="bg-gray-400 w-44 h-2 rounded" />
-                )}
-                {/* {console.log(userDetails?.name)} */}
-              </Text>
-              <Text className="text-[#f9f9f9]" style={GlobalStyles.fontMedium}>
-                {userDetails?.userName || userName || (
-                  <View className="bg-gray-500 w-32 h-2 rounded" />
-                )}
-              </Text>
-            </View>
-          </Pressable>
+              <View className="">
+                <Text
+                  className="text-xl text-[#FF26B9]"
+                  style={GlobalStyles.fontSemiBold}
+                >
+                  {userDetails?.name || name || (
+                    <Skeleton animation="pulse" width={140} height={10} />
+                  )}
+                  {/* {console.log(userDetails?.name)} */}
+                </Text>
+                <Text
+                  className="text-[#101010]"
+                  style={GlobalStyles.fontMedium}
+                >
+                  {userDetails?.userName || userName || (
+                    <Skeleton animation="pulse" width={120} height={10} />
+                  )}
+                </Text>
+              </View>
+            </Pressable>
 
-          <View>
-            <SearchNormal1 size="32" color="#E9FA00" variant="Broken" />
+            <Pressable onPress={() => navigation.navigate("LocationPick")}>
+              <Gps size={28} color="#101010" />
+            </Pressable>
           </View>
+
+          {/* SearchBar  */}
+          <View className="p-5">
+            <View
+              className={`flex-row justify-between rounded-xl p-3 bg-[#f9f9f9] overflow-hidden  ${
+                clicked ? "bg-[#FF26B9]" : ""
+              }`}
+            >
+              <View className="flex-row items-center w-72 gap-3 overflow-hidden">
+                {/* search Icon */}
+                <SearchNormal
+                  size={22}
+                  color={clicked ? "#f9f9f9" : "#101010"}
+                />
+
+                {/* Input field */}
+                <TextInput
+                  placeholder="Search for any Event, Cafe..."
+                  onFocus={() => {
+                    setClicked(true);
+                  }}
+                  placeholderTextColor={clicked ? "#f9f9f9" : "#101010"}
+                  className="text-lg w-full"
+                  style={GlobalStyles.fontSemiBold}
+                />
+              </View>
+            </View>
+          </View>
+          {/* SearchBar End  */}
         </View>
 
         {/* AUTO SLIDING HOT DEALS  */}
@@ -277,57 +319,62 @@ const HomeScreen = ({ navigation, route }) => {
           <HotDealsSlider />
         </View>
 
-        {/* MENU CARDS  */}
-        <ScrollView
-          horizontal={true}
-          className="my-5"
-          showsHorizontalScrollIndicator={false}
-        >
-          <View className="flex-row pl-5">
-            <Pressable onPress={() => navigation.navigate("SignIn")}>
+        <View className="p-5">
+          {/* MENU CARDS  */}
+          <View className="pb-4">
+            <SectionTitles title="Discover" />
+          </View>
+
+          <ScrollView
+            horizontal={true}
+            className=""
+            showsHorizontalScrollIndicator={false}
+          >
+            <View className="flex-row">
               <MenuCards
                 icon={<Buildings2 size="32" color="#f9f9f9" variant="Broken" />}
                 title="Hotspot"
                 navigateTo={"HotspotExplore"}
                 navigation={navigation}
               />
-            </Pressable>
-            <MenuCards
-              icon={<Coffee size="32" color="#f9f9f9" variant="Broken" />}
-              title="Cafe"
-              navigateTo={"CafeExplore"}
-              navigation={navigation}
-            />
-            <MenuCards
-              icon={<Bill size="32" color="#f9f9f9" variant="Broken" />}
-              title="Restaurant"
-              navigateTo={"RestaurantExplore"}
-              navigation={navigation}
-            />
-            <MenuCards
-              icon={<Building size="32" color="#f9f9f9" variant="Broken" />}
-              title="Bars"
-              navigateTo={"BarsExplore"}
-              navigation={navigation}
-            />
-            <MenuCards
-              icon={<Shop size="32" color="#f9f9f9" variant="Broken" />}
-              title="Pubs"
-              navigateTo={"PubsExplore"}
-              navigation={navigation}
-            />
 
-            <MenuCards
-              icon={<Location size="32" color="#f9f9f9" variant="Broken" />}
-              title="Map"
-              navigateTo={"LocationPick"}
-              navigation={navigation}
-            />
-          </View>
-        </ScrollView>
+              <MenuCards
+                icon={<Coffee size="32" color="#f9f9f9" variant="Broken" />}
+                title="Cafe"
+                navigateTo={"CafeExplore"}
+                navigation={navigation}
+              />
+              <MenuCards
+                icon={<Bill size="32" color="#f9f9f9" variant="Broken" />}
+                title="Restaurant"
+                navigateTo={"RestaurantExplore"}
+                navigation={navigation}
+              />
+              <MenuCards
+                icon={<Building size="32" color="#f9f9f9" variant="Broken" />}
+                title="Bars"
+                navigateTo={"BarsExplore"}
+                navigation={navigation}
+              />
+              <MenuCards
+                icon={<Shop size="32" color="#f9f9f9" variant="Broken" />}
+                title="Pubs"
+                navigateTo={"PubsExplore"}
+                navigation={navigation}
+              />
+
+              <MenuCards
+                icon={<Location size="32" color="#f9f9f9" variant="Broken" />}
+                title="Map"
+                navigateTo={"LocationPick"}
+                navigation={navigation}
+              />
+            </View>
+          </ScrollView>
+        </View>
 
         {/* TOP HOTSPOTS CARDS  */}
-        <View className="py-5">
+        {/* <View className="py-5">
           <View className="px-5 pb-4">
             <SectionTitles title="Top Hotspots" />
           </View>
@@ -339,7 +386,7 @@ const HomeScreen = ({ navigation, route }) => {
               {loading && <ActivityIndicator size="32" color="#E9FA00" />}
             </View>
           </ScrollView>
-        </View>
+        </View> */}
 
         {/* COUPAN CARD  */}
         <CoupanCard />
@@ -374,11 +421,14 @@ const MenuCards = ({ icon, title, navigateTo, navigation }) => {
   return (
     <>
       <Pressable
-        className="bg-[#FF26B9] active:bg-[#c52d95] rounded-3xl w-24 h-24 justify-center items-center flex-col mx-2"
+        className="bg-[#FF26B9] active:bg-[#c52d95] rounded-lg p-2 px-5 justify-center items-center flex-col mx-2"
         onPress={() => navigation.navigate(navigateTo)}
       >
-        {icon}
-        <Text style={GlobalStyles.fontSemiBold} className="text-[#101010]">
+        {/* {icon} */}
+        <Text
+          style={GlobalStyles.fontSemiBold}
+          className="text-[#fff] text-base"
+        >
           {title}
         </Text>
       </Pressable>
@@ -386,63 +436,6 @@ const MenuCards = ({ icon, title, navigateTo, navigation }) => {
   );
 };
 
-const TopPickCard = ({ title, img, location, price, rating }) => {
-  return (
-    <>
-      <View>
-        <ImageBackground
-          source={img}
-          className="w-40 h-64 rounded-[30px] overflow-hidden mx-2"
-        >
-          <View className="absolute bg-[#101010]/30 w-full h-full" />
-          <View className="flex-col absolute bottom-5 px-4 w-full space-y-1 z-10">
-            {/* Location Name */}
-            <Text
-              className="text-xl text-[#f9f9f9]"
-              style={GlobalStyles.fontBold}
-            >
-              {title}
-            </Text>
-            {/* Location  */}
-            <View className="flex-row items-center">
-              <Location size="18" color="#f9f9f9" variant="Bold" />
-              <Text
-                className="text-base text-[#f9f9f9]"
-                style={GlobalStyles.fontRegular}
-              >
-                {location}
-              </Text>
-            </View>
-            <View className="flex-row justify-between items-center">
-              {/* Price  */}
-              <View className="flex-row items-center">
-                <Text className="text-[#f9f9f9]" style={GlobalStyles.fontBold}>
-                  ${price}
-                </Text>
-                <Text
-                  className="text-[#f9f9f9]"
-                  style={GlobalStyles.fontRegular}
-                >
-                  /night
-                </Text>
-              </View>
-              {/* Rating  */}
-              <View className="flex-row items-center">
-                <Star1 size="18" color="#f9f9f9" variant="Bold" />
-                <Text
-                  className="text-[#f9f9f9]"
-                  style={GlobalStyles.fontRegular}
-                >
-                  {rating}
-                </Text>
-              </View>
-            </View>
-          </View>
-        </ImageBackground>
-      </View>
-    </>
-  );
-};
 
 const CoupanCard = () => {
   return (
@@ -488,76 +481,3 @@ const CoupanCard = () => {
 //     </>
 //   )
 // }
-
-const NearestPickCard = ({ title, img, location, price, rating }) => {
-  return (
-    <>
-      <View>
-        <View className="w-72 h-72 rounded-[30px] overflow-hidden mx-2 bg-[#262223]">
-          <Image source={img} className="w-full h-32" />
-          {/* <View className="absolute bg-[#101010]/30 w-full h-full" /> */}
-          <View className="flex-col p-4 w-full space-y-1 z-10">
-            <View className="flex-row justify-between items-center">
-              {/* Location Name */}
-              <Text
-                className="text-2xl text-[#f9f9f9]"
-                style={GlobalStyles.fontBold}
-              >
-                {title}
-              </Text>
-
-              <View className="flex-row justify-between items-center">
-                {/* Price  */}
-                <View className="flex-row items-center">
-                  <Text
-                    className="text-[#f9f9f9] text-xl"
-                    style={GlobalStyles.fontBold}
-                  >
-                    ${price}
-                  </Text>
-                  <Text
-                    className="text-[#f9f9f9]"
-                    style={GlobalStyles.fontRegular}
-                  >
-                    /night
-                  </Text>
-                </View>
-              </View>
-            </View>
-
-            {/* Rating  */}
-            <View className="flex-row items-center">
-              <Star1 size="18" color="#E9FA00" variant="Bold" />
-              <Text className="text-[#f9f9f9]" style={GlobalStyles.fontRegular}>
-                {rating}
-              </Text>
-            </View>
-
-            {/* Location  */}
-            <View className="flex-row items-center">
-              <Location size="18" color="#E9FA00" variant="Bold" />
-              <Text
-                className="text-base text-[#f9f9f9]"
-                style={GlobalStyles.fontRegular}
-              >
-                {location}
-              </Text>
-            </View>
-
-            <HR customClass={"bg-[#f9f9f9] mt-3 mb-1"} />
-
-            <View>
-              <Text
-                className="text-gray-400 text-xs"
-                style={GlobalStyles.fontRegular}
-              >
-                Follows all safety measures for a clean and hygiene food
-                experience
-              </Text>
-            </View>
-          </View>
-        </View>
-      </View>
-    </>
-  );
-};
