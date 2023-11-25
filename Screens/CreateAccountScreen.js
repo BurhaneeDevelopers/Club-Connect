@@ -9,15 +9,15 @@ import {
   ScrollView,
   RefreshControl,
 } from "react-native";
-import React from "react";
+import React, { useRef } from "react";
 import { SafeAreaView } from "react-native-safe-area-context";
 import GlobalStyles from "../Styles/GlobalStyles";
 import { useState, useEffect } from "react";
 import { ArrowLeft, Apple, Eye, EyeSlash } from "iconsax-react-native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import LottieView from "lottie-react-native";
 // import { v4 as uuidv4 } from "uuid";
 import "react-native-get-random-values";
-import Toast from "react-native-toast-message";
 
 // JSON DATA
 import names from "../randomName.json";
@@ -29,7 +29,6 @@ import {
   createUserWithEmailAndPassword,
   // onAuthStateChanged,
   signInAnonymously,
-  
 } from "firebase/auth";
 import app from "../firebase";
 
@@ -92,6 +91,32 @@ const CreateAccountScreen = ({ navigation, route }) => {
     }, 4000); // Adjust the timeout as needed
   };
 
+  //animation function declaration
+  const [animationPlayed, setAnimationPlayed] = useState(false);
+  const animation = useRef(null);
+
+  const handleAnimationFinish = () => {
+    setAnimationPlayed(true);
+  };
+
+  useEffect(() => {
+    // Check if the animation has already been played
+    if (!animationPlayed) {
+      AsyncStorage.getItem("playAnimation")
+        .then((playAnimation) => {
+          if (playAnimation === "true") {
+            // Play the animation
+            animation.current?.play();
+
+            AsyncStorage.setItem("playAnimation", "false");
+          }
+        })
+        .catch((error) => {
+          console.error("Error checking AsyncStorage:", error);
+        });
+    }
+  }, [animationPlayed]);
+
   const handleCreateAccount = async () => {
     await createUserWithEmailAndPassword(auth, email, password)
       .then((userCredential) => {
@@ -113,23 +138,19 @@ const CreateAccountScreen = ({ navigation, route }) => {
 
         // console.error("Error creating user:", error);
       });
-    
   };
 
-  const handleSignInWithGoogle = async () =>{
-    try{
+  const handleSignInWithGoogle = async () => {
+    try {
       const { idToken } = await GoogleSignin.signIn();
 
       const googleCredential = auth.GoogleAuthProvider.credential(idToken);
 
       return auth().signInWithCredential(googleCredential);
-    }catch(error){
+    } catch (error) {
       console.log(error);
     }
-  }
-
- 
-
+  };
 
   // signInAnonymously
   const handleSignInAnonymously = async () => {
@@ -177,59 +198,32 @@ const CreateAccountScreen = ({ navigation, route }) => {
     password.length < 8 ||
     password !== confirmPassword;
 
-  // This function generates a unique AccessToken for a user.
-  // const generateAccessToken = () => {
-  //   // Generate a UUIDv4 token for the user.
-  //   const accessToken = uuidv4();
-  //   return accessToken;
-  // };
-
-  // const handleCreateAccount = async () => {
-  //   if (!isCreateAccountButtonDisabled) {
-  //     try {
-  //       const userCredential = await auth().createUserWithEmailAndPassword(
-  //         email,
-  //         password
-  //       );
-
-  //       // You can access the user's information through userCredential.user
-  //       const user = userCredential.user;
-
-  //       // Generate an AccessToken for the user.
-  //       const accessToken = generateAccessToken();
-
-  //       // Create the user data object with the AccessToken.
-  //       const userData = {
-  //         email,
-  //         accessToken,
-  //         uid: user.uid, // You can store the user's UID for future reference
-  //       };
-
-  //       // Store user data, including the AccessToken, in AsyncStorage.
-  //       await AsyncStorage.setItem("userData", JSON.stringify(userData));
-  //       // Redirect to a success or profile page
-  //       navigation.navigate("EmailConfirmation", { email });
-  //     } catch (error) {
-  //       console.error("Error creating user: ", error);
-  //       setError(true);
-  //     }
-  //   } else {
-  //     setError(true);
-  //   }
-  // };
-
   return (
     <KeyboardAvoidingView
       behavior={Platform.OS === "ios" ? "padding" : "height"}
       keyboardVerticalOffset={Platform.OS === "ios" ? 32 : 0}
       className="h-screen w-screen  items-center justify-center mx-auto px-5"
     >
+      {!animationPlayed && (
+        <LottieView
+          ref={animation}
+          loop={false}
+          autoPlay={false}
+          onAnimationFinish={handleAnimationFinish}
+          className={`w-[700px] h-[1000px] absolute left-0 items-start justify-start top-0 -translate-x-20 ${
+            !animationPlayed ? "" : ""
+          }`}
+          source={require("../assets/Illustrations/confetti.json")}
+        />
+      )}
+
       <ScrollView
         refreshControl={
           <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
         }
         className=""
       >
+        
         <View className="flex-row justify-between w-full items-center my-5">
           {/* <Pressable onPress={() => navigation.goBack()}>
             <ArrowLeft size="24" color="#f9f9f9" />
@@ -414,10 +408,10 @@ const CreateAccountScreen = ({ navigation, route }) => {
         </View>
 
         <View className="flex-row space-x-4 mt-5 justify-center items-center">
-          <Pressable 
+          <Pressable
             className="bg-[#f9f9f9] rounded-full p-4"
             onPress={handleSignInWithGoogle}
-            >
+          >
             <Google width={32} height={32} />
           </Pressable>
           <View className="bg-[#f9f9f9] rounded-full p-4">

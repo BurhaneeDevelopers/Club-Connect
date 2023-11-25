@@ -31,6 +31,8 @@ import axios from "axios";
 import SectionTitles from "../Components/SectionTitles";
 import HR from "../Components/HR";
 import HotDealsSlider from "../Components/HotDealsSlider";
+import client from "../sanity";
+import FeaturedRow from "../Components/FeaturedRow";
 
 const CafeExploreScreen = ({ navigation }) => {
   const [clicked, setClicked] = useState(false);
@@ -117,6 +119,35 @@ const CafeExploreScreen = ({ navigation }) => {
     price: "100",
     rating: "4.5",
   }));
+
+  const [featuredCategory, setFeaturedCategory] = useState([]);
+
+  useEffect(() => {
+    // Fetch Categories for restaurant like Top picks near you, Recommended for you!
+    const fetchCategoriesForCafe = () => {
+      try {
+        client
+          .fetch(
+            `*[_type == "featured"]{
+                ...,
+                cafe -> {
+                  ...,
+                  dishes[]->
+                }
+              }
+            `
+          )
+          .then((data) => {
+            setFeaturedCategory(data);
+            // console.log(data);
+          });
+      } catch (error) {
+        console.log(error);
+      }
+    };
+
+    fetchCategoriesForCafe();
+  }, []);
   return (
     <SafeAreaView>
       <ScrollView>
@@ -221,58 +252,22 @@ const CafeExploreScreen = ({ navigation }) => {
           <HotDealsSlider />
         </View>
 
-        {/* TOP HOTSPOTS CARDS  */}
-        <View className="py-5">
-          <View className="px-5 pb-4">
-            <SectionTitles title="Top Picks Near You!" />
-          </View>
-          <ScrollView horizontal={true} showsHorizontalScrollIndicator={false}>
-            <View className="px-5 flex-row items-center justify-center">
-              {HotspotCards.map((item, index) => {
-                return (
-                  <NearestPickCard
-                    navigation={navigation}
-                    key={index}
-                    {...item}
-                  />
-                );
-              })}
-              {loading && <ActivityIndicator size="32" color="#E9FA00" />}
-            </View>
-          </ScrollView>
-        </View>
+        <View className="">
+          {/* COUPAN CARD  */}
+          <CoupanCard />
 
-        {/* COUPAN CARD  */}
-        <CoupanCard />
-
-        {/* PopularCards CARDS  */}
-        <View className="py-5">
-          <View className="px-5 pb-4">
-            <SectionTitles title="Popular Places!" />
-          </View>
-          <ScrollView horizontal={true} showsHorizontalScrollIndicator={false}>
-            <View className="px-5 flex-row items-center justify-center">
-              {HotspotCards.map((item, index) => {
-                return <PopularCafeCards key={index} {...item} />;
-              })}
-              {loading && <ActivityIndicator size="32" color="#E9FA00" />}
-            </View>
-          </ScrollView>
-        </View>
-
-        {/* Recommended CARDS  */}
-        <View className="py-5">
-          <View className="px-5 pb-4">
-            <SectionTitles title="All Places In Delhi!" />
-          </View>
-          <ScrollView horizontal={true} showsHorizontalScrollIndicator={false}>
-            <View className="px-5 flex-row items-center justify-center">
-              {HotspotCards.map((item, index) => {
-                return <RecommendedCard key={index} {...item} />;
-              })}
-              {loading && <ActivityIndicator size="32" color="#E9FA00" />}
-            </View>
-          </ScrollView>
+          {featuredCategory?.map((category, index) => {
+            return (
+              <FeaturedRow
+                key={category.id}
+                id={category._id}
+                title={category.name}
+                navigation={navigation}
+                featuredId={category.featuredId}
+                dataType={"cafes"}
+              />
+            );
+          })}
         </View>
       </ScrollView>
     </SafeAreaView>
@@ -287,200 +282,6 @@ const TopPickCards = ({ title }) => {
       <View className="items-center space-y-3 mx-3">
         <View className="bg-gray-100 w-16 h-16 rounded-full mt-5"></View>
         <Text className="text-white">{title}</Text>
-      </View>
-    </>
-  );
-};
-
-const NearestPickCard = ({
-  title,
-  img,
-  location,
-  price,
-  rating,
-  navigation,
-}) => {
-  return (
-    <>
-      <Pressable onPress={() => navigation.navigate("CafeDetails")}>
-        <View className="w-72 h-72 rounded-[30px] overflow-hidden mx-2 bg-[#262223]">
-          <Image source={img} className="w-full h-32" />
-          {/* <View className="absolute bg-[#101010]/30 w-full h-full" /> */}
-          <View className="flex-col p-4 w-full space-y-1 z-10">
-            <View className="flex-row justify-between items-center">
-              {/* Location Name */}
-              <Text
-                className="text-2xl text-[#f9f9f9]"
-                style={GlobalStyles.fontBold}
-              >
-                {title}
-              </Text>
-
-              <View className="flex-row justify-between items-center">
-                {/* Price  */}
-                <View className="flex-row items-center">
-                  <Text
-                    className="text-[#f9f9f9] text-xl"
-                    style={GlobalStyles.fontBold}
-                  >
-                    ${price}
-                  </Text>
-                  <Text
-                    className="text-[#f9f9f9]"
-                    style={GlobalStyles.fontRegular}
-                  >
-                    /night
-                  </Text>
-                </View>
-              </View>
-            </View>
-
-            {/* Rating  */}
-            <View className="flex-row items-center">
-              <Star1 size="18" color="#E9FA00" variant="Bold" />
-              <Text className="text-[#f9f9f9]" style={GlobalStyles.fontRegular}>
-                {rating}
-              </Text>
-            </View>
-
-            {/* Location  */}
-            <View className="flex-row items-center">
-              <Location size="18" color="#E9FA00" variant="Bold" />
-              <Text
-                className="text-base text-[#f9f9f9]"
-                style={GlobalStyles.fontRegular}
-              >
-                {location}
-              </Text>
-            </View>
-
-            <HR customClass={"bg-[#f9f9f9] mt-3 mb-1"} />
-
-            <View>
-              <Text
-                className="text-gray-400 text-xs"
-                style={GlobalStyles.fontRegular}
-              >
-                Follows all safety measures for a clean and hygiene food
-                experience
-              </Text>
-            </View>
-          </View>
-        </View>
-      </Pressable>
-
-
-      {/* TODO:  */}
-    </>
-  );
-};
-
-const PopularCafeCards = ({ title, img, location }) => {
-  return (
-    <>
-      <View>
-        <View className="w-72 h-80 rounded-[30px] overflow-hidden mx-2 bg-[#262223]">
-          <ImageBackground source={img} className="w-full h-36">
-            {/* Button to Save Card */}
-            <Pressable className="bg-[#E9FA00] justify-center items-center w-10 h-10 rounded-xl absolute top-3 right-5">
-              <Heart size="24" color="#101010" />
-            </Pressable>
-
-            <View className="bg-black/50 justify-center items-center py-1 px-2 absolute top-3 rounded-lg left-5">
-              <Text
-                className="text-lg text-[#f9f9f9]"
-                style={GlobalStyles.fontMedium}
-              >
-                Cafe
-              </Text>
-            </View>
-
-            <View className="bg-[#101010]/50 w-full h-14 absolute bottom-0 justify-center items-center">
-              <View className="w-full px-5">
-                <View className="flex-row items-center space-x-2">
-                  <Image
-                    source={require("../assets/Illustrations/Avatar.jpg")}
-                    className="w-10 h-10 rounded-full"
-                  />
-                  <Text
-                    className="text-lg text-[#f9f9f9]"
-                    style={GlobalStyles.fontMedium}
-                  >
-                    Magesh Bhagat
-                  </Text>
-                </View>
-              </View>
-            </View>
-          </ImageBackground>
-          {/* <View className="absolute bg-[#101010]/30 w-full h-full" /> */}
-          <View className="flex-col p-4 w-full z-10">
-            <View className="flex-row justify-between items-center">
-              {/* Location Name */}
-              <Text
-                className="text-2xl text-[#f9f9f9]"
-                style={GlobalStyles.fontBold}
-              >
-                {title}
-              </Text>
-            </View>
-
-            {/* Time  */}
-            <View className="flex-row items-center mt-2">
-              <Clock size={"24"} color="#FF26B9" variant="Bold" />
-              <Text className="text-white text-base">From 9Pm to 10Pm</Text>
-            </View>
-
-            {/* Location  */}
-            <View className="flex-row items-center mt-1">
-              <Location size="24" color="#FF26B9" variant="Bold" />
-              <Text
-                className="text-base text-[#f9f9f9]"
-                style={GlobalStyles.fontRegular}
-              >
-                {location}
-              </Text>
-            </View>
-
-            <View className="p-2 mt-4 bg-[#E9FA00] rounded">
-              <Text className="text-[#101010] text-center">View Details</Text>
-            </View>
-          </View>
-        </View>
-      </View>
-    </>
-  );
-};
-
-const RecommendedCard = ({ title, img, location, price, rating }) => {
-  return (
-    <>
-      <View>
-        <View className="w-64 h-64 rounded-[30px] overflow-hidden mx-2 bg-[#262223]">
-          <Image source={img} className="w-full h-32" />
-          {/* <View className="absolute bg-[#101010]/30 w-full h-full" /> */}
-          <View className="flex-col p-4 w-full space-y-1 mt-3 z-10">
-            <View className="flex-row justify-between items-center">
-              {/* Location Name */}
-              <Text
-                className="text-2xl text-[#f9f9f9]"
-                style={GlobalStyles.fontBold}
-              >
-                {title}
-              </Text>
-            </View>
-
-            <View className="">
-              <Text
-                className="text-gray-400 text-base"
-                numberOfLines={2}
-                style={GlobalStyles.fontRegular}
-              >
-                Follows all safety measures for a clean and hygiene food
-                experience Lorem ipsum dolor sit amet.
-              </Text>
-            </View>
-          </View>
-        </View>
       </View>
     </>
   );

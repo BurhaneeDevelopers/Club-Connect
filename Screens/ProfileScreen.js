@@ -238,10 +238,10 @@ const ProfileScreen = ({ navigation }) => {
           {saved && (
             <>
               <View className="my-5">
+                {/* <SavedCards />
                 <SavedCards />
                 <SavedCards />
-                <SavedCards />
-                <SavedCards />
+                <SavedCards /> */}
               </View>
             </>
           )}
@@ -258,41 +258,41 @@ const ProfileScreen = ({ navigation }) => {
 
 export default ProfileScreen;
 
-const SavedCards = () => {
-  return (
-    <View className="flex-row space-x-3 p-2 bg-[#FF26B9] rounded-xl h-24 my-2">
-      <View>
-        <Image
-          source={require("../assets/Images/Santorini.jpg")}
-          className="w-20 h-20 rounded-lg"
-        />
-      </View>
-      <View className="">
-        <Text className="text-xl w-64" style={GlobalStyles.fontBold}>
-          Dance party at the top of the town - 2022
-        </Text>
+// const SavedCards = () => {
+//   return (
+//     <View className="flex-row space-x-3 p-2 bg-[#FF26B9] rounded-xl h-24 my-2">
+//       <View>
+//         <Image
+//           source={require("../assets/Images/Santorini.jpg")}
+//           className="w-20 h-20 rounded-lg"
+//         />
+//       </View>
+//       <View className="">
+//         <Text className="text-xl w-64" style={GlobalStyles.fontBold}>
+//           Dance party at the top of the town - 2022
+//         </Text>
 
-        <View className="flex-row justify-between items-center">
-          <View className="space-x-1 flex-row items-end">
-            <Location size="18" color="#f9f9f9" variant="Broken" />
-            <Text
-              className="text-white text-base"
-              style={GlobalStyles.fontRegular}
-            >
-              Greece
-            </Text>
-          </View>
+//         <View className="flex-row justify-between items-center">
+//           <View className="space-x-1 flex-row items-end">
+//             <Location size="18" color="#f9f9f9" variant="Broken" />
+//             <Text
+//               className="text-white text-base"
+//               style={GlobalStyles.fontRegular}
+//             >
+//               Greece
+//             </Text>
+//           </View>
 
-          <View className="bg-[#E9FA00] px-5 py-1.5 rounded-lg justify-center items-center">
-            <Text
-              className="text-xl text-[#101010]"
-              style={GlobalStyles.fontBold}
-            >
-              Join
-            </Text>
-          </View>
-        </View>
-      </View>
-    </View>
-  );
-};
+//           <View className="bg-[#E9FA00] px-5 py-1.5 rounded-lg justify-center items-center">
+//             <Text
+//               className="text-xl text-[#101010]"
+//               style={GlobalStyles.fontBold}
+//             >
+//               Join
+//             </Text>
+//           </View>
+//         </View>
+//       </View>
+//     </View>
+//   );
+// };

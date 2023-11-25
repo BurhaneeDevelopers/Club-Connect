@@ -5,16 +5,22 @@ import GlobalStyles from "../Styles/GlobalStyles";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { useEffect, useRef } from "react";
 import LottieView from "lottie-react-native";
+import { UserDetailsContext } from "../context/UserDetailsContext";
+import { useContext } from "react";
 
 const WelcomeScreen = ({ navigation }) => {
-  useEffect(() => {
-    const hasSignedIn = AsyncStorage.getItem("hasSignedIn");
-    if (hasSignedIn) {
-      // Redirect to sign-in page if the user hasn't signed in
-      // window.location.href = "/signin";
-      navigation.navigate("Index");
-    }
-  }, [navigation]);
+  // const isSignedIn = AsyncStorage.getItem("hasSignedIn");
+
+  // useEffect(() => {
+  //   // If the user is already signed in, navigate to the home screen
+  //   AsyncStorage.getItem("hasSignedIn").then()
+  //   if (isSignedIn == true) {
+  //     console.log(isSignedIn);
+  //     navigation.replace("Index");
+  //   } else {
+  //     navigation.replace("SignIn");
+  //   }
+  // }, [isSignedIn]);
 
   const animation = useRef(null);
 

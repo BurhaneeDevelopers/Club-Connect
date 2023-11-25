@@ -18,6 +18,8 @@ import { SafeAreaView } from "react-native-safe-area-context";
 // ICONS
 import { ArrowLeft } from "iconsax-react-native";
 import AuthSparklePink from "../assets/Illustrations/AuthSparklePink.svg";
+import { useContext } from "react";
+import { UserDetailsContext } from "../context/UserDetailsContext";
 
 const CitiesListScreen = ({ navigation }) => {
   const [isLoading, setIsLoading] = useState(false);
@@ -77,6 +79,16 @@ const CitiesListScreen = ({ navigation }) => {
     }
   };
 
+  const { userDetails } = useContext(UserDetailsContext);
+
+  const handleCitySelect = (selectedCity) => {
+    // Save the selected city to local storage
+    AsyncStorage.setItem("selectedCity", selectedCity);
+
+    // Navigate to the next screen or perform other actions as needed
+    navigation.navigate("Authenticate", { city: selectedCity });
+  };
+
   return (
     <SafeAreaView>
       <View className="flex-row justify-between w-full items-center mt-5 px-5">
@@ -126,8 +138,11 @@ const CitiesListScreen = ({ navigation }) => {
                     <HR />
                   </View>
                   <Pressable
-                    className="py-2 rounded active:text-[#FF26B9]/70"
-                    onPress={() => navigation.navigate("Index")}
+                    className="py-2 rounded active:text-[#FF26B9]/70 active:bg-[#101010]/70"
+                    onPress={() => {
+                      handleCitySelect(city);
+                      console.log(city);
+                    }}
                   >
                     <Text
                       style={GlobalStyles.fontMedium}

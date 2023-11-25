@@ -100,7 +100,7 @@ const HotDealsCard = () => {
     <View className="w-screen">
       <ImageBackground
         source={require("../assets/Images/Santorini.jpg")}
-        className="h-44 my-4 overflow-hidden w-[360px] mx-auto rounded-[30px]"
+        className="h-48 my-5 overflow-hidden w-screen mx-auto"
         // style={{ width: screenWidth }}
       >
         <View className="absolute top-3 right-5 bg-[#E9FA00] rounded-full items-center justify-center px-3.5 py-0.5 ">
