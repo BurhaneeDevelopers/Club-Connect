@@ -25,6 +25,7 @@ import {
   uploadBytesResumable,
   getDownloadURL,
 } from "firebase/storage";
+import LottieView from "lottie-react-native";
 
 // Contexts
 import { useContext } from "react";
@@ -44,6 +45,7 @@ const ProfileEditScreen = ({ navigation }) => {
   const [loading, setLoading] = useState(false);
   const [image, setImage] = useState(null);
   const [uploading, setUploading] = useState(false);
+  const [downlaodedURL, setDownloadedURL] = useState(null);
 
   const auth = getAuth();
   useEffect(() => {
@@ -98,6 +100,33 @@ const ProfileEditScreen = ({ navigation }) => {
     [name, userName, bio, location, profileImage]
   );
 
+  // CONFETTI HERE
+  // FIRE CONFETTI when user signs In for the first Time anonymously
+  const [animationPlayed, setAnimationPlayed] = useState(false);
+  const animation = useRef(null);
+
+  const handleAnimationFinish = () => {
+    setAnimationPlayed(true);
+  };
+
+  useEffect(() => {
+    // Check if the animation has already been played
+    if (!animationPlayed) {
+      AsyncStorage.getItem("playAnimation")
+        .then((playAnimation) => {
+          if (playAnimation === "true") {
+            // Play the animation
+            animation.current?.play();
+
+            AsyncStorage.setItem("playAnimation", "false");
+          }
+        })
+        .catch((error) => {
+          console.error("Error checking AsyncStorage:", error);
+        });
+    }
+  }, [animationPlayed]);
+
   // Save data in DB and in CONTEXT
   const handleSaveData = useMemo(
     () => async () => {
@@ -111,7 +140,7 @@ const ProfileEditScreen = ({ navigation }) => {
           userName: userName,
           bio: bio,
           location: location,
-          profileImage: profileImage.uri,
+          profileImage: downlaodedURL,
         });
 
         // Update the context with the new user details
@@ -120,11 +149,12 @@ const ProfileEditScreen = ({ navigation }) => {
           userName: userName,
           bio: bio,
           location: location,
-          profileImage: profileImage.uri,
+          profileImage: downlaodedURL,
         });
 
         console.log("Saved Data");
         setLoading(false);
+        AsyncStorage.setItem("playAnimation", "true");
         setSuccess(true);
 
         // Log the updated user details after setting the state
@@ -154,26 +184,28 @@ const ProfileEditScreen = ({ navigation }) => {
       try {
         const imageUrl = await uploadImage();
         setProfileImage(imageUrl);
+        console.log("Image URL", imageUrl);
 
         await updateDoc(doc(db, "users", auth.currentUser.uid), {
           name: name,
           userName: userName,
           bio: bio,
           location: location,
-          profileImage: profileImage.uri,
+          profileImage: downlaodedURL,
         });
-
+        console.log(downlaodedURL);
         // Update the context with the new user details
         setUserDetails({
           name: name,
           userName: userName,
           bio: bio,
           location: location,
-          profileImage: profileImage.uri,
+          profileImage: downlaodedURL,
         });
 
         console.log("Updated Data");
         setLoading(false);
+        AsyncStorage.setItem("playAnimation", "true");
         setSuccess(true);
 
         // Log the updated user details after setting the state
@@ -216,6 +248,7 @@ const ProfileEditScreen = ({ navigation }) => {
       console.log(source);
       setImage(source);
       setProfileImage(source);
+      setDownloadedURL(source);
       setLoading(false);
     }
   };
@@ -232,11 +265,11 @@ const ProfileEditScreen = ({ navigation }) => {
 
       await uploadTask;
 
-      // Get the download URL
       const downloadURL = await getDownloadURL(storageRef);
-
+      
       setUploading(false);
-      alert("Photo Uploaded");
+      console.log("Download URL is:", downloadURL);
+
       setProfileImage(null);
       setImage(null);
 
@@ -254,6 +287,19 @@ const ProfileEditScreen = ({ navigation }) => {
       keyboardVerticalOffset={Platform.OS === "ios" ? 32 : 0}
       className="h-screen w-screen  items-center justify-center mx-auto px-5"
     >
+      {!animationPlayed && (
+        <LottieView
+          ref={animation}
+          loop={false}
+          autoPlay={false}
+          onAnimationFinish={handleAnimationFinish}
+          className={`w-[700px] h-[1000px] absolute left-0 items-start justify-start top-0 -translate-x-20 ${
+            !animationPlayed ? "" : ""
+          }`}
+          source={require("../assets/Illustrations/confetti.json")}
+        />
+      )}
+      
       <RBSheet
         customStyles={{
           draggableIcon: { display: "none" },

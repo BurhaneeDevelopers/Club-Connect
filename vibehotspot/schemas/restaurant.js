@@ -16,9 +16,9 @@ export default {
       validation: (Rule) => Rule.max(200),
     },
     {
-      name: 'ownerName',
+      name: 'openingTime',
       type: 'string',
-      title: 'Restaurant owner name',
+      title: 'Hours:',
     },
     {
       name: 'ownerProfileImage',
@@ -38,13 +38,22 @@ export default {
     {
       name: 'long',
       type: 'string',
-      title: 'Latitude of the restaurant',
+      title: 'Longitude of the restaurant',
     },
     {
       name: 'address',
       type: 'string',
       title: 'Restaurant address',
-      validation: (Rule) => Rule.required(),
+    },
+    {
+      name: 'city',
+      type: 'string',
+      title: 'City of the Restaurant',
+    },
+    {
+      name: 'state',
+      type: 'string',
+      title: 'State of the Restaurant',
     },
     {
       name: 'rating',

@@ -16,9 +16,9 @@ export default {
       validation: (Rule) => Rule.max(200),
     },
     {
-      name: 'ownerName',
+      name: 'openingTime',
       type: 'string',
-      title: 'Cafe owner name',
+      title: 'Opening Time and Closing Time',
     },
     {
       name: 'ownerProfileImage',

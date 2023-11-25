@@ -15,6 +15,8 @@ export const UserDetailsProvider = ({ children }) => {
     profileImage: null,
   });
 
+  const [isSignedIn, setIsSignedIn] = useState(false);
+
   const auth = getAuth();
 
   const fetchUserDetails = async (uid) => {
@@ -32,6 +34,7 @@ export const UserDetailsProvider = ({ children }) => {
     const initializeData = async () => {
       if (auth.currentUser) {
         await fetchUserDetails(auth.currentUser.uid);
+        setIsSignedIn(true);
       }
     };
 
@@ -42,15 +45,28 @@ export const UserDetailsProvider = ({ children }) => {
     const unsubscribe = onAuthStateChanged(auth, async (user) => {
       if (user) {
         await fetchUserDetails(user.uid);
+        setIsSignedIn(true);
+      } else {
+        setIsSignedIn(false);
       }
     });
 
     return () => unsubscribe();
   }, [auth, fetchUserDetails]);
 
+  const signIn = async () => {
+    setIsSignedIn(true);
+  };
+
   return (
     <UserDetailsContext.Provider
-      value={{ userDetails, setUserDetails, fetchUserDetails }}
+      value={{
+        userDetails,
+        setUserDetails,
+        fetchUserDetails,
+        isSignedIn,
+        signIn,
+      }}
     >
       {children}
     </UserDetailsContext.Provider>

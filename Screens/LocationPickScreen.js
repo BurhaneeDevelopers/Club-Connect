@@ -3,15 +3,18 @@ import { View, Text, Pressable, ActivityIndicator } from "react-native";
 import GlobalStyles from "../Styles/GlobalStyles";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import * as Location from "expo-location";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 // import axios from "axios";
 import { reverseGeocodeAsync } from "expo-location";
 
 // ICONS
 import { ArrowLeft } from "iconsax-react-native";
 import AuthSparklePink from "../assets/Illustrations/AuthSparklePink.svg";
+import useLocation from "../Hooks/useLocation";
 
 const LocationPickScreen = ({ navigation }) => {
+  const { updateLiveLocation } = useLocation();
+
   const clearCache = async () => {
     try {
       await AsyncStorage.clear();
@@ -27,6 +30,9 @@ const LocationPickScreen = ({ navigation }) => {
   const [loading, setLoading] = useState(false);
   const [liveLocation, setLiveLocation] = useState("");
 
+  const { setLatitude, setLongitude, longitude, latitude } = useLocation();
+  // console.log(latitude, longitude);
+
   const handleLocationRequest = async () => {
     setLoading(true);
     let { status } = await Location.requestForegroundPermissionsAsync();
@@ -40,10 +46,16 @@ const LocationPickScreen = ({ navigation }) => {
       setLocation(location);
 
       // Use reverseGeocodeAsync to get address information
-      let address = await reverseGeocodeAsync({
+      const address = await reverseGeocodeAsync({
         latitude: location.coords.latitude,
         longitude: location.coords.longitude,
       });
+
+      console.log(
+        "Address:",
+        location.coords.latitude,
+        location.coords.longitude
+      );
 
       // Get the first address from the array
       const firstAddress = address[0];
@@ -51,8 +63,22 @@ const LocationPickScreen = ({ navigation }) => {
       // Log the address information
       console.log("Address:", firstAddress);
 
+      await AsyncStorage.setItem(
+        "CachedLatitude",
+        JSON.stringify(location.coords.latitude) // Convert to string
+      );
+
+      AsyncStorage.setItem(
+        "CachedLongitude",
+        JSON.stringify(location.coords.longitude) // Convert to string
+      );
+
       setLiveLocation(firstAddress);
       setLoading(false);
+
+      setTimeout(() => {
+        navigation.navigate("Authenticate");
+      }, 1000);
     } catch (error) {
       console.error("Error getting location:", error);
       setLoading(false);
@@ -127,7 +153,9 @@ const LocationPickScreen = ({ navigation }) => {
       {liveLocation && (
         <View className="absolute bottom-10 w-72">
           <Text className="text-center" style={GlobalStyles.fontMedium}>
-            <Text className="text-[#FF26B9]">Live Location Fetched: &nbsp;</Text>
+            <Text className="text-[#FF26B9]">
+              Live Location Fetched: &nbsp;
+            </Text>
             <Text className="text-[#f9f9f9]">
               {liveLocation.name}, {liveLocation.street},&nbsp;
               {liveLocation.district},&nbsp;

@@ -45,14 +45,16 @@ const CafeDetailsScreen = ({ navigation }) => {
       title,
       location,
       shortDescription,
-      ownerName,
+      openingTime,
       ownerProfileImage,
       dataType,
     },
   } = useRoute();
 
   const urlifiedImage = image ? urlFor(image).url() : null;
-  const urlifiedProfileImage = image ? urlFor(ownerProfileImage).url() : null;
+  const urlifiedProfileImage = ownerProfileImage
+    ? urlFor(ownerProfileImage)?.url()
+    : null;
 
   const [isLiked, setIsLiked] = useState(false);
   const toggleSave = () => {
@@ -128,7 +130,7 @@ const CafeDetailsScreen = ({ navigation }) => {
             {title}
           </Text>
 
-          <View className="flex-row space-x-2 items-center">
+          <View className="flex-row space-x-2 items-start">
             {/* Location Name */}
 
             <Location size={"20"} color="#E9FA00" />
@@ -191,29 +193,29 @@ const CafeDetailsScreen = ({ navigation }) => {
           <View className="my-5 flex-row justify-between items-center">
             <View className="flex-row items-center space-x-3">
               <Image
-                source={{ uri: urlifiedProfileImage }}
+                source={{ uri: urlifiedImage }}
                 className="w-20 h-20 rounded-xl"
-                resizeMode="contain"
+                resizeMode="cover"
               />
 
               <View className="w-44">
                 <Text
-                  className="text-white text-2xl"
+                  className="text-white text-xl"
                   style={GlobalStyles.fontSemiBold}
                 >
-                  {ownerName}
+                  {openingTime}
                 </Text>
                 <Text
                   className="text-[#E9FA00] text-lg"
                   style={GlobalStyles.fontRegular}
                 >
-                  Owner
+                  Opening Hours
                 </Text>
               </View>
             </View>
 
             <View className="bg-[#E9FA00] px-3 py-2 rounded-lg">
-              <Text style={GlobalStyles.fontMedium}>Follow</Text>
+              <Text style={GlobalStyles.fontMedium}>Share</Text>
             </View>
           </View>
 

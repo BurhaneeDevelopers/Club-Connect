@@ -46,8 +46,10 @@ import client from "../sanity";
 
 // RN ELEMENTS
 import { Skeleton } from "@rneui/themed";
+import { useRoute } from "@react-navigation/native";
+import useSelectedCity from "../Hooks/useSelectedCity";
 
-const HomeScreen = ({ navigation, route }) => {
+const HomeScreen = ({ navigation }) => {
   // FIRE CONFETTI when user signs In for the first Time anonymously
   const [animationPlayed, setAnimationPlayed] = useState(false);
   const animation = useRef(null);
@@ -78,36 +80,6 @@ const HomeScreen = ({ navigation, route }) => {
   const [refreshing, setRefreshing] = React.useState(false);
   const [loading, setLoading] = useState(false);
 
-  const [hotspotImages, setHotspotImages] = useState([]);
-  UNSPLASH_ACCESS_KEY = "6KEJery9EMaZFtuiQjELpzqV5sgo9vVWqm52b_gKYZ4";
-
-  const fetchHotspotImages = async () => {
-    setLoading(true);
-    try {
-      const response = await axios.get(
-        "https://api.unsplash.com/search/photos",
-        {
-          params: {
-            query: "resorts", // You can modify the query to match your requirements
-          },
-          headers: {
-            Authorization: `Client-ID ${UNSPLASH_ACCESS_KEY}`,
-          },
-        }
-      );
-
-      const images = response.data.results.map((result) => result.urls.regular);
-      setHotspotImages(images);
-      setLoading(false);
-    } catch (error) {
-      console.error("Error fetching images from Unsplash:", error);
-    }
-  };
-
-  useEffect(() => {
-    fetchHotspotImages();
-  }, []);
-
   const onRefresh = () => {
     setRefreshing(true);
     fetchHotspotImages();
@@ -116,37 +88,6 @@ const HomeScreen = ({ navigation, route }) => {
       setRefreshing(false);
     }, 1000);
   };
-
-  const HotspotCards = hotspotImages.map((image, index) => ({
-    img: { uri: image },
-    title: `Hotspot ${index + 1}`,
-    location: "Unknown",
-    price: "100",
-    rating: "4.5",
-  }));
-
-  const [editedProfileData, setEditedProfileData] = useState({}); // Initialize as an empty object
-
-  const getUserEditedData = async () => {
-    const userEditedData = await AsyncStorage.getItem("userEditedData");
-
-    if (userEditedData) {
-      const parsedUserEditedData = JSON.parse(userEditedData);
-      setEditedProfileData(parsedUserEditedData);
-    }
-  };
-
-  useEffect(() => {
-    getUserEditedData();
-  }, []);
-
-  useEffect(() => {
-    const hasSignedIn = AsyncStorage.getItem("hasSignedIn");
-    if (!hasSignedIn) {
-      // Redirect to sign-in page if the user hasn't signed in
-      navigation.navigate("SignIn");
-    }
-  }, [navigation]);
 
   // Display Dummy Random UserName and Name when username not set
   const [name, setName] = useState("");
@@ -177,12 +118,6 @@ const HomeScreen = ({ navigation, route }) => {
 
   // Fetch UserName and other Details when user edits his profile
   const { userDetails } = useContext(UserDetailsContext);
-
-  // useEffect(() => {
-  //   fetchUserDetails();
-  // }, []);
-
-  const [clicked, setClicked] = useState(false);
 
   const [featuredCategory, setFeaturedCategory] = useState([]);
 
@@ -238,80 +173,48 @@ const HomeScreen = ({ navigation, route }) => {
       )}
 
       <SafeAreaView className="h-full w-full">
-        <View className="rounded-b-3xl bg-[#E9FA00]">
-          {/* MENU  */}
-          <View className="flex-row justify-between items-center p-5">
-            {/* USERNAME AND SEARCH MENU  */}
-            <Pressable
-              className="flex-row items-center space-x-2"
-              onPress={() => navigation.navigate("Profile")}
-            >
-              {userDetails?.profileImage ? (
-                <Image
-                  source={{ uri: userDetails.profileImage }}
-                  className="w-16 h-16 rounded-full"
-                />
-              ) : (
-                <Image
-                  source={require("../assets/Illustrations/Avatar.jpg")}
-                  className="w-16 h-16 rounded-full"
-                />
-              )}
+        {/* MENU  */}
+        <View className="flex-row justify-between items-center p-5">
+          {/* USERNAME AND SEARCH MENU  */}
+          <Pressable
+            className="flex-row items-center space-x-2"
+            onPress={() => navigation.navigate("Profile")}
+          >
+            {userDetails?.profileImage ? (
+              <Image
+                source={{ uri: userDetails.profileImage.uri }}
+                className="w-16 h-16 rounded-full"
+              />
+            ) : (
+              <Image
+                source={require("../assets/Illustrations/Avatar.jpg")}
+                className="w-16 h-16 rounded-full"
+              />
+            )}
 
-              <View className="">
-                <Text
-                  className="text-xl text-[#FF26B9]"
-                  style={GlobalStyles.fontSemiBold}
-                >
-                  {userDetails?.name || name || (
-                    <Skeleton animation="pulse" width={140} height={10} />
-                  )}
-                  {/* {console.log(userDetails?.name)} */}
-                </Text>
-                <Text
-                  className="text-[#101010]"
-                  style={GlobalStyles.fontMedium}
-                >
-                  {userDetails?.userName || userName || (
-                    <Skeleton animation="pulse" width={120} height={10} />
-                  )}
-                </Text>
-              </View>
-            </Pressable>
+            {/* {console.log(userDetails.profileImage)} */}
 
-            <Pressable onPress={() => navigation.navigate("LocationPick")}>
-              <Gps size={28} color="#101010" />
-            </Pressable>
-          </View>
-
-          {/* SearchBar  */}
-          <View className="p-5">
-            <View
-              className={`flex-row justify-between rounded-xl p-3 bg-[#f9f9f9] overflow-hidden  ${
-                clicked ? "bg-[#FF26B9]" : ""
-              }`}
-            >
-              <View className="flex-row items-center w-72 gap-3 overflow-hidden">
-                {/* search Icon */}
-                <SearchNormal
-                  size={22}
-                  color={clicked ? "#f9f9f9" : "#101010"}
-                />
-
-                {/* Input field */}
-                <TextInput
-                  placeholder="Search for any Event, Cafe..."
-                  onFocus={() => {
-                    setClicked(true);
-                  }}
-                  placeholderTextColor={clicked ? "#f9f9f9" : "#101010"}
-                  className="text-lg w-full"
-                  style={GlobalStyles.fontSemiBold}
-                />
-              </View>
+            <View className="">
+              <Text
+                className="text-xl text-[#FF26B9]"
+                style={GlobalStyles.fontSemiBold}
+              >
+                {userDetails?.name || name || (
+                  <Skeleton animation="pulse" width={140} height={10} />
+                )}
+                {/* {console.log(userDetails?.name)} */}
+              </Text>
+              <Text className="text-[#f9f9f9]" style={GlobalStyles.fontMedium}>
+                {userDetails?.userName || userName || (
+                  <Skeleton animation="pulse" width={120} height={10} />
+                )}
+              </Text>
             </View>
-          </View>
-          {/* SearchBar End  */}
+          </Pressable>
+
+          <Pressable onPress={() => navigation.navigate("Setting")}>
+            <SearchNormal1 size="32" color="#E9FA00" variant="Broken" />
+          </Pressable>
         </View>
 
         {/* AUTO SLIDING HOT DEALS  */}
@@ -333,7 +236,7 @@ const HomeScreen = ({ navigation, route }) => {
             <View className="flex-row">
               <MenuCards
                 icon={<Buildings2 size="32" color="#f9f9f9" variant="Broken" />}
-                title="Hotspot"
+                title={"Hotspot"}
                 navigateTo={"HotspotExplore"}
                 navigation={navigation}
               />
@@ -372,21 +275,6 @@ const HomeScreen = ({ navigation, route }) => {
             </View>
           </ScrollView>
         </View>
-
-        {/* TOP HOTSPOTS CARDS  */}
-        {/* <View className="py-5">
-          <View className="px-5 pb-4">
-            <SectionTitles title="Top Hotspots" />
-          </View>
-          <ScrollView horizontal={true} showsHorizontalScrollIndicator={false}>
-            <View className="px-5 flex-row items-center justify-center">
-              {HotspotCards.map((item, index) => {
-                return <TopPickCard key={index} {...item} />;
-              })}
-              {loading && <ActivityIndicator size="32" color="#E9FA00" />}
-            </View>
-          </ScrollView>
-        </View> */}
 
         {/* COUPAN CARD  */}
         <CoupanCard />
@@ -435,7 +323,6 @@ const MenuCards = ({ icon, title, navigateTo, navigation }) => {
     </>
   );
 };
-
 
 const CoupanCard = () => {
   return (

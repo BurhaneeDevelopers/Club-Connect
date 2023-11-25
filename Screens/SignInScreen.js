@@ -13,14 +13,13 @@ import {
 } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import GlobalStyles from "../Styles/GlobalStyles";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { ArrowLeft, Apple, Eye, EyeSlash } from "iconsax-react-native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
 // Context
 import { useContext } from "react";
 import { UserDetailsContext } from "../context/UserDetailsContext";
-import useAuth from "../Hooks/useAuth";
 
 // JSON Data
 import names from "../randomName.json";
@@ -81,15 +80,24 @@ const SignInScreen = ({ navigation, route }) => {
   const navigateAfterAccountCreated = (navigation) => {
     setToast(true);
 
-    // Wait for 4-5 seconds and then navigate
+    // Wait for 1-2 seconds and then navigate
     setTimeout(() => {
       setToast(false);
       // Navigate to the next screen (e.g., EmailConfirmation)
-      navigation.navigate("Index");
-    }, 4000); // Adjust the timeout as needed
+      navigation.navigate("LocationPick");
+    }, 1000); // Adjust the timeout as needed
   };
 
-  const { fetchUserDetails } = useContext(UserDetailsContext);
+  const { signIn, fetchUserDetails } = useContext(UserDetailsContext);
+
+  // const isSignedIn = AsyncStorage.getItem("hasSignedIn");
+  // useEffect(() => {
+  //   // If the user is already signed in, navigate to the home screen
+  //   if (isSignedIn === true) {
+  //     console.log(isSignedIn);
+  //     navigation.navigate("Index");
+  //   }
+  // }, [isSignedIn]);
 
   const handleSignIn = async () => {
     setLoading(true);
@@ -101,9 +109,10 @@ const SignInScreen = ({ navigation, route }) => {
         }
         console.log("Logged in with:", user.email);
         setError(false);
-        AsyncStorage.setItem("hasSignedIn", "true");
         AsyncStorage.setItem("playAnimation", "true");
         setLoading(false);
+        signIn();
+        AsyncStorage.setItem("hasSignedIn", "true");
         navigateAfterAccountCreated(navigation);
       })
       .catch((error) => {
@@ -129,7 +138,9 @@ const SignInScreen = ({ navigation, route }) => {
           AsyncStorage.setItem("UserName", selectedUsername);
 
           AsyncStorage.setItem("playAnimation", "true");
-          navigation.navigate("Index");
+          signIn();
+          AsyncStorage.setItem("hasSignedIn", "true");
+          navigation.navigate("LocationPick");
         })
         .catch((error) => {
           setError("An error occurred. Please try again.");

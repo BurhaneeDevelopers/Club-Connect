@@ -60,13 +60,22 @@ const FeaturedRow = ({ id, title, navigation, featuredId, dataType }) => {
         title={item?.name}
         location={item?.address}
         shortDescription={item?.short_description}
-        ownerName={item?.ownerName}
+        openingTime={item?.openingTime}
         ownerProfileImage={item?.ownerProfileImage}
         dataType={dataType}
         navigation={navigation}
       />
     ));
   };
+
+  // Check if the featuredId is valid
+  if (featuredId < 1 || featuredId > 4) {
+    return null; // or handle this case in a way that makes sense for your app
+  }
+
+  if (!itemData || itemData.length === 0) {
+    return null;
+  }
 
   return (
     <View>
@@ -75,7 +84,11 @@ const FeaturedRow = ({ id, title, navigation, featuredId, dataType }) => {
         <SectionTitles title={title} />
       </View>
 
-      <ScrollView horizontal={true} showsHorizontalScrollIndicator={false}>
+      <ScrollView
+        horizontal={true}
+        showsHorizontalScrollIndicator={false}
+        className="pb-10"
+      >
         {loading && <ActivityIndicator size="32" color="#E9FA00" />}
         <View className="px-5 flex-row items-center justify-center w-full">
           {featuredId == 4 && renderCards(itemData, ExploreCard)}
@@ -98,7 +111,7 @@ const NearestPickCard = ({
   shortDescription,
   navigation,
 }) => {
-  const urlifiedImage = urlFor(image).url();
+  const urlifiedImage = image ? urlFor(image).url() : null;
   return (
     <>
       <Pressable onPress={() => navigation.navigate("CafeDetails")}>
@@ -182,13 +195,15 @@ const PopularCafeCards = ({
   title,
   location,
   image,
-  ownerName,
+  openingTime,
   ownerProfileImage,
   navigation,
   dataType,
 }) => {
-  const urlifiedImage = urlFor(image).url();
-  const urlifiedProfileImage = urlFor(ownerProfileImage).url();
+  const urlifiedImage = image ? urlFor(image).url() : null;
+  const urlifiedProfileImage = ownerProfileImage
+    ? urlFor(ownerProfileImage)?.url()
+    : null;
   return (
     <>
       <View className="w-80 h-80 rounded-[30px] overflow-hidden mx-2 bg-[#262223]">
@@ -223,7 +238,7 @@ const PopularCafeCards = ({
                   className="text-lg text-[#f9f9f9]"
                   style={GlobalStyles.fontMedium}
                 >
-                  {ownerName}
+                  {openingTime}
                 </Text>
               </View>
             </View>
@@ -277,47 +292,70 @@ const PopularCafeCards = ({
   );
 };
 
-const RecommendedCard = ({ title, location, image, navigation }) => {
-  const urlifiedImage = urlFor(image).url();
+const RecommendedCard = ({
+  id,
+  image,
+  rating,
+  title,
+  location,
+  shortDescription,
+  openingTime,
+  ownerProfileImage,
+  dataType,
+  navigation,
+}) => {
+  const urlifiedImage = image ? urlFor(image).url() : null;
   return (
-    <>
-      <View className="w-64 h-64 rounded-[30px] overflow-hidden mx-2 bg-[#262223]">
-        <Image
-          source={{ uri: urlifiedImage }}
-          defaultSource={require("../assets/Images/User/Dummy-Profile.png")}
-          className="w-full h-32"
-        />
+    <Pressable
+      className="w-44 h-64 rounded-2xl overflow-hidden mx-2 bg-[#262223]"
+      onPress={() =>
+        navigation.navigate("CafeDetails", {
+          id,
+          image,
+          rating,
+          title,
+          location,
+          shortDescription,
+          openingTime,
+          ownerProfileImage,
+          dataType,
+        })
+      }
+    >
+      <Image
+        source={{ uri: urlifiedImage }}
+        defaultSource={require("../assets/Images/User/Dummy-Profile.png")}
+        className="w-full h-32"
+      />
 
-        {/* <View className="absolute bg-[#101010]/30 w-full h-full" /> */}
-        <View className="flex-col p-4 w-full space-y-1 mt-3 z-10">
-          <View className="flex-row justify-between items-center">
-            {/* Location Name */}
-            <Text
-              className="text-xl text-[#f9f9f9]"
-              style={GlobalStyles.fontBold}
-            >
-              {title}
-            </Text>
-          </View>
+      {/* <View className="absolute bg-[#101010]/30 w-full h-full" /> */}
+      <View className="flex-col p-4 w-full space-y-1 z-10">
+        <View className="flex-row justify-between items-center">
+          {/* Location Name */}
+          <Text
+            className="text-xl text-[#f9f9f9]"
+            style={GlobalStyles.fontBold}
+          >
+            {title}
+          </Text>
+        </View>
 
-          <View className="">
-            <Text
-              className="text-gray-400 text-base"
-              numberOfLines={2}
-              style={GlobalStyles.fontRegular}
-            >
-              Follows all safety measures for a clean and hygiene food
-              experience Lorem ipsum dolor sit amet.
-            </Text>
-          </View>
+        <View className="">
+          <Text
+            className="text-gray-400 text-base"
+            numberOfLines={2}
+            style={GlobalStyles.fontRegular}
+          >
+            {shortDescription}
+          </Text>
         </View>
       </View>
-    </>
+    </Pressable>
   );
 };
 
 const ExploreCard = ({ title, rating, image, navigation }) => {
-  const urlifiedImage = urlFor(image).url();
+  const urlifiedImage = image ? urlFor(image).url() : null;
   return (
     <View className="bg-white rounded-2xl w-64 h-24 p-2 flex-row space-x-2 mx-2">
       <View

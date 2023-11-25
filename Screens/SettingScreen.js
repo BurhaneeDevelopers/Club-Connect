@@ -31,6 +31,7 @@ import {
   Danger,
   AddCircle,
 } from "iconsax-react-native";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 const SettingScreen = ({ navigation }) => {
   const SettingsTitle = [
@@ -94,10 +95,14 @@ const SettingScreen = ({ navigation }) => {
   const auth = getAuth();
 
   const handleSignOut = () => {
+    AsyncStorage.clear();
+    AsyncStorage.setItem("hasSignedIn", "");
     auth
       .signOut()
       .then(() => {
-        navigation.replace("SignIn");
+        navigation.replace("UnAuthenticate", {
+          screen: "SignIn",
+        });
       })
       .catch((error) => alert(error.message));
   };
