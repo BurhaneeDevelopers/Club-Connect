@@ -1,38 +1,45 @@
+import { useState, useEffect } from "react";
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import { useState } from "react";
 
-const useLocation = async () => {
-  const [locationData, setLocationData] = useState(null);
+const useLocation = () => {
   const [latitude, setLatitude] = useState(null);
   const [longitude, setLongitude] = useState(null);
+
   useEffect(() => {
-    const fetchData = async () => {
-      const cachedLatitude = await AsyncStorage.getItem("CachedLatitude");
-      const cachedLongitude = await AsyncStorage.getItem("CachedLongitude");
-      const CachedLatitude = parseFloat(cachedLatitude);
-      const CachedLongitude = parseFloat(cachedLongitude);
+    // Retrieve the selected city from local storage when the component mounts
+    const fetchlatitude = async () => {
+      try {
+        const storedLatitude = await AsyncStorage.getItem("latitude");
+        const storedLongitude = await AsyncStorage.getItem("longitude");
 
-      setLatitude(CachedLatitude);
-      setLongitude(CachedLongitude);
-
-      console.log("FINAL", latitude, longitude);
+        const storedFloatLatitude = parseFloat(storedLatitude);
+        const storedFloatLongitude = parseFloat(storedLongitude);
+        if (storedFloatLatitude && storedFloatLongitude) {
+          setLatitude(storedLatitude);
+          setLongitude(storedLongitude);
+        }
+      } catch (error) {
+        console.error("Error retrieving Coordinates:", error);
+      }
     };
 
-    fetchData();
+    fetchlatitude();
   }, []);
 
-  const updateLiveLocation = (data) => {
-    setLocationData(data);
+  const saveCordinates = async (latitude, longitude) => {
+    try {
+      await AsyncStorage.setItem("latitude", latitude.toString());
+      await AsyncStorage.setItem("longitude", longitude.toString());
+      setLatitude(latitude);
+      setLongitude(longitude);
+
+      console.log("set:", latitude, longitude);
+    } catch (error) {
+      console.error("Error saving selected city:", error);
+    }
   };
 
-  return {
-    locationData,
-    updateLiveLocation,
-    latitude,
-    longitude,
-    setLongitude,
-    setLatitude,
-  };
+  return { latitude, longitude, saveCordinates };
 };
 
 export default useLocation;

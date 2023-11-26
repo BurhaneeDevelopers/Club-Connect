@@ -30,8 +30,7 @@ const LocationPickScreen = ({ navigation }) => {
   const [loading, setLoading] = useState(false);
   const [liveLocation, setLiveLocation] = useState("");
 
-  const { setLatitude, setLongitude, longitude, latitude } = useLocation();
-  // console.log(latitude, longitude);
+  const { saveCordinates } = useLocation();
 
   const handleLocationRequest = async () => {
     setLoading(true);
@@ -57,21 +56,12 @@ const LocationPickScreen = ({ navigation }) => {
         location.coords.longitude
       );
 
+      const newLatitude = location.coords.latitude; // New latitude value
+      const newLongitude = location.coords.longitude; // New longitude value
+      saveCordinates(newLatitude, newLongitude);
+
       // Get the first address from the array
       const firstAddress = address[0];
-
-      // Log the address information
-      console.log("Address:", firstAddress);
-
-      await AsyncStorage.setItem(
-        "CachedLatitude",
-        JSON.stringify(location.coords.latitude) // Convert to string
-      );
-
-      AsyncStorage.setItem(
-        "CachedLongitude",
-        JSON.stringify(location.coords.longitude) // Convert to string
-      );
 
       setLiveLocation(firstAddress);
       setLoading(false);
