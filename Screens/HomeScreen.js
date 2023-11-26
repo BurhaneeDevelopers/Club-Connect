@@ -82,7 +82,6 @@ const HomeScreen = ({ navigation }) => {
 
   const onRefresh = () => {
     setRefreshing(true);
-    fetchHotspotImages();
     getUserEditedData();
     setTimeout(() => {
       setRefreshing(false);

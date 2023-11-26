@@ -11,7 +11,15 @@ import {
 import React, { useEffect, useState } from "react";
 import SectionTitles from "./SectionTitles";
 import client, { urlFor } from "../sanity";
-import { Car, Clock, Heart, Location, Star1 } from "iconsax-react-native";
+import {
+  Car,
+  Clock,
+  Heart,
+  Location,
+  Star1,
+  Timer1,
+  WristClock,
+} from "iconsax-react-native";
 import HR from "./HR";
 import { useNavigation } from "@react-navigation/native";
 import useSelectedCity from "../Hooks/useSelectedCity";
@@ -55,11 +63,12 @@ const FeaturedHomeRow = ({ id, title, navigation, featuredId, dataType }) => {
     fetchDataInFeaturedCategory();
   }, []);
 
-  const {longitude, latitude} =
-    useLocation();
+  const { latitude, longitude } = useLocation();
 
-    console.log("LAT", latitude);
-    console.log("LONG", longitude);
+  useEffect(() => {
+    // console.log("LAT", latitude);
+    // console.log("LONG", longitude);
+  }, [latitude, longitude]);
 
   const filterDataByCity = (data) => {
     // Filter data based on the selected city or live location
@@ -100,6 +109,10 @@ const FeaturedHomeRow = ({ id, title, navigation, featuredId, dataType }) => {
     const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
     const distance = R * c; // Distance in km
     return distance;
+  };
+
+  const deg2rad = (deg) => {
+    return deg * (Math.PI / 180);
   };
 
   const renderCards = (itemData, FeaturedCards) => {
@@ -272,21 +285,18 @@ const PopularCafeCards = ({
   calculateDistance,
 }) => {
   const urlifiedImage = image ? urlFor(image).url() : null;
-  const urlifiedProfileImage = ownerProfileImage
-    ? urlFor(ownerProfileImage)?.url()
-    : null;
 
   const [isLiked, setIsLiked] = useState(false);
   const toggleSave = () => {
     setIsLiked(!isLiked);
   };
 
-  const { longitude, latitude } = useLocation();
+  const { latitude, longitude } = useLocation();
 
   // console.log(latitude, longitude);
   const distance =
-    latitude?.latitude && longitude?.longitude && lat && long
-      ? calculateDistance(latitude.latitude, longitude.longitude, lat, long)
+    latitude && longitude && lat && long
+      ? calculateDistance(latitude, longitude, lat, long)
       : NaN;
   return (
     <>
@@ -322,21 +332,7 @@ const PopularCafeCards = ({
           <View className="bg-[#101010]/50 w-full h-14 absolute bottom-0 justify-center items-center">
             <View className="w-full px-5">
               <View className="flex-row items-center space-x-2">
-                {urlifiedProfileImage ? (
-                  <Image
-                    source={{
-                      uri: urlifiedProfileImage,
-                    }}
-                    defaultSource={require("../assets/Images/User/Dummy-Profile.png")}
-                    className="w-10 h-10 rounded-full"
-                  />
-                ) : (
-                  <Image
-                    source={require("../assets/Images/User/Dummy-Profile.png")}
-                    defaultSource={require("../assets/Images/User/Dummy-Profile.png")}
-                    className="w-10 h-10 rounded-full"
-                  />
-                )}
+                <Timer1 size="24" color="#fff" variant="Bold" />
 
                 <Text
                   className="text-lg text-[#f9f9f9]"
@@ -368,12 +364,19 @@ const PopularCafeCards = ({
               className="text-white text-base"
               style={GlobalStyles.fontRegular}
             >
-              {distance.toFixed(2)}Km from you
+              {
+                (latitude,
+                longitude ? (
+                  <>{distance.toFixed(2)}Km from you</>
+                ) : (
+                  <>Fetch Live Location</>
+                ))
+              }
             </Text>
           </View>
 
           {/* Location  */}
-          <View className="flex-row items-center mt-1 space-x-1">
+          <View className="flex-row items-start mt-1 space-x-1">
             <Location size="18" color="#FF26B9" variant="Bold" />
             <Text
               className="text-base text-[#f9f9f9]"
