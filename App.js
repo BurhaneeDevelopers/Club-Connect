@@ -63,6 +63,7 @@ import PubsExploreScreen from "./Screens/PubsExploreScreen";
 import { useFonts } from "expo-font";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import useAuth, { AuthProvider } from "./Hooks/useAuth";
+import ExploreScreen from "./Components/ExploreScreen";
 
 // Default Theme
 const navTheme = DefaultTheme;
@@ -98,6 +99,14 @@ const AuthenticatedNavigator = () => {
       >
         {(props) => <UnauthenticatedNavigator {...props} />}
       </Stack.Screen>
+      <Stack.Screen
+        name="Home"
+        component={HomeScreen}
+        options={{
+          headerShown: false,
+          ...TransitionPresets.SlideFromRightIOS,
+        }}
+      />
       <Stack.Screen
         name="Profile"
         component={ProfileScreen}
@@ -336,8 +345,8 @@ const TabNavigator = ({ Tab }) => {
       >
         {/* Home Screen  */}
         <Tab.Screen
-          name="Home"
-          component={HomeScreen}
+          name="Explore"
+          component={ExploreScreen}
           options={{
             headerShown: false,
             tabBarLabelStyle: { display: "none" },

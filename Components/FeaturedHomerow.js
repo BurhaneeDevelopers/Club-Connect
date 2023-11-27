@@ -244,6 +244,7 @@ const NearestPickCard = ({
               <Text
                 className="text-base text-[#f9f9f9]"
                 style={GlobalStyles.fontRegular}
+                numberOfLines={1}
               >
                 {location}
               </Text>
@@ -730,6 +731,7 @@ const IteratingCards = ({
             <Text
               className="text-base text-[#f9f9f9]"
               style={GlobalStyles.fontRegular}
+              numberOfLines={1}
             >
               {location}
             </Text>

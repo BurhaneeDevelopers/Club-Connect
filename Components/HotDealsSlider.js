@@ -87,6 +87,7 @@ const HotDealsSlider = () => {
         horizontal={true}
         pagingEnabled={true}
         onScroll={handleScroll}
+        showsHorizontalScrollIndicator={false}
       />
     </View>
   );
