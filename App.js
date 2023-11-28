@@ -38,7 +38,7 @@ import HomeScreen from "./Screens/HomeScreen";
 import EventsScreen from "./Screens/EventsScreen";
 import CommunityScreen from "./Screens/CommunityScreen";
 import NotificationsScreen from "./Screens/NotificationsScreen";
-import CartScreen from "./Screens/CartScreen";
+import ExploreScreen from "./Screens/ExploreScreen";
 
 // Stack Screens
 import WelcomeScreen from "./Screens/WelcomeScreen";
@@ -63,7 +63,6 @@ import PubsExploreScreen from "./Screens/PubsExploreScreen";
 import { useFonts } from "expo-font";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import useAuth, { AuthProvider } from "./Hooks/useAuth";
-import ExploreScreen from "./Components/ExploreScreen";
 
 // Default Theme
 const navTheme = DefaultTheme;

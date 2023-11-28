@@ -8,6 +8,7 @@ import {
   ImageBackground,
   ActivityIndicator,
   TextInput,
+  Modal,
 } from "react-native";
 import React from "react";
 import { useState, useEffect, useRef } from "react";
@@ -20,16 +21,14 @@ import {
   Building,
   Shop,
   Location,
-  Star1,
   Gift,
   Bill,
-  SearchNormal,
-  Gps,
+  Add,
 } from "iconsax-react-native";
-import axios from "axios";
-import Banner1 from "../assets/Banners/Banner-1.svg";
-import HR from "../Components/HR";
 import LottieView from "lottie-react-native";
+import FeaturedHomeRow from "../Components/FeaturedHomerow";
+import { Camera, CameraType } from "expo-camera";
+import * as ImagePicker from "expo-image-picker";
 
 // Contexts
 import { useContext } from "react";
@@ -41,13 +40,13 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 
 // FONTS
 import GlobalStyles from "../Styles/GlobalStyles";
-import FeaturedHomeRow from "../Components/FeaturedHomerow";
+
+// SANITY
 import client from "../sanity";
 
 // RN ELEMENTS
 import { Skeleton } from "@rneui/themed";
-import { useRoute } from "@react-navigation/native";
-import useSelectedCity from "../Hooks/useSelectedCity";
+// import useSelectedCity from "../Hooks/useSelectedCity";
 
 const HomeScreen = ({ navigation }) => {
   // FIRE CONFETTI when user signs In for the first Time anonymously
@@ -151,6 +150,23 @@ const HomeScreen = ({ navigation }) => {
     fetchCategoriesForRestaurant();
   }, []);
 
+  const [image, setImage] = useState(null);
+
+  const pickImage = async () => {
+    // No permissions request is necessary for launching the image library
+    let result = await ImagePicker.launchImageLibraryAsync({
+      mediaTypes: ImagePicker.MediaTypeOptions.All,
+      allowsEditing: true,
+      aspect: [4, 3],
+      quality: 1,
+    });
+
+    console.log(result);
+
+    if (!result.canceled) {
+      setImage(result.assets[0].uri);
+    }
+  };
   return (
     <ScrollView
       refreshControl={
@@ -158,6 +174,19 @@ const HomeScreen = ({ navigation }) => {
       }
       className=""
     >
+      {image && (
+        <Image source={{ uri: image }} style={{ width: 200, height: 200 }} />
+      )}
+      <Pressable
+        className="absolute bottom-20 right-10 bg-[#FF26B9] active:bg-[#bb3691] p-3 rounded-full z-50"
+        onPress={() => {
+          pickImage();
+          console.log("clicked");
+        }}
+      >
+        <Add color="#fff" variant="Outline" size="44" />
+      </Pressable>
+
       {!animationPlayed && (
         <LottieView
           ref={animation}
@@ -367,3 +396,19 @@ const CoupanCard = () => {
 //     </>
 //   )
 // }
+
+const FloatingCameraButton = ({ pickImage }) => {
+  return (
+    <>
+      <Pressable
+        className="absolute bottom-20 right-10 bg-[#FF26B9] active:bg-[#bb3691] p-3 rounded-full"
+        onPress={() => {
+          pickImage();
+          console.log("clicked");
+        }}
+      >
+        <Add color="#fff" variant="Outline" size="44" />
+      </Pressable>
+    </>
+  );
+};

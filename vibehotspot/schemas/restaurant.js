@@ -21,11 +21,6 @@ export default {
       title: 'Hours:',
     },
     {
-      name: 'ownerProfileImage',
-      type: 'image',
-      title: 'Profile Image of the Restaurant Owner',
-    },
-    {
       name: 'image',
       type: 'image',
       title: 'Image of the Restaurant',

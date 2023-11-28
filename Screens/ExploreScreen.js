@@ -49,31 +49,7 @@ import { Skeleton } from "@rneui/themed";
 
 const ExploreScreen = ({ navigation }) => {
   // FIRE CONFETTI when user signs In for the first Time anonymously
-  const [animationPlayed, setAnimationPlayed] = useState(false);
-  const animation = useRef(null);
-
-  const handleAnimationFinish = () => {
-    setAnimationPlayed(true);
-  };
-
-  useEffect(() => {
-    // Check if the animation has already been played
-    if (!animationPlayed) {
-      AsyncStorage.getItem("playAnimation")
-        .then((playAnimation) => {
-          if (playAnimation === "true") {
-            // Play the animation
-            animation.current?.play();
-
-            AsyncStorage.setItem("playAnimation", "false");
-          }
-        })
-        .catch((error) => {
-          console.error("Error checking AsyncStorage:", error);
-        });
-    }
-  }, [animationPlayed]);
-
+  const animation = useRef();
   // Display Dummy Random UserName and Name when username not set
   const [name, setName] = useState("");
   const [userName, setUserName] = useState("");
@@ -102,21 +78,15 @@ const ExploreScreen = ({ navigation }) => {
   }, []);
 
   const { userDetails } = useContext(UserDetailsContext);
+
+  useEffect(() => {
+    animation.current?.play();
+
+    // Or set a specific startFrame and endFrame with:
+    animation.current?.play(30, 120);
+  }, []);
   return (
     <ScrollView>
-      {!animationPlayed && (
-        <LottieView
-          ref={animation}
-          loop={false}
-          autoPlay={false}
-          onAnimationFinish={handleAnimationFinish}
-          className={`w-[700px] h-[1000px] absolute left-0 items-start justify-start top-0 -translate-x-20 ${
-            !animationPlayed ? "" : ""
-          }`}
-          source={require("../assets/Illustrations/confetti.json")}
-        />
-      )}
-
       <SafeAreaView>
         {/* MENU  */}
         <View className="flex-row justify-between items-center p-5">
@@ -170,7 +140,7 @@ const ExploreScreen = ({ navigation }) => {
         <View className="px-5 justify-center items-center">
           <View className="flex-row space-x-3 my-2">
             <Pressable
-              className="bg-[#FF26B9] active:bg-[#bb3691] h-40 w-40 rounded-3xl p-5"
+              className="bg-[#FF26B9] active:bg-[#bb3691] h-40 w-40 rounded-3xl overflow-hidden p-5"
               onPress={() => navigation.navigate("Home")}
             >
               <Text
@@ -182,6 +152,19 @@ const ExploreScreen = ({ navigation }) => {
               <Text className="text-gray-200" style={GlobalStyles.fontSemiBold}>
                 Explore Nightlife with VHS
               </Text>
+
+              {/* <LottieView
+                  ref={animation}
+                  autoPlay
+                  loop
+                  className="w-32 h-32 absolute right-0 top-0"
+                  source={require("../assets/Illustrations/ExploreParty.json")}
+                /> */}
+
+              <Image
+                source={require("../assets/Illustrations/PartyExplore.png")}
+                className="w-24 h-24 absolute -bottom-1 right-1"
+              />
             </Pressable>
 
             <View className="bg-[#E9FA00] h-40 w-40 rounded-3xl p-5">
