@@ -49,7 +49,7 @@ import { Skeleton } from "@rneui/themed";
 
 const ExploreScreen = ({ navigation }) => {
   // FIRE CONFETTI when user signs In for the first Time anonymously
-  const animation = useRef();
+  // const animation = useRef();
   // Display Dummy Random UserName and Name when username not set
   const [name, setName] = useState("");
   const [userName, setUserName] = useState("");
@@ -79,12 +79,55 @@ const ExploreScreen = ({ navigation }) => {
 
   const { userDetails } = useContext(UserDetailsContext);
 
-  useEffect(() => {
-    animation.current?.play();
+  // useEffect(() => {
+  //   animation.current?.play();
 
-    // Or set a specific startFrame and endFrame with:
-    animation.current?.play(30, 120);
-  }, []);
+  //   // Or set a specific startFrame and endFrame with:
+  //   animation.current?.play(30, 120);
+  // }, []);
+
+  const RedirectCardData = [
+    {
+      title: "Explore",
+      desc: "Explore Nightlife with VHS",
+      image: require('../assets/Illustrations/PartyExplore.png'),
+      color: "#FF26B9",
+      redirectTo: "Home",
+      textColor: "#f9f9f9",
+      descColor: "#fff",
+      activeBgColor: "#bb3691",
+    },
+    {
+      title: "VibeCity",
+      desc: "Opportunity with VibeCity",
+      image: "",
+      color: "#E9FA00",
+      redirectTo: "VibeCity",
+      textColor: "#101010",
+      descColor: "#575757",
+      activeBgColor: "#f1ff2f",
+    },
+    {
+      title: "Community",
+      desc: "Be a part of VHS Community",
+      image: "",
+      color: "#E9FA00",
+      redirectTo: "Community",
+      textColor: "#101010",
+      descColor: "#575757",
+      activeBgColor: "#f1ff2f",
+    },
+    {
+      title: "Wallet",
+      desc: "Discounts & Coupans!",
+      image: "",
+      color: "#FF26B9",
+      redirectTo: "Wallet",
+      textColor: "#f9f9f9",
+      descColor: "#fff",
+      activeBgColor: "#bb3691",
+    },
+  ];
   return (
     <ScrollView>
       <SafeAreaView>
@@ -137,74 +180,22 @@ const ExploreScreen = ({ navigation }) => {
           <HotDealsSlider />
         </View>
 
-        <View className="px-5 justify-center items-center">
-          <View className="flex-row space-x-3 my-2">
-            <Pressable
-              className="bg-[#FF26B9] active:bg-[#bb3691] h-40 w-40 rounded-3xl overflow-hidden p-5"
-              onPress={() => navigation.navigate("Home")}
-            >
-              <Text
-                className="text-[#f9f9f9] text-2xl"
-                style={GlobalStyles.fontBold}
-              >
-                Explore
-              </Text>
-              <Text className="text-gray-200" style={GlobalStyles.fontSemiBold}>
-                Explore Nightlife with VHS
-              </Text>
-
-              {/* <LottieView
-                  ref={animation}
-                  autoPlay
-                  loop
-                  className="w-32 h-32 absolute right-0 top-0"
-                  source={require("../assets/Illustrations/ExploreParty.json")}
-                /> */}
-
-              <Image
-                source={require("../assets/Illustrations/PartyExplore.png")}
-                className="w-24 h-24 absolute -bottom-1 right-1"
+        <View className="px-5 flex-row flex-wrap justify-center items-center">
+          {RedirectCardData.map((item) => {
+            return (
+              <RedirectingCards
+                navigation={navigation}
+                title={item?.title}
+                desc={item?.desc}
+                image={item?.image}
+                redirectTo={item?.redirectTo}
+                color={item?.color}
+                activeBgColor={item?.activeBgColor}
+                textColor={item?.textColor}
+                descColor={item?.descColor}
               />
-            </Pressable>
-
-            <View className="bg-[#E9FA00] h-40 w-40 rounded-3xl p-5">
-              <Text
-                className="text-[#101010] text-2xl"
-                style={GlobalStyles.fontBold}
-              >
-                VibeCity
-              </Text>
-              <Text className="text-gray-500" style={GlobalStyles.fontSemiBold}>
-                Opportunities with Vibecity
-              </Text>
-            </View>
-          </View>
-
-          <View className="flex-row space-x-3 my-2">
-            <View className="bg-[#E9FA00] h-40 w-40 rounded-3xl p-5">
-              <Text
-                className="text-[#101010] text-2xl"
-                style={GlobalStyles.fontBold}
-              >
-                Community
-              </Text>
-              <Text className="text-gray-500" style={GlobalStyles.fontSemiBold}>
-                Be a part of the VHS community!
-              </Text>
-            </View>
-
-            <View className="bg-[#FF26B9] active:bg-[#bb3691] h-40 w-40 rounded-3xl p-5">
-              <Text
-                className="text-[#f9f9f9] text-2xl"
-                style={GlobalStyles.fontBold}
-              >
-                Wallet
-              </Text>
-              <Text className="text-gray-200" style={GlobalStyles.fontSemiBold}>
-                Discounts and Coupans!
-              </Text>
-            </View>
-          </View>
+            );
+          })}
         </View>
 
         {/* COUPAN CARD  */}
@@ -264,5 +255,47 @@ const CoupanCard = () => {
         </View>
       </View>
     </View>
+  );
+};
+
+const RedirectingCards = ({
+  navigation,
+  redirectTo,
+  image,
+  title,
+  desc,
+  color,
+  textColor,
+  descColor,
+  activeBgColor,
+}) => {
+  return (
+    <Pressable
+      className={`bg-[${color}] active:bg-[${activeBgColor}] h-40 w-40 rounded-3xl overflow-hidden p-5 m-2`}
+      onPress={() => navigation.navigate(redirectTo)}
+    >
+      <Text
+        className={`text-[${textColor}] text-2xl`}
+        style={GlobalStyles.fontBold}
+      >
+        {title}
+      </Text>
+      <Text className={`text-[${descColor}]`} style={GlobalStyles.fontSemiBold}>
+        {desc}
+      </Text>
+
+      {/* <LottieView
+        ref={animation}
+        autoPlay
+        loop
+        className="w-32 h-32 absolute right-0 top-0"
+        source={require("../assets/Illustrations/ExploreParty.json")}
+      /> */}
+
+      <Image
+        source={image }
+        className="w-24 h-24 absolute -bottom-1 right-1"
+      />
+    </Pressable>
   );
 };

@@ -13,7 +13,6 @@ export default {
       name: 'short_description',
       type: 'string',
       title: 'Short Description',
-      validation: (Rule) => Rule.max(200),
     },
     {
       name: 'openingTime',
@@ -61,7 +60,6 @@ export default {
       name: 'type',
       type: 'reference',
       title: 'Category',
-      validation: (Rule) => Rule.required(),
       to: [{type: 'category'}],
     },
     {

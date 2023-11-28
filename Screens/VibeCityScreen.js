@@ -13,11 +13,21 @@ import {
 import React from "react";
 import { useState, useEffect, useRef } from "react";
 import { SafeAreaView } from "react-native-safe-area-context";
+import HotDealsSlider from "../Components/HotDealsSlider";
 import {
+  SearchNormal1,
+  Buildings2,
+  Coffee,
+  Building,
+  Shop,
+  Location,
+  Gift,
+  Bill,
   Add,
 } from "iconsax-react-native";
 import LottieView from "lottie-react-native";
-
+import FeaturedHomeRow from "../Components/FeaturedHomerow";
+import { Camera, CameraType } from "expo-camera";
 import * as ImagePicker from "expo-image-picker";
 
 // Contexts
@@ -37,7 +47,7 @@ import client from "../sanity";
 // RN ELEMENTS
 import { Skeleton } from "@rneui/themed";
 
-const CommunityScreen = () => {
+const VibeCityScreen = () => {
   const [image, setImage] = useState(null);
 
   const pickImage = async () => {
@@ -55,20 +65,16 @@ const CommunityScreen = () => {
     }
   };
   return (
-    <SafeAreaView className="h-full w-full">
+    <SafeAreaView className="w-full h-full">
       {image && (
-        <Image
-          source={{ uri: image }}
-          style={{ width: 200, height: 200 }}
-          className="rounded-3xl mx-auto"
-        />
+        <Image source={{ uri: image }} style={{ width: 200, height: 200 }} className="rounded-3xl mx-auto" />
       )}
       <FloatingCameraButton pickImage={pickImage} />
     </SafeAreaView>
   );
 };
 
-export default CommunityScreen;
+export default VibeCityScreen;
 
 const FloatingCameraButton = ({ pickImage }) => {
   return (

@@ -15,6 +15,7 @@ import {
   ShoppingCart,
   Wallet,
   EmptyWallet,
+  TicketStar,
 } from "iconsax-react-native";
 import {
   createStackNavigator,
@@ -37,7 +38,7 @@ import CastleBold from "./assets/icons/CastleBold.svg";
 import HomeScreen from "./Screens/HomeScreen";
 import EventsScreen from "./Screens/EventsScreen";
 import CommunityScreen from "./Screens/CommunityScreen";
-import NotificationsScreen from "./Screens/NotificationsScreen";
+import VibeCityScreen from "./Screens/VibeCityScreen";
 import ExploreScreen from "./Screens/ExploreScreen";
 
 // Stack Screens
@@ -395,7 +396,7 @@ const TabNavigator = ({ Tab }) => {
                 <View className="items-center">
                   {focused ? (
                     <>
-                      <Calendar
+                      <TicketStar
                         size="32"
                         color="#FF26B9"
                         variant="Bold"
@@ -411,7 +412,7 @@ const TabNavigator = ({ Tab }) => {
                     </>
                   ) : (
                     <>
-                      <Calendar size="32" color="#101010" className="my-auto" />
+                      <TicketStar size="32" color="#101010" className="my-auto" />
                       <Text
                         className={`translate-y-1 text-[#101010] text-center , ${
                           focused ? "" : ""
@@ -462,8 +463,8 @@ const TabNavigator = ({ Tab }) => {
 
         {/* Notifications Screen  */}
         <Tab.Screen
-          name="Notifications"
-          component={NotificationsScreen}
+          name="VibeCity"
+          component={VibeCityScreen}
           options={{
             headerShown: false,
             tabBarLabelStyle: { display: "none" },

@@ -149,185 +149,161 @@ const HomeScreen = ({ navigation }) => {
 
     fetchCategoriesForRestaurant();
   }, []);
-
-  const [image, setImage] = useState(null);
-
-  const pickImage = async () => {
-    // No permissions request is necessary for launching the image library
-    let result = await ImagePicker.launchImageLibraryAsync({
-      mediaTypes: ImagePicker.MediaTypeOptions.All,
-      allowsEditing: true,
-      aspect: [4, 3],
-      quality: 1,
-    });
-
-    console.log(result);
-
-    if (!result.canceled) {
-      setImage(result.assets[0].uri);
-    }
-  };
   return (
-    <ScrollView
-      refreshControl={
-        <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
-      }
-      className=""
-    >
-      {image && (
-        <Image source={{ uri: image }} style={{ width: 200, height: 200 }} />
-      )}
-      <Pressable
-        className="absolute bottom-20 right-10 bg-[#FF26B9] active:bg-[#bb3691] p-3 rounded-full z-50"
-        onPress={() => {
-          pickImage();
-          console.log("clicked");
-        }}
+    <SafeAreaView>
+      <ScrollView
+        refreshControl={
+          <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
+        }
+        className=""
       >
-        <Add color="#fff" variant="Outline" size="44" />
-      </Pressable>
+        {!animationPlayed && (
+          <LottieView
+            ref={animation}
+            loop={false}
+            autoPlay={false}
+            onAnimationFinish={handleAnimationFinish}
+            className={`w-[700px] h-[1000px] absolute left-0 items-start justify-start top-0 -translate-x-20 ${
+              !animationPlayed ? "" : ""
+            }`}
+            source={require("../assets/Illustrations/confetti.json")}
+          />
+        )}
 
-      {!animationPlayed && (
-        <LottieView
-          ref={animation}
-          loop={false}
-          autoPlay={false}
-          onAnimationFinish={handleAnimationFinish}
-          className={`w-[700px] h-[1000px] absolute left-0 items-start justify-start top-0 -translate-x-20 ${
-            !animationPlayed ? "" : ""
-          }`}
-          source={require("../assets/Illustrations/confetti.json")}
-        />
-      )}
+        <View className="h-full w-full">
+          {/* MENU  */}
+          <View className="flex-row justify-between items-center p-5">
+            {/* USERNAME AND SEARCH MENU  */}
+            <Pressable
+              className="flex-row items-center space-x-2"
+              onPress={() => navigation.navigate("Profile")}
+            >
+              {userDetails?.profileImage ? (
+                <Image
+                  source={{ uri: userDetails.profileImage.uri }}
+                  className="w-16 h-16 rounded-full"
+                />
+              ) : (
+                <Image
+                  source={require("../assets/Illustrations/Avatar.jpg")}
+                  className="w-16 h-16 rounded-full"
+                />
+              )}
 
-      <SafeAreaView className="h-full w-full">
-        {/* MENU  */}
-        <View className="flex-row justify-between items-center p-5">
-          {/* USERNAME AND SEARCH MENU  */}
-          <Pressable
-            className="flex-row items-center space-x-2"
-            onPress={() => navigation.navigate("Profile")}
-          >
-            {userDetails?.profileImage ? (
-              <Image
-                source={{ uri: userDetails.profileImage.uri }}
-                className="w-16 h-16 rounded-full"
-              />
-            ) : (
-              <Image
-                source={require("../assets/Illustrations/Avatar.jpg")}
-                className="w-16 h-16 rounded-full"
-              />
-            )}
+              {/* {console.log(userDetails.profileImage)} */}
 
-            {/* {console.log(userDetails.profileImage)} */}
+              <View className="">
+                <Text
+                  className="text-xl text-[#FF26B9]"
+                  style={GlobalStyles.fontSemiBold}
+                >
+                  {userDetails?.name || name || (
+                    <Skeleton animation="pulse" width={140} height={10} />
+                  )}
+                  {/* {console.log(userDetails?.name)} */}
+                </Text>
+                <Text
+                  className="text-[#f9f9f9]"
+                  style={GlobalStyles.fontMedium}
+                >
+                  {userDetails?.userName || userName || (
+                    <Skeleton animation="pulse" width={120} height={10} />
+                  )}
+                </Text>
+              </View>
+            </Pressable>
 
-            <View className="">
-              <Text
-                className="text-xl text-[#FF26B9]"
-                style={GlobalStyles.fontSemiBold}
-              >
-                {userDetails?.name || name || (
-                  <Skeleton animation="pulse" width={140} height={10} />
-                )}
-                {/* {console.log(userDetails?.name)} */}
-              </Text>
-              <Text className="text-[#f9f9f9]" style={GlobalStyles.fontMedium}>
-                {userDetails?.userName || userName || (
-                  <Skeleton animation="pulse" width={120} height={10} />
-                )}
-              </Text>
-            </View>
-          </Pressable>
-
-          <Pressable onPress={() => navigation.navigate("Setting")}>
-            <SearchNormal1 size="32" color="#E9FA00" variant="Broken" />
-          </Pressable>
-        </View>
-
-        {/* AUTO SLIDING HOT DEALS  */}
-        <View className="">
-          <HotDealsSlider />
-        </View>
-
-        <View className="p-5">
-          {/* MENU CARDS  */}
-          <View className="pb-4">
-            <SectionTitles title="Discover" />
+            <Pressable onPress={() => navigation.navigate("Setting")}>
+              <SearchNormal1 size="32" color="#E9FA00" variant="Broken" />
+            </Pressable>
           </View>
 
-          <ScrollView
-            horizontal={true}
-            className=""
-            showsHorizontalScrollIndicator={false}
-          >
-            <View className="flex-row">
-              <MenuCards
-                icon={<Buildings2 size="32" color="#f9f9f9" variant="Broken" />}
-                title={"Hotspot"}
-                navigateTo={"HotspotExplore"}
-                navigation={navigation}
-              />
+          {/* AUTO SLIDING HOT DEALS  */}
+          <View className="">
+            <HotDealsSlider />
+          </View>
 
-              <MenuCards
-                icon={<Coffee size="32" color="#f9f9f9" variant="Broken" />}
-                title="Cafe"
-                navigateTo={"CafeExplore"}
-                navigation={navigation}
-              />
-              <MenuCards
-                icon={<Bill size="32" color="#f9f9f9" variant="Broken" />}
-                title="Restaurant"
-                navigateTo={"RestaurantExplore"}
-                navigation={navigation}
-              />
-              <MenuCards
-                icon={<Building size="32" color="#f9f9f9" variant="Broken" />}
-                title="Bars"
-                navigateTo={"BarsExplore"}
-                navigation={navigation}
-              />
-              <MenuCards
-                icon={<Shop size="32" color="#f9f9f9" variant="Broken" />}
-                title="Pubs"
-                navigateTo={"PubsExplore"}
-                navigation={navigation}
-              />
-
-              <MenuCards
-                icon={<Location size="32" color="#f9f9f9" variant="Broken" />}
-                title="Map"
-                navigateTo={"LocationPick"}
-                navigation={navigation}
-              />
+          <View className="p-5">
+            {/* MENU CARDS  */}
+            <View className="pb-4">
+              <SectionTitles title="Discover" />
             </View>
-          </ScrollView>
-        </View>
 
-        {/* COUPAN CARD  */}
-        <CoupanCard />
+            <ScrollView
+              horizontal={true}
+              className=""
+              showsHorizontalScrollIndicator={false}
+            >
+              <View className="flex-row">
+                <MenuCards
+                  icon={
+                    <Buildings2 size="32" color="#f9f9f9" variant="Broken" />
+                  }
+                  title={"Hotspot"}
+                  navigateTo={"HotspotExplore"}
+                  navigation={navigation}
+                />
 
-        {featuredCategory?.map((category, index) => {
-          return (
-            <FeaturedHomeRow
-              key={category.id}
-              id={category._id}
-              title={category.name}
-              navigation={navigation}
-              featuredId={category.featuredId}
-              dataType={["restaurants", "cafes"]}
-            />
-          );
-        })}
+                <MenuCards
+                  icon={<Coffee size="32" color="#f9f9f9" variant="Broken" />}
+                  title="Cafe"
+                  navigateTo={"CafeExplore"}
+                  navigation={navigation}
+                />
+                <MenuCards
+                  icon={<Bill size="32" color="#f9f9f9" variant="Broken" />}
+                  title="Restaurant"
+                  navigateTo={"RestaurantExplore"}
+                  navigation={navigation}
+                />
+                <MenuCards
+                  icon={<Building size="32" color="#f9f9f9" variant="Broken" />}
+                  title="Bars"
+                  navigateTo={"BarsExplore"}
+                  navigation={navigation}
+                />
+                <MenuCards
+                  icon={<Shop size="32" color="#f9f9f9" variant="Broken" />}
+                  title="Pubs"
+                  navigateTo={"PubsExplore"}
+                  navigation={navigation}
+                />
 
-        <View className="justify-center items-center p-5">
-          {/* <Banner1 width={320} height={60} /> */}
-        </View>
-        {/* <View className="justify-center items-center py-5">
+                <MenuCards
+                  icon={<Location size="32" color="#f9f9f9" variant="Broken" />}
+                  title="Map"
+                  navigateTo={"LocationPick"}
+                  navigation={navigation}
+                />
+              </View>
+            </ScrollView>
+          </View>
+
+          {/* COUPAN CARD  */}
+          <CoupanCard />
+
+          {featuredCategory?.map((category, index) => {
+            return (
+              <FeaturedHomeRow
+                key={category.id}
+                id={category._id}
+                title={category.name}
+                navigation={navigation}
+                featuredId={category.featuredId}
+                dataType={["restaurants", "cafes"]}
+              />
+            );
+          })}
+
+          <View className="justify-center items-center p-5">
+            {/* <Banner1 width={320} height={60} /> */}
+          </View>
+          {/* <View className="justify-center items-center py-5">
         <CustomBanner />
         </View> */}
-      </SafeAreaView>
-    </ScrollView>
+        </View>
+      </ScrollView>
+    </SafeAreaView>
   );
 };
 
@@ -397,18 +373,4 @@ const CoupanCard = () => {
 //   )
 // }
 
-const FloatingCameraButton = ({ pickImage }) => {
-  return (
-    <>
-      <Pressable
-        className="absolute bottom-20 right-10 bg-[#FF26B9] active:bg-[#bb3691] p-3 rounded-full"
-        onPress={() => {
-          pickImage();
-          console.log("clicked");
-        }}
-      >
-        <Add color="#fff" variant="Outline" size="44" />
-      </Pressable>
-    </>
-  );
-};
+
