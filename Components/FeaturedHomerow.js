@@ -117,8 +117,9 @@ const FeaturedHomeRow = ({ id, title, navigation, featuredId, dataType }) => {
     return deg * (Math.PI / 180);
   };
 
-  const renderCards = (itemData, FeaturedCards) => {
+  const renderCards = (itemData, FeaturedCards, skeletonProps) => {
     const filteredData = filterDataByCity(itemData);
+    const shouldRenderSkeleton = filteredData.length === 0;
 
     return filteredData?.map((item, index) => (
       <FeaturedCards
@@ -140,6 +141,8 @@ const FeaturedHomeRow = ({ id, title, navigation, featuredId, dataType }) => {
     ));
   };
 
+
+
   return (
     <View>
       <View className="p-5">
@@ -148,13 +151,56 @@ const FeaturedHomeRow = ({ id, title, navigation, featuredId, dataType }) => {
       </View>
 
       <ScrollView horizontal={true} showsHorizontalScrollIndicator={false}>
-        {loading && <ActivityIndicator size="32" color="#E9FA00" />}
+        {/* {loading && (
+          <Skeleton animation="pulse" circle="true" width={370} height={200} />
+        )} */}
         <View className="px-5 flex-row items-center justify-center w-full">
-          {featuredId == 5 && (itemData ? renderCards(itemData, TopPickCard):<Skeleton animation="pulse" circle="true" width={370} height={200} /> )}
-          {featuredId == 1 && (itemData ? renderCards(itemData, NearestPickCard): <Skeleton animation="pulse" width={120} height={10} />)}
-          {featuredId == 4 && (itemData ? renderCards(itemData, ExploreCard): <Skeleton animation="pulse" width={120} height={10} />)}
-          {featuredId == 2 && (itemData ? renderCards(itemData, PopularCafeCards): <Skeleton animation="pulse" width={120} height={10} />)}
-          {featuredId == 3 && (itemData ? renderCards(itemData, RecommendedCard): <Skeleton animation="pulse" width={120} height={10} />)}
+          {featuredId == 5 &&
+            (renderCards(itemData, TopPickCard) || (
+              <Skeleton
+                animation="pulse"
+                circle="true"
+                width={100}
+                height={200}
+              />
+            ))}
+
+          {featuredId == 1 &&
+            (renderCards(itemData, NearestPickCard) || (
+              <Skeleton
+                animation="pulse"
+                circle="true"
+                width={100}
+                height={200}
+              />
+            ))}
+          {featuredId == 4 &&
+            (renderCards(itemData, ExploreCard) || (
+              <Skeleton
+                animation="pulse"
+                circle="true"
+                width={256}
+                height={96}
+              />
+            ))}
+          {featuredId == 2 &&
+            (renderCards(itemData, PopularCafeCards) || (
+              <Skeleton
+                animation="pulse"
+                circle="true"
+                width={256}
+                height={96}
+              />
+            ))}
+          {featuredId == 3 &&
+            (renderCards(itemData, RecommendedCard) || (
+              <Skeleton
+                animation="pulse"
+                circle="true"
+                width={256}
+                height={96}
+              />
+            ))}
         </View>
       </ScrollView>
       {/* <View className="p-5">{renderCards(itemData, IteratingCards)}</View> */}
@@ -210,7 +256,11 @@ const NearestPickCard = ({
                 className="text-xl text-[#f9f9f9]"
                 style={GlobalStyles.fontBold}
               >
-                {title ? (title):(<Skeleton animation="pulse" width={60} height={10} />)}
+                {title ? (
+                  title
+                ) : (
+                  <Skeleton animation="pulse" width={60} height={10} />
+                )}
               </Text>
 
               {/* <View className="flex-row justify-between items-center">
@@ -236,7 +286,11 @@ const NearestPickCard = ({
             <View className="flex-row items-center my-2">
               <Star1 size="18" color="#E9FA00" variant="Bold" />
               <Text className="text-[#f9f9f9]" style={GlobalStyles.fontRegular}>
-                {rating ? (rating):(<Skeleton animation="pulse" width={60} height={10} />)}
+                {rating ? (
+                  rating
+                ) : (
+                  <Skeleton animation="pulse" width={60} height={10} />
+                )}
               </Text>
             </View>
 
@@ -248,7 +302,11 @@ const NearestPickCard = ({
                 style={GlobalStyles.fontRegular}
                 numberOfLines={1}
               >
-                {location ? (location):(<Skeleton animation="pulse" width={60} height={10} />)}
+                {location ? (
+                  location
+                ) : (
+                  <Skeleton animation="pulse" width={60} height={10} />
+                )}
               </Text>
             </View>
 
@@ -489,9 +547,9 @@ const ExploreCard = ({
   ownerProfileImage,
   dataType,
   navigation,
-  lat, 
+  lat,
   long,
-  calculateDistance
+  calculateDistance,
 }) => {
   const urlifiedImage = image ? urlFor(image).url() : null;
 
@@ -503,7 +561,7 @@ const ExploreCard = ({
       ? calculateDistance(latitude, longitude, lat, long)
       : NaN;
   return (
-    <View className="bg-white rounded-2xl w-64 h-24 p-2 flex-row space-x-2 mx-2">
+    <View className="bg-white rounded-2xl w-64 h-24 p-2 flex-row space-x-2 mx-2 overflow-hidden">
       <View
         className="overflow-hidden rounded-xl"
         style={{
@@ -526,7 +584,11 @@ const ExploreCard = ({
       </View>
 
       <View className="space-y-1">
-        <Text className="text-[#101010] w-32" numberOfLines={1} style={GlobalStyles.fontSemiBold}>
+        <Text
+          className="text-[#101010] w-32"
+          numberOfLines={1}
+          style={GlobalStyles.fontSemiBold}
+        >
           {title}
         </Text>
 
@@ -609,6 +671,7 @@ const TopPickCard = ({
           <Text
             className="text-xl text-[#f9f9f9]"
             style={GlobalStyles.fontBold}
+            numberOfLines={1}
           >
             {title}
           </Text>
