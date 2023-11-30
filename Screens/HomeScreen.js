@@ -81,7 +81,6 @@ const HomeScreen = ({ navigation }) => {
 
   const onRefresh = () => {
     setRefreshing(true);
-    getUserEditedData();
     setTimeout(() => {
       setRefreshing(false);
     }, 1000);

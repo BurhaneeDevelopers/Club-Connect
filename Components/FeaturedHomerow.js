@@ -118,9 +118,9 @@ const FeaturedHomeRow = ({ id, title, navigation, featuredId, dataType }) => {
   const renderCards = (itemData, FeaturedCards) => {
     const filteredData = filterDataByCity(itemData);
 
-    return filteredData?.map((item) => (
+    return filteredData?.map((item, index) => (
       <FeaturedCards
-        key={item?._id}
+        key={index}
         id={item?._id}
         image={item?.image}
         rating={item?.rating}
@@ -487,8 +487,19 @@ const ExploreCard = ({
   ownerProfileImage,
   dataType,
   navigation,
+  lat, 
+  long,
+  calculateDistance
 }) => {
   const urlifiedImage = image ? urlFor(image).url() : null;
+
+  const { latitude, longitude } = useLocation();
+
+  // console.log(latitude, longitude);
+  const distance =
+    latitude && longitude && lat && long
+      ? calculateDistance(latitude, longitude, lat, long)
+      : NaN;
   return (
     <View className="bg-white rounded-2xl w-64 h-24 p-2 flex-row space-x-2 mx-2">
       <View
@@ -513,7 +524,7 @@ const ExploreCard = ({
       </View>
 
       <View className="space-y-1">
-        <Text className="text-[#101010]" style={GlobalStyles.fontSemiBold}>
+        <Text className="text-[#101010] w-32" numberOfLines={1} style={GlobalStyles.fontSemiBold}>
           {title}
         </Text>
 
@@ -526,14 +537,26 @@ const ExploreCard = ({
             </Text>
           </View>
 
-          <Text className="text-gray-400 text-center">•</Text>
+          {
+            (latitude,
+            longitude ? (
+              <>
+                <Text className="text-gray-400 text-center">•</Text>
 
-          <View className="flex-row items-center">
-            <Car size="16" color="#FF26B9" variant="Bold" />
-            <Text className="text-[#101010]" style={GlobalStyles.fontMedium}>
-              10Km
-            </Text>
-          </View>
+                <View className="flex-row items-center">
+                  <Car size="16" color="#FF26B9" variant="Bold" />
+                  <Text
+                    className="text-[#101010]"
+                    style={GlobalStyles.fontMedium}
+                  >
+                    {distance.toFixed(2)}Km
+                  </Text>
+                </View>
+              </>
+            ) : (
+              <></>
+            ))
+          }
         </View>
 
         <View className="p-1.5 bg-[#E9FA00] rounded-lg">

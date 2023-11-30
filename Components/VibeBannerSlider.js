@@ -9,9 +9,10 @@ import {
   LogBox,
 } from "react-native";
 import React, { useEffect, useRef, useState } from "react";
-import { Star1, Location } from "iconsax-react-native";
+import { Star1, Location, ArrowLeft, SearchNormal } from "iconsax-react-native";
+import GlobalStyles from "../Styles/GlobalStyles";
 
-const HotDealsSlider = () => {
+const VibeBannerSlider = () => {
   const flatlistRef = useRef();
   // Get Dimesnions
   const screenWidth = Dimensions.get("window").width;
@@ -42,15 +43,24 @@ const HotDealsSlider = () => {
   const carouselData = [
     {
       id: "01",
-      image: require("../assets/Images/Santorini.jpg"),
+      image: require("../assets/Images/VibeCity.png"),
+      title: "VIP Bash Hosting",
+      offer:
+        "Elevate your event with our premium hosting services. Experience VIP treatment for a memorable celebration!",
     },
     {
       id: "02",
-      image: require("../assets/Images/VibeCity.png"),
+      image: require("../assets/Images/Santorini.jpg"),
+      title: "Seamless Event Solutions",
+      offer:
+        "Stress-free event hosting! From planning to execution, let us handle it all. Your perfect event starts here",
     },
     {
       id: "03",
       image: require("../assets/Images/VibeCityTwo.jpeg"),
+      title: "Event Bliss Awaits!",
+      offer:
+        "Unlock the magic of flawless events. Join us for seamless hosting and create cherished memories effortlessly.",
     },
   ];
 
@@ -58,7 +68,11 @@ const HotDealsSlider = () => {
   const renderItem = ({ item, index }) => {
     return (
       <View className="">
-        <HotDealsCard image={item?.image} />
+        <VibeBannerSliderCard
+          image={item.image}
+          title={item.title}
+          offer={item.offer}
+        />
       </View>
     );
   };
@@ -93,67 +107,29 @@ const HotDealsSlider = () => {
   );
 };
 
-export default HotDealsSlider;
+export default VibeBannerSlider;
 
-const HotDealsCard = ({ image }) => {
+const VibeBannerSliderCard = ({ image, offer, title }) => {
   const screenWidth = Dimensions.get("window").width;
   return (
     <View className="w-screen">
       <ImageBackground
         source={image}
-        className="h-48 my-5 overflow-hidden w-screen mx-auto"
-        // style={{ width: screenWidth }}
+        className="w-full h-80 items-start justify-center"
       >
-        <View className="absolute top-3 right-5 bg-[#E9FA00] rounded-full items-center justify-center px-3.5 py-0.5 ">
-          <Text className="text-[#101010]" style={GlobalStyles.fontSemiBold}>
-            25% Off
+        <View className="bg-black/40 absolute h-full w-full overflow-hidden" />
+
+        <View className="p-5">
+          <Text className="text-white text-3xl" style={GlobalStyles.fontBold}>
+            {title}
           </Text>
-        </View>
 
-        <View className="bg-[#101010]/40 w-full h-14 absolute bottom-0 justify-center items-center">
-          <View className="w-full px-5">
-            <View className="flex-row justify-between items-end">
-              <Text
-                className="text-xl text-[#f9f9f9]"
-                style={GlobalStyles.fontBold}
-              >
-                Santorini
-              </Text>
-              {/* Rating  */}
-              <View className="flex-row items-center">
-                <Star1 size="18" color="#f9f9f9" variant="Bold" />
-                <Text
-                  className="text-[#f9f9f9]"
-                  style={GlobalStyles.fontRegular}
-                >
-                  4.9
-                </Text>
-              </View>
-            </View>
-            <View className="flex-row justify-between">
-              <View className="flex-row items-center">
-                <Location size="18" color="#f9f9f9" variant="Bold" />
-                <Text
-                  className="text-base text-[#f9f9f9]"
-                  style={GlobalStyles.fontRegular}
-                >
-                  Greece
-                </Text>
-              </View>
-
-              <View className="flex-row">
-                <Text className="text-[#f9f9f9]" style={GlobalStyles.fontBold}>
-                  $100
-                </Text>
-                <Text
-                  className="text-[#f9f9f9]"
-                  style={GlobalStyles.fontRegular}
-                >
-                  /night
-                </Text>
-              </View>
-            </View>
-          </View>
+          <Text
+            className="text-gray-200 w-52 text-lg"
+            style={GlobalStyles.fontMedium}
+          >
+            {offer}
+          </Text>
         </View>
       </ImageBackground>
     </View>

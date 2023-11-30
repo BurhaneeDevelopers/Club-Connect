@@ -152,13 +152,11 @@ const ProfileEditScreen = ({ navigation }) => {
           profileImage: downlaodedURL,
         });
 
+        setSuccess(true);
+        setAnimationPlayed(true);
         console.log("Saved Data");
         setLoading(false);
-        AsyncStorage.setItem("playAnimation", "true");
-        setSuccess(true);
-
-        // Log the updated user details after setting the state
-        console.log(userDetails);
+        // setAnimationPlayed(false);
       } catch (error) {
         console.log(error);
       }
@@ -203,10 +201,11 @@ const ProfileEditScreen = ({ navigation }) => {
           profileImage: downlaodedURL,
         });
 
+        setSuccess(true);
+        setAnimationPlayed(!animationPlayed);
         console.log("Updated Data");
         setLoading(false);
-        AsyncStorage.setItem("playAnimation", "true");
-        setSuccess(true);
+        setAnimationPlayed(false);
 
         // Log the updated user details after setting the state
         console.log(userDetails);
@@ -266,7 +265,7 @@ const ProfileEditScreen = ({ navigation }) => {
       await uploadTask;
 
       const downloadURL = await getDownloadURL(storageRef);
-      
+
       setUploading(false);
       console.log("Download URL is:", downloadURL);
 
@@ -299,7 +298,7 @@ const ProfileEditScreen = ({ navigation }) => {
           source={require("../assets/Illustrations/confetti.json")}
         />
       )}
-      
+
       <RBSheet
         customStyles={{
           draggableIcon: { display: "none" },
@@ -396,7 +395,10 @@ const ProfileEditScreen = ({ navigation }) => {
         <View className="p-5 flex-row justify-center items-center space-x-5">
           <Pressable
             className="w-40 bg-[#FF26B9] active:bg-[#FF26B9]/70 p-3 rounded-lg items-center"
-            onPress={isUserDataSaved ? handleUpdateData : handleSaveData}
+            onPress={() => {
+              isUserDataSaved ? handleUpdateData() : handleSaveData();
+              setAnimationPlayed(true);
+            }}
           >
             <Text
               className="text-[#f9f9f9] text-lg"

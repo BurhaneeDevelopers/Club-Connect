@@ -59,11 +59,13 @@ import RestaurantDetailsScreen from "./Screens/RestaurantDetailsScreen";
 import HotspotExplore from "./Screens/HotspotExplore";
 import BarsExploreScreen from "./Screens/BarsExploreScreen";
 import PubsExploreScreen from "./Screens/PubsExploreScreen";
+import HostWithUsScreen from "./Screens/HostWithUsScreen";
+
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import useAuth, { AuthProvider } from "./Hooks/useAuth";
 
 // FONTS LOADING
 import { useFonts } from "expo-font";
-import AsyncStorage from "@react-native-async-storage/async-storage";
-import useAuth, { AuthProvider } from "./Hooks/useAuth";
 
 // Default Theme
 const navTheme = DefaultTheme;
@@ -199,6 +201,15 @@ const AuthenticatedNavigator = () => {
       <Stack.Screen
         name="EventScreen"
         component={EventsScreen}
+        options={{
+          headerShown: false,
+          ...TransitionPresets.SlideFromRightIOS,
+        }}
+      />
+
+      <Stack.Screen
+        name="HostWithUs"
+        component={HostWithUsScreen}
         options={{
           headerShown: false,
           ...TransitionPresets.SlideFromRightIOS,

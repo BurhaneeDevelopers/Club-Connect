@@ -180,7 +180,7 @@ const ExploreScreen = ({ navigation }) => {
           <HotDealsSlider />
         </View>
 
-        <View className="px-5 flex-row flex-wrap justify-center items-center">
+        <View className="flex-row flex-wrap justify-center items-center">
           {RedirectCardData.map((item) => {
             return (
               <RedirectingCards
@@ -271,7 +271,7 @@ const RedirectingCards = ({
 }) => {
   return (
     <Pressable
-      className={`bg-[${color}] active:bg-[${activeBgColor}] h-40 w-40 rounded-3xl overflow-hidden p-5 m-2`}
+      className={`bg-[${color}] active:bg-[${activeBgColor}] h-40 w-44 rounded-3xl overflow-hidden p-5 m-2`}
       onPress={() => navigation.navigate(redirectTo)}
     >
       <Text
