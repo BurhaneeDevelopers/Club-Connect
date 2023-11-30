@@ -121,7 +121,7 @@ const HotDealsCard = ({ image }) => {
               </Text>
               {/* Rating  */}
               <View className="flex-row items-center">
-                <Star1 size="18" color="#f9f9f9" variant="Bold" />
+                <Star1 size="18" color="#E9FA00" variant="Bold" />
                 <Text
                   className="text-[#f9f9f9]"
                   style={GlobalStyles.fontRegular}

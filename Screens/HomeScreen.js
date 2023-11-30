@@ -284,7 +284,7 @@ const HomeScreen = ({ navigation }) => {
           {featuredCategory?.map((category, index) => {
             return (
               <FeaturedHomeRow
-                key={category.id}
+                key={index}
                 id={category._id}
                 title={category.name}
                 navigation={navigation}

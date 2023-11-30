@@ -132,15 +132,15 @@ const ExploreScreen = ({ navigation }) => {
     <ScrollView>
       <SafeAreaView>
         {/* MENU  */}
-        <View className="flex-row justify-between items-center p-5">
+        <View className="flex-row justify-between items-center px-4 pt-5 pb-1">
           {/* USERNAME AND SEARCH MENU  */}
           <Pressable
-            className="flex-row items-center space-x-2"
+            className="flex-row items-center align-middle space-x-2"
             onPress={() => navigation.navigate("Profile")}
           >
             {userDetails?.profileImage ? (
               <Image
-                source={{ uri: userDetails.profileImage.uri }}
+                source={{ uri: this.userDetails.profileImage.uri }}
                 className="w-16 h-16 rounded-full"
               />
             ) : (
@@ -158,7 +158,7 @@ const ExploreScreen = ({ navigation }) => {
                 style={GlobalStyles.fontSemiBold}
               >
                 {userDetails?.name || name || (
-                  <Skeleton animation="pulse" width={140} height={10} />
+                  <Skeleton animation="pulse" width={160} height={10} />
                 )}
                 {/* {console.log(userDetails?.name)} */}
               </Text>
@@ -181,9 +181,10 @@ const ExploreScreen = ({ navigation }) => {
         </View>
 
         <View className="flex-row flex-wrap justify-center items-center">
-          {RedirectCardData.map((item) => {
+          {RedirectCardData.map((item, index) => {
             return (
               <RedirectingCards
+                key={index}
                 navigation={navigation}
                 title={item?.title}
                 desc={item?.desc}
@@ -202,7 +203,7 @@ const ExploreScreen = ({ navigation }) => {
         <CoupanCard />
 
         <View className="p-3">
-          <View className="h-52 bg-gray-300 rounded-3xl p-5">
+          <View className=" h-52 bg-gray-300 rounded-3xl p-5">
             <Text
               className="text-7xl py-1 mt-3 text-[#bb3691]"
               style={GlobalStyles.fontBlack}
@@ -214,7 +215,7 @@ const ExploreScreen = ({ navigation }) => {
               className="text-gray-700 text-xl"
               style={GlobalStyles.fontSemiBold}
             >
-              Crafted with 💝 in Delhi, India
+              Crafted with 💝 in Chennai, India
             </Text>
           </View>
         </View>
@@ -229,7 +230,7 @@ const CoupanCard = () => {
   return (
     <View className="p-5">
       <View className="bg-[#262223] h-24 rounded-2xl w-full p-5">
-        <View className="flex-row gap-2 items-center">
+        <View className="flex-row gap-4 items-center">
           {/* ICON GIFT  */}
           <View className="bg-[#FF26B9] p-2 rounded-xl">
             <Gift size="44" color="#E9FA00" />
@@ -271,7 +272,7 @@ const RedirectingCards = ({
 }) => {
   return (
     <Pressable
-      className={`bg-[${color}] active:bg-[${activeBgColor}] h-40 w-44 rounded-3xl overflow-hidden p-5 m-2`}
+      className={`bg-[${color}] active:bg-[${activeBgColor}] h-40 w-44 rounded-3xl overflow-hidden p-4 m-2`}
       onPress={() => navigation.navigate(redirectTo)}
     >
       <Text

@@ -24,6 +24,8 @@ import HR from "./HR";
 import { useNavigation } from "@react-navigation/native";
 import useSelectedCity from "../Hooks/useSelectedCity";
 import useLocation from "../Hooks/useLocation";
+import { Skeleton } from "@rneui/base";
+import { FullWindowOverlay } from "react-native-screens";
 
 const FeaturedHomeRow = ({ id, title, navigation, featuredId, dataType }) => {
   const [itemData, setItemData] = useState([]);
@@ -148,11 +150,11 @@ const FeaturedHomeRow = ({ id, title, navigation, featuredId, dataType }) => {
       <ScrollView horizontal={true} showsHorizontalScrollIndicator={false}>
         {loading && <ActivityIndicator size="32" color="#E9FA00" />}
         <View className="px-5 flex-row items-center justify-center w-full">
-          {featuredId == 5 && renderCards(itemData, TopPickCard)}
-          {featuredId == 1 && renderCards(itemData, NearestPickCard)}
-          {featuredId == 4 && renderCards(itemData, ExploreCard)}
-          {featuredId == 2 && renderCards(itemData, PopularCafeCards)}
-          {featuredId == 3 && renderCards(itemData, RecommendedCard)}
+          {featuredId == 5 && (itemData ? renderCards(itemData, TopPickCard):<Skeleton animation="pulse" circle="true" width={370} height={200} /> )}
+          {featuredId == 1 && (itemData ? renderCards(itemData, NearestPickCard): <Skeleton animation="pulse" width={120} height={10} />)}
+          {featuredId == 4 && (itemData ? renderCards(itemData, ExploreCard): <Skeleton animation="pulse" width={120} height={10} />)}
+          {featuredId == 2 && (itemData ? renderCards(itemData, PopularCafeCards): <Skeleton animation="pulse" width={120} height={10} />)}
+          {featuredId == 3 && (itemData ? renderCards(itemData, RecommendedCard): <Skeleton animation="pulse" width={120} height={10} />)}
         </View>
       </ScrollView>
       {/* <View className="p-5">{renderCards(itemData, IteratingCards)}</View> */}
@@ -208,7 +210,7 @@ const NearestPickCard = ({
                 className="text-xl text-[#f9f9f9]"
                 style={GlobalStyles.fontBold}
               >
-                {title}
+                {title ? (title):(<Skeleton animation="pulse" width={60} height={10} />)}
               </Text>
 
               {/* <View className="flex-row justify-between items-center">
@@ -234,7 +236,7 @@ const NearestPickCard = ({
             <View className="flex-row items-center my-2">
               <Star1 size="18" color="#E9FA00" variant="Bold" />
               <Text className="text-[#f9f9f9]" style={GlobalStyles.fontRegular}>
-                {rating}
+                {rating ? (rating):(<Skeleton animation="pulse" width={60} height={10} />)}
               </Text>
             </View>
 
@@ -246,7 +248,7 @@ const NearestPickCard = ({
                 style={GlobalStyles.fontRegular}
                 numberOfLines={1}
               >
-                {location}
+                {location ? (location):(<Skeleton animation="pulse" width={60} height={10} />)}
               </Text>
             </View>
 

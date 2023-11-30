@@ -96,9 +96,10 @@ const VibeCityScreen = ({ navigation }) => {
         <View className="p-5 justify-center items-center">
           <SectionTitles title="Grab Opportunities!" />
           <View className="flex-row mt-3">
-            {VibeBannerData.map((item) => {
+            {VibeBannerData.map((item, index) => {
               return (
                 <ServicesCard
+                  key={index}
                   navigation={navigation}
                   title={item?.title}
                   desc={item?.desc}
