@@ -284,7 +284,7 @@ const ProfileEditScreen = ({ navigation }) => {
     <KeyboardAvoidingView
       behavior={Platform.OS === "ios" ? "padding" : "height"}
       keyboardVerticalOffset={Platform.OS === "ios" ? 32 : 0}
-      className="h-screen w-screen  items-center justify-center mx-auto px-5"
+      className="h-screen w-screen  items-center justify-center mx-auto px-1"
     >
       {!animationPlayed && (
         <LottieView
@@ -334,11 +334,11 @@ const ProfileEditScreen = ({ navigation }) => {
             className="text-3xl text-[#FF26B9] mx-auto"
             style={GlobalStyles.fontSemiBold}
           >
-            Edit Profile
+            Edit profile
           </Text>
         </View>
 
-        <View className="space-y-2 justify-center items-center my-5">
+        <View className="space-y-2 justify-center items-center my-3">
           {image ? (
             <Image
               source={{ uri: image.uri }}
@@ -388,23 +388,23 @@ const ProfileEditScreen = ({ navigation }) => {
 
         {loading && (
           <>
-            <ActivityIndicator color="#E9FA00" size={24} />
+            {/* <ActivityIndicator color="#E9FA00" size={24} /> */}
           </>
         )}
 
-        <View className="p-5 flex-row justify-center items-center space-x-5">
+        <View className="py-4 flex-row justify-center items-center space-x-5">
           <Pressable
-            className="w-40 bg-[#FF26B9] active:bg-[#FF26B9]/70 p-3 rounded-lg items-center"
+            className="w-40 bg-[#FF26B9] active:bg-[#FF26B9]/70 py-3 rounded-2xl items-center"
             onPress={() => {
               isUserDataSaved ? handleUpdateData() : handleSaveData();
               setAnimationPlayed(true);
             }}
           >
             <Text
-              className="text-[#f9f9f9] text-lg"
+              className="text-[#f9f9f9] text-xl font-semibold"
               style={GlobalStyles.fontMedium}
             >
-              Save Changes
+              Save changes
             </Text>
           </Pressable>
         </View>

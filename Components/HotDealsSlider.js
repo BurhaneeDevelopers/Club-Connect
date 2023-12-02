@@ -104,14 +104,14 @@ const HotDealsCard = ({ image }) => {
         className="h-48 my-5 overflow-hidden w-screen mx-auto"
         // style={{ width: screenWidth }}
       >
-        <View className="absolute top-3 right-5 bg-[#E9FA00] rounded-full items-center justify-center px-3.5 py-0.5 ">
-          <Text className="text-[#101010]" style={GlobalStyles.fontSemiBold}>
+        <View className="absolute top-3 right-5 bg-[#E9FA00] rounded-full items-center justify-center px-3.5 py-1 ">
+          <Text className="text-[#101010] text-base" style={GlobalStyles.fontBold}>
             25% Off
           </Text>
         </View>
 
-        <View className="bg-[#101010]/40 w-full h-14 absolute bottom-0 justify-center items-center">
-          <View className="w-full px-5">
+        <View className="bg-[#101010]/60 w-full h-14 absolute bottom-0 justify-center items-center">
+          <View className="w-full px-5 pb-1">
             <View className="flex-row justify-between items-end">
               <Text
                 className="text-xl text-[#f9f9f9]"
@@ -132,7 +132,7 @@ const HotDealsCard = ({ image }) => {
             </View>
             <View className="flex-row justify-between">
               <View className="flex-row items-center">
-                <Location size="18" color="#f9f9f9" variant="Bold" />
+                <Location size="18" color="#E9FA00" variant="Bold" />
                 <Text
                   className="text-base text-[#f9f9f9]"
                   style={GlobalStyles.fontRegular}

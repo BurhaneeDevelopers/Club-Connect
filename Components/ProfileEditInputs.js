@@ -28,21 +28,21 @@ const ProfileEditInputs = (props) => {
   
   return (
     <View>
-      <View className="px-5">
+      <View className="px-3">
         {/* Name  */}
-        <View className="my-2">
+        <View className="my-1">
           <Text
-            className="text-[#f9f9f9] text-xl p-1"
+            className="text-[#f9f9f9] text-base font-bold py-2 px-1"
             style={GlobalStyles.fontMedium}
           >
-            Name:
+            NAME
           </Text>
           <TextInput
-            placeholder="Enter Your Name..."
+            placeholder="Enter your name"
             placeholderTextColor={`${
-              activeInput === 1 ? "#101010" : "#f9f9f9"
+              activeInput === 1 ? "#000000" : "#61677A"
             }`}
-            className={`border border-[#FF26B9] w-full p-3 py-3 rounded-xl text-[#f9f9f9] text-lg ${
+            className={`border border-[#FF26B9] w-full p-3 py-4 rounded-xl text-[#f9f9f9] text-base ${
               activeInput === 1 ? "bg-[#FF26B9] text-[#f9f9f9]" : null
             }`}
             onBlur={handleInputBlur}
@@ -54,19 +54,19 @@ const ProfileEditInputs = (props) => {
         </View>
 
         {/* UserName  */}
-        <View className="my-2">
+        <View className="my-1">
           <Text
-            className="text-[#f9f9f9] text-xl p-1"
+            className="text-[#f9f9f9] text-base font-bold py-2 px-1"
             style={GlobalStyles.fontMedium}
           >
-            UserName:
+            USERNAME
           </Text>
           <TextInput
-            placeholder="Enter Your UserName..."
+            placeholder="Enter your username"
             placeholderTextColor={`${
-              activeInput === 2 ? "#101010" : "#f9f9f9"
+              activeInput === 2 ? "#000000" : "#61677A"
             }`}
-            className={`border border-[#FF26B9] w-full p-3 py-3 rounded-xl text-[#f9f9f9] text-lg ${
+            className={`border border-[#FF26B9] w-full p-3 py-4 rounded-xl text-[#f9f9f9] text-base ${
               activeInput === 2 ? "bg-[#FF26B9] text-[#f9f9f9]" : null
             }`}
             onBlur={handleInputBlur}
@@ -78,19 +78,19 @@ const ProfileEditInputs = (props) => {
         </View>
 
         {/* Bio  */}
-        <View className="my-2">
+        <View className="my-1">
           <Text
-            className="text-[#f9f9f9] text-xl p-1"
+            className="text-[#f9f9f9] text-base font-bold py-2 px-1"
             style={GlobalStyles.fontMedium}
           >
-            Bio:
+            BIO
           </Text>
           <TextInput
-            placeholder="Enter Your Bio..."
+            placeholder="Enter your bio"
             placeholderTextColor={`${
-              activeInput === 3 ? "#101010" : "#f9f9f9"
+              activeInput === 3 ? "#000000" : "#61677A"
             }`}
-            className={`border border-[#FF26B9] w-full p-3 py-3 rounded-xl text-[#f9f9f9] text-lg ${
+            className={`border border-[#FF26B9] w-full p-3 py-4 rounded-xl text-[#f9f9f9] text-base ${
               activeInput === 3 ? "bg-[#FF26B9] text-[#f9f9f9]" : null
             }`}
             onBlur={handleInputBlur}
@@ -102,19 +102,19 @@ const ProfileEditInputs = (props) => {
         </View>
 
         {/* Location  */}
-        <View className="my-2">
+        <View className="my-1">
           <Text
-            className="text-[#f9f9f9] text-xl p-1"
+            className="text-[#f9f9f9] text-base font-bold py-2 px-1"
             style={GlobalStyles.fontMedium}
           >
-            Location:
+            LOCATION
           </Text>
           <TextInput
-            placeholder="Enter Your Location..."
+            placeholder="Enter your location"
             placeholderTextColor={`${
-              activeInput === 4 ? "#101010" : "#f9f9f9"
+              activeInput === 4 ? "#000000" : "#61677A"
             }`}
-            className={`border border-[#FF26B9] w-full p-3 py-3 rounded-xl text-[#f9f9f9] text-lg ${
+            className={`border border-[#FF26B9] w-full p-3 py-4 rounded-xl text-[#f9f9f9] text-base ${
               activeInput === 4 ? "bg-[#FF26B9] text-[#f9f9f9]" : null
             }`}
             onBlur={handleInputBlur}
