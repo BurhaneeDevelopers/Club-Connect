@@ -24,8 +24,7 @@ import HR from "./HR";
 import { useNavigation } from "@react-navigation/native";
 import useSelectedCity from "../Hooks/useSelectedCity";
 import useLocation from "../Hooks/useLocation";
-import { Skeleton } from "@rneui/base";
-import { FullWindowOverlay } from "react-native-screens";
+import Skeleton from "./Skeleton";
 
 const FeaturedHomeRow = ({ id, title, navigation, featuredId, dataType }) => {
   const [itemData, setItemData] = useState([]);
@@ -63,6 +62,12 @@ const FeaturedHomeRow = ({ id, title, navigation, featuredId, dataType }) => {
     };
 
     fetchDataInFeaturedCategory();
+
+    !fetchDataInFeaturedCategory ? (
+      <Text className="text-white">Hello</Text>
+    ) : (
+      fetchDataInFeaturedCategory()
+    );
   }, []);
 
   const { latitude, longitude } = useLocation();
@@ -117,9 +122,8 @@ const FeaturedHomeRow = ({ id, title, navigation, featuredId, dataType }) => {
     return deg * (Math.PI / 180);
   };
 
-  const renderCards = (itemData, FeaturedCards, skeletonProps) => {
+  const renderCards = (itemData, FeaturedCards) => {
     const filteredData = filterDataByCity(itemData);
-    const shouldRenderSkeleton = filteredData.length === 0;
 
     return filteredData?.map((item, index) => (
       <FeaturedCards
@@ -141,66 +145,37 @@ const FeaturedHomeRow = ({ id, title, navigation, featuredId, dataType }) => {
     ));
   };
 
-
-
   return (
     <View>
       <View className="p-5">
         {/* Featured Title like `Hot Deals Just For You!, Top Picks!` */}
         <SectionTitles title={title} />
       </View>
-
+      <Skeleton
+        width={40}
+        height={40}
+        customClass="rounded-full overflow-hidden bg-gray-200"
+      />
+      <Skeleton
+        width={256}
+        height={90}
+        customClass="rounded-3xl overflow-hidden bg-gray-200"
+      />
       <ScrollView horizontal={true} showsHorizontalScrollIndicator={false}>
         {/* {loading && (
           <Skeleton animation="pulse" circle="true" width={370} height={200} />
         )} */}
         <View className="px-5 flex-row items-center justify-center w-full">
-          {featuredId == 5 &&
-            (renderCards(itemData, TopPickCard) || (
-              <Skeleton
-                animation="pulse"
-                circle="true"
-                width={100}
-                height={200}
-              />
-            ))}
-
-          {featuredId == 1 &&
-            (renderCards(itemData, NearestPickCard) || (
-              <Skeleton
-                animation="pulse"
-                circle="true"
-                width={100}
-                height={200}
-              />
-            ))}
-          {featuredId == 4 &&
-            (renderCards(itemData, ExploreCard) || (
-              <Skeleton
-                animation="pulse"
-                circle="true"
-                width={256}
-                height={96}
-              />
-            ))}
-          {featuredId == 2 &&
-            (renderCards(itemData, PopularCafeCards) || (
-              <Skeleton
-                animation="pulse"
-                circle="true"
-                width={256}
-                height={96}
-              />
-            ))}
-          {featuredId == 3 &&
-            (renderCards(itemData, RecommendedCard) || (
-              <Skeleton
-                animation="pulse"
-                circle="true"
-                width={256}
-                height={96}
-              />
-            ))}
+          {itemData.length !== 0
+            ? featuredId == 5 && renderCards(itemData, TopPickCard)
+            : ""}
+          {itemData.length !== 0
+            ? featuredId == 4 && renderCards(itemData, ExploreCard)
+            : ""}
+          {featuredId == 1 && renderCards(itemData, NearestPickCard)}
+          {/* {featuredId == 4 && renderCards(itemData, ExploreCard)} */}
+          {featuredId == 2 && renderCards(itemData, PopularCafeCards)}
+          {featuredId == 3 && renderCards(itemData, RecommendedCard)}
         </View>
       </ScrollView>
       {/* <View className="p-5">{renderCards(itemData, IteratingCards)}</View> */}

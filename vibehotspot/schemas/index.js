@@ -1,7 +1,7 @@
-import restaurant from './restaurant'
+import hotspot from './hotspot'
 import category from './category'
-import dish from './dish'
 import featured from './featured'
 import cafe from './cafe'
+import pubs from './pubs'
 
-export const schemaTypes = [cafe, restaurant, category, dish, featured]
+export const schemaTypes = [cafe, hotspot, pubs, category, featured]

@@ -84,6 +84,14 @@ const AuthenticatedNavigator = () => {
   return (
     <Stack.Navigator>
       <Stack.Screen
+        name="Explore"
+        component={ExploreScreen}
+        options={{
+          headerShown: false,
+          ...TransitionPresets.SlideFromRightIOS,
+        }}
+      />
+      <Stack.Screen
         name="Index"
         options={{
           headerShown: false,
@@ -101,14 +109,7 @@ const AuthenticatedNavigator = () => {
       >
         {(props) => <UnauthenticatedNavigator {...props} />}
       </Stack.Screen>
-      <Stack.Screen
-        name="Home"
-        component={HomeScreen}
-        options={{
-          headerShown: false,
-          ...TransitionPresets.SlideFromRightIOS,
-        }}
-      />
+
       <Stack.Screen
         name="Profile"
         component={ProfileScreen}
@@ -356,8 +357,8 @@ const TabNavigator = ({ Tab }) => {
       >
         {/* Home Screen  */}
         <Tab.Screen
-          name="Explore"
-          component={ExploreScreen}
+          name="Home"
+          component={HomeScreen}
           options={{
             headerShown: false,
             tabBarLabelStyle: { display: "none" },
@@ -423,7 +424,11 @@ const TabNavigator = ({ Tab }) => {
                     </>
                   ) : (
                     <>
-                      <TicketStar size="32" color="#101010" className="my-auto" />
+                      <TicketStar
+                        size="32"
+                        color="#101010"
+                        className="my-auto"
+                      />
                       <Text
                         className={`translate-y-1 text-[#101010] text-center , ${
                           focused ? "" : ""

@@ -24,6 +24,8 @@ import {
   Gift,
   Bill,
   Add,
+  SearchNormal,
+  ArrowLeft,
 } from "iconsax-react-native";
 import LottieView from "lottie-react-native";
 import FeaturedHomeRow from "../Components/FeaturedHomerow";
@@ -86,32 +88,32 @@ const HomeScreen = ({ navigation }) => {
     }, 1000);
   };
 
-  // Display Dummy Random UserName and Name when username not set
-  const [name, setName] = useState("");
-  const [userName, setUserName] = useState("");
+  // // Display Dummy Random UserName and Name when username not set
+  // const [name, setName] = useState("");
+  // const [userName, setUserName] = useState("");
 
-  useEffect(() => {
-    // Retrieve the Name and UserName from AsyncStorage
-    AsyncStorage.getItem("Name")
-      .then((storedName) => {
-        if (storedName) {
-          setName(storedName);
-        }
-      })
-      .catch((error) => {
-        console.error("Error retrieving Name:", error);
-      });
+  // useEffect(() => {
+  //   // Retrieve the Name and UserName from AsyncStorage
+  //   AsyncStorage.getItem("Name")
+  //     .then((storedName) => {
+  //       if (storedName) {
+  //         setName(storedName);
+  //       }
+  //     })
+  //     .catch((error) => {
+  //       console.error("Error retrieving Name:", error);
+  //     });
 
-    AsyncStorage.getItem("UserName")
-      .then((storedUserName) => {
-        if (storedUserName) {
-          setUserName(storedUserName);
-        }
-      })
-      .catch((error) => {
-        console.error("Error retrieving UserName:", error);
-      });
-  }, []);
+  //   AsyncStorage.getItem("UserName")
+  //     .then((storedUserName) => {
+  //       if (storedUserName) {
+  //         setUserName(storedUserName);
+  //       }
+  //     })
+  //     .catch((error) => {
+  //       console.error("Error retrieving UserName:", error);
+  //     });
+  // }, []);
 
   // Fetch UserName and other Details when user edits his profile
   const { userDetails } = useContext(UserDetailsContext);
@@ -148,6 +150,11 @@ const HomeScreen = ({ navigation }) => {
 
     fetchCategoriesForRestaurant();
   }, []);
+
+  const [isLiked, setIsLiked] = useState(false);
+  const toggleSave = () => {
+    setIsLiked(!isLiked);
+  };
   return (
     <SafeAreaView>
       <ScrollView
@@ -171,49 +178,32 @@ const HomeScreen = ({ navigation }) => {
 
         <View className="h-full w-full">
           {/* MENU  */}
-          <View className="flex-row justify-between items-center p-5">
-            {/* USERNAME AND SEARCH MENU  */}
+          <View className="flex-row w-full  justify-between items-center p-5">
             <Pressable
-              className="flex-row items-center space-x-2"
-              onPress={() => navigation.navigate("Profile")}
+              onPress={() => navigation.goBack()}
+              className="absolute ml-5"
             >
-              {userDetails?.profileImage ? (
-                <Image
-                  source={{ uri: userDetails.profileImage.uri }}
-                  className="w-16 h-16 rounded-full"
-                />
-              ) : (
-                <Image
-                  source={require("../assets/Illustrations/Avatar.jpg")}
-                  className="w-16 h-16 rounded-full"
-                />
-              )}
-
-              {/* {console.log(userDetails.profileImage)} */}
-
-              <View className="">
-                <Text
-                  className="text-xl text-[#FF26B9]"
-                  style={GlobalStyles.fontSemiBold}
-                >
-                  {userDetails?.name || name || (
-                    <Skeleton animation="pulse" width={140} height={10} />
-                  )}
-                  {/* {console.log(userDetails?.name)} */}
-                </Text>
-                <Text
-                  className="text-[#f9f9f9]"
-                  style={GlobalStyles.fontMedium}
-                >
-                  {userDetails?.userName || userName || (
-                    <Skeleton animation="pulse" width={120} height={10} />
-                  )}
-                </Text>
-              </View>
+              <ArrowLeft size="32" color="#f9f9f9" />
             </Pressable>
 
-            <Pressable onPress={() => navigation.navigate("Setting")}>
-              <SearchNormal1 size="32" color="#E9FA00" variant="Broken" />
+            <Text
+              className="text-xl text-[#E9FA00] mx-auto max-w-[192px]"
+              style={GlobalStyles.fontSemiBold}
+              numberOfLines={1}
+            >
+              Home
+            </Text>
+
+            {/* Button to Save Cafe */}
+            <Pressable
+              className="bg-[#E9FA00] active:bg-[#f7ff8c] justify-center items-center w-10 h-10 rounded-xl absolute top-3 right-5"
+              onPress={toggleSave}
+            >
+              <SearchNormal
+                size="24"
+                color={isLiked ? "#FF26B9" : "#101010"}
+                variant={isLiked ? "Bold" : "Outline"}
+              />
             </Pressable>
           </View>
 
@@ -279,7 +269,7 @@ const HomeScreen = ({ navigation }) => {
           </View>
 
           {/* COUPAN CARD  */}
-          <CoupanCard />
+          {/* <CoupanCard /> */}
 
           {featuredCategory?.map((category, index) => {
             return (
@@ -371,5 +361,3 @@ const CoupanCard = () => {
 //     </>
 //   )
 // }
-
-

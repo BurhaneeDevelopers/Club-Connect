@@ -57,11 +57,5 @@ export default {
       validation: (Rule) =>
         Rule.required().min(1).max(5).error('Please enter a value between 1 to 5'),
     },
-    {
-      name: 'dishes',
-      type: 'array',
-      title: 'Dishes',
-      of: [{type: 'reference', to: [{type: 'dish'}]}],
-    },
   ],
 }

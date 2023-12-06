@@ -25,6 +25,7 @@ import {
   Bill,
   SearchNormal,
   Gps,
+  ArrowLeft,
 } from "iconsax-react-native";
 import axios from "axios";
 import Banner1 from "../assets/Banners/Banner-1.svg";
@@ -51,33 +52,33 @@ const ExploreScreen = ({ navigation }) => {
   // FIRE CONFETTI when user signs In for the first Time anonymously
   // const animation = useRef();
   // Display Dummy Random UserName and Name when username not set
-  const [name, setName] = useState("");
-  const [userName, setUserName] = useState("");
+  // const [name, setName] = useState("");
+  // const [userName, setUserName] = useState("");
 
-  useEffect(() => {
-    // Retrieve the Name and UserName from AsyncStorage
-    AsyncStorage.getItem("Name")
-      .then((storedName) => {
-        if (storedName) {
-          setName(storedName);
-        }
-      })
-      .catch((error) => {
-        console.error("Error retrieving Name:", error);
-      });
+  // useEffect(() => {
+  //   // Retrieve the Name and UserName from AsyncStorage
+  //   AsyncStorage.getItem("Name")
+  //     .then((storedName) => {
+  //       if (storedName) {
+  //         setName(storedName);
+  //       }
+  //     })
+  //     .catch((error) => {
+  //       console.error("Error retrieving Name:", error);
+  //     });
 
-    AsyncStorage.getItem("UserName")
-      .then((storedUserName) => {
-        if (storedUserName) {
-          setUserName(storedUserName);
-        }
-      })
-      .catch((error) => {
-        console.error("Error retrieving UserName:", error);
-      });
-  }, []);
+  //   AsyncStorage.getItem("UserName")
+  //     .then((storedUserName) => {
+  //       if (storedUserName) {
+  //         setUserName(storedUserName);
+  //       }
+  //     })
+  //     .catch((error) => {
+  //       console.error("Error retrieving UserName:", error);
+  //     });
+  // }, []);
 
-  const { userDetails } = useContext(UserDetailsContext);
+  // const { userDetails } = useContext(UserDetailsContext);
 
   // useEffect(() => {
   //   animation.current?.play();
@@ -90,9 +91,9 @@ const ExploreScreen = ({ navigation }) => {
     {
       title: "Explore",
       desc: "Explore Nightlife with VHS",
-      image: require('../assets/Illustrations/PartyExplore.png'),
+      image: require("../assets/Illustrations/PartyExplore.png"),
       color: "#FF26B9",
-      redirectTo: "Home",
+      redirectTo: "Index",
       textColor: "#f9f9f9",
       descColor: "#fff",
       activeBgColor: "#bb3691",
@@ -103,7 +104,7 @@ const ExploreScreen = ({ navigation }) => {
       image: "",
       color: "#E9FA00",
       redirectTo: "VibeCity",
-      textColor: "#101010",
+      textColor: "#FF26B9",
       descColor: "#575757",
       activeBgColor: "#f1ff2f",
     },
@@ -113,7 +114,7 @@ const ExploreScreen = ({ navigation }) => {
       image: "",
       color: "#E9FA00",
       redirectTo: "Community",
-      textColor: "#101010",
+      textColor: "#FF26B9",
       descColor: "#575757",
       activeBgColor: "#f1ff2f",
     },
@@ -128,50 +129,41 @@ const ExploreScreen = ({ navigation }) => {
       activeBgColor: "#bb3691",
     },
   ];
+
+  const [isLiked, setIsLiked] = useState(false);
+  const toggleSave = () => {
+    setIsLiked(!isLiked);
+  };
   return (
     <ScrollView>
       <SafeAreaView>
         {/* MENU  */}
-        <View className="flex-row justify-between items-center px-4 pt-5 pb-1">
-          {/* USERNAME AND SEARCH MENU  */}
+        <View className="flex-row w-full  justify-between items-center p-5">
           <Pressable
-            className="flex-row items-center align-middle space-x-2"
-            onPress={() => navigation.navigate("Profile")}
+            onPress={() => navigation.goBack()}
+            className="absolute ml-5"
           >
-            {userDetails?.profileImage ? (
-              <Image
-                source={{ uri: this.userDetails.profileImage.uri }}
-                className="w-16 h-16 rounded-full"
-              />
-            ) : (
-              <Image
-                source={require("../assets/Illustrations/Avatar.jpg")}
-                className="w-16 h-16 rounded-full"
-              />
-            )}
-
-            {/* {console.log(userDetails.profileImage)} */}
-
-            <View className="">
-              <Text
-                className="text-xl text-[#FF26B9]"
-                style={GlobalStyles.fontSemiBold}
-              >
-                {userDetails?.name || name || (
-                  <Skeleton animation="pulse" width={160} height={10} />
-                )}
-                {/* {console.log(userDetails?.name)} */}
-              </Text>
-              <Text className="text-[#f9f9f9]" style={GlobalStyles.fontMedium}>
-                {userDetails?.userName || userName || (
-                  <Skeleton animation="pulse" width={120} height={10} />
-                )}
-              </Text>
-            </View>
+            <ArrowLeft size="32" color="#f9f9f9" />
           </Pressable>
 
-          <Pressable onPress={() => navigation.navigate("Setting")}>
-            <SearchNormal1 size="32" color="#E9FA00" variant="Broken" />
+          <Text
+            className="text-xl text-[#E9FA00] mx-auto max-w-[192px]"
+            style={GlobalStyles.fontSemiBold}
+            numberOfLines={1}
+          >
+            Explore
+          </Text>
+
+          {/* Button to Save Cafe */}
+          <Pressable
+            className="bg-[#E9FA00] active:bg-[#f7ff8c] justify-center items-center w-10 h-10 rounded-xl absolute top-3 right-5"
+            onPress={toggleSave}
+          >
+            <SearchNormal
+              size="24"
+              color={isLiked ? "#FF26B9" : "#101010"}
+              variant={isLiked ? "Bold" : "Outline"}
+            />
           </Pressable>
         </View>
 
@@ -200,9 +192,9 @@ const ExploreScreen = ({ navigation }) => {
         </View>
 
         {/* COUPAN CARD  */}
-        <CoupanCard />
+        {/* <CoupanCard /> */}
 
-        <View className="p-3">
+        {/* <View className="p-3">
           <View className=" h-52 bg-gray-300 rounded-3xl p-5">
             <Text
               className="text-7xl py-1 mt-3 text-[#bb3691]"
@@ -218,7 +210,7 @@ const ExploreScreen = ({ navigation }) => {
               Crafted with 💝 in Chennai, India
             </Text>
           </View>
-        </View>
+        </View> */}
       </SafeAreaView>
     </ScrollView>
   );
@@ -293,10 +285,7 @@ const RedirectingCards = ({
         source={require("../assets/Illustrations/ExploreParty.json")}
       /> */}
 
-      <Image
-        source={image }
-        className="w-24 h-24 absolute -bottom-1 right-1"
-      />
+      <Image source={image} className="w-24 h-24 absolute -bottom-1 right-1" />
     </Pressable>
   );
 };

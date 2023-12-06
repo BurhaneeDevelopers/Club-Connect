@@ -16,10 +16,10 @@ export default {
       validation: (Rule) => Rule.max(200),
     },
     {
-      name: 'restaurants',
+      name: 'hotspots',
       type: 'array',
-      title: 'Restaurants Lis',
-      of: [{type: 'reference', to: [{type: 'restaurant'}]}],
+      title: 'Hotspots List',
+      of: [{type: 'reference', to: [{type: 'hotspot'}]}],
     },
     {
       name: 'cafes',
