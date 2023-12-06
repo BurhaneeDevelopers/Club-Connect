@@ -99,7 +99,7 @@ const ExploreScreen = ({ navigation }) => {
       activeBgColor: "#bb3691",
     },
     {
-      title: "VibeCity",
+      title: "Vibecity",
       desc: "Opportunity with VibeCity",
       image: "",
       color: "#E9FA00",

@@ -192,7 +192,7 @@ const HomeScreen = ({ navigation }) => {
             </Pressable>
 
             <Text
-              className="text-xl text-[#E9FA00] mx-auto max-w-[192px]"
+              className="text-xl text-[#E9FA00] mx-auto max-w-[192px] uppercase"
               style={GlobalStyles.fontSemiBold}
               numberOfLines={1}
             >

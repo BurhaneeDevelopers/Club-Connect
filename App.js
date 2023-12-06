@@ -143,6 +143,22 @@ const AuthenticatedNavigator = () => {
         }}
       />
       <Stack.Screen
+        name="Community"
+        component={CommunityScreen}
+        options={{
+          headerShown: false,
+          ...TransitionPresets.SlideFromRightIOS,
+        }}
+      />
+      <Stack.Screen
+        name="VibeCity"
+        component={VibeCityScreen}
+        options={{
+          headerShown: false,
+          ...TransitionPresets.SlideFromRightIOS,
+        }}
+      />
+      <Stack.Screen
         name="HotspotExplore"
         component={HotspotExplore}
         options={{
@@ -285,7 +301,6 @@ const UnauthenticatedNavigator = () => {
 };
 
 export default function App({ navigation }) {
-  // const [fontsLoaded, setFontsLoaded] = useState(false);
   const [fontsLoaded] = useFonts({
     "Livvic-Regular": require("./assets/fonts/Livvic-Regular.ttf"),
     "Livvic-Medium": require("./assets/fonts/Livvic-Medium.ttf"),
