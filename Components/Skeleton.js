@@ -31,7 +31,7 @@ const Skeleton = ({ width, height, customClass }) => {
       >
         <LinearGradient
           style={{ width: "100%", height: "100%" }}
-          colors={["transparent", "#F5F5F5", "transparent"]}
+          colors={["transparent", "#525252", "transparent"]}
           start={{ x: 1, y: 1 }}
           end={{ x: 1, y: 0 }}
         />

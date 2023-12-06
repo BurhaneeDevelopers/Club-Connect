@@ -151,6 +151,11 @@ const HomeScreen = ({ navigation }) => {
     fetchCategoriesForRestaurant();
   }, []);
 
+  // Filter featuredCategory to include only specific featuredIds
+  const filteredFeaturedCategory = featuredCategory.filter((category) =>
+    ["4", "5", "2"].includes(category.featuredId)
+  );
+
   const [isLiked, setIsLiked] = useState(false);
   const toggleSave = () => {
     setIsLiked(!isLiked);
@@ -271,7 +276,7 @@ const HomeScreen = ({ navigation }) => {
           {/* COUPAN CARD  */}
           {/* <CoupanCard /> */}
 
-          {featuredCategory?.map((category, index) => {
+          {filteredFeaturedCategory?.map((category, index) => {
             return (
               <FeaturedHomeRow
                 key={index}

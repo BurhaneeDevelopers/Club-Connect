@@ -62,12 +62,6 @@ const FeaturedHomeRow = ({ id, title, navigation, featuredId, dataType }) => {
     };
 
     fetchDataInFeaturedCategory();
-
-    !fetchDataInFeaturedCategory ? (
-      <Text className="text-white">Hello</Text>
-    ) : (
-      fetchDataInFeaturedCategory()
-    );
   }, []);
 
   const { latitude, longitude } = useLocation();
@@ -151,159 +145,85 @@ const FeaturedHomeRow = ({ id, title, navigation, featuredId, dataType }) => {
         {/* Featured Title like `Hot Deals Just For You!, Top Picks!` */}
         <SectionTitles title={title} />
       </View>
-      <Skeleton
-        width={40}
-        height={40}
-        customClass="rounded-full overflow-hidden bg-gray-200"
-      />
-      <Skeleton
-        width={256}
-        height={90}
-        customClass="rounded-3xl overflow-hidden bg-gray-200"
-      />
+
       <ScrollView horizontal={true} showsHorizontalScrollIndicator={false}>
         {/* {loading && (
           <Skeleton animation="pulse" circle="true" width={370} height={200} />
         )} */}
         <View className="px-5 flex-row items-center justify-center w-full">
-          {itemData.length !== 0
-            ? featuredId == 5 && renderCards(itemData, TopPickCard)
-            : ""}
-          {itemData.length !== 0
-            ? featuredId == 4 && renderCards(itemData, ExploreCard)
-            : ""}
-          {featuredId == 1 && renderCards(itemData, NearestPickCard)}
-          {/* {featuredId == 4 && renderCards(itemData, ExploreCard)} */}
-          {featuredId == 2 && renderCards(itemData, PopularCafeCards)}
-          {featuredId == 3 && renderCards(itemData, RecommendedCard)}
+          {featuredId == 4 &&
+            (loading ? (
+              <>
+                <Skeleton
+                  width={256}
+                  height={90}
+                  customClass="rounded-2xl mx-2 overflow-hidden bg-[#262626]"
+                />
+                <Skeleton
+                  width={256}
+                  height={90}
+                  customClass="rounded-2xl mx-2 overflow-hidden bg-[#262626]"
+                />
+                <Skeleton
+                  width={256}
+                  height={90}
+                  customClass="rounded-2xl mx-2 overflow-hidden bg-[#262626]"
+                />
+              </>
+            ) : (
+              renderCards(itemData, ExploreCard)
+            ))}
+          {featuredId == 5 &&
+            (loading ? (
+              <>
+                <Skeleton
+                  width={150}
+                  height={256}
+                  customClass="rounded-[30px] mx-2 overflow-hidden bg-[#262626]"
+                />
+                <Skeleton
+                  width={150}
+                  height={256}
+                  customClass="rounded-[30px] mx-2 overflow-hidden bg-[#262626]"
+                />
+                <Skeleton
+                  width={150}
+                  height={256}
+                  customClass="rounded-[30px] mx-2 overflow-hidden bg-[#262626]"
+                />
+              </>
+            ) : (
+              renderCards(itemData, TopPickCard)
+            ))}
+          {featuredId == 2 &&
+            (loading ? (
+              <>
+                <Skeleton
+                  width={320}
+                  height={320}
+                  customClass="rounded-[30px] mx-2 overflow-hidden bg-[#262626]"
+                />
+                <Skeleton
+                  width={320}
+                  height={320}
+                  customClass="rounded-[30px] mx-2 overflow-hidden bg-[#262626]"
+                />
+                <Skeleton
+                  width={320}
+                  height={320}
+                  customClass="rounded-[30px] mx-2 overflow-hidden bg-[#262626]"
+                />
+              </>
+            ) : (
+              renderCards(itemData, PopularCafeCards)
+            ))}
         </View>
       </ScrollView>
-      {/* <View className="p-5">{renderCards(itemData, IteratingCards)}</View> */}
     </View>
   );
 };
 
 export default FeaturedHomeRow;
-
-const NearestPickCard = ({
-  id,
-  image,
-  rating,
-  title,
-  location,
-  shortDescription,
-  openingTime,
-  ownerProfileImage,
-  dataType,
-  navigation,
-}) => {
-  const urlifiedImage = image ? urlFor(image).url() : null;
-  return (
-    <>
-      <Pressable
-        onPress={() =>
-          navigation.navigate("CafeDetails", {
-            id,
-            image,
-            rating,
-            title,
-            location,
-            shortDescription,
-            openingTime,
-            ownerProfileImage,
-            dataType,
-            navigation,
-          })
-        }
-      >
-        <View className="w-72 h-72 rounded-[30px] overflow-hidden mx-2 bg-[#262223]">
-          <Image
-            source={{ uri: urlifiedImage }}
-            defaultSource={require("../assets/Images/User/Dummy-Profile.png")}
-            className="w-full h-32"
-          />
-
-          {/* <View className="absolute bg-[#101010]/30 w-full h-full" /> */}
-          <View className="flex-col p-4 w-full space-y-1 z-10">
-            <View className="flex-row justify-between items-center">
-              {/* Location Name */}
-              <Text
-                className="text-xl text-[#f9f9f9]"
-                style={GlobalStyles.fontBold}
-              >
-                {title ? (
-                  title
-                ) : (
-                  <Skeleton animation="pulse" width={60} height={10} />
-                )}
-              </Text>
-
-              {/* <View className="flex-row justify-between items-center">
-                    
-                    <View className="flex-row items-center">
-                      <Text
-                        className="text-[#f9f9f9] text-xl"
-                        style={GlobalStyles.fontBold}
-                      >
-                        $100
-                      </Text>
-                      <Text
-                        className="text-[#f9f9f9]"
-                        style={GlobalStyles.fontRegular}
-                      >
-                        /night
-                      </Text>
-                    </View>
-                  </View> */}
-            </View>
-
-            {/* Rating  */}
-            <View className="flex-row items-center my-2">
-              <Star1 size="18" color="#E9FA00" variant="Bold" />
-              <Text className="text-[#f9f9f9]" style={GlobalStyles.fontRegular}>
-                {rating ? (
-                  rating
-                ) : (
-                  <Skeleton animation="pulse" width={60} height={10} />
-                )}
-              </Text>
-            </View>
-
-            {/* Location  */}
-            <View className="flex-row items-start my-2">
-              <Location size="18" color="#E9FA00" variant="Bold" />
-              <Text
-                className="text-base text-[#f9f9f9]"
-                style={GlobalStyles.fontRegular}
-                numberOfLines={1}
-              >
-                {location ? (
-                  location
-                ) : (
-                  <Skeleton animation="pulse" width={60} height={10} />
-                )}
-              </Text>
-            </View>
-
-            <HR customClass={"bg-[#f9f9f9] mt-3 mb-1"} />
-
-            <View className="">
-              <Text
-                className="text-gray-400 text-xs"
-                numberOfLines={1}
-                style={GlobalStyles.fontRegular}
-              >
-                {shortDescription}
-              </Text>
-            </View>
-          </View>
-        </View>
-      </Pressable>
-
-      {/* TODO:  */}
-    </>
-  );
-};
 
 const PopularCafeCards = ({
   id,
@@ -446,68 +366,6 @@ const PopularCafeCards = ({
         </View>
       </View>
     </>
-  );
-};
-
-const RecommendedCard = ({
-  id,
-  image,
-  rating,
-  title,
-  location,
-  shortDescription,
-  openingTime,
-  ownerProfileImage,
-  dataType,
-  navigation,
-}) => {
-  const urlifiedImage = image ? urlFor(image).url() : null;
-  return (
-    <Pressable
-      className="w-44 h-64 rounded-2xl overflow-hidden mx-2 bg-[#262223]"
-      onPress={() =>
-        navigation.navigate("CafeDetails", {
-          id,
-          image,
-          rating,
-          title,
-          location,
-          shortDescription,
-          openingTime,
-          ownerProfileImage,
-          dataType,
-        })
-      }
-    >
-      <Image
-        source={{ uri: urlifiedImage }}
-        defaultSource={require("../assets/Images/User/Dummy-Profile.png")}
-        className="w-full h-32"
-      />
-
-      {/* <View className="absolute bg-[#101010]/30 w-full h-full" /> */}
-      <View className="flex-col p-4 w-full space-y-1 z-10">
-        <View className="flex-row justify-between items-center">
-          {/* Location Name */}
-          <Text
-            className="text-xl text-[#f9f9f9]"
-            style={GlobalStyles.fontBold}
-          >
-            {title}
-          </Text>
-        </View>
-
-        <View className="">
-          <Text
-            className="text-gray-400 text-base"
-            numberOfLines={2}
-            style={GlobalStyles.fontRegular}
-          >
-            {shortDescription}
-          </Text>
-        </View>
-      </View>
-    </Pressable>
   );
 };
 
@@ -680,148 +538,5 @@ const TopPickCard = ({
         </View>
       </ImageBackground>
     </Pressable>
-  );
-};
-
-const IteratingCards = ({
-  id,
-  image,
-  rating,
-  title,
-  location,
-  shortDescription,
-  openingTime,
-  ownerProfileImage,
-  dataType,
-  navigation,
-}) => {
-  const urlifiedImage = image ? urlFor(image).url() : null;
-  const urlifiedProfileImage = ownerProfileImage
-    ? urlFor(ownerProfileImage)?.url()
-    : null;
-
-  const [isLiked, setIsLiked] = useState(false);
-  const toggleSave = () => {
-    setIsLiked(!isLiked);
-  };
-  return (
-    <>
-      <View className="w-full h-80 rounded-[30px] overflow-hidden bg-[#262223] my-2">
-        <ImageBackground
-          source={{ uri: urlifiedImage }}
-          defaultSource={require("../assets/Images/User/Dummy-Profile.png")}
-          className="w-full h-36"
-        >
-          {/* Button to Save Card */}
-          <Pressable
-            className="bg-[#E9FA00] active:bg-[#f7ff8c] justify-center items-center w-10 h-10 rounded-xl absolute top-3 right-5"
-            onPress={toggleSave}
-          >
-            <Heart
-              size="24"
-              color={isLiked ? "#FF26B9" : "#101010"}
-              variant={isLiked ? "Bold" : "Outline"}
-            />
-          </Pressable>
-
-          <View className="bg-black/40 flex-row justify-center items-center py-1 px-2 absolute top-3 rounded-lg left-5 space-x-1">
-            <Text
-              className="text-lg text-[#f9f9f9]"
-              style={GlobalStyles.fontMedium}
-            >
-              {rating}
-            </Text>
-
-            <Star1 size="14" color="#fff" variant="Bold" />
-          </View>
-
-          <View className="bg-[#101010]/50 w-full h-14 absolute bottom-0 justify-center items-center">
-            <View className="w-full px-5">
-              <View className="flex-row items-center space-x-2">
-                {urlifiedProfileImage ? (
-                  <Image
-                    source={{
-                      uri: urlifiedProfileImage,
-                    }}
-                    defaultSource={require("../assets/Images/User/Dummy-Profile.png")}
-                    className="w-10 h-10 rounded-full"
-                  />
-                ) : (
-                  <Image
-                    source={require("../assets/Images/User/Dummy-Profile.png")}
-                    defaultSource={require("../assets/Images/User/Dummy-Profile.png")}
-                    className="w-10 h-10 rounded-full"
-                  />
-                )}
-
-                <Text
-                  className="text-lg text-[#f9f9f9]"
-                  style={GlobalStyles.fontMedium}
-                >
-                  {openingTime}
-                </Text>
-              </View>
-            </View>
-          </View>
-        </ImageBackground>
-
-        {/* <View className="absolute bg-[#101010]/30 w-full h-full" /> */}
-        <View className="flex-col p-4 w-full z-10">
-          <View className="flex-row justify-between items-center">
-            {/* Location Name */}
-            <Text
-              className="text-2xl text-[#f9f9f9]"
-              style={GlobalStyles.fontBold}
-            >
-              {title}
-            </Text>
-          </View>
-
-          {/* Time  */}
-          <View className="flex-row items-center mt-2 space-x-1">
-            <Car size={"18"} color="#FF26B9" variant="Bold" />
-            <Text
-              className="text-white text-base"
-              style={GlobalStyles.fontRegular}
-            >
-              3Km from you
-            </Text>
-          </View>
-
-          {/* Location  */}
-          <View className="flex-row items-center mt-1 space-x-1">
-            <Location size="18" color="#FF26B9" variant="Bold" />
-            <Text
-              className="text-base text-[#f9f9f9]"
-              style={GlobalStyles.fontRegular}
-              numberOfLines={1}
-            >
-              {location}
-            </Text>
-          </View>
-
-          {/* Button  */}
-          <Pressable
-            className="p-2 mt-4 bg-[#E9FA00] active:bg-[#f1ff2f] rounded"
-            onPress={() =>
-              navigation.navigate("CafeDetails", {
-                id,
-                image,
-                rating,
-                title,
-                location,
-                shortDescription,
-                openingTime,
-                ownerProfileImage,
-                dataType,
-                navigation,
-              })
-            }
-          >
-            <Text className="text-[#101010] text-center">View Details</Text>
-          </Pressable>
-        </View>
-      </View>
-    </>
   );
 };
