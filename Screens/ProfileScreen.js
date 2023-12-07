@@ -212,7 +212,7 @@ const ProfileScreen = ({ navigation }) => {
           <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
         }
       >
-        <View className="p-5 mb-96">
+        <View className="p-4 mb-96">
           <TabBar setPosts={setPosts} setLive={setLive} setSaved={setSaved} />
 
           {post && (
@@ -224,12 +224,12 @@ const ProfileScreen = ({ navigation }) => {
                   className="mx-auto my-5"
                 />
               )}
-              <View className="flex-row justify-center items-center gap-5 flex-wrap my-5">
+              <View className="flex-row justify-center items-center flex-wrap gap-5 my-4 ">
                 {PostCards.map((card, index) => (
                   <ImageBackground
                     key={index}
                     source={card.img}
-                    className="w-24 h-24 rounded-xl overflow-hidden"
+                    className=" w-24 h-24 rounded-xl overflow-hidden"
                   ></ImageBackground>
                 ))}
               </View>
@@ -257,42 +257,3 @@ const ProfileScreen = ({ navigation }) => {
 };
 
 export default ProfileScreen;
-
-// const SavedCards = () => {
-//   return (
-//     <View className="flex-row space-x-3 p-2 bg-[#FF26B9] rounded-xl h-24 my-2">
-//       <View>
-//         <Image
-//           source={require("../assets/Images/Santorini.jpg")}
-//           className="w-20 h-20 rounded-lg"
-//         />
-//       </View>
-//       <View className="">
-//         <Text className="text-xl w-64" style={GlobalStyles.fontBold}>
-//           Dance party at the top of the town - 2022
-//         </Text>
-
-//         <View className="flex-row justify-between items-center">
-//           <View className="space-x-1 flex-row items-end">
-//             <Location size="18" color="#f9f9f9" variant="Broken" />
-//             <Text
-//               className="text-white text-base"
-//               style={GlobalStyles.fontRegular}
-//             >
-//               Greece
-//             </Text>
-//           </View>
-
-//           <View className="bg-[#E9FA00] px-5 py-1.5 rounded-lg justify-center items-center">
-//             <Text
-//               className="text-xl text-[#101010]"
-//               style={GlobalStyles.fontBold}
-//             >
-//               Join
-//             </Text>
-//           </View>
-//         </View>
-//       </View>
-//     </View>
-//   );
-// };

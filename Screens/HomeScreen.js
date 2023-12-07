@@ -8,6 +8,7 @@ import {
   ImageBackground,
   ActivityIndicator,
   TextInput,
+  Modal,
 } from "react-native";
 import React from "react";
 import { useState, useEffect, useRef } from "react";
@@ -20,16 +21,16 @@ import {
   Building,
   Shop,
   Location,
-  Star1,
   Gift,
   Bill,
+  Add,
   SearchNormal,
-  Gps,
+  ArrowLeft,
 } from "iconsax-react-native";
-import axios from "axios";
-import Banner1 from "../assets/Banners/Banner-1.svg";
-import HR from "../Components/HR";
 import LottieView from "lottie-react-native";
+import FeaturedHomeRow from "../Components/FeaturedHomerow";
+import { Camera, CameraType } from "expo-camera";
+import * as ImagePicker from "expo-image-picker";
 
 // Contexts
 import { useContext } from "react";
@@ -41,13 +42,13 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 
 // FONTS
 import GlobalStyles from "../Styles/GlobalStyles";
-import FeaturedHomeRow from "../Components/FeaturedHomerow";
+
+// SANITY
 import client from "../sanity";
 
 // RN ELEMENTS
 import { Skeleton } from "@rneui/themed";
-import { useRoute } from "@react-navigation/native";
-import useSelectedCity from "../Hooks/useSelectedCity";
+// import useSelectedCity from "../Hooks/useSelectedCity";
 
 const HomeScreen = ({ navigation }) => {
   // FIRE CONFETTI when user signs In for the first Time anonymously
@@ -82,38 +83,37 @@ const HomeScreen = ({ navigation }) => {
 
   const onRefresh = () => {
     setRefreshing(true);
-    getUserEditedData();
     setTimeout(() => {
       setRefreshing(false);
     }, 1000);
   };
 
-  // Display Dummy Random UserName and Name when username not set
-  const [name, setName] = useState("");
-  const [userName, setUserName] = useState("");
+  // // Display Dummy Random UserName and Name when username not set
+  // const [name, setName] = useState("");
+  // const [userName, setUserName] = useState("");
 
-  useEffect(() => {
-    // Retrieve the Name and UserName from AsyncStorage
-    AsyncStorage.getItem("Name")
-      .then((storedName) => {
-        if (storedName) {
-          setName(storedName);
-        }
-      })
-      .catch((error) => {
-        console.error("Error retrieving Name:", error);
-      });
+  // useEffect(() => {
+  //   // Retrieve the Name and UserName from AsyncStorage
+  //   AsyncStorage.getItem("Name")
+  //     .then((storedName) => {
+  //       if (storedName) {
+  //         setName(storedName);
+  //       }
+  //     })
+  //     .catch((error) => {
+  //       console.error("Error retrieving Name:", error);
+  //     });
 
-    AsyncStorage.getItem("UserName")
-      .then((storedUserName) => {
-        if (storedUserName) {
-          setUserName(storedUserName);
-        }
-      })
-      .catch((error) => {
-        console.error("Error retrieving UserName:", error);
-      });
-  }, []);
+  //   AsyncStorage.getItem("UserName")
+  //     .then((storedUserName) => {
+  //       if (storedUserName) {
+  //         setUserName(storedUserName);
+  //       }
+  //     })
+  //     .catch((error) => {
+  //       console.error("Error retrieving UserName:", error);
+  //     });
+  // }, []);
 
   // Fetch UserName and other Details when user edits his profile
   const { userDetails } = useContext(UserDetailsContext);
@@ -151,154 +151,153 @@ const HomeScreen = ({ navigation }) => {
     fetchCategoriesForRestaurant();
   }, []);
 
+  // Filter featuredCategory to include only specific featuredIds
+  const filteredFeaturedCategory = featuredCategory.filter((category) =>
+    ["4", "5", "2"].includes(category.featuredId)
+  );
+
+  const [isLiked, setIsLiked] = useState(false);
+  const toggleSave = () => {
+    setIsLiked(!isLiked);
+  };
   return (
-    <ScrollView
-      refreshControl={
-        <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
-      }
-      className=""
-    >
-      {!animationPlayed && (
-        <LottieView
-          ref={animation}
-          loop={false}
-          autoPlay={false}
-          onAnimationFinish={handleAnimationFinish}
-          className={`w-[700px] h-[1000px] absolute left-0 items-start justify-start top-0 -translate-x-20 ${
-            !animationPlayed ? "" : ""
-          }`}
-          source={require("../assets/Illustrations/confetti.json")}
-        />
-      )}
+    <SafeAreaView>
+      <ScrollView
+        refreshControl={
+          <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
+        }
+        className=""
+      >
+        {!animationPlayed && (
+          <LottieView
+            ref={animation}
+            loop={false}
+            autoPlay={false}
+            onAnimationFinish={handleAnimationFinish}
+            className={`w-[700px] h-[1000px] absolute left-0 items-start justify-start top-0 -translate-x-20 ${
+              !animationPlayed ? "" : ""
+            }`}
+            source={require("../assets/Illustrations/confetti.json")}
+          />
+        )}
 
-      <SafeAreaView className="h-full w-full">
-        {/* MENU  */}
-        <View className="flex-row justify-between items-center p-5">
-          {/* USERNAME AND SEARCH MENU  */}
-          <Pressable
-            className="flex-row items-center space-x-2"
-            onPress={() => navigation.navigate("Profile")}
-          >
-            {userDetails?.profileImage ? (
-              <Image
-                source={{ uri: userDetails.profileImage.uri }}
-                className="w-16 h-16 rounded-full"
+        <View className="h-full w-full">
+          {/* MENU  */}
+          <View className="flex-row w-full  justify-between items-center p-5">
+            <Pressable
+              onPress={() => navigation.goBack()}
+              className="absolute ml-5"
+            >
+              <ArrowLeft size="32" color="#f9f9f9" />
+            </Pressable>
+
+            <Text
+              className="text-xl text-[#E9FA00] mx-auto max-w-[192px] uppercase"
+              style={GlobalStyles.fontSemiBold}
+              numberOfLines={1}
+            >
+              Home
+            </Text>
+
+            {/* Button to Save Cafe */}
+            <Pressable
+              className="bg-[#E9FA00] active:bg-[#f7ff8c] justify-center items-center w-10 h-10 rounded-xl absolute top-3 right-5"
+              onPress={toggleSave}
+            >
+              <SearchNormal
+                size="24"
+                color={isLiked ? "#FF26B9" : "#101010"}
+                variant={isLiked ? "Bold" : "Outline"}
               />
-            ) : (
-              <Image
-                source={require("../assets/Illustrations/Avatar.jpg")}
-                className="w-16 h-16 rounded-full"
-              />
-            )}
-
-            {/* {console.log(userDetails.profileImage)} */}
-
-            <View className="">
-              <Text
-                className="text-xl text-[#FF26B9]"
-                style={GlobalStyles.fontSemiBold}
-              >
-                {userDetails?.name || name || (
-                  <Skeleton animation="pulse" width={140} height={10} />
-                )}
-                {/* {console.log(userDetails?.name)} */}
-              </Text>
-              <Text className="text-[#f9f9f9]" style={GlobalStyles.fontMedium}>
-                {userDetails?.userName || userName || (
-                  <Skeleton animation="pulse" width={120} height={10} />
-                )}
-              </Text>
-            </View>
-          </Pressable>
-
-          <Pressable onPress={() => navigation.navigate("Setting")}>
-            <SearchNormal1 size="32" color="#E9FA00" variant="Broken" />
-          </Pressable>
-        </View>
-
-        {/* AUTO SLIDING HOT DEALS  */}
-        <View className="">
-          <HotDealsSlider />
-        </View>
-
-        <View className="p-5">
-          {/* MENU CARDS  */}
-          <View className="pb-4">
-            <SectionTitles title="Discover" />
+            </Pressable>
           </View>
 
-          <ScrollView
-            horizontal={true}
-            className=""
-            showsHorizontalScrollIndicator={false}
-          >
-            <View className="flex-row">
-              <MenuCards
-                icon={<Buildings2 size="32" color="#f9f9f9" variant="Broken" />}
-                title={"Hotspot"}
-                navigateTo={"HotspotExplore"}
-                navigation={navigation}
-              />
+          {/* AUTO SLIDING HOT DEALS  */}
+          <View className="">
+            <HotDealsSlider />
+          </View>
 
-              <MenuCards
-                icon={<Coffee size="32" color="#f9f9f9" variant="Broken" />}
-                title="Cafe"
-                navigateTo={"CafeExplore"}
-                navigation={navigation}
-              />
-              <MenuCards
-                icon={<Bill size="32" color="#f9f9f9" variant="Broken" />}
-                title="Restaurant"
-                navigateTo={"RestaurantExplore"}
-                navigation={navigation}
-              />
-              <MenuCards
-                icon={<Building size="32" color="#f9f9f9" variant="Broken" />}
-                title="Bars"
-                navigateTo={"BarsExplore"}
-                navigation={navigation}
-              />
-              <MenuCards
-                icon={<Shop size="32" color="#f9f9f9" variant="Broken" />}
-                title="Pubs"
-                navigateTo={"PubsExplore"}
-                navigation={navigation}
-              />
-
-              <MenuCards
-                icon={<Location size="32" color="#f9f9f9" variant="Broken" />}
-                title="Map"
-                navigateTo={"LocationPick"}
-                navigation={navigation}
-              />
+          <View className="p-5">
+            {/* MENU CARDS  */}
+            <View className="pb-4">
+              <SectionTitles title="Discover" />
             </View>
-          </ScrollView>
-        </View>
 
-        {/* COUPAN CARD  */}
-        <CoupanCard />
+            <ScrollView
+              horizontal={true}
+              className=""
+              showsHorizontalScrollIndicator={false}
+            >
+              <View className="flex-row">
+                <MenuCards
+                  icon={
+                    <Buildings2 size="32" color="#f9f9f9" variant="Broken" />
+                  }
+                  title={"Hotspot"}
+                  navigateTo={"HotspotExplore"}
+                  navigation={navigation}
+                />
 
-        {featuredCategory?.map((category, index) => {
-          return (
-            <FeaturedHomeRow
-              key={category.id}
-              id={category._id}
-              title={category.name}
-              navigation={navigation}
-              featuredId={category.featuredId}
-              dataType={["restaurants", "cafes"]}
-            />
-          );
-        })}
+                <MenuCards
+                  icon={<Coffee size="32" color="#f9f9f9" variant="Broken" />}
+                  title="Cafe"
+                  navigateTo={"CafeExplore"}
+                  navigation={navigation}
+                />
+                <MenuCards
+                  icon={<Bill size="32" color="#f9f9f9" variant="Broken" />}
+                  title="Restaurant"
+                  navigateTo={"RestaurantExplore"}
+                  navigation={navigation}
+                />
+                <MenuCards
+                  icon={<Building size="32" color="#f9f9f9" variant="Broken" />}
+                  title="Bars"
+                  navigateTo={"BarsExplore"}
+                  navigation={navigation}
+                />
+                <MenuCards
+                  icon={<Shop size="32" color="#f9f9f9" variant="Broken" />}
+                  title="Pubs"
+                  navigateTo={"PubsExplore"}
+                  navigation={navigation}
+                />
 
-        <View className="justify-center items-center p-5">
-          {/* <Banner1 width={320} height={60} /> */}
-        </View>
-        {/* <View className="justify-center items-center py-5">
+                <MenuCards
+                  icon={<Location size="32" color="#f9f9f9" variant="Broken" />}
+                  title="Map"
+                  navigateTo={"LocationPick"}
+                  navigation={navigation}
+                />
+              </View>
+            </ScrollView>
+          </View>
+
+          {/* COUPAN CARD  */}
+          {/* <CoupanCard /> */}
+
+          {filteredFeaturedCategory?.map((category, index) => {
+            return (
+              <FeaturedHomeRow
+                key={index}
+                id={category._id}
+                title={category.name}
+                navigation={navigation}
+                featuredId={category.featuredId}
+                dataType={["restaurants", "cafes"]}
+              />
+            );
+          })}
+
+          <View className="justify-center items-center p-5">
+            {/* <Banner1 width={320} height={60} /> */}
+          </View>
+          {/* <View className="justify-center items-center py-5">
         <CustomBanner />
         </View> */}
-      </SafeAreaView>
-    </ScrollView>
+        </View>
+      </ScrollView>
+    </SafeAreaView>
   );
 };
 

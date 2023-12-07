@@ -46,7 +46,7 @@ const TabBar = ({ setPosts, setSaved, setLive }) => {
           className="text-white text-xl text-center"
           style={GlobalStyles.fontMedium}
         >
-          Saved
+          Reels
         </Text>
       </Pressable>
       <Pressable

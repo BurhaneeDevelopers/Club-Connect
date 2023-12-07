@@ -132,8 +132,6 @@ const RestaurantExplore = ({ navigation }) => {
             `*[_type == "featured"]{
                 ...,
                 restaurants -> {
-                  ...,
-                  dishes[]->
                 }
               }
             `

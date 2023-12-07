@@ -73,53 +73,6 @@ const CafeExploreScreen = ({ navigation }) => {
     },
   ];
 
-  const [hotspotImages, setHotspotImages] = useState([]);
-  UNSPLASH_ACCESS_KEY = "6KEJery9EMaZFtuiQjELpzqV5sgo9vVWqm52b_gKYZ4";
-
-  const fetchHotspotImages = async () => {
-    setLoading(true);
-    try {
-      // Generate a random query string to make the request unique
-      const randomQuery = getRandomQuery(); // Define the getRandomQuery function
-
-      const response = await axios.get(
-        "https://api.unsplash.com/search/photos",
-        {
-          params: {
-            query: randomQuery,
-          },
-          headers: {
-            Authorization: `Client-ID ${UNSPLASH_ACCESS_KEY}`,
-          },
-        }
-      );
-
-      const images = response.data.results.map((result) => result.urls.regular);
-      setHotspotImages(images);
-      setLoading(false);
-    } catch (error) {
-      console.error("Error fetching images from Unsplash:", error);
-    }
-  };
-
-  // Define a function to generate a random query
-  const getRandomQuery = () => {
-    const queries = ["beach", "mountain", "city", "forest", "desert"];
-    const randomIndex = Math.floor(Math.random() * queries.length);
-    return queries[randomIndex];
-  };
-
-  useEffect(() => {
-    fetchHotspotImages();
-  }, []);
-  const HotspotCards = hotspotImages.map((image, index) => ({
-    img: { uri: image },
-    title: `Hotspot ${index + 1}`,
-    location: "Unknown",
-    price: "100",
-    rating: "4.5",
-  }));
-
   const [featuredCategory, setFeaturedCategory] = useState([]);
 
   useEffect(() => {
@@ -131,8 +84,6 @@ const CafeExploreScreen = ({ navigation }) => {
             `*[_type == "featured"]{
                 ...,
                 cafe -> {
-                  ...,
-                  dishes[]->
                 }
               }
             `

@@ -20,7 +20,7 @@ import LottieView from "lottie-react-native";
 import WalletCoin from "../assets/Illustrations/WalletCoin.svg";
 import SectionTitles from "../Components/SectionTitles";
 
-const WalletScreen = ({ navigation }) => {
+const HostWithUsScreen = ({ navigation }) => {
   const animation = useRef();
   useEffect(() => {
     animation.current?.play();
@@ -48,7 +48,7 @@ const WalletScreen = ({ navigation }) => {
               className="text-3xl text-[#FF26B9] mx-auto"
               style={GlobalStyles.fontSemiBold}
             >
-              My Wallet
+              Host With Us
             </Text>
           </View>
 
@@ -62,79 +62,37 @@ const WalletScreen = ({ navigation }) => {
           </View>
 
           <View className="p-5">
-            <View className="bg-[#262626] rounded-[30px] p-5 py-10">
-              <View className="flex-row justify-between items-center">
-                <View className="space-y-2">
-                  <Text
-                    className="text-5xl text-[#E9FA00]"
-                    style={GlobalStyles.fontSemiBold}
-                  >
-                    0
-                  </Text>
-                  <View className="flex-row space-x-2 items-center">
-                    <Wallet1 size="24" color="#FF8A65" variant="Bold" />
-                    <Text
-                      className="text-gray-200"
-                      style={GlobalStyles.fontSemiBold}
-                    >
-                      Available Peso
-                    </Text>
-                  </View>
-                </View>
-
-                <View>
-                  <WalletCoin width={72} height={72} />
-                </View>
-              </View>
-
-              <Pressable className="w-full p-3 rounded-lg items-center bg-[#FF26B9] active:bg-[#c52d95] mt-7">
-                <Text
-                  className="text-[#f9f9f9] text-lg"
-                  style={GlobalStyles.fontSemiBold}
-                >
-                  Encash Peso
-                </Text>
-              </Pressable>
-            </View>
-
             <View className="mb-8 justify-center items-center">
-              <LottieView
-                ref={animation}
-                autoPlay
-                loop
-                className="w-32 h-32"
-                source={require("../assets/Illustrations/CryingHeart.json")}
+              <Image
+                className="w-96 h-96"
+                source={require("../assets/Illustrations/ComingSoon.png")}
               />
               <Text
-                className="text-white text-xl text-center"
+                className="text-white text-2xl text-center"
                 style={GlobalStyles.fontBold}
               >
-                OOPS! Your Wallet Is EMPTY!{" "}
+                Hold Your Breath! Vibecity will be Unleashed Soon!{" "}
               </Text>
               <Text
-                className="text-gray-200 w-52 text-center"
+                className="text-gray-200 w-80 text-center"
                 style={GlobalStyles.fontMedium}
               >
-                Book any Cafe or Hotspot to earn PESO.{" "}
-                <Text
-                  className="text-[#E9FA00]"
-                  style={GlobalStyles.fontMedium}
-                >
-                  Learn More!
-                </Text>
+                Explore, Host, and Savor. Your city's hottest events, cafes,
+                restaurants, and more – all in one app! Stay tuned for the
+                ultimate experience. 🚀✨
               </Text>
             </View>
+          </View>
 
-            <View className="mb-5">
-              <View className="mb-3">
-                <SectionTitles title={"Explore Hotspots and Cafe!"} />
-              </View>
-
-              <SavedCards />
-              <SavedCards />
-              <SavedCards />
-              <SavedCards />
+          <View className="p-5">
+            <View className="mb-3">
+              <SectionTitles title={"Explore Hotspots and Cafe!"} />
             </View>
+
+            <SavedCards />
+            <SavedCards />
+            <SavedCards />
+            <SavedCards />
           </View>
         </View>
       </ScrollView>
@@ -142,7 +100,7 @@ const WalletScreen = ({ navigation }) => {
   );
 };
 
-export default WalletScreen;
+export default HostWithUsScreen;
 
 const SavedCards = () => {
   return (

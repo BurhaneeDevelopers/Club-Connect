@@ -15,6 +15,7 @@ import {
   ShoppingCart,
   Wallet,
   EmptyWallet,
+  TicketStar,
 } from "iconsax-react-native";
 import {
   createStackNavigator,
@@ -37,8 +38,8 @@ import CastleBold from "./assets/icons/CastleBold.svg";
 import HomeScreen from "./Screens/HomeScreen";
 import EventsScreen from "./Screens/EventsScreen";
 import CommunityScreen from "./Screens/CommunityScreen";
-import NotificationsScreen from "./Screens/NotificationsScreen";
-import CartScreen from "./Screens/CartScreen";
+import VibeCityScreen from "./Screens/VibeCityScreen";
+import ExploreScreen from "./Screens/ExploreScreen";
 
 // Stack Screens
 import WelcomeScreen from "./Screens/WelcomeScreen";
@@ -58,11 +59,13 @@ import RestaurantDetailsScreen from "./Screens/RestaurantDetailsScreen";
 import HotspotExplore from "./Screens/HotspotExplore";
 import BarsExploreScreen from "./Screens/BarsExploreScreen";
 import PubsExploreScreen from "./Screens/PubsExploreScreen";
+import HostWithUsScreen from "./Screens/HostWithUsScreen";
+
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import useAuth, { AuthProvider } from "./Hooks/useAuth";
 
 // FONTS LOADING
 import { useFonts } from "expo-font";
-import AsyncStorage from "@react-native-async-storage/async-storage";
-import useAuth, { AuthProvider } from "./Hooks/useAuth";
 
 // Default Theme
 const navTheme = DefaultTheme;
@@ -81,6 +84,14 @@ const AuthenticatedNavigator = () => {
   return (
     <Stack.Navigator>
       <Stack.Screen
+        name="Explore"
+        component={ExploreScreen}
+        options={{
+          headerShown: false,
+          ...TransitionPresets.SlideFromRightIOS,
+        }}
+      />
+      <Stack.Screen
         name="Index"
         options={{
           headerShown: false,
@@ -98,6 +109,7 @@ const AuthenticatedNavigator = () => {
       >
         {(props) => <UnauthenticatedNavigator {...props} />}
       </Stack.Screen>
+
       <Stack.Screen
         name="Profile"
         component={ProfileScreen}
@@ -125,6 +137,22 @@ const AuthenticatedNavigator = () => {
       <Stack.Screen
         name="Wallet"
         component={WalletScreen}
+        options={{
+          headerShown: false,
+          ...TransitionPresets.SlideFromRightIOS,
+        }}
+      />
+      <Stack.Screen
+        name="Community"
+        component={CommunityScreen}
+        options={{
+          headerShown: false,
+          ...TransitionPresets.SlideFromRightIOS,
+        }}
+      />
+      <Stack.Screen
+        name="VibeCity"
+        component={VibeCityScreen}
         options={{
           headerShown: false,
           ...TransitionPresets.SlideFromRightIOS,
@@ -190,6 +218,15 @@ const AuthenticatedNavigator = () => {
       <Stack.Screen
         name="EventScreen"
         component={EventsScreen}
+        options={{
+          headerShown: false,
+          ...TransitionPresets.SlideFromRightIOS,
+        }}
+      />
+
+      <Stack.Screen
+        name="HostWithUs"
+        component={HostWithUsScreen}
         options={{
           headerShown: false,
           ...TransitionPresets.SlideFromRightIOS,
@@ -264,7 +301,6 @@ const UnauthenticatedNavigator = () => {
 };
 
 export default function App({ navigation }) {
-  // const [fontsLoaded, setFontsLoaded] = useState(false);
   const [fontsLoaded] = useFonts({
     "Livvic-Regular": require("./assets/fonts/Livvic-Regular.ttf"),
     "Livvic-Medium": require("./assets/fonts/Livvic-Medium.ttf"),
@@ -387,7 +423,7 @@ const TabNavigator = ({ Tab }) => {
                 <View className="items-center">
                   {focused ? (
                     <>
-                      <Calendar
+                      <TicketStar
                         size="32"
                         color="#FF26B9"
                         variant="Bold"
@@ -403,7 +439,11 @@ const TabNavigator = ({ Tab }) => {
                     </>
                   ) : (
                     <>
-                      <Calendar size="32" color="#101010" className="my-auto" />
+                      <TicketStar
+                        size="32"
+                        color="#101010"
+                        className="my-auto"
+                      />
                       <Text
                         className={`translate-y-1 text-[#101010] text-center , ${
                           focused ? "" : ""
@@ -454,8 +494,8 @@ const TabNavigator = ({ Tab }) => {
 
         {/* Notifications Screen  */}
         <Tab.Screen
-          name="Notifications"
-          component={NotificationsScreen}
+          name="VibeCity"
+          component={VibeCityScreen}
           options={{
             headerShown: false,
             tabBarLabelStyle: { display: "none" },

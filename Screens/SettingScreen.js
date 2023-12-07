@@ -36,52 +36,52 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 const SettingScreen = ({ navigation }) => {
   const SettingsTitle = [
     {
-      category: "Account",
+      category: "ACCOUNT",
       title: "Security",
       icon: <ShieldTick size="28" color="#FF26B9" variant="Broken" />,
     },
     {
-      category: "Account",
+      category: "ACCOUNT",
       title: "Notification",
       icon: <Notification1 size="28" color="#FF26B9" variant="Broken" />,
     },
     {
-      category: "Account",
+      category: "ACCOUNT",
       title: "Privacy",
       icon: <Lock1 size="28" color="#FF26B9" variant="Broken" />,
     },
     {
-      category: "Account",
+      category: "ACCOUNT",
       title: "Wallet",
       icon: <Gift size="28" color="#FF26B9" variant="Broken" />,
     },
     {
-      category: "Account",
+      category: "ACCOUNT",
       title: "My Acitvity",
       icon: <Clock size="28" color="#FF26B9" variant="Broken" />,
     },
     {
-      category: "Support & About",
+      category: "SUPPORT",
       title: "My Subscription",
       icon: <BitcoinCard size="28" color="#FF26B9" variant="Broken" />,
     },
     {
-      category: "Support & About",
+      category: "SUPPORT",
       title: "Help and Support",
       icon: <I24Support size="28" color="#FF26B9" variant="Broken" />,
     },
     {
-      category: "Support & About",
+      category: "SUPPORT",
       title: "Terms & Policies",
       icon: <InfoCircle size="28" color="#FF26B9" variant="Broken" />,
     },
     {
-      category: "Actions",
+      category: "ACTIONS",
       title: "Report a Problem",
       icon: <Danger size="28" color="#FF26B9" variant="Broken" />,
     },
     {
-      category: "Actions",
+      category: "ACTIONS",
       title: "Add Account",
       icon: <AddCircle size="28" color="#FF26B9" variant="Broken" />,
     },
@@ -126,19 +126,19 @@ const SettingScreen = ({ navigation }) => {
             className="text-3xl text-[#FF26B9] mx-auto"
             style={GlobalStyles.fontSemiBold}
           >
-            Setting
+            Settings
           </Text>
         </View>
 
         {categories.map((category) => (
-          <View key={category} className="px-5 py-3">
+          <View key={category} className="px-3 py-2">
             <Text
-              className="text-[#f9f9f9] text-xl"
+              className="text-[#f9f9f9] text-base pb-3"
               style={GlobalStyles.fontMedium}
             >
               {category}
             </Text>
-            <View className="p-5">
+            <View className="px-3 py-2 bg-[#0b0b0b] rounded-xl">
               {SettingsTitle.filter((item) => item.category === category).map(
                 (item, index) => (
                   <View key={item.title}>
@@ -155,12 +155,12 @@ const SettingScreen = ({ navigation }) => {
           </View>
         ))}
 
-        <View className="px-5">
+        <View className="px-4">
           <Pressable
             onPress={handleSignOut}
-            className="bg-[#ff0000] active:bg-[#e14242] w-full py-3 mb-5 rounded-xl"
+            className="bg-[#ff0000] active:bg-[#e14242] w-full py-3 mt-5 mb-5 rounded-2xl"
           >
-            <Text className="text-white text-2xl text-center">Log Out</Text>
+            <Text className="text-white text-xl font-semibold text-center">Sign Out</Text>
           </Pressable>
         </View>
       </ScrollView>
@@ -177,7 +177,7 @@ const SettingTitle = ({ title, icon, navigation }) => {
         {icon}
 
         <Text
-          className="text-[#FF26B9] text-2xl"
+          className="text-[#FF26B9] text-xl"
           style={GlobalStyles.fontRegular}
           onPress={() => navigation.navigate("Wallet")}
         >

@@ -7,11 +7,14 @@
     },
     "preview2": {
       "android": {
-        "gradleCommand": "app:bundleRelease"
+        "gradleCommand": ":app:assembleRelease"
       }
     },
     "preview3": {
       "developmentClient": true
+    },
+    "preview4": {
+      "distribution": "internal"
     },
     "production": {}
   }

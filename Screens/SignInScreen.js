@@ -109,6 +109,8 @@ const SignInScreen = ({ navigation, route }) => {
         }
         console.log("Logged in with:", user.email);
         setError(false);
+        AsyncStorage.setItem("Name", selectedName);
+        AsyncStorage.setItem("UserName", selectedUsername);
         AsyncStorage.setItem("playAnimation", "true");
         setLoading(false);
         signIn();
