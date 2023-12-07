@@ -1,12 +1,12 @@
 export default {
-  name: 'hotspot',
-  title: 'Hotspot',
+  name: 'lounge',
+  title: 'Lounge',
   type: 'document',
   fields: [
     {
       name: 'name',
       type: 'string',
-      title: 'Hotspot Name',
+      title: 'Lounge Name',
       validation: (Rule) => Rule.required(),
     },
     {
@@ -22,32 +22,32 @@ export default {
     {
       name: 'image',
       type: 'image',
-      title: 'Image of the Hotspot',
+      title: 'Image of the Lounge',
     },
     {
       name: 'lat',
       type: 'string',
-      title: 'Latitude of the Hotspot',
+      title: 'Latitude of the Lounge',
     },
     {
       name: 'long',
       type: 'string',
-      title: 'Longitude of the Hotspot',
+      title: 'Longitude of the Lounge',
     },
     {
       name: 'address',
       type: 'string',
-      title: 'Hotspot address',
+      title: 'Lounge address',
     },
     {
       name: 'city',
       type: 'string',
-      title: 'City of the Hotspot',
+      title: 'City of the Lounge',
     },
     {
       name: 'state',
       type: 'string',
-      title: 'State of the Hotspot',
+      title: 'State of the Lounge',
     },
     {
       name: 'rating',
