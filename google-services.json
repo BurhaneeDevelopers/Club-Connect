@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "534268671571",
+    "firebase_url": "https://vibe-hotspot-new-default-rtdb.asia-southeast1.firebasedatabase.app",
+    "project_id": "vibe-hotspot-new",
+    "storage_bucket": "vibe-hotspot-new.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:534268671571:android:ea488b2ec0eb92c0cd78a6",
+        "android_client_info": {
+          "package_name": "com.taheri_dev72.vibehotspot"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "534268671571-27v1k8ige012ka2jfas25tiqnluilrv6.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBVOaEKBaMujuyOqDFd4fHGpHKVWj4kFQk"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "534268671571-27v1k8ige012ka2jfas25tiqnluilrv6.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
