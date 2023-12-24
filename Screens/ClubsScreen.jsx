@@ -54,7 +54,7 @@ const ClubsScreen = ({ navigation }) => {
       desc: "Join the Marvelous Club Community of VHS",
       image: <JoinClub width={75} height={75} />,
       color: "#E9FA00",
-      redirectTo: "VibeCity",
+      redirectTo: "JoinClub",
       textColor: "#FF26B9",
       descColor: "#575757",
       activeBgColor: "#f1ff2f",
@@ -120,15 +120,15 @@ const ClubsScreen = ({ navigation }) => {
           </Pressable>
         </View>
 
-        <View className="">
-          {/* <LottieView
+        {/* <View className="">
+          <LottieView
             ref={animation}
             loop
             className="w-52 h-52"
             source={require("../assets/Illustrations/DiscoverClub.json")}
-          /> */}
-          {/* <DiscoverClubs width={420} height={420} /> */}
-        </View>
+          />
+          <DiscoverClubs width={420} height={420} />
+        </View> */}
 
         <View className="my-5">
           <SectionTitles title="Be a part of our community!" />
@@ -162,10 +162,10 @@ const ClubsScreen = ({ navigation }) => {
             alwaysBounceHorizontal={true}
           >
             <View className="flex-row items-center overflow-hidden justify-center w-full mt-5">
-              <ExploreCard navigation={navigation} />
-              <ExploreCard navigation={navigation} />
-              <ExploreCard navigation={navigation} />
-              <ExploreCard navigation={navigation} />
+              <ExploreClubCard navigation={navigation} />
+              <ExploreClubCard navigation={navigation} />
+              <ExploreClubCard navigation={navigation} />
+              <ExploreClubCard navigation={navigation} />
             </View>
           </ScrollView>
         </View>
@@ -247,7 +247,7 @@ const RedirectingCards = ({
   );
 };
 
-const ExploreCard = ({ navigation }) => {
+const ExploreClubCard = ({ navigation }) => {
   return (
     <View className="bg-[#262626] rounded-2xl w-64 p-3 flex-row space-x-4 mx-2 overflow-hidden">
       <View

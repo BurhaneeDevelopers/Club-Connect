@@ -156,7 +156,7 @@ const CommunityScreen = ({ navigation }) => {
               title={"Clubs"}
               icon={<People size="28" color={"#FF26B9"} variant={"Outline"} />}
               navigation={navigation}
-              redirectTo={"ClubsScreen"}
+              redirectTo={"Clubs"}
             />
           </View>
         </View>

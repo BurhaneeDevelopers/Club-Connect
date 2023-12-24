@@ -123,9 +123,6 @@ const GlobalProfileScreen = ({ navigation }) => {
           </Pressable>
 
           <View className="flex-row items-center space-x-3">
-            <Pressable onPress={() => navigation.navigate("ProfileEdit")}>
-              <Edit size="32" color="#f9f9f9" />
-            </Pressable>
             <Pressable onPress={() => navigation.navigate("Setting")}>
               <Setting2 size="32" color="#f9f9f9" />
             </Pressable>
@@ -174,7 +171,12 @@ const GlobalProfileScreen = ({ navigation }) => {
             </Text>
           </View>
 
-          <View className="flex-col items-center justify-center">
+          <Pressable
+            className="flex-col items-center justify-center"
+            onPress={() =>
+              navigation.navigate("FollowersList", { userId: userDetails?.uid })
+            }
+          >
             <Text
               className="text-xl text-[#f9f9f9]"
               style={GlobalStyles.fontBold}
@@ -187,9 +189,14 @@ const GlobalProfileScreen = ({ navigation }) => {
             >
               Followers
             </Text>
-          </View>
+          </Pressable>
 
-          <View className="flex-col items-center justify-center">
+          <Pressable
+            className="flex-col items-center justify-center"
+            onPress={() =>
+              navigation.navigate("FollowingList", { userId: userDetails?.uid })
+            }
+          >
             <Text
               className="text-xl text-[#f9f9f9]"
               style={GlobalStyles.fontBold}
@@ -202,7 +209,7 @@ const GlobalProfileScreen = ({ navigation }) => {
             >
               Following
             </Text>
-          </View>
+          </Pressable>
         </View>
       </View>
 

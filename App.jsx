@@ -73,6 +73,9 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import { useFonts } from "expo-font";
 import LoungeExploreScreen from "./Screens/LoungeExploreScreen";
 import ClubsScreen from "./Screens/ClubsScreen";
+import JoinClubScreen from "./Screens/JoinClubScreen";
+import FollowersListScreen from "./Screens/FollowersListScreen";
+import FollowingListScreen from "./Screens/FollowingListScreen";
 
 // Default Theme
 const navTheme = DefaultTheme;
@@ -283,8 +286,23 @@ const AuthenticatedNavigator = () => {
         options={{ headerShown: false, ...TransitionPresets.SlideFromRightIOS }}
       />
       <Stack.Screen
-        name="ClubsScreen"
+        name="Clubs"
         component={ClubsScreen}
+        options={{ headerShown: false, ...TransitionPresets.SlideFromRightIOS }}
+      />
+      <Stack.Screen
+        name="JoinClub"
+        component={JoinClubScreen}
+        options={{ headerShown: false, ...TransitionPresets.SlideFromRightIOS }}
+      />
+      <Stack.Screen
+        name="FollowersList"
+        component={FollowersListScreen}
+        options={{ headerShown: false, ...TransitionPresets.SlideFromRightIOS }}
+      />
+      <Stack.Screen
+        name="FollowingList"
+        component={FollowingListScreen}
         options={{ headerShown: false, ...TransitionPresets.SlideFromRightIOS }}
       />
     </Stack.Navigator>
