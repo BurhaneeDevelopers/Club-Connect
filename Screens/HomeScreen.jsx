@@ -26,6 +26,7 @@ import {
   Add,
   SearchNormal,
   ArrowLeft,
+  Notification,
 } from "iconsax-react-native";
 import LottieView from "lottie-react-native";
 import FeaturedHomeRow from "../Components/FeaturedHomerow";
@@ -260,10 +261,10 @@ const HomeScreen = ({ navigation }) => {
               <View className="flex-row">
                 <MenuCards
                   icon={
-                    <Buildings2 size="32" color="#f9f9f9" variant="Broken" />
+                    <Notification size="32" color="#f9f9f9" variant="Broken" />
                   }
-                  title={"Hotspot"}
-                  navigateTo={"HotspotExplore"}
+                  title={"Notification"}
+                  navigateTo={"Notification"}
                   navigation={navigation}
                 />
 

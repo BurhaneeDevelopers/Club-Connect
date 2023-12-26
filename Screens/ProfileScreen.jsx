@@ -24,6 +24,8 @@ import axios from "axios";
 
 // Context
 import useAuth from "../Hooks/useAuth";
+import { getAuth } from "firebase/auth";
+import { doc, getFirestore, onSnapshot } from "firebase/firestore";
 
 const ProfileScreen = ({ navigation }) => {
   const [post, setPosts] = useState(true);
@@ -33,7 +35,7 @@ const ProfileScreen = ({ navigation }) => {
   const [loading, setLoading] = useState(false);
   const [postItem, setPostItem] = useState([]);
   const [postCount, setPostCount] = useState(0);
-  
+
   UNSPLASH_ACCESS_KEY = "6KEJery9EMaZFtuiQjELpzqV5sgo9vVWqm52b_gKYZ4";
   const fetchPostItem = async (count) => {
     setLoading(true);
@@ -74,7 +76,9 @@ const ProfileScreen = ({ navigation }) => {
     rating: "4.5",
   }));
 
-  const { user, anonymousUser, fetchUserDetails } = useAuth();
+  const auth = getAuth();
+
+  const { user, anonymousUser, fetchUserDetails, setUser } = useAuth();
   useEffect(() => {
     fetchUserDetails();
   }, [user, user?.profileImage]);
@@ -87,6 +91,19 @@ const ProfileScreen = ({ navigation }) => {
     }, 1000);
   };
 
+  // UPDATED FOLLOWERS AND FOLLOW LIST IN REAL TIME
+  useEffect(() => {
+    const db = getFirestore();
+    const userDocRef = doc(db, "allUsers", auth.currentUser.uid);
+
+    const unsubscribe = onSnapshot(userDocRef, (doc) => {
+      if (doc.exists()) {
+        setUser(doc.data());
+      }
+    });
+
+    return () => unsubscribe(); // Cleanup when the component unmounts
+  }, [user.uid]);
   // Fetch user from Context
 
   return (

@@ -16,16 +16,13 @@ import GlobalStyles from "../Styles/GlobalStyles";
 import SectionTitles from "../Components/SectionTitles";
 import {
   ArrowLeft,
-  Car,
   Global,
-  Heart,
-  Location,
+  Microphone2,
   People,
   SearchNormal,
-  SearchNormal1,
-  Star1,
-  Timer1,
 } from "iconsax-react-native";
+
+import Menu from "../assets/icons/Menu.svg";
 
 const JoinClubScreen = ({ navigation }) => {
   // Active State for inputs
@@ -115,7 +112,7 @@ const JoinClubScreen = ({ navigation }) => {
         <View className="p-5 justify-center items-center">
           <SectionTitles title="Explore Popular Clubs" />
 
-          <View className="mt-2">
+          <View className="mt-2 w-full">
             <ExploreClubCard />
             <ExploreClubCard />
             <ExploreClubCard />
@@ -199,94 +196,84 @@ const ExploreClubCard = ({}) => {
   };
 
   return (
-    <View className="w-80 rounded-[30px] overflow-hidden mx-2 bg-[#1c1b1b] pb-3 my-3">
-      <ImageBackground
-        source={require("../assets/Images/User/Dummy-Profile.png")}
-        className="w-full h-36"
-      >
-        {/* Button to Save Card */}
-        <Pressable
-          className="bg-black/40 active:bg-[#f7ff8c] justify-center items-center w-10 h-10 rounded-xl absolute top-3 right-5"
-          onPress={toggleSave}
-        >
-          <Heart
-            size="24"
-            color={isLiked ? "#FF26B9" : "#f9f9f9"}
-            variant={isLiked ? "Bold" : "Outline"}
-          />
-        </Pressable>
+    <View className="w-full rounded-[30px] overflow-hidden bg-[#1c1b1b] p-3 my-3">
+      <View className="flex-row justify-between items-center w-full">
+        <View className="flex-row items-center space-x-2">
+          <View className="flex-row items-center relative">
+            <Image
+              source={require("../assets/Images/User/Dummy-Profile.png")}
+              className="w-10 h-10 rounded-full"
+            />
 
-        <View className="bg-black/40 flex-row justify-center items-center py-1 px-2 absolute top-3 rounded-lg left-5 space-x-1">
-          <Text
-            className="text-lg text-[#f9f9f9]"
-            style={GlobalStyles.fontMedium}
-          >
-            4.5
-          </Text>
-
-          <Star1 size="14" color="#fff" variant="Bold" />
-        </View>
-
-        <View className="bg-[#101010]/50 w-full h-14 absolute bottom-0 justify-center items-center">
-          <View className="w-full px-5">
-            <View className="flex-row items-center space-x-2">
-              <Timer1 size="24" color="#fff" variant="Bold" />
-
-              <Text
-                className="text-lg text-[#f9f9f9]"
-                style={GlobalStyles.fontMedium}
-              >
-                Hello
-              </Text>
+            {/* Privacy Label  */}
+            <View className="flex-row items-center space-x-1 mt-1 absolute bottom-0 right-0 bg-[#262626] rounded-full p-1">
+              <Global size="12" color="#FF26B9" variant="Bold" />
             </View>
           </View>
-        </View>
-      </ImageBackground>
 
-      {/* <View className="absolute bg-[#101010]/30 w-full h-full" /> */}
-      <View className="flex-col p-4 w-full z-10">
-        <View className="flex-row justify-between items-center">
-          {/* Location Name */}
-          <Text
-            className="text-2xl text-[#f9f9f9] max-w-[280px]"
-            style={GlobalStyles.fontBold}
-            numberOfLines={1}
-          >
-            Hello
-          </Text>
-        </View>
+          <View className="">
+            <Text
+              className="text-[#f9f9f9] text-lg"
+              numberOfLines={1}
+              style={GlobalStyles.fontSemiBold}
+            >
+              Aspirant Club
+            </Text>
 
-        {/* Time  */}
-
-        <View className="flex-row items-center mt-2 space-x-1">
-          <Car size={"18"} color="#FF26B9" variant="Bold" />
-          <Text
-            className="text-white text-base"
-            style={GlobalStyles.fontRegular}
-          >
-            Hello
-          </Text>
+            <Text
+              className="text-gray-400"
+              numberOfLines={1}
+              style={GlobalStyles.fontSemiBold}
+            >
+              Suresh Ponraj
+            </Text>
+          </View>
         </View>
 
-        {/* Location  */}
-        <View className="flex-row items-center mt-1 space-x-1">
-          <Location size="18" color="#FF26B9" variant="Bold" />
-          <Text
-            className="text-base text-[#f9f9f9] max-w-[280px]"
-            style={GlobalStyles.fontRegular}
-            numberOfLines={1}
-          >
-            Hi
-          </Text>
-        </View>
+        <View className="flex-row items-center space-x-2">
+          <View className="bg-[#E9FA00] px-3 py-1 rounded-lg flex-row items-center space-x-2">
+            <Text style={GlobalStyles.fontSemiBold} className="text-[#101010]">
+              Voice
+            </Text>
+            <Microphone2 size="24" color="#FF26B9" variant="Bold" />
+          </View>
 
-        {/* Button  */}
-        <Pressable
-          className="p-2 mt-4 border border-[#E9FA00] active:bg-[#101010] rounded"
-          onPress={() => navigation.navigate("GlobalDetails", {})}
-        >
-          <Text className="text-[#f9f9f9] text-center">View Details</Text>
-        </Pressable>
+          <Menu width={16} height={16} fill={"#f9f9f9"} />
+        </View>
+      </View>
+
+      <View className="flex-row items-center justify-between mt-3">
+        <View className="bg-[#E9FA00] p-2 w-40 h-32 rounded-xl">
+          <View className="px-1">
+            <Text className="text-[#FF26B9]" style={GlobalStyles.fontSemiBold}>
+              Topic
+            </Text>
+            <Text
+              className="text-[#101010] text-base"
+              numberOfLines={2}
+              style={GlobalStyles.fontSemiBold}
+            >
+              Hackathon GSP 2023
+            </Text>
+          </View>
+
+          <View className="px-1">
+            <Text className="text-[#FF26B9]" style={GlobalStyles.fontSemiBold}>
+              Description
+            </Text>
+            <Text
+              className="text-[#101010]"
+              numberOfLines={2}
+              style={GlobalStyles.fontMedium}
+            >
+              Lorem, ipsum dolor sit amet consectetur adipisicing elit. Magni,
+              dolorum. Numquam, laboriosam provident sequi quam voluptate
+              ducimus, quasi sunt debitis sed magni ut maxime animi impedit quis
+              iure perspiciatis amet!
+            </Text>
+          </View>
+        </View>
+        <View className="bg-gray-700 p-2 w-40 h-32 rounded-xl"></View>
       </View>
     </View>
   );

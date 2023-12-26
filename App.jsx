@@ -76,6 +76,7 @@ import ClubsScreen from "./Screens/ClubsScreen";
 import JoinClubScreen from "./Screens/JoinClubScreen";
 import FollowersListScreen from "./Screens/FollowersListScreen";
 import FollowingListScreen from "./Screens/FollowingListScreen";
+import NotificationScreen from "./Screens/NotificationScreen";
 
 // Default Theme
 const navTheme = DefaultTheme;
@@ -301,8 +302,8 @@ const AuthenticatedNavigator = () => {
         options={{ headerShown: false, ...TransitionPresets.SlideFromRightIOS }}
       />
       <Stack.Screen
-        name="FollowingList"
-        component={FollowingListScreen}
+        name="Notification"
+        component={NotificationScreen}
         options={{ headerShown: false, ...TransitionPresets.SlideFromRightIOS }}
       />
     </Stack.Navigator>
@@ -556,7 +557,7 @@ const TabNavigator = ({ Tab }) => {
                         // backgroundColor: "#0000",
                       }}
                     >
-                      <People size="32" color="#EADAAA" className="my-auto" />
+                      <People size="32" color="#fff" className="my-auto" />
                     </View>
                   ) : (
                     <View className="bg-[#E9FA00] p-3 flex-col items-center justify-center rounded-full">

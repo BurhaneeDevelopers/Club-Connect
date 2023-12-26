@@ -171,10 +171,28 @@ const CommunityScreen = ({ navigation }) => {
             alwaysBounceHorizontal={true}
           >
             <View className="flex-row mt-5">
-              {users.map((user, index) => {
+              {/* {users.map((user) => {
+                return (
+                  <>
+                    {auth.currentUser.uid == user.uid ? (
+                      ""
+                    ) : (
+                      <RecentInteractionCards
+                        key={user?.uid}
+                        userData={{
+                          user: user,
+                          navigation: navigation,
+                          auth: auth,
+                        }}
+                      />
+                    )}
+                  </>
+                );
+              })} */}
+              {users.map((user) => {
                 return (
                   <RecentInteractionCards
-                    key={index}
+                    key={user?.uid}
                     userData={{
                       user: user,
                       navigation: navigation,
@@ -323,7 +341,7 @@ const RecentInteractionCards = (props) => {
           {user?.name}
         </Text>
 
-        <FollowButton otherUserId={user?.uid} auth={auth} />
+        <FollowButton otherUserId={user?.uid} auth={auth} name={user?.name} />
       </View>
     </Pressable>
   );

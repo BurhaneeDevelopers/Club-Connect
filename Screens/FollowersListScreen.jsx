@@ -144,8 +144,8 @@ const FollowersListScreen = ({ navigation }) => {
                   ""
                 ) : (
                   <FollowButton
-                    otherUserId={userId}
-                    customClass="px-4 py-2 border border-white bg-transparent rounded-lg text-white"
+                    otherUserId={follower?.uid}
+                    customClass="px-4 py-2 rounded-lg"
                   />
                 )}
               </View>
