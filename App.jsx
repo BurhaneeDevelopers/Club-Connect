@@ -21,6 +21,7 @@ import {
   createStackNavigator,
   TransitionPresets,
 } from "@react-navigation/stack";
+import { Audio } from "expo-av";
 
 // Contexts
 import { UserProvider } from "./context/UserContext";
@@ -66,17 +67,19 @@ import SetChatLockScreen from "./Screens/SetChatLockScreen";
 import GlobalProfileScreen from "./Screens/GlobalScreens/GlobalProfileScreen";
 import GlobalPostDetailsScreen from "./Screens/GlobalScreens/GlobalPostDetailsScreen";
 import ClubScreen from "./Screens/ClubScreen";
-
-import AsyncStorage from "@react-native-async-storage/async-storage";
-
-// FONTS LOADING
-import { useFonts } from "expo-font";
 import LoungeExploreScreen from "./Screens/LoungeExploreScreen";
 import ClubsScreen from "./Screens/ClubsScreen";
 import JoinClubScreen from "./Screens/JoinClubScreen";
 import FollowersListScreen from "./Screens/FollowersListScreen";
 import FollowingListScreen from "./Screens/FollowingListScreen";
 import NotificationScreen from "./Screens/NotificationScreen";
+
+import AsyncStorage from "@react-native-async-storage/async-storage";
+
+// FONTS LOADING
+import { useFonts } from "expo-font";
+import SubscriptionScreen from "./Screens/SubscriptionScreen";
+import { PaperProvider } from "react-native-paper";
 
 // Default Theme
 const navTheme = DefaultTheme;
@@ -306,6 +309,11 @@ const AuthenticatedNavigator = () => {
         component={NotificationScreen}
         options={{ headerShown: false, ...TransitionPresets.SlideFromRightIOS }}
       />
+      <Stack.Screen
+        name="Subscription"
+        component={SubscriptionScreen}
+        options={{ headerShown: false, ...TransitionPresets.SlideFromRightIOS }}
+      />
     </Stack.Navigator>
   );
 };
@@ -399,6 +407,41 @@ export default function App({ navigation }) {
     setUserSignedIn();
   }, []);
 
+  // MUSIC SOUND
+  const [sound, setSound] = useState();
+
+  async function playSound() {
+    console.log("Loading Sound");
+    const { sound } = await Audio.Sound.createAsync(
+      require("./assets/Music/VibeHai.mp3"),
+      {
+        progressUpdateIntervalMillis: 500,
+        shouldPlay: false,
+        shouldCorrectPitch: true,
+        volume: 0.2,
+        isMuted: true,
+        isLooping: true,
+      }
+    );
+    setSound(sound);
+
+    console.log("Playing Sound");
+    await sound.playAsync();
+  }
+
+  useEffect(() => {
+    return sound
+      ? () => {
+          console.log("Unloading Sound");
+          sound.unloadAsync();
+        }
+      : undefined;
+  }, [sound]);
+
+  useEffect(() => {
+    playSound();
+  }, []);
+
   if (fontsLoaded) {
     return (
       <ContextProviders>
@@ -423,7 +466,9 @@ export default function App({ navigation }) {
 const ContextProviders = ({ children }) => {
   return (
     <UserProvider>
-      <UserContextProvider>{children}</UserContextProvider>
+      <PaperProvider>
+        <UserContextProvider>{children}</UserContextProvider>
+      </PaperProvider>
     </UserProvider>
   );
 };

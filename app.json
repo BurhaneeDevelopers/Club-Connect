@@ -23,7 +23,8 @@
         "backgroundColor": "#101010"
       },
       "googleServicesFile": "google-services.json",
-      "package": "com.taheri_dev72.vibehotspot"
+      "package": "com.taheri_dev72.vibehotspot",
+      "UIBackgroundModes": ["audio"]
     },
     "plugins": [
       [

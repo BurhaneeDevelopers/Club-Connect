@@ -4,17 +4,20 @@ import {
   Text,
   Pressable,
   Image,
-  ImageBackground,
-  ActivityIndicator,
-  RefreshControl,
-  TextInput,
   KeyboardAvoidingView,
 } from "react-native";
 import React, { useEffect, useRef } from "react";
-import { SafeAreaView } from "react-native-safe-area-context";
-import { ArrowLeft, Location, TicketStar, Wallet1 } from "iconsax-react-native";
+import {
+  ArrowLeft,
+  Car,
+  Location,
+  Star1,
+  TicketStar,
+  Wallet1,
+} from "iconsax-react-native";
 import GlobalStyles from "../Styles/GlobalStyles";
 import LottieView from "lottie-react-native";
+import { ProgressBar } from "react-native-paper";
 
 // SVGS
 import WalletCoin from "../assets/Illustrations/WalletCoin.svg";
@@ -28,6 +31,7 @@ const WalletScreen = ({ navigation }) => {
     // Or set a specific startFrame and endFrame with:
     animation.current?.play(30, 120);
   }, []);
+
   return (
     <KeyboardAvoidingView
       behavior={Platform.OS === "ios" ? "padding" : "height"}
@@ -62,6 +66,31 @@ const WalletScreen = ({ navigation }) => {
           </View>
 
           <View className="p-5">
+            <View className="mb-5">
+              <Text
+                className="text-white text-base mb-3"
+                style={GlobalStyles.fontMedium}
+              >
+                Complete the tasks to fill the bar and earn PESO!
+              </Text>
+
+              <ProgressBar
+                progress={0.7}
+                color={"#E9FA00"}
+                className="rounded-full h-3 mb-1 bg-[#262626]"
+              />
+              <View className="flex-row justify-between items-center">
+                <Text className="text-[#FF26B9] text-base">View Tasks</Text>
+
+                <Text
+                  className="text-white text-base"
+                  style={GlobalStyles.fontMedium}
+                >
+                  70%
+                </Text>
+              </View>
+            </View>
+
             <View className="bg-[#262626] rounded-[30px] p-5 py-10">
               <View className="flex-row justify-between items-center">
                 <View className="space-y-2">
@@ -72,7 +101,7 @@ const WalletScreen = ({ navigation }) => {
                     0
                   </Text>
                   <View className="flex-row space-x-2 items-center">
-                    <Wallet1 size="24" color="#FF8A65" variant="Bold" />
+                    <Wallet1 size="24" color="#FF26B9" variant="Bold" />
                     <Text
                       className="text-gray-200"
                       style={GlobalStyles.fontSemiBold}
@@ -131,16 +160,18 @@ const WalletScreen = ({ navigation }) => {
               </Text>
             </View>
 
-            {/* <View className="mb-5">
+            <View className="mb-5">
               <View className="mb-3">
-                <SectionTitles title={"Explore Hotspots and Cafe!"} />
+                <SectionTitles title={"Recent Activity & Bookings"} />
               </View>
 
-              <SavedCards />
-              <SavedCards />
-              <SavedCards />
-              <SavedCards />
-            </View> */}
+              <View className="items-center">
+                <RecentActivityCard />
+                <RecentActivityCard />
+                <RecentActivityCard />
+                <RecentActivityCard />
+              </View>
+            </View>
           </View>
         </View>
       </ScrollView>
@@ -150,55 +181,50 @@ const WalletScreen = ({ navigation }) => {
 
 export default WalletScreen;
 
-const SavedCards = () => {
+const RecentActivityCard = () => {
   return (
-    <View className="flex-row space-x-3 p-2 bg-[#FF26B9] rounded-xl h-24 my-2">
-      <View
-        className="overflow-hidden"
-        style={{
-          shadowColor: "#000",
-          shadowOffset: {
-            width: 0,
-            height: 8,
-          },
-          shadowOpacity: 0.21,
-          shadowRadius: 8.19,
-          elevation: 32,
-        }}
-      >
+    <View className="bg-[#262626] rounded-2xl w-80 h-24 p-3 flex-row space-x-4 mx-2 overflow-hidden my-2">
+      <View className="overflow-hidden rounded-xl">
         <Image
           source={require("../assets/Images/Santorini.jpg")}
-          className="w-20 h-20 rounded-lg"
+          defaultSource={require("../assets/Images/User/Dummy-Profile.png")}
+          className="w-20 h-20"
         />
       </View>
+
       <View className="">
         <Text
-          className="text-base text-[#101010] w-64"
-          style={GlobalStyles.fontBold}
+          className="text-[#f9f9f9] w-44 text-base"
+          numberOfLines={1}
+          style={GlobalStyles.fontSemiBold}
         >
-          Dance party at the top of the town - 2022
+          Dancing party at new york and this is longer the text
         </Text>
 
-        <View className="flex-row justify-between items-center">
-          <View className="space-x-1 flex-row items-end">
-            <Location size="18" color="#101010" variant="Bold" />
-            <Text
-              className="text-[#101010] text-base"
-              style={GlobalStyles.fontMedium}
-            >
-              Greece
+        {/* Rating  */}
+        <View className="flex-row items-center space-x-2 my-2">
+          <View className="flex-row items-center space-x-1">
+            <Star1 size="18" color="#FF26B9" variant="Bold" />
+            <Text className="text-[#f9f9f9]" style={GlobalStyles.fontMedium}>
+              4
             </Text>
           </View>
 
-          <View className="bg-[#E9FA00] px-5 py-1.5 rounded-lg justify-center items-center">
-            <Text
-              className="text-base text-[#101010]"
-              style={GlobalStyles.fontBold}
-            >
-              Book
+          <Text className="text-gray-400 text-center">•</Text>
+
+          <View className="flex-row items-center">
+            <Car size="16" color="#FF26B9" variant="Bold" />
+            <Text className="text-[#f9f9f9]" style={GlobalStyles.fontMedium}>
+              3km
             </Text>
           </View>
         </View>
+        <Pressable
+          className="py-0.5 border border-[#E9FA00] w-20 active:bg-[#101010] rounded-md"
+          // onPress={() => navigation.navigate("GlobalDetails", {})}
+        >
+          <Text className="text-[#f9f9f9] text-center">Review</Text>
+        </Pressable>
       </View>
     </View>
   );

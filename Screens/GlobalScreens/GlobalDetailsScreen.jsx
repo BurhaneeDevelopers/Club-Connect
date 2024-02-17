@@ -10,6 +10,7 @@ import {
   Keyboard,
   TextInput,
   KeyboardAvoidingView,
+  TouchableOpacity,
 } from "react-native";
 import React from "react";
 import { SafeAreaView } from "react-native-safe-area-context";
@@ -36,6 +37,13 @@ import axios from "axios";
 import { useRoute } from "@react-navigation/native";
 import { urlFor } from "../../sanity";
 
+import { Portal, Dialog } from "react-native-paper";
+
+import ThumbsUp from "../../assets/icons/ThumbsUp.svg";
+import ThumbsUpSelected from "../../assets/icons/ThumbsUpSelected.svg";
+import ThumbsDown from "../../assets/icons/ThumbsDown.svg";
+import ThumbsDownSelected from "../../assets/icons/ThumbsDownSelected.svg";
+
 const GlobalDetailsScreen = ({ navigation }) => {
   const {
     params: {
@@ -57,6 +65,15 @@ const GlobalDetailsScreen = ({ navigation }) => {
   const toggleSave = () => {
     setIsLiked(!isLiked);
   };
+
+  const [visible, setVisible] = React.useState(false);
+
+  const [selectedIcon, setSelectedIndex] = useState(null); // Track the currently selected icon
+
+  const handleIconPress = (iconName) => {
+    setSelectedIndex(iconName); // Update the selected icon state
+  };
+
   return (
     <View className="">
       <ImageBackground
@@ -234,19 +251,19 @@ const GlobalDetailsScreen = ({ navigation }) => {
             <View className="flex-row pl-2">
               <FeatureCards
                 icon={<Location size="32" color="#f9f9f9" variant="Broken" />}
-                title="Map"
+                title="Food Menu"
               />
               <FeatureCards
                 icon={<Car size="32" color="#f9f9f9" variant="Broken" />}
-                title="Delivery"
+                title="Drinks"
               />
               <FeatureCards
                 icon={<Building3 size="32" color="#f9f9f9" variant="Broken" />}
-                title="Dining"
+                title="Gallery"
               />
               <FeatureCards
                 icon={<Location size="32" color="#f9f9f9" variant="Broken" />}
-                title="Take Out"
+                title="Poll"
               />
             </View>
           </ScrollView>
@@ -262,7 +279,10 @@ const GlobalDetailsScreen = ({ navigation }) => {
 
               <Map size="24" color="#101010" variant="Bold" />
             </View>
-            <View className="p-4 bg-[#FF26B9] active:bg-[#c52d95] rounded-2xl flex-row space-x-2 items-end justify-center">
+            <Pressable
+              className="p-4 bg-[#FF26B9] active:bg-[#c52d95] rounded-2xl flex-row space-x-2 items-end justify-center"
+              onPress={() => setVisible(true)}
+            >
               <Text
                 className="text-center text-xl text-white"
                 style={GlobalStyles.fontBold}
@@ -271,7 +291,77 @@ const GlobalDetailsScreen = ({ navigation }) => {
               </Text>
 
               <TicketStar size="24" color="#f9f9f9" variant="Bold" />
-            </View>
+            </Pressable>
+
+            <Portal>
+              <Dialog
+                visible={visible}
+                onDismiss={() => setVisible(false)}
+                className="bg-[#262626]"
+              >
+                <Dialog.Title className="text-3xl text-white">
+                  Feedback
+                </Dialog.Title>
+                <Dialog.Content>
+                  <Text className="text-lg text-white">
+                    Please Provide your valuable Feedback
+                  </Text>
+
+                  <View className="mt-4 flex-row space-x-4">
+                    <TouchableOpacity
+                      onPress={() => handleIconPress("thumbsUp")}
+                      disabled={selectedIcon === "thumbsUp"}
+                    >
+                      {selectedIcon === "thumbsUp" ? (
+                        <ThumbsUpSelected
+                          width="40"
+                          height="40"
+                          selected={selectedIcon === "thumbsUp"}
+                        />
+                      ) : (
+                        <ThumbsUp
+                          width="40"
+                          height="40"
+                          selected={selectedIcon === "thumbsUp"}
+                        />
+                      )}
+                    </TouchableOpacity>
+
+                    <TouchableOpacity
+                      onPress={() => handleIconPress("thumbsDown")}
+                      disabled={selectedIcon === "thumbsDown"}
+                    >
+                      {selectedIcon === "thumbsDown" ? (
+                        <ThumbsDownSelected
+                          width="40"
+                          height="40"
+                          selected={selectedIcon === "thumbsDown"}
+                        />
+                      ) : (
+                        <ThumbsDown
+                          width="40"
+                          height="40"
+                          selected={selectedIcon === "thumbsDown"}
+                        />
+                      )}
+                    </TouchableOpacity>
+                  </View>
+                </Dialog.Content>
+                <Dialog.Actions>
+                  <Pressable
+                    className="px-4 py-2 bg-[#FF26B9] active:bg-[#c52d95] rounded-xl justify-center"
+                    onPress={() => setVisible(false)}
+                  >
+                    <Text
+                      className="text-center text-xl text-white"
+                      style={GlobalStyles.fontBold}
+                    >
+                      Submit
+                    </Text>
+                  </Pressable>
+                </Dialog.Actions>
+              </Dialog>
+            </Portal>
           </View>
         </View>
       </ScrollView>
@@ -289,7 +379,7 @@ const FeatureCards = ({ icon, title, navigateTo, navigation }) => {
         onPress={() => navigation.navigate(navigateTo)}
       >
         {/* {icon} */}
-        <Text style={GlobalStyles.fontSemiBold} className="text-[#101010]">
+        <Text style={GlobalStyles.fontSemiBold} className="text-[#f9f9f9]">
           {title}
         </Text>
       </Pressable>

@@ -94,7 +94,7 @@ const ProfileScreen = ({ navigation }) => {
   // UPDATED FOLLOWERS AND FOLLOW LIST IN REAL TIME
   useEffect(() => {
     const db = getFirestore();
-    const userDocRef = doc(db, "allUsers", auth.currentUser.uid);
+    const userDocRef = doc(db, "allUsers", auth.currentUser?.uid);
 
     const unsubscribe = onSnapshot(userDocRef, (doc) => {
       if (doc.exists()) {
@@ -103,7 +103,7 @@ const ProfileScreen = ({ navigation }) => {
     });
 
     return () => unsubscribe(); // Cleanup when the component unmounts
-  }, [user.uid]);
+  }, [user?.uid]);
   // Fetch user from Context
 
   return (

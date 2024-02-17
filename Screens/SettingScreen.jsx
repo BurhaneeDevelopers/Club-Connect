@@ -14,9 +14,7 @@ import React from "react";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { ArrowLeft, Camera } from "iconsax-react-native";
 import GlobalStyles from "../Styles/GlobalStyles";
-
 import { getAuth, signOut } from "@firebase/auth";
-import app from "../firebase";
 
 // ICONS
 import {
@@ -54,6 +52,7 @@ const SettingScreen = ({ navigation }) => {
       category: "ACCOUNT",
       title: "Wallet",
       icon: <Gift size="28" color="#FF26B9" variant="Broken" />,
+      redirectTo: "",
     },
     {
       category: "ACCOUNT",
@@ -64,6 +63,8 @@ const SettingScreen = ({ navigation }) => {
       category: "SUPPORT",
       title: "My subscription",
       icon: <BitcoinCard size="28" color="#FF26B9" variant="Broken" />,
+      badge: true,
+      redirectTo: "Subscription",
     },
     {
       category: "SUPPORT",
@@ -111,7 +112,7 @@ const SettingScreen = ({ navigation }) => {
     <KeyboardAvoidingView
       behavior={Platform.OS === "ios" ? "padding" : "height"}
       keyboardVerticalOffset={Platform.OS === "ios" ? 32 : 0}
-      className="h-screen w-screen  items-center justify-center mx-auto"
+      className="h-screen w-screen items-center justify-center mx-auto"
     >
       <ScrollView>
         <View className="flex-row w-full items-center p-5">
@@ -144,9 +145,11 @@ const SettingScreen = ({ navigation }) => {
                   <View key={item.title}>
                     <SettingTitle
                       key={index}
-                      title={item.title}
-                      icon={item.icon}
+                      title={item?.title}
+                      icon={item?.icon}
                       navigation={navigation}
+                      badge={item?.badge}
+                      redirectTo={item?.redirectTo}
                     />
                   </View>
                 )
@@ -160,7 +163,9 @@ const SettingScreen = ({ navigation }) => {
             onPress={handleSignOut}
             className="bg-[#FF26B9] active:bg-[#bb3691] w-full py-3 mt-3 mb-5 rounded-2xl"
           >
-            <Text className="text-white text-xl font-semibold text-center">Sign Out</Text>
+            <Text className="text-white text-xl font-semibold text-center">
+              Sign Out
+            </Text>
           </Pressable>
         </View>
       </ScrollView>
@@ -170,20 +175,28 @@ const SettingScreen = ({ navigation }) => {
 
 export default SettingScreen;
 
-const SettingTitle = ({ title, icon, navigation }) => {
+const SettingTitle = ({ title, icon, navigation, badge, redirectTo }) => {
   return (
-    <>
+    <Pressable
+      className="flex-row justify-between items-center"
+      onPress={() => navigation.navigate(redirectTo)}
+    >
       <View className="flex-row items-center space-x-2 my-3">
         {icon}
 
         <Text
           className="text-[#f9f9f9] text-xl"
           style={GlobalStyles.fontRegular}
-          onPress={() => navigation.navigate("Wallet")}
         >
           {title}
         </Text>
       </View>
-    </>
+
+      {badge && (
+        <View className="bg-[#E9FA00] p-1 px-2 rounded-md">
+          <Text style={GlobalStyles.fontMedium}>New</Text>
+        </View>
+      )}
+    </Pressable>
   );
 };

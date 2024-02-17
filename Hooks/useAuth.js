@@ -83,7 +83,6 @@ const useAuth = () => {
           setLoading(false);
           AsyncStorage.setItem("hasSignedIn", "true");
         } catch (error) {
-          setError(true);
           console.log("Error Is", error);
           setLoading(false);
           return;
