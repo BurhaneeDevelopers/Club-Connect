@@ -67,7 +67,7 @@ const LocationPickScreen = ({ navigation }) => {
       setLoading(false);
 
       setTimeout(() => {
-        navigation.navigate("Authenticate");
+        navigation.navigate("Authenticate", { screen: "Subscription" });
       }, 1000);
     } catch (error) {
       console.error("Error getting location:", error);

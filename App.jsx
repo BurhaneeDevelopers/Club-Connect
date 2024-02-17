@@ -419,7 +419,7 @@ export default function App({ navigation }) {
         shouldPlay: false,
         shouldCorrectPitch: true,
         volume: 0.2,
-        isMuted: true,
+        // isMuted: true,
         isLooping: true,
       }
     );

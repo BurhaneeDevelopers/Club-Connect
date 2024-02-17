@@ -11,7 +11,7 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import HR from "../Components/HR";
 import SearchBar from "../Components/SearchBar";
 import CitiesList from "../CitiesList.json";
-
+ 
 // ICONS
 import { ArrowLeft } from "iconsax-react-native";
 import AuthSparklePink from "../assets/Illustrations/AuthSparklePink.svg";

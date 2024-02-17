@@ -83,16 +83,22 @@ const SignInScreen = ({ navigation, route }) => {
     }, 1000); // Adjust the timeout as needed
   };
 
-  const { loading, handleSignIn, handleSignInAnonymously } = useAuth();
+  const { handleSignIn, handleSignInAnonymously } = useAuth();
+  const [loading, setLoading] = useState(false);
   const [error, setError] = useState(false);
   const SignIn = async () => {
     try {
+      setLoading(true);
       await handleSignIn(email, password, navigation);
       navigateAfterAccountCreated(navigation);
+      setError(true);
+      setLoading(false);
     } catch (error) {
       setToast(false);
+      setLoading(false);
       if (error.code == "auth/invalid-email" || "auth/invalid-credential") {
         setError(true);
+        setLoading(false);
       }
       console.log("Error during sign-in:", error);
       console.log(error.code);

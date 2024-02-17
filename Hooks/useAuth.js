@@ -28,7 +28,6 @@ const useAuth = () => {
     name: null,
     userName: null,
   });
-  const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
 
   const auth = getAuth();
@@ -69,7 +68,6 @@ const useAuth = () => {
   }, [auth.currentUser]);
 
   const handleSignIn = async (email, password, navigation) => {
-    setLoading(true);
     await signInWithEmailAndPassword(auth, email, password).then(
       (userCredentials) => {
         try {
@@ -80,11 +78,9 @@ const useAuth = () => {
           console.log("Logged in with:", user.email);
           setError(false);
           AsyncStorage.setItem("playAnimation", "true");
-          setLoading(false);
           AsyncStorage.setItem("hasSignedIn", "true");
         } catch (error) {
           console.log("Error Is", error);
-          setLoading(false);
           return;
         }
       }
@@ -131,7 +127,6 @@ const useAuth = () => {
     user,
     setUser,
     anonymousUser,
-    loading,
     error,
     handleSignIn,
     handleSignInAnonymously,
