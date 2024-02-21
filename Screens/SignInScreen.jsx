@@ -91,7 +91,7 @@ const SignInScreen = ({ navigation, route }) => {
       setLoading(true);
       await handleSignIn(email, password, navigation);
       navigateAfterAccountCreated(navigation);
-      setError(true);
+      setError(false);
       setLoading(false);
     } catch (error) {
       setToast(false);

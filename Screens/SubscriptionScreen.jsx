@@ -100,7 +100,10 @@ const SubscriptionScreen = ({ navigation }) => {
         </View>
 
         <View className="px-4 pb-6">
-          <Pressable className="bg-[#FF26B9] active:bg-[#bb3691] w-full py-3 mt-3 mb-5 rounded-2xl">
+          <Pressable
+            className="bg-[#FF26B9] active:bg-[#bb3691] w-full py-3 mt-3 mb-5 rounded-2xl"
+            onPress={() => navigation.navigate("Index")}
+          >
             <Text className="text-white text-xl font-semibold text-center">
               Change Membership
             </Text>

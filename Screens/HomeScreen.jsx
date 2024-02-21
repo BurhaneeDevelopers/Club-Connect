@@ -288,11 +288,19 @@ const HomeScreen = ({ navigation }) => {
                 />
 
                 <MenuCards
-                  icon={<Location size="32" color="#f9f9f9" variant="Broken" />}
+                  icon={<Buildings2 size="32" color="#f9f9f9" variant="Broken" />}
                   title="Lounge"
                   navigateTo={"LoungeExplore"}
                   navigation={navigation}
                 />
+
+                {/* <MenuCards
+                  icon={<Location size="32" color="#f9f9f9" variant="Broken" />}
+                  title="Change Location"
+                  navigateTo={"LoungeExplore"}
+                  navigation={navigation}
+                /> */}
+
               </View>
             </ScrollView>
           </View>
