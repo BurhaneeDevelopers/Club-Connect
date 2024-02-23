@@ -7,16 +7,7 @@ import {
   useNavigation,
 } from "@react-navigation/native";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
-import {
-  Home3,
-  Calendar,
-  People,
-  Notification,
-  ShoppingCart,
-  Wallet,
-  EmptyWallet,
-  TicketStar,
-} from "iconsax-react-native";
+import { Home3, People, EmptyWallet, TicketStar } from "iconsax-react-native";
 import {
   createStackNavigator,
   TransitionPresets,
@@ -71,8 +62,8 @@ import LoungeExploreScreen from "./Screens/LoungeExploreScreen";
 import ClubsScreen from "./Screens/ClubsScreen";
 import JoinClubScreen from "./Screens/JoinClubScreen";
 import FollowersListScreen from "./Screens/FollowersListScreen";
-import FollowingListScreen from "./Screens/FollowingListScreen";
 import NotificationScreen from "./Screens/NotificationScreen";
+import PaymentScreen from "./Screens/PaymentScreen";
 
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
@@ -314,6 +305,11 @@ const AuthenticatedNavigator = () => {
         component={SubscriptionScreen}
         options={{ headerShown: false, ...TransitionPresets.SlideFromRightIOS }}
       />
+      <Stack.Screen
+        name="Payment"
+        component={PaymentScreen}
+        options={{ headerShown: false, ...TransitionPresets.SlideFromRightIOS }}
+      />
     </Stack.Navigator>
   );
 };
@@ -419,7 +415,7 @@ export default function App({ navigation }) {
         shouldPlay: false,
         shouldCorrectPitch: true,
         volume: 0.2,
-        // isMuted: true,
+        isMuted: true,
         isLooping: true,
       }
     );
