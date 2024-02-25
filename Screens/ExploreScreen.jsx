@@ -1,12 +1,19 @@
 import { View, Text, ScrollView, Image, Pressable } from "react-native";
-import React from "react";
+import React, { useEffect, useRef } from "react";
 import { useState } from "react";
 import { SafeAreaView } from "react-native-safe-area-context";
 import ExploreSlider from "../Components/ExploreSlider";
-import { Gift, SearchNormal, ArrowLeft } from "iconsax-react-native";
+import {
+  Gift,
+  SearchNormal,
+  ArrowLeft,
+  BitcoinCard,
+} from "iconsax-react-native";
+// import { Video, ResizeMode } from "expo-av";
 
 // FONTS
 import GlobalStyles from "../Styles/GlobalStyles";
+import SectionTitles from "../Components/SectionTitles";
 
 const ExploreScreen = ({ navigation }) => {
   const RedirectCardData = [
@@ -52,16 +59,25 @@ const ExploreScreen = ({ navigation }) => {
     },
   ];
 
+  // const video = useRef(null);
+  // const [status, setStatus] = useState({});
+
+  // useEffect(() => {
+  //   video.current.playAsync();
+  // }, []);
+
   return (
     <ScrollView>
       <SafeAreaView>
         {/* MENU  */}
         <View className="flex-row w-full justify-between items-center p-5">
           <Pressable
-            onPress={() => navigation.goBack()}
+            onPress={() => navigation.navigate("Subscription")}
             className="absolute ml-5"
           >
-            <ArrowLeft size="32" color="#f9f9f9" />
+            <BitcoinCard size="28" color="#E9FA00" variant="Broken" />
+
+            <View className="bg-[#FF26B9] p-1 absolute bottom-0 right-0 rounded-full border-2 border-[#101010]"></View>
           </Pressable>
 
           <Text
@@ -122,9 +138,43 @@ const ExploreScreen = ({ navigation }) => {
             </Text>
           </View>
         </View> */}
-        {/* <Pressable onPress={() => navigation.navigate("GlobalProfile")}>
-          <Text>Check</Text>
-        </Pressable> */}
+
+        {/* <View className="p-10 justify-center items-center space-y-5">
+          <SectionTitles title={"Explore All Options"} />
+          <View className="flex-row space-x-5">
+            <Video
+              ref={video}
+              source={require("../assets/Videos/Demo-1.mp4")}
+              isLooping
+              shouldCorrectPitch={true}
+              isMuted={true}
+              onPlaybackStatusUpdate={(status) => setStatus(() => status)}
+              className="!w-1/2 !h-32 !rounded-xl"
+            />
+
+            <Video
+              ref={video}
+              source={require("../assets/Videos/Demo-2.mp4")}
+              isLooping
+              shouldCorrectPitch={true}
+              isMuted={true}
+              onPlaybackStatusUpdate={(status) => setStatus(() => status)}
+              className="!w-1/2 !h-full !rounded-xl"
+            />
+          </View>
+
+          <Video
+            ref={video}
+            source={{
+              uri: "http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4",
+            }}
+            isLooping
+            shouldCorrectPitch={true}
+            isMuted={true}
+            onPlaybackStatusUpdate={(status) => setStatus(() => status)}
+            className="!w-full !h-28 !rounded-xl"
+          />
+        </View> */}
       </SafeAreaView>
     </ScrollView>
   );

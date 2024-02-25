@@ -72,6 +72,7 @@ import { useFonts } from "expo-font";
 import SubscriptionScreen from "./Screens/SubscriptionScreen";
 import { PaperProvider } from "react-native-paper";
 import InviteVibersScreen from "./Screens/InviteVibersScreen";
+import IntroVideo from "./Screens/IntroVideo";
 
 // Default Theme
 const navTheme = DefaultTheme;
@@ -324,6 +325,14 @@ const UnauthenticatedNavigator = () => {
   return (
     <Stack.Navigator>
       <Stack.Screen
+        name="IntroVideo"
+        component={IntroVideo}
+        options={{
+          headerShown: false,
+          ...TransitionPresets.SlideFromRightIOS,
+        }}
+      />
+      <Stack.Screen
         name="Welcome"
         component={WelcomeScreen}
         options={{
@@ -421,7 +430,7 @@ export default function App({ navigation }) {
         shouldPlay: false,
         shouldCorrectPitch: true,
         volume: 0.2,
-        isMuted: true,
+        isMuted: false,
         isLooping: true,
       }
     );

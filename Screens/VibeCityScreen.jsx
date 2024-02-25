@@ -3,6 +3,7 @@ import React from "react";
 import { useState, useEffect, useRef } from "react";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { Location, Gift, ArrowLeft, SearchNormal } from "iconsax-react-native";
+import { Video } from "expo-av";
 
 // Components
 import SectionTitles from "../Components/SectionTitles";
@@ -65,6 +66,13 @@ const VibeCityScreen = ({ navigation }) => {
       activeBgColor: "#bb3691",
     },
   ];
+
+  const video = useRef(null);
+  const [status, setStatus] = useState({});
+
+  useEffect(() => {
+    video.current.playAsync();
+  }, []);
   return (
     <SafeAreaView className="w-full h-full">
       <ScrollView>
@@ -110,7 +118,17 @@ const VibeCityScreen = ({ navigation }) => {
             </Pressable>
           </View>
 
-          <VibeBannerSlider />
+          {/* <VibeBannerSlider /> */}
+
+          <Video
+            ref={video}
+            source={require("../assets/Videos/Demo-2.mp4")}
+            isLooping
+            shouldCorrectPitch={true}
+            isMuted={true}
+            onPlaybackStatusUpdate={(status) => setStatus(() => status)}
+            className="w-full h-80 items-start justify-center"
+          />
         </View>
 
         <View className="p-5 justify-center items-center">
