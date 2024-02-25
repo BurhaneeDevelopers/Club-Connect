@@ -160,7 +160,7 @@ const WalletScreen = ({ navigation }) => {
               </Text>
             </View>
 
-            <View className="mb-5">
+            {/* <View className="mt-5">
               <View className="mb-3">
                 <SectionTitles title={"Recent Activity & Bookings"} />
               </View>
@@ -171,7 +171,8 @@ const WalletScreen = ({ navigation }) => {
                 <RecentActivityCard />
                 <RecentActivityCard />
               </View>
-            </View>
+            </View> */}
+            
           </View>
         </View>
       </ScrollView>

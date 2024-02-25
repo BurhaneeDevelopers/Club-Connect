@@ -71,6 +71,7 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import { useFonts } from "expo-font";
 import SubscriptionScreen from "./Screens/SubscriptionScreen";
 import { PaperProvider } from "react-native-paper";
+import InviteVibersScreen from "./Screens/InviteVibersScreen";
 
 // Default Theme
 const navTheme = DefaultTheme;
@@ -263,6 +264,11 @@ const AuthenticatedNavigator = () => {
       <Stack.Screen
         name="VhsFest"
         component={VhsFestScreen}
+        options={{ headerShown: false, ...TransitionPresets.SlideFromRightIOS }}
+      />
+      <Stack.Screen
+        name="InviteVibers"
+        component={InviteVibersScreen}
         options={{ headerShown: false, ...TransitionPresets.SlideFromRightIOS }}
       />
       <Stack.Screen

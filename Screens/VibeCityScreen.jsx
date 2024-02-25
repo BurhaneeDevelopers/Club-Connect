@@ -59,7 +59,7 @@ const VibeCityScreen = ({ navigation }) => {
       desc: "Post your party! Invite your friends, family & VIPS",
       image: require("../assets/Illustrations/Invite-Vibers.png"),
       color: "#FF26B9",
-      redirectTo: "",
+      redirectTo: "InviteVibers",
       textColor: "#f9f9f9",
       descColor: "#fff",
       activeBgColor: "#bb3691",
