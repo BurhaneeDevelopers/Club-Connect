@@ -37,8 +37,6 @@ import axios from "axios";
 import { useRoute } from "@react-navigation/native";
 import { urlFor } from "../../sanity";
 
-import { Portal, Dialog } from "react-native-paper";
-
 import ThumbsUp from "../../assets/icons/ThumbsUp.svg";
 import ThumbsUpSelected from "../../assets/icons/ThumbsUpSelected.svg";
 import ThumbsDown from "../../assets/icons/ThumbsDown.svg";
@@ -293,7 +291,7 @@ const GlobalDetailsScreen = ({ navigation }) => {
               <TicketStar size="24" color="#f9f9f9" variant="Bold" />
             </Pressable>
 
-            <Portal>
+            {/* <Portal>
               <Dialog
                 visible={visible}
                 onDismiss={() => setVisible(false)}
@@ -361,7 +359,7 @@ const GlobalDetailsScreen = ({ navigation }) => {
                   </Pressable>
                 </Dialog.Actions>
               </Dialog>
-            </Portal>
+            </Portal> */}
           </View>
         </View>
       </ScrollView>

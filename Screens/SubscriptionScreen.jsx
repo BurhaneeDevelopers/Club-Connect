@@ -15,26 +15,29 @@ const SubscriptionScreen = ({ navigation }) => {
     },
     {
       title: "White Diamond",
-      sub: "₹450",
-      desc: "Unlock the essentials for 1-2 fabulous parties monthly!",
+      sub: "₹1999",
+      desc: "Unlock the Standard Access and in-app features",
       additionalClasses: "border border-white px-3 py-0.5 rounded-full",
-      additionalSubscriptionClasses: "bg-[#191919] border border-white",
+      additionalSubscriptionClasses:
+        "bg-[#191919] border border-white opacity-40",
       additionalSubClasses: "",
     },
     {
       title: "Blue Diamond",
-      sub: "₹999",
-      desc: "Elevate your nights with 4-5 exclusive parties a month, with special perks!",
+      sub: "₹6999",
+      desc: "Limited VIP Access to Events & Parties, Limited Premium Features",
       additionalClasses: "bg-indigo-700 px-3 py-0.5 rounded-full",
-      additionalSubscriptionClasses: "bg-[#161616] border border-indigo-700",
+      additionalSubscriptionClasses:
+        "bg-[#161616] border border-indigo-700 opacity-40",
       additionalSubClasses: "",
     },
     {
       title: "Black Diamond",
-      sub: "₹2999",
-      desc: " Indulge in the ultimate party lifestyle, with fully paid extravaganzas every day!",
+      sub: "₹14999",
+      desc: "VIP Access to Event and Parties, Priority Booking, Dedicated Concierge",
       additionalClasses: "bg-[#E9FA00] px-3 py-0.5 rounded-full",
-      additionalSubscriptionClasses: "bg-[#000] border border-[#E9FA00]",
+      additionalSubscriptionClasses:
+        "bg-[#000] border border-[#E9FA00] opacity-40",
       additionalSubClasses: "text-black",
     },
   ];
@@ -56,7 +59,14 @@ const SubscriptionScreen = ({ navigation }) => {
             My Subscriptions
           </Text>
         </View>
-
+        <View className="relative justify-center items-center w-full flex-row pt-7">
+          <Text
+            className="text-[#fff]/90 text-sm text-center mx-auto bg-[#101010] px-2.5 z-50"
+            style={GlobalStyles.fontMedium}
+          >
+            The app is a part of beta testing! Stay Tuned!
+          </Text>
+        </View>
         <View className="p-5">
           <View className="">
             <Text

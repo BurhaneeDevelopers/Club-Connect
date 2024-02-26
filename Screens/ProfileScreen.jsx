@@ -171,7 +171,7 @@ const ProfileScreen = ({ navigation }) => {
               className="text-xl text-[#f9f9f9]"
               style={GlobalStyles.fontBold}
             >
-              252
+              {user?.followers.length || 0}
             </Text>
             <Text
               className="text-lg text-[#f9f9f9]"
@@ -186,7 +186,7 @@ const ProfileScreen = ({ navigation }) => {
               className="text-xl text-[#f9f9f9]"
               style={GlobalStyles.fontBold}
             >
-              149
+              {user?.following.length || 0}
             </Text>
             <Text
               className="text-lg text-[#f9f9f9]"
@@ -238,16 +238,17 @@ const ProfileScreen = ({ navigation }) => {
           {saved && (
             <>
               <View className="my-5">
-                {/* <SavedCards />
-                <SavedCards />
-                <SavedCards />
-                <SavedCards /> */}
+                <Text className="text-white" style={GlobalStyles.fontMedium}>
+                  Stay Tuned! Coming Soon...
+                </Text>
               </View>
             </>
           )}
           {live && (
             <>
-              <Text className="text-white">Live Here</Text>
+              <Text className="text-white" style={GlobalStyles.fontMedium}>
+                Stay Tuned! Coming Soon...
+              </Text>
             </>
           )}
         </View>

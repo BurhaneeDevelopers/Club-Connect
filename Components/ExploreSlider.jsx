@@ -10,6 +10,8 @@ import {
 } from "react-native";
 import React, { useEffect, useRef, useState } from "react";
 import { Star1, Location } from "iconsax-react-native";
+import { Video } from "expo-av";
+import * as FileSystem from "expo-file-system";
 
 const ExploreSlider = () => {
   const flatlistRef = useRef();
@@ -42,15 +44,27 @@ const ExploreSlider = () => {
   const carouselData = [
     {
       id: "01",
-      image: require("../assets/Images/Santorini.jpg"),
+      video: require("../assets/Videos/Demo-3.mp4"),
+      title: "Mazo",
+      city: "Chennai",
+      rating: "4.5",
+      charges: "147",
     },
     {
       id: "02",
-      image: require("../assets/Images/VibeCity.png"),
+      video: require("../assets/Videos/Demo-1.mp4"),
+      title: "Music Adda",
+      city: "Chennai",
+      rating: "4.2",
+      charges: "245",
     },
     {
       id: "03",
-      image: require("../assets/Images/VibeCityTwo.jpeg"),
+      video: require("../assets/Videos/Demo-2.mp4"),
+      title: "Tea Time",
+      city: "Chennai",
+      rating: "5",
+      charges: "50",
     },
   ];
 
@@ -58,7 +72,7 @@ const ExploreSlider = () => {
   const renderItem = ({ item, index }) => {
     return (
       <View className="">
-        <ExploreDealsCard image={item?.image} />
+        <ExploreDealsCard item={item} />
       </View>
     );
   };
@@ -95,15 +109,51 @@ const ExploreSlider = () => {
 
 export default ExploreSlider;
 
-const ExploreDealsCard = ({ image }) => {
+const ExploreDealsCard = ({ item }) => {
+  const video = useRef(null);
+  const [status, setStatus] = useState({});
+
+  useEffect(() => {
+    video.current.playAsync();
+  }, []);
+
+  useEffect(() => {
+    const downloadVideo = async () => {
+      const videoIndex = item?.video; // Assuming it's an index
+      const videoUri = carouselData[videoIndex]?.video; // Retrieve URI from carouselData
+      const fileUri = FileSystem.cacheDirectory + "cachedVideo.mp4";
+
+      try {
+        const fileInfo = await FileSystem.getInfoAsync(fileUri);
+        if (!fileInfo.exists) {
+          await FileSystem.downloadAsync(videoUri, fileUri);
+        }
+        setStatus({ uri: fileUri });
+      } catch (error) {
+        console.error("Error downloading video:", error);
+      }
+    };
+
+    downloadVideo();
+
+    return () => {
+      // Clean up any resources if needed
+    };
+  }, [item?.video]);
   return (
     <View className="w-screen">
-      <ImageBackground
-        source={image}
-        className=" h-72 my-3 overflow-hidden w-screen mx-auto"
-        // style={{ width: screenWidth }}
-      >
-        <View className="absolute top-3 right-5 bg-[#E9FA00] rounded-full items-center justify-center px-3.5 py-1 ">
+      <View className=" h-72 my-3 overflow-hidden w-screen mx-auto">
+        <Video
+          ref={video}
+          source={item?.video}
+          isLooping
+          shouldCorrectPitch={true}
+          isMuted={true}
+          onPlaybackStatusUpdate={(status) => setStatus(() => status)}
+          resizeMode="cover"
+          className=" h-72 my-3 overflow-hidden w-screen mx-auto absolute right-0 left-0 top-0 bottom-0"
+        />
+        <View className="absolute top-3 right-5 bg-[#E9FA00] items-center justify-center px-3.5 py-1 z-50">
           <Text
             className="text-[#101010] text-base"
             style={GlobalStyles.fontBold}
@@ -119,7 +169,7 @@ const ExploreDealsCard = ({ image }) => {
                 className="text-xl text-[#f9f9f9]"
                 style={GlobalStyles.fontBold}
               >
-                Santorini
+                {item?.title}
               </Text>
               {/* Rating  */}
               <View className="flex-row items-center">
@@ -128,7 +178,7 @@ const ExploreDealsCard = ({ image }) => {
                   className="text-[#f9f9f9]"
                   style={GlobalStyles.fontRegular}
                 >
-                  4.9
+                  {item?.rating}
                 </Text>
               </View>
             </View>
@@ -139,13 +189,13 @@ const ExploreDealsCard = ({ image }) => {
                   className="text-base text-[#f9f9f9]"
                   style={GlobalStyles.fontRegular}
                 >
-                  Melbourne
+                  {item?.city}
                 </Text>
               </View>
 
               <View className="flex-row">
                 <Text className="text-[#f9f9f9]" style={GlobalStyles.fontBold}>
-                  $100
+                  ₹{item?.charges}
                 </Text>
                 <Text
                   className="text-[#f9f9f9]"
@@ -157,7 +207,7 @@ const ExploreDealsCard = ({ image }) => {
             </View>
           </View>
         </View>
-      </ImageBackground>
+      </View>
     </View>
   );
 };

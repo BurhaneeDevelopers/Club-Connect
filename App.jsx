@@ -70,9 +70,9 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 // FONTS LOADING
 import { useFonts } from "expo-font";
 import SubscriptionScreen from "./Screens/SubscriptionScreen";
-import { PaperProvider } from "react-native-paper";
 import InviteVibersScreen from "./Screens/InviteVibersScreen";
 import IntroVideo from "./Screens/IntroVideo";
+import CalendarScreen from "./Screens/CalendarScreen";
 
 // Default Theme
 const navTheme = DefaultTheme;
@@ -317,6 +317,11 @@ const AuthenticatedNavigator = () => {
         component={PaymentScreen}
         options={{ headerShown: false, ...TransitionPresets.SlideFromRightIOS }}
       />
+      <Stack.Screen
+        name="Calendar"
+        component={CalendarScreen}
+        options={{ headerShown: false, ...TransitionPresets.SlideFromRightIOS }}
+      />
     </Stack.Navigator>
   );
 };
@@ -477,9 +482,7 @@ export default function App({ navigation }) {
 const ContextProviders = ({ children }) => {
   return (
     <UserProvider>
-      <PaperProvider>
-        <UserContextProvider>{children}</UserContextProvider>
-      </PaperProvider>
+      <UserContextProvider>{children}</UserContextProvider>
     </UserProvider>
   );
 };

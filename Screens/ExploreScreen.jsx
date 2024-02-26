@@ -8,6 +8,7 @@ import {
   SearchNormal,
   ArrowLeft,
   BitcoinCard,
+  Calendar,
 } from "iconsax-react-native";
 // import { Video, ResizeMode } from "expo-av";
 
@@ -72,10 +73,10 @@ const ExploreScreen = ({ navigation }) => {
         {/* MENU  */}
         <View className="flex-row w-full justify-between items-center p-5">
           <Pressable
-            onPress={() => navigation.navigate("Subscription")}
+            onPress={() => navigation.navigate("Calendar")}
             className="absolute ml-5"
           >
-            <BitcoinCard size="28" color="#E9FA00" variant="Broken" />
+            <Calendar size="28" color="#E9FA00" variant="Broken" />
 
             <View className="bg-[#FF26B9] p-1 absolute bottom-0 right-0 rounded-full border-2 border-[#101010]"></View>
           </Pressable>
@@ -101,20 +102,38 @@ const ExploreScreen = ({ navigation }) => {
 
         <View className="flex-row flex-wrap justify-center items-center">
           {RedirectCardData.map((item, index) => {
-            return (
-              <RedirectingCards
-                key={index}
-                navigation={navigation}
-                title={item?.title}
-                desc={item?.desc}
-                image={item?.image}
-                redirectTo={item?.redirectTo}
-                color={item?.color}
-                activeBgColor={item?.activeBgColor}
-                textColor={item?.textColor}
-                descColor={item?.descColor}
-              />
-            );
+            // Assuming RedirectCardData has even length
+            if (index % 2 === 0) {
+              return (
+                <View key={index / 2} className="flex-row">
+                  <RedirectingCards
+                    navigation={navigation}
+                    title={RedirectCardData[index].title}
+                    desc={RedirectCardData[index].desc}
+                    image={RedirectCardData[index].image}
+                    redirectTo={RedirectCardData[index].redirectTo}
+                    color={RedirectCardData[index].color}
+                    activeBgColor={RedirectCardData[index].activeBgColor}
+                    textColor={RedirectCardData[index].textColor}
+                    descColor={RedirectCardData[index].descColor}
+                  />
+                  {index + 1 < RedirectCardData.length && (
+                    <RedirectingCards
+                      navigation={navigation}
+                      title={RedirectCardData[index + 1].title}
+                      desc={RedirectCardData[index + 1].desc}
+                      image={RedirectCardData[index + 1].image}
+                      redirectTo={RedirectCardData[index + 1].redirectTo}
+                      color={RedirectCardData[index + 1].color}
+                      activeBgColor={RedirectCardData[index + 1].activeBgColor}
+                      textColor={RedirectCardData[index + 1].textColor}
+                      descColor={RedirectCardData[index + 1].descColor}
+                    />
+                  )}
+                </View>
+              );
+            }
+            return null;
           })}
         </View>
 
@@ -234,10 +253,15 @@ const RedirectingCards = ({
       <Text
         className={`text-[${textColor}] text-2xl`}
         style={GlobalStyles.fontBold}
+        numberOfLines={1}
       >
         {title}
       </Text>
-      <Text className={`text-[${descColor}]`} style={GlobalStyles.fontSemiBold}>
+      <Text
+        className={`text-[${descColor}]`}
+        style={GlobalStyles.fontSemiBold}
+        numberOfLines={1}
+      >
         {desc}
       </Text>
 

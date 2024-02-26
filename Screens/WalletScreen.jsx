@@ -17,7 +17,6 @@ import {
 } from "iconsax-react-native";
 import GlobalStyles from "../Styles/GlobalStyles";
 import LottieView from "lottie-react-native";
-import { ProgressBar } from "react-native-paper";
 
 // SVGS
 import WalletCoin from "../assets/Illustrations/WalletCoin.svg";
@@ -74,11 +73,11 @@ const WalletScreen = ({ navigation }) => {
                 Complete the tasks to fill the bar and earn PESO!
               </Text>
 
-              <ProgressBar
+              {/* <ProgressBar
                 progress={0.7}
                 color={"#E9FA00"}
                 className="rounded-full h-3 mb-1 bg-[#262626]"
-              />
+              /> */}
               <View className="flex-row justify-between items-center">
                 <Text className="text-[#FF26B9] text-base">View Tasks</Text>
 
@@ -164,15 +163,36 @@ const WalletScreen = ({ navigation }) => {
               <View className="mb-3">
                 <SectionTitles title={"Recent Activity & Bookings"} />
               </View>
-
+              
               <View className="items-center">
-                <RecentActivityCard />
-                <RecentActivityCard />
-                <RecentActivityCard />
+              <RecentActivityCard />
+              <RecentActivityCard />
+              <RecentActivityCard />
                 <RecentActivityCard />
               </View>
             </View> */}
-            
+
+            <View className="mt-5">
+              <View className="mb-3">
+                <SectionTitles title={"My Subscription"} />
+              </View>
+
+              <View className="flex-row justify-between items-center">
+                <Text
+                  className="text-lg text-white"
+                  style={GlobalStyles.fontMedium}
+                >
+                  Free Tier
+                </Text>
+                <Text
+                  className="text-lg text-[#E9FA00]  underline"
+                  onPress={() => navigation.navigate("Subscription")}
+                  style={GlobalStyles.fontSemiBold}
+                >
+                  Upgrade Membership
+                </Text>
+              </View>
+            </View>
           </View>
         </View>
       </ScrollView>

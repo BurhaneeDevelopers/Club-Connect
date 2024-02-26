@@ -259,14 +259,22 @@ const HomeScreen = ({ navigation }) => {
               showsHorizontalScrollIndicator={false}
             >
               <View className="flex-row">
-                <MenuCards
-                  icon={
-                    <Notification size="32" color="#f9f9f9" variant="Broken" />
+                <Pressable
+                  className="bg-[#FF26B9] active:bg-[#c52d95] rounded-lg p-2 px-5 justify-center items-center flex-col mx-2"
+                  onPress={() =>
+                    navigation.navigate("UnAuthenticate", {
+                      screen: "LocationPick",
+                    })
                   }
-                  title={"Notification"}
-                  navigateTo={"Notification"}
-                  navigation={navigation}
-                />
+                >
+                  {/* {icon} */}
+                  <Text
+                    style={GlobalStyles.fontSemiBold}
+                    className="text-[#fff] text-base"
+                  >
+                    Change Location
+                  </Text>
+                </Pressable>
 
                 <MenuCards
                   icon={<Coffee size="32" color="#f9f9f9" variant="Broken" />}
@@ -288,19 +296,11 @@ const HomeScreen = ({ navigation }) => {
                 />
 
                 <MenuCards
-                  icon={<Buildings2 size="32" color="#f9f9f9" variant="Broken" />}
+                  icon={<Location size="32" color="#f9f9f9" variant="Broken" />}
                   title="Lounge"
                   navigateTo={"LoungeExplore"}
                   navigation={navigation}
                 />
-
-                {/* <MenuCards
-                  icon={<Location size="32" color="#f9f9f9" variant="Broken" />}
-                  title="Change Location"
-                  navigateTo={"LoungeExplore"}
-                  navigation={navigation}
-                /> */}
-
               </View>
             </ScrollView>
           </View>

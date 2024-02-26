@@ -55,6 +55,7 @@ const FeaturedHomeRow = ({ id, title, navigation, featuredId, dataType }) => {
             const itemData = dataType.map((type) => data[type]).flat();
             setItemData(itemData);
             setLoading(false);
+            console.log("DATAAAAAAAAAAA", data)
           });
       } catch (error) {
         console.log(error);

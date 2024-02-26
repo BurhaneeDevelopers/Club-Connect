@@ -20,7 +20,7 @@ const IntroVideo = ({ navigation }) => {
   return (
     <Video
       ref={video}
-      source={require("../assets/Videos/Demo-2.mp4")}
+      source={require("../assets/Videos/Demo-1.mp4")}
       isLooping
       shouldCorrectPitch={true}
       isMuted={true}
