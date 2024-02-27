@@ -19,27 +19,6 @@ const ExploreSlider = () => {
   const screenWidth = Dimensions.get("window").width;
   const [activeIndex, setActiveIndex] = useState(0);
 
-  // Auto Scroll
-  useEffect(() => {
-    let interval = setInterval(() => {
-      if (carouselData) {
-        const nextIndex = (activeIndex + 1) % carouselData.length; // Ensure it's within the valid range
-        flatlistRef.current.scrollToIndex({
-          index: nextIndex,
-          animated: true,
-        });
-      }
-    }, 5000);
-
-    return () => clearInterval(interval);
-  }, [activeIndex, carouselData]);
-
-  const getItemLayout = (data, index) => ({
-    length: screenWidth - 90,
-    offset: screenWidth * index, // for first image - 300 * 0 = 0pixels, 300 * 1 = 300, 300*2 = 600
-    index: index,
-  });
-
   // Data for carousel
   const carouselData = [
     {
@@ -67,6 +46,27 @@ const ExploreSlider = () => {
       charges: "50",
     },
   ];
+
+  // Auto Scroll
+  useEffect(() => {
+    let interval = setInterval(() => {
+      if (carouselData) {
+        const nextIndex = (activeIndex + 1) % carouselData.length; // Ensure it's within the valid range
+        flatlistRef.current.scrollToIndex({
+          index: nextIndex,
+          animated: true,
+        });
+      }
+    }, 5000);
+
+    return () => clearInterval(interval);
+  }, [activeIndex, carouselData]);
+
+  const getItemLayout = (data, index) => ({
+    length: screenWidth - 90,
+    offset: screenWidth * index, // for first image - 300 * 0 = 0pixels, 300 * 1 = 300, 300*2 = 600
+    index: index,
+  });
 
   //  Display Images // UI
   const renderItem = ({ item, index }) => {
@@ -155,14 +155,14 @@ const ExploreDealsCard = ({ item }) => {
         />
         <View className="absolute top-3 right-5 bg-[#E9FA00] items-center justify-center px-3.5 py-1 z-50">
           <Text
-            className="text-[#101010] text-base"
+            className="text-[#000000] text-base"
             style={GlobalStyles.fontBold}
           >
             25% Off
           </Text>
         </View>
 
-        <View className="bg-[#101010]/60 w-full h-14 absolute bottom-0 justify-center items-center">
+        <View className="bg-[#000000]/60 w-full h-14 absolute bottom-0 justify-center items-center">
           <View className="w-full px-5 pb-1">
             <View className="flex-row justify-between items-end">
               <Text

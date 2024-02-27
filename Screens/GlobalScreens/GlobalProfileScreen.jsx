@@ -155,7 +155,7 @@ const GlobalProfileScreen = ({ navigation }) => {
           </Text>
         </View>
 
-        <View className="flex-row bg-[#101010] rounded-full w-80 items-center p-5 justify-around absolute -bottom-10 self-center">
+        <View className="flex-row bg-[#000000] rounded-full w-80 items-center p-5 justify-around absolute -bottom-10 self-center">
           <View className="flex-col items-center justify-center">
             <Text
               className="text-xl text-[#f9f9f9]"
@@ -296,7 +296,7 @@ const FeatureCards = ({ navigateTo, navigation }) => {
         onPress={() => navigation.navigate(navigateTo)}
       >
         {/* {icon} */}
-        <Text style={GlobalStyles.fontSemiBold} className="text-[#101010]">
+        <Text style={GlobalStyles.fontSemiBold} className="text-[#000000]">
           Title
         </Text>
       </Pressable>

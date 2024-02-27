@@ -308,7 +308,7 @@ const NearestPickCard = ({
             className="w-full h-32"
           />
 
-          {/* <View className="absolute bg-[#101010]/30 w-full h-full" /> */}
+          {/* <View className="absolute bg-[#000000]/30 w-full h-full" /> */}
           <View className="flex-col p-4 w-full space-y-1 z-10">
             <View className="flex-row justify-between items-center">
               {/* Location Name */}
@@ -422,7 +422,7 @@ const PopularCafeCards = ({
           >
             <Heart
               size="24"
-              color={isLiked ? "#FF26B9" : "#101010"}
+              color={isLiked ? "#FF26B9" : "#000000"}
               variant={isLiked ? "Bold" : "Outline"}
             />
           </Pressable>
@@ -438,7 +438,7 @@ const PopularCafeCards = ({
             <Star1 size="14" color="#fff" variant="Bold" />
           </View>
 
-          <View className="bg-[#101010]/50 w-full h-14 absolute bottom-0 justify-center items-center">
+          <View className="bg-[#000000]/50 w-full h-14 absolute bottom-0 justify-center items-center">
             <View className="w-full px-5">
               <View className="flex-row items-center space-x-2">
                 <Timer1 size="24" color="#fff" variant="Bold" />
@@ -454,7 +454,7 @@ const PopularCafeCards = ({
           </View>
         </ImageBackground>
 
-        {/* <View className="absolute bg-[#101010]/30 w-full h-full" /> */}
+        {/* <View className="absolute bg-[#000000]/30 w-full h-full" /> */}
         <View className="flex-col p-4 w-full z-10">
           <View className="flex-row justify-between items-center">
             {/* Location Name */}
@@ -514,7 +514,7 @@ const PopularCafeCards = ({
               })
             }
           >
-            <Text className="text-[#101010] text-center">View Details</Text>
+            <Text className="text-[#000000] text-center">View Details</Text>
           </Pressable>
         </View>
       </View>
@@ -558,7 +558,7 @@ const RecommendedCard = ({
         className="w-full h-32"
       />
 
-      {/* <View className="absolute bg-[#101010]/30 w-full h-full" /> */}
+      {/* <View className="absolute bg-[#000000]/30 w-full h-full" /> */}
       <View className="flex-col p-4 w-full space-y-1 z-10">
         <View className="flex-row justify-between items-center">
           {/* Location Name */}
@@ -633,7 +633,7 @@ const ExploreCard = ({
 
       <View className="space-y-1">
         <Text
-          className="text-[#101010] w-32"
+          className="text-[#000000] w-32"
           numberOfLines={1}
           style={GlobalStyles.fontSemiBold}
         >
@@ -644,7 +644,7 @@ const ExploreCard = ({
         <View className="flex-row items-center space-x-2 my-2">
           <View className="flex-row items-center">
             <Star1 size="18" color="#FF26B9" variant="Bold" />
-            <Text className="text-[#101010]" style={GlobalStyles.fontMedium}>
+            <Text className="text-[#000000]" style={GlobalStyles.fontMedium}>
               {rating}
             </Text>
           </View>
@@ -658,7 +658,7 @@ const ExploreCard = ({
                 <View className="flex-row items-center">
                   <Car size="16" color="#FF26B9" variant="Bold" />
                   <Text
-                    className="text-[#101010]"
+                    className="text-[#000000]"
                     style={GlobalStyles.fontMedium}
                   >
                     {distance.toFixed(2)}Km
@@ -672,7 +672,7 @@ const ExploreCard = ({
         </View>
 
         <View className="p-1.5 bg-[#E9FA00] rounded-lg">
-          <Text className="text-[#101010] text-center">View Details</Text>
+          <Text className="text-[#000000] text-center">View Details</Text>
         </View>
       </View>
     </View>
@@ -713,7 +713,7 @@ const TopPickCard = ({
         defaultSource={require("../assets/Images/User/Dummy-Profile.png")}
         className="w-40 h-64 rounded-[30px] overflow-hidden mx-2"
       >
-        <View className="absolute bg-[#101010]/30 w-full h-full" />
+        <View className="absolute bg-[#000000]/30 w-full h-full" />
         <View className="flex-col absolute bottom-5 px-4 w-full space-y-1 z-10">
           {/* Location Name */}
           <Text
@@ -791,7 +791,7 @@ const IteratingCards = ({
           >
             <Heart
               size="24"
-              color={isLiked ? "#FF26B9" : "#101010"}
+              color={isLiked ? "#FF26B9" : "#000000"}
               variant={isLiked ? "Bold" : "Outline"}
             />
           </Pressable>
@@ -807,7 +807,7 @@ const IteratingCards = ({
             <Star1 size="14" color="#fff" variant="Bold" />
           </View>
 
-          <View className="bg-[#101010]/50 w-full h-14 absolute bottom-0 justify-center items-center">
+          <View className="bg-[#000000]/50 w-full h-14 absolute bottom-0 justify-center items-center">
             <View className="w-full px-5">
               <View className="flex-row items-center space-x-2">
                 {urlifiedProfileImage ? (
@@ -837,7 +837,7 @@ const IteratingCards = ({
           </View>
         </ImageBackground>
 
-        {/* <View className="absolute bg-[#101010]/30 w-full h-full" /> */}
+        {/* <View className="absolute bg-[#000000]/30 w-full h-full" /> */}
         <View className="flex-col p-4 w-full z-10">
           <View className="flex-row justify-between items-center">
             {/* Location Name */}
@@ -890,7 +890,7 @@ const IteratingCards = ({
               })
             }
           >
-            <Text className="text-[#101010] text-center">View Details</Text>
+            <Text className="text-[#000000] text-center">View Details</Text>
           </Pressable>
         </View>
       </View>

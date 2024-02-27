@@ -36,7 +36,7 @@ const ClubScreen = ({navigation}) => {
             >
               <SearchNormal
                 size="24"
-                color={isLiked ? "#FF26B9" : "#101010"}
+                color={isLiked ? "#FF26B9" : "#000000"}
                 variant={isLiked ? "Bold" : "Outline"}
               />
             </Pressable> */}

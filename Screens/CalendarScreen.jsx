@@ -26,7 +26,7 @@ const CalendarScreen = ({ navigation }) => {
       <View className="p-5 space-y-5 mt-10">
         <View className="bg-[#E9FA00] py-5 px-5 rounded-3xl flex-column justify-center items-center ">
           <Text
-            className="text-4xl text-[#101010] py-2 "
+            className="text-4xl text-[#000000] py-2 "
             style={GlobalStyles.fontBold}
           >
             Coming Soon !

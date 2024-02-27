@@ -10,7 +10,7 @@
     "splash": {
       "image": "./assets/Splash-final.png",
       "resizeMode": "cover",
-      "backgroundColor": "#101010"
+      "backgroundColor": "#000000"
     },
     "assetBundlePatterns": [
       "**/*"
@@ -22,7 +22,7 @@
     "android": {
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
-        "backgroundColor": "#101010"
+        "backgroundColor": "#000000"
       },
       "googleServicesFile": "google-services.json",
       "package": "com.taheri_dev72.vibehotspot",
@@ -55,7 +55,7 @@
     },
     "notification": {
       "icon": "./assets/adaptive-icon.png",
-      "color": "#101010",
+      "color": "#000000",
       "iosDisplayInForeground": true,
       "androidMode": "default",
       "androidCollapsedTitle": "VibeHotspot"

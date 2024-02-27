@@ -41,7 +41,7 @@ async function registerForPushNotificationsAsync() {
       name: "default",
       importance: Notifications.AndroidImportance.MAX,
       vibrationPattern: [0, 250, 250, 250],
-      lightColor: "#101010",
+      lightColor: "#000000",
     });
   }
 

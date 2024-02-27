@@ -101,7 +101,7 @@ const GlobalDetailsScreen = ({ navigation }) => {
           >
             <Heart
               size="24"
-              color={isLiked ? "#FF26B9" : "#101010"}
+              color={isLiked ? "#FF26B9" : "#000000"}
               variant={isLiked ? "Bold" : "Outline"}
             />
           </Pressable>
@@ -269,13 +269,13 @@ const GlobalDetailsScreen = ({ navigation }) => {
           <View className="py-5 space-y-5">
             <View className="p-4 bg-[#E9FA00] rounded-2xl w-full flex-row space-x-2 items-end justify-center">
               <Text
-                className="text-center text-xl text-[#101010]"
+                className="text-center text-xl text-[#000000]"
                 style={GlobalStyles.fontBold}
               >
                 View Directions
               </Text>
 
-              <Map size="24" color="#101010" variant="Bold" />
+              <Map size="24" color="#000000" variant="Bold" />
             </View>
             <Pressable
               className="p-4 bg-[#FF26B9] active:bg-[#c52d95] rounded-2xl flex-row space-x-2 items-end justify-center"

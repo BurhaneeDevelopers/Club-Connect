@@ -9,7 +9,7 @@ const SectionTitles = ({ title }) => {
       <HR />
       {title ? (
         <Text
-          className="text-[#FF26B9] text-lg text-center mx-auto bg-[#101010] px-2.5 z-50 uppercase"
+          className="text-[#FF26B9] text-lg text-center mx-auto bg-[#000000] px-2.5 z-50 uppercase"
           style={GlobalStyles.fontMedium}
         >
           {title}

@@ -41,7 +41,7 @@ const VibeCityScreen = ({ navigation }) => {
       image: require("../assets/Illustrations/VibeCity.png"),
       color: "#E9FA00",
       redirectTo: "VhsFest",
-      textColor: "#101010",
+      textColor: "#000000",
       descColor: "#575757",
       activeBgColor: "#f1ff2f",
     },
@@ -51,7 +51,7 @@ const VibeCityScreen = ({ navigation }) => {
       image: require("../assets/Illustrations/Huge-Audience.png"),
       color: "#E9FA00",
       redirectTo: "HugeAudience",
-      textColor: "#101010",
+      textColor: "#000000",
       descColor: "#575757",
       activeBgColor: "#f1ff2f",
     },
@@ -112,7 +112,7 @@ const VibeCityScreen = ({ navigation }) => {
             >
               <SearchNormal
                 size="24"
-                color={isLiked ? "#FF26B9" : "#101010"}
+                color={isLiked ? "#FF26B9" : "#000000"}
                 variant={isLiked ? "Bold" : "Outline"}
               />
             </Pressable>
@@ -274,7 +274,7 @@ const VibersCard = () => {
       </View>
       <View className="">
         <Text
-          className="text-base text-[#101010] w-56"
+          className="text-base text-[#000000] w-56"
           style={GlobalStyles.fontBold}
         >
           Dance party at the top of the town - 2022
@@ -282,9 +282,9 @@ const VibersCard = () => {
 
         <View className=" space-x-24 flex-row  items-center">
           <View className="space-x-1 flex-row items-center">
-            <Location size="18" color="#101010" variant="Bold" />
+            <Location size="18" color="#000000" variant="Bold" />
             <Text
-              className="text-[#101010] text-base"
+              className="text-[#000000] text-base"
               style={GlobalStyles.fontMedium}
             >
               Greece
@@ -294,7 +294,7 @@ const VibersCard = () => {
           <View className="bg-[#E9FA00] px-5 py-1.5 rounded-lg justify-center items-center">
             <Pressable>
               <Text
-                className="text-base text-[#101010]"
+                className="text-base text-[#000000]"
                 style={GlobalStyles.fontBold}
               >
                 Book

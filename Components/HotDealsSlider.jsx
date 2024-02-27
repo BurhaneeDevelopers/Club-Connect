@@ -105,12 +105,12 @@ const HotDealsCard = ({ image }) => {
         // style={{ width: screenWidth }}
       >
         <View className="absolute top-3 right-5 bg-[#E9FA00] rounded-full items-center justify-center px-3.5 py-1 ">
-          <Text className="text-[#101010] text-base" style={GlobalStyles.fontBold}>
+          <Text className="text-[#000000] text-base" style={GlobalStyles.fontBold}>
             25% Off
           </Text>
         </View>
 
-        <View className="bg-[#101010]/60 w-full h-14 absolute bottom-0 justify-center items-center">
+        <View className="bg-[#000000]/60 w-full h-14 absolute bottom-0 justify-center items-center">
           <View className="w-full px-5 pb-1">
             <View className="flex-row justify-between items-end">
               <Text

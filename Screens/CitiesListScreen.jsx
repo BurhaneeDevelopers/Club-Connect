@@ -157,7 +157,7 @@ const CitiesListScreen = ({ navigation }) => {
       )}
       {/* <FlatList
         data={citiesData} // Use filtered data when searching, or the original data when not searching
-        className="p-5 bg-[#101010] rounded-t-3xl"
+        className="p-5 bg-[#000000] rounded-t-3xl"
         keyExtractor={(item, index) => index.toString()}
         renderItem={({ item, index }) => (
           <>

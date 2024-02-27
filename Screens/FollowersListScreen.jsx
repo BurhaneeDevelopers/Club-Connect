@@ -77,7 +77,7 @@ const FollowersListScreen = ({ navigation }) => {
 
           {/* Button to Save Cafe */}
           {/* <Pressable className="bg-[#E9FA00] active:bg-[#f7ff8c] justify-center items-center w-10 h-10 rounded-xl absolute top-4 right-5">
-          <SearchNormal size="24" color={"#101010"} variant={"Outline"} />
+          <SearchNormal size="24" color={"#000000"} variant={"Outline"} />
         </Pressable> */}
         </View>
         <View className="p-5">
@@ -85,9 +85,9 @@ const FollowersListScreen = ({ navigation }) => {
             <TextInput
               placeholder="Search followers..."
               placeholderTextColor={`${
-                activeInput === 1 ? "#101010" : "#c5c5c5"
+                activeInput === 1 ? "#000000" : "#c5c5c5"
               }`}
-              className={`bg-[#101010] border border-[#FF26B9] w-full p-3 py-3 rounded-full text-[#f9f9f9] place text-lg overflow-hidden ${
+              className={`bg-[#000000] border border-[#FF26B9] w-full p-3 py-3 rounded-full text-[#f9f9f9] place text-lg overflow-hidden ${
                 activeInput === 1 ? "bg-[#FF26B9] text-[#f9f9f9]" : null
               }`}
               onBlur={handleInputBlur}

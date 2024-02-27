@@ -78,7 +78,7 @@ const ExploreScreen = ({ navigation }) => {
           >
             <Calendar size="28" color="#E9FA00" variant="Broken" />
 
-            <View className="bg-[#FF26B9] p-1 absolute bottom-0 right-0 rounded-full border-2 border-[#101010]"></View>
+            <View className="bg-[#FF26B9] p-1 absolute bottom-0 right-0 rounded-full border-2 border-[#000000]"></View>
           </Pressable>
 
           <Text
@@ -91,7 +91,7 @@ const ExploreScreen = ({ navigation }) => {
 
           {/* Button to Save Cafe */}
           <Pressable className="bg-[#E9FA00] active:bg-[#f7ff8c] justify-center items-center w-10 h-10 rounded-xl absolute top-4 right-5">
-            <SearchNormal size="24" color={"#101010"} variant={"Outline"} />
+            <SearchNormal size="24" color={"#000000"} variant={"Outline"} />
           </Pressable>
         </View>
 

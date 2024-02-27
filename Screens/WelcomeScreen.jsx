@@ -29,7 +29,7 @@ const WelcomeScreen = ({ navigation }) => {
   }, []);
 
   return (
-    <SafeAreaView className="bg-[#101010] h-screen w-full justify-end items-center mx-auto p-10">
+    <SafeAreaView className="bg-[#000000] h-screen w-full justify-end items-center mx-auto p-10">
       <View className="mb-10 ">
         {/* <Image
           source={require("../assets/Illustrations/CreateAccount.png")}

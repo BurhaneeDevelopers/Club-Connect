@@ -12,7 +12,7 @@ const EventsScreen = ({ navigation }) => {
     <SafeAreaView className="h-screen justify-center items-center space-y-5">
         <View className="bg-[#E9FA00] py-5 px-5 rounded-3xl flex-column justify-center items-center">
           <Text
-            className="text-4xl text-[#101010] py-2 "
+            className="text-4xl text-[#000000] py-2 "
             style={GlobalStyles.fontBold}
           >
             Coming Soon !

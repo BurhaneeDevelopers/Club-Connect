@@ -54,7 +54,7 @@ const HostWithUsScreen = ({ navigation }) => {
 
           <View className="relative justify-center items-center w-full flex-row pt-7">
             <Text
-              className="text-[#fff]/90 text-sm text-center mx-auto bg-[#101010] px-2.5 z-50"
+              className="text-[#fff]/90 text-sm text-center mx-auto bg-[#000000] px-2.5 z-50"
               style={GlobalStyles.fontMedium}
             >
               The app is a part of beta testing. Available Soon !
@@ -124,7 +124,7 @@ const SavedCards = () => {
       </View>
       <View className="">
         <Text
-          className="text-base text-[#101010] w-64"
+          className="text-base text-[#000000] w-64"
           style={GlobalStyles.fontBold}
         >
           Dance party at the top of the town - 2022
@@ -132,9 +132,9 @@ const SavedCards = () => {
 
         <View className="flex-row justify-between items-center">
           <View className="space-x-1 flex-row items-end">
-            <Location size="18" color="#101010" variant="Bold" />
+            <Location size="18" color="#000000" variant="Bold" />
             <Text
-              className="text-[#101010] text-base"
+              className="text-[#000000] text-base"
               style={GlobalStyles.fontMedium}
             >
               Greece
@@ -143,7 +143,7 @@ const SavedCards = () => {
 
           <View className="bg-[#E9FA00] px-5 py-1.5 rounded-lg justify-center items-center">
             <Text
-              className="text-base text-[#101010]"
+              className="text-base text-[#000000]"
               style={GlobalStyles.fontBold}
             >
               Book

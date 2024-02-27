@@ -96,7 +96,7 @@ const MessageListScreen = ({ navigation }) => {
           className="bg-[#E9FA00] active:bg-[#f7ff8c] justify-center items-center w-10 h-10 rounded-xl absolute top-3 right-5"
           onPress={() => navigation.navigate("MessageList")}
         >
-          <SearchStatus1 size="24" color={"#101010"} variant={"Outline"} />
+          <SearchStatus1 size="24" color={"#000000"} variant={"Outline"} />
         </Pressable>
       </View>
 
@@ -124,7 +124,7 @@ const MessageListScreen = ({ navigation }) => {
       </View>
 
       <ScrollView>
-        <View className="bg-[#101010] px-5">
+        <View className="bg-[#000000] px-5">
           {usersWithPins.some((user) => user.hasPin) && (
             <View className="bg-[#262626] px-5 rounded-xl">
               <Pressable

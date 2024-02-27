@@ -76,7 +76,7 @@ import CalendarScreen from "./Screens/CalendarScreen";
 
 // Default Theme
 const navTheme = DefaultTheme;
-navTheme.colors.background = "#101010";
+navTheme.colors.background = "#000000";
 
 // TAB BOTTOM NAVIGATOR
 const StackScreen = ({ appdata }) => {
@@ -465,7 +465,7 @@ export default function App({ navigation }) {
           <NavigationContainer theme={navTheme}>
             <StatusBar
               animated={true}
-              backgroundColor="#101010"
+              backgroundColor="#000000"
               // barStyle="dark-content"
             />
 
@@ -494,7 +494,7 @@ const TabNavigator = ({ Tab }) => {
         screenOptions={{
           tabBarStyle: {
             height: 90,
-            backgroundColor: "#101010",
+            backgroundColor: "#000000",
             // borderTopLeftRadius: 24,
             // borderTopRightRadius: 24,
           },
@@ -620,7 +620,7 @@ const TabNavigator = ({ Tab }) => {
                     </View>
                   ) : (
                     <View className="bg-[#E9FA00] p-3 flex-col items-center justify-center rounded-full">
-                      <People size="32" color="#101010" className="my-auto" />
+                      <People size="32" color="#000000" className="my-auto" />
                     </View>
                   )}
                 </View>

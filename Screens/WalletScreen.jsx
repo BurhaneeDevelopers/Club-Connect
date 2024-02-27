@@ -57,7 +57,7 @@ const WalletScreen = ({ navigation }) => {
 
           <View className="relative justify-center items-center w-full flex-row pt-7">
             <Text
-              className="text-[#fff]/90 text-sm text-center mx-auto bg-[#101010] px-2.5 z-50"
+              className="text-[#fff]/90 text-sm text-center mx-auto bg-[#000000] px-2.5 z-50"
               style={GlobalStyles.fontMedium}
             >
               The app is a part of beta testing! Stay Tuned!
@@ -242,7 +242,7 @@ const RecentActivityCard = () => {
           </View>
         </View>
         <Pressable
-          className="py-0.5 border border-[#E9FA00] w-20 active:bg-[#101010] rounded-md"
+          className="py-0.5 border border-[#E9FA00] w-20 active:bg-[#000000] rounded-md"
           // onPress={() => navigation.navigate("GlobalDetails", {})}
         >
           <Text className="text-[#f9f9f9] text-center">Review</Text>

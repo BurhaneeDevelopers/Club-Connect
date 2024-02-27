@@ -187,7 +187,7 @@ export default function ChatScreen({ navigation }) {
                       <Text
                         className={`text-base ${
                           item.sender === currentUser.name
-                            ? "text-[#101010]"
+                            ? "text-[#000000]"
                             : "text-white"
                         }`}
                         style={GlobalStyles.fontSemiBold}

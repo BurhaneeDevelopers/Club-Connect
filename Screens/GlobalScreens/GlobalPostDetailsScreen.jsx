@@ -43,7 +43,7 @@ const GlobalPostDetailsScreen = ({ navigation }) => {
             className="bg-[#E9FA00] active:bg-[#f7ff8c] justify-center items-center w-10 h-10 rounded-xl absolute top-3 right-5"
             onPress={() => navigation.navigate("MessageList")}
           >
-            <Messages size="24" color={"#101010"} variant={"Outline"} />
+            <Messages size="24" color={"#000000"} variant={"Outline"} />
           </Pressable> */}
         </View>
 
@@ -76,7 +76,7 @@ const GlobalPostDetailsScreen = ({ navigation }) => {
             </View>
 
             <Pressable className="flex-row justify-around p-2 bg-[#E9FA00] rounded-xl">
-              <Messages size={"24"} color="#101010" variant="Outline" />
+              <Messages size={"24"} color="#000000" variant="Outline" />
             </Pressable>
           </View>
 

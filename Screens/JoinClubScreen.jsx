@@ -56,7 +56,7 @@ const JoinClubScreen = ({ navigation }) => {
 
           {/* Button to Save Cafe */}
           {/* <Pressable className="bg-[#E9FA00] active:bg-[#f7ff8c] justify-center items-center w-10 h-10 rounded-xl absolute top-4 right-5">
-            <SearchNormal size="24" color={"#101010"} variant={"Outline"} />
+            <SearchNormal size="24" color={"#000000"} variant={"Outline"} />
           </Pressable> */}
         </View>
 
@@ -67,9 +67,9 @@ const JoinClubScreen = ({ navigation }) => {
               //   value={email}
               placeholder="Search any club..."
               placeholderTextColor={`${
-                activeInput === 1 ? "#101010" : "#c5c5c5"
+                activeInput === 1 ? "#000000" : "#c5c5c5"
               }`}
-              className={`bg-[#101010] border border-[#FF26B9] w-full p-3 py-3 rounded-full text-[#f9f9f9] place text-lg overflow-hidden ${
+              className={`bg-[#000000] border border-[#FF26B9] w-full p-3 py-3 rounded-full text-[#f9f9f9] place text-lg overflow-hidden ${
                 activeInput === 1 ? "bg-[#FF26B9] text-[#f9f9f9]" : null
               }`}
               onBlur={handleInputBlur}
@@ -179,7 +179,7 @@ const PopularClubCard = ({ navigation }) => {
         </View>
 
         <Pressable
-          className="py-1 border border-[#E9FA00] active:bg-[#101010] rounded-lg"
+          className="py-1 border border-[#E9FA00] active:bg-[#000000] rounded-lg"
           onPress={() => navigation.navigate("GlobalDetails", {})}
         >
           <Text className="text-[#f9f9f9] text-center">View Details</Text>
@@ -232,7 +232,7 @@ const ExploreClubCard = ({}) => {
 
         <View className="flex-row items-center space-x-2">
           <View className="bg-[#E9FA00] px-3 py-1 rounded-lg flex-row items-center space-x-2">
-            <Text style={GlobalStyles.fontSemiBold} className="text-[#101010]">
+            <Text style={GlobalStyles.fontSemiBold} className="text-[#000000]">
               Voice
             </Text>
             <Microphone2 size="24" color="#FF26B9" variant="Bold" />
@@ -249,7 +249,7 @@ const ExploreClubCard = ({}) => {
               Topic
             </Text>
             <Text
-              className="text-[#101010] text-base"
+              className="text-[#000000] text-base"
               numberOfLines={2}
               style={GlobalStyles.fontSemiBold}
             >
@@ -262,7 +262,7 @@ const ExploreClubCard = ({}) => {
               Description
             </Text>
             <Text
-              className="text-[#101010]"
+              className="text-[#000000]"
               numberOfLines={2}
               style={GlobalStyles.fontMedium}
             >

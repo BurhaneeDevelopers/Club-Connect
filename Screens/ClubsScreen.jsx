@@ -68,7 +68,7 @@ const ClubsScreen = ({ navigation }) => {
         "https://images.pexels.com/photos/1334605/pexels-photo-1334605.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
       title: "Vibecity",
       bgColor: "bg-[#E9FA00]/40",
-      textColor: "#101010",
+      textColor: "#000000",
     },
     {
       id: "2",
@@ -92,7 +92,7 @@ const ClubsScreen = ({ navigation }) => {
         "https://images.pexels.com/photos/2385210/pexels-photo-2385210.jpeg",
       title: "Top Rated",
       bgColor: "bg-[#E9FA00]/40",
-      textColor: "#101010",
+      textColor: "#000000",
     },
   ];
   return (
@@ -116,7 +116,7 @@ const ClubsScreen = ({ navigation }) => {
 
           {/* Button to Save Cafe */}
           <Pressable className="bg-[#E9FA00] active:bg-[#f7ff8c] justify-center items-center w-10 h-10 rounded-xl absolute top-4 right-5">
-            <SearchNormal size="24" color={"#101010"} variant={"Outline"} />
+            <SearchNormal size="24" color={"#000000"} variant={"Outline"} />
           </Pressable>
         </View>
 
@@ -300,7 +300,7 @@ const ExploreClubCard = ({ navigation }) => {
           </View>
         </View>
         <Pressable
-          className="py-1 border border-[#E9FA00] active:bg-[#101010] rounded-lg"
+          className="py-1 border border-[#E9FA00] active:bg-[#000000] rounded-lg"
           onPress={() => navigation.navigate("GlobalDetails", {})}
         >
           <Text className="text-[#f9f9f9] text-center">View Details</Text>

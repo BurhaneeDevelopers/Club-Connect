@@ -122,6 +122,11 @@ const HomeScreen = ({ navigation }) => {
     ["4", "5", "2"].includes(category.featuredId)
   );
 
+  // console.log(
+  //   "FEATURED",
+  //   featuredCategory.forEach(({ lounges }) => console.log(lounges))
+  // );
+
   // useEffect(() => {
   //   AsyncStorage.clear();
   //   console.log("Local storage Cleared");
@@ -144,7 +149,7 @@ const HomeScreen = ({ navigation }) => {
       image: require("../assets/Illustrations/DiscoverEvents.png"),
       color: "#E9FA00",
       redirectTo: "VibeCity",
-      textColor: "#101010",
+      textColor: "#000000",
       descColor: "#575757",
       activeBgColor: "#f1ff2f",
     },
@@ -197,7 +202,7 @@ const HomeScreen = ({ navigation }) => {
             >
               <SearchNormal
                 size="24"
-                color={isLiked ? "#FF26B9" : "#101010"}
+                color={isLiked ? "#FF26B9" : "#000000"}
                 variant={isLiked ? "Bold" : "Outline"}
               />
             </Pressable> */}
@@ -306,6 +311,7 @@ const HomeScreen = ({ navigation }) => {
           </View>
 
           {filteredFeaturedCategory?.map((category, index) => {
+            // Render the FeaturedHomeRow only if it has data
             return (
               <FeaturedHomeRow
                 key={index}

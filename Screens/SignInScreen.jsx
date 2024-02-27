@@ -139,7 +139,7 @@ const SignInScreen = ({ navigation, route }) => {
 
         {toast === true && (
           <Text
-            className="text-[#101010] p-2 rounded-lg px-10 absolute top-10 bg-[#E9FA00] -right-5"
+            className="text-[#000000] p-2 rounded-lg px-10 absolute top-10 bg-[#E9FA00] -right-5"
             style={GlobalStyles.fontBold}
           >
             Yayy! SignIn Successful!
@@ -148,7 +148,7 @@ const SignInScreen = ({ navigation, route }) => {
 
         {loading ? (
           <View className="p-2 rounded-lg px-2 items-start justify-start absolute top-10 bg-[#E9FA00] right-0">
-            <ActivityIndicator color="#101010" size={24} />
+            <ActivityIndicator color="#000000" size={24} />
           </View>
         ) : null}
 
@@ -179,7 +179,7 @@ const SignInScreen = ({ navigation, route }) => {
               value={email}
               placeholder="Enter Your Email..."
               placeholderTextColor={`${
-                activeInput === 1 ? "#101010" : "#c5c5c5"
+                activeInput === 1 ? "#000000" : "#c5c5c5"
               }`}
               className={`border border-[#FF26B9] w-full p-3 py-3 rounded-xl text-[#f9f9f9] place text-lg ${
                 activeInput === 1 ? "bg-[#FF26B9] text-[#f9f9f9]" : null
@@ -197,7 +197,7 @@ const SignInScreen = ({ navigation, route }) => {
                 secureTextEntry={!isPasswordVisible ? true : false}
                 placeholder="Enter Your Password..."
                 placeholderTextColor={`${
-                  activeInput === 2 ? "#101010" : "#c5c5c5"
+                  activeInput === 2 ? "#000000" : "#c5c5c5"
                 }`}
                 className={`border border-[#FF26B9] w-full p-3 py-3 rounded-xl text-[#f9f9f9] place text-lg ${
                   activeInput === 2 ? "bg-[#FF26B9] text-[#f9f9f9]" : null
@@ -249,13 +249,13 @@ const SignInScreen = ({ navigation, route }) => {
               <Google width={32} height={32} />
             </View>
             <View className="bg-[#f9f9f9] rounded-full p-4">
-              <Apple size="32" color="#101010" variant="Bold" />
+              <Apple size="32" color="#000000" variant="Bold" />
             </View>
             <Pressable
               className="bg-[#f9f9f9] rounded-full p-4"
               onPress={SignInAnonymously}
             >
-              <Eye size="32" color="#101010" variant="Bold" />
+              <Eye size="32" color="#000000" variant="Bold" />
             </Pressable>
           </View>
 

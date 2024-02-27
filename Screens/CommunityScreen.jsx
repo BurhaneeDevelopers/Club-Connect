@@ -58,7 +58,7 @@ const CommunityScreen = ({ navigation }) => {
         "https://images.pexels.com/photos/1334605/pexels-photo-1334605.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
       title: "Vibecity",
       bgColor: "bg-[#E9FA00]/40",
-      textColor: "#101010",
+      textColor: "#000000",
     },
     {
       id: "2",
@@ -82,7 +82,7 @@ const CommunityScreen = ({ navigation }) => {
         "https://images.pexels.com/photos/2385210/pexels-photo-2385210.jpeg",
       title: "Top Rated",
       bgColor: "bg-[#E9FA00]/40",
-      textColor: "#101010",
+      textColor: "#000000",
     },
   ];
 
@@ -128,7 +128,7 @@ const CommunityScreen = ({ navigation }) => {
               className="bg-[#E9FA00] active:bg-[#f7ff8c] justify-center items-center w-10 h-10 rounded-xl absolute top-3 right-5"
               onPress={() => navigation.navigate("MessageList")}
             >
-              <Messages size="24" color={"#101010"} variant={"Outline"} />
+              <Messages size="24" color={"#000000"} variant={"Outline"} />
             </Pressable>
           </View>
 

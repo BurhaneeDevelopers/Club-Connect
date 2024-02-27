@@ -180,7 +180,7 @@ export default function SetChatLockScreen({ navigation }) {
 
       {toast && (
         <Text
-          className="text-[#101010] p-2 rounded-lg px-10 absolute top-16 bg-[#E9FA00] -right-5"
+          className="text-[#000000] p-2 rounded-lg px-10 absolute top-16 bg-[#E9FA00] -right-5"
           style={GlobalStyles.fontBold}
         >
           Pin Set Successfully for {user?.userName}!
@@ -275,7 +275,7 @@ export default function SetChatLockScreen({ navigation }) {
                 onPress={handleBiometricAuth}
               >
                 <Text
-                  className="text-[#101010] text-lg"
+                  className="text-[#000000] text-lg"
                   style={GlobalStyles.fontMedium}
                 >
                   Set Fingerprint Lock
