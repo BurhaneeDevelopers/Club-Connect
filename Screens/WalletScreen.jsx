@@ -78,6 +78,7 @@ const WalletScreen = ({ navigation }) => {
                 color={"#E9FA00"}
                 className="rounded-full h-3 mb-1 bg-[#262626]"
               /> */}
+
               <View className="flex-row justify-between items-center">
                 <Text className="text-[#FF26B9] text-base">View Tasks</Text>
 
@@ -85,7 +86,7 @@ const WalletScreen = ({ navigation }) => {
                   className="text-white text-base"
                   style={GlobalStyles.fontMedium}
                 >
-                  70%
+                  80%
                 </Text>
               </View>
             </View>
