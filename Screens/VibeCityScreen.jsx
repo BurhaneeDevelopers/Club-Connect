@@ -12,11 +12,10 @@ import SectionTitles from "../Components/SectionTitles";
 import GlobalStyles from "../Styles/GlobalStyles";
 
 // SANITY
-import client from "../sanity";
+// import client from "../sanity";
 
 // RN ELEMENTS
-import { Skeleton } from "@rneui/themed";
-import VibeBannerSlider from "../Components/VibeBannerSlider";
+// import VibeBannerSlider from "../Components/VibeBannerSlider";
 
 const VibeCityScreen = ({ navigation }) => {
   const [isLiked, setIsLiked] = useState(false);
@@ -137,20 +136,38 @@ const VibeCityScreen = ({ navigation }) => {
 
         <View className="flex-row flex-wrap justify-center items-center">
           {VibeBannerData.map((item, index) => {
-            return (
-              <ServicesCard
-                key={index}
-                navigation={navigation}
-                title={item?.title}
-                desc={item?.desc}
-                image={item?.image}
-                redirectTo={item?.redirectTo}
-                color={item?.color}
-                activeBgColor={item?.activeBgColor}
-                textColor={item?.textColor}
-                descColor={item?.descColor}
-              />
-            );
+            // Assuming RedirectCardData has even length. To always keep 2 in one row
+            if (index % 2 === 0) {
+              return (
+                <View key={index / 2} className="flex-row">
+                  <ServicesCard
+                    navigation={navigation}
+                    title={VibeBannerData[index].title}
+                    desc={VibeBannerData[index].desc}
+                    image={VibeBannerData[index].image}
+                    redirectTo={VibeBannerData[index].redirectTo}
+                    color={VibeBannerData[index].color}
+                    activeBgColor={VibeBannerData[index].activeBgColor}
+                    textColor={VibeBannerData[index].textColor}
+                    descColor={VibeBannerData[index].descColor}
+                  />
+                  {index + 1 < VibeBannerData.length && (
+                    <ServicesCard
+                      navigation={navigation}
+                      title={VibeBannerData[index + 1].title}
+                      desc={VibeBannerData[index + 1].desc}
+                      image={VibeBannerData[index + 1].image}
+                      redirectTo={VibeBannerData[index + 1].redirectTo}
+                      color={VibeBannerData[index + 1].color}
+                      activeBgColor={VibeBannerData[index + 1].activeBgColor}
+                      textColor={VibeBannerData[index + 1].textColor}
+                      descColor={VibeBannerData[index + 1].descColor}
+                    />
+                  )}
+                </View>
+              );
+            }
+            return null;
           })}
         </View>
 

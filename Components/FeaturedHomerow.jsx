@@ -2,7 +2,6 @@ import { View, Text, ScrollView } from "react-native";
 import React, { useEffect, useState } from "react";
 import SectionTitles from "./SectionTitles";
 import client from "../sanity";
-import useLocation from "../Hooks/useLocation";
 import Skeleton from "./Skeleton";
 import * as Cards from "./FeaturedCards/FeaturedCards";
 import UtilitiesFunctions from "./FeaturedCards/UtilitiesFunctions";

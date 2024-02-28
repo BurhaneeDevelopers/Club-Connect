@@ -113,9 +113,10 @@ const MessageListScreen = ({ navigation }) => {
             {users.map((user) => {
               return (
                 <RecentFreindsChatCards
-                  key={user.id}
-                  senderUserName={user.senderUserName}
+                  key={user?.id}
+                  senderUserName={user?.userName}
                   navigation={navigation}
+                  image={user?.profileImage}
                 />
               );
             })}
@@ -146,7 +147,7 @@ const MessageListScreen = ({ navigation }) => {
                   return (
                     user.hasPin && (
                       <MessageItemLockedCard
-                        key={user.id}
+                        key={user?.id}
                         user={{
                           user: user,
                           navigation: navigation,
@@ -164,7 +165,7 @@ const MessageListScreen = ({ navigation }) => {
             return (
               !user.hasPin && (
                 <MessageItemCard
-                  key={user.id}
+                  key={user?.id}
                   user={{
                     user: user,
                     navigation: navigation,
@@ -189,10 +190,7 @@ const RecentFreindsChatCards = ({ senderUserName, image, navigation }) => {
       className="flex-col items-center justify-center space-y-1 mr-6"
       // onPress={() => navigation.navigate("Chat")}
     >
-      <Image
-        source={require("../assets/Images/User/Dummy-Profile.png")}
-        className="w-16 h-16 rounded-full"
-      />
+      <Image source={{ uri: image }} className="w-16 h-16 rounded-full" />
 
       <Text
         className=" text-white mx-auto max-w-[80px]"
@@ -206,7 +204,7 @@ const RecentFreindsChatCards = ({ senderUserName, image, navigation }) => {
 };
 
 const MessageItemCard = (props) => {
-  const { user, navigation, sent, timestamp } = props.user;
+  const { user, navigation, sent, timestamp } = props?.user;
   return (
     <View className="">
       <Pressable
@@ -220,7 +218,7 @@ const MessageItemCard = (props) => {
         }
       >
         <Image
-          source={require("../assets/Images/User/Dummy-Profile.png")}
+          source={{ uri: user?.profileImage }}
           className="w-16 h-16 rounded-xl"
         />
         <View className="">

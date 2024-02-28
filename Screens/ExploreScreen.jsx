@@ -102,7 +102,7 @@ const ExploreScreen = ({ navigation }) => {
 
         <View className="flex-row flex-wrap justify-center items-center">
           {RedirectCardData.map((item, index) => {
-            // Assuming RedirectCardData has even length
+            // Assuming RedirectCardData has even length. To always keep 2 in one row
             if (index % 2 === 0) {
               return (
                 <View key={index / 2} className="flex-row">

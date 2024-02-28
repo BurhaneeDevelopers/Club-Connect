@@ -25,53 +25,16 @@ import {
 } from "iconsax-react-native";
 import { useState, useEffect } from "react";
 import GlobalStyles from "../Styles/GlobalStyles";
-import axios from "axios";
 
 // Components
 import SectionTitles from "../Components/SectionTitles";
-import HR from "../Components/HR";
-import HotDealsSlider from "../Components/HotDealsSlider";
+
 import client from "../sanity";
 import FeaturedRow from "../Components/FeaturedRow";
+import ExploreSlider from "../Components/ExploreSlider";
 
 const CafeExploreScreen = ({ navigation }) => {
   const [clicked, setClicked] = useState(false);
-  const [loading, setLoading] = useState(false);
-
-  const TopFoodPicks = [
-    {
-      title: "Mocha",
-      image: "",
-    },
-    {
-      title: "Late",
-      image: "",
-    },
-    {
-      title: "Coffee",
-      image: "",
-    },
-    {
-      title: "Chocolate",
-      image: "",
-    },
-    {
-      title: "Brownie",
-      image: "",
-    },
-    {
-      title: "Hot Coffee",
-      image: "",
-    },
-    {
-      title: "Milk Shake",
-      image: "",
-    },
-    {
-      title: "Malai Milk",
-      image: "",
-    },
-  ];
 
   const [featuredCategory, setFeaturedCategory] = useState([]);
 
@@ -200,7 +163,7 @@ const CafeExploreScreen = ({ navigation }) => {
             <SectionTitles title={"Hot Deals Just For You!"} />
           </View>
 
-          <HotDealsSlider />
+          <ExploreSlider />
         </View>
 
         <View className="">
@@ -227,16 +190,16 @@ const CafeExploreScreen = ({ navigation }) => {
 
 export default CafeExploreScreen;
 
-const TopPickCards = ({ title }) => {
-  return (
-    <>
-      <View className="items-center space-y-3 mx-3">
-        <View className="bg-gray-100 w-16 h-16 rounded-full mt-5"></View>
-        <Text className="text-white">{title}</Text>
-      </View>
-    </>
-  );
-};
+// const TopPickCards = ({ title }) => {
+//   return (
+//     <>
+//       <View className="items-center space-y-3 mx-3">
+//         <View className="bg-gray-100 w-16 h-16 rounded-full mt-5"></View>
+//         <Text className="text-white">{title}</Text>
+//       </View>
+//     </>
+//   );
+// };
 
 const CoupanCard = () => {
   return (

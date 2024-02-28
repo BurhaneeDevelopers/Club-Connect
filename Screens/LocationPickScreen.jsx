@@ -13,16 +13,16 @@ import AuthSparklePink from "../assets/Illustrations/AuthSparklePink.svg";
 import useLocation from "../Hooks/useLocation";
 
 const LocationPickScreen = ({ navigation }) => {
-  const { updateLiveLocation } = useLocation();
+  // const { updateLiveLocation } = useLocation();
 
-  const clearCache = async () => {
-    try {
-      await AsyncStorage.clear();
-      console.log("Cache cleared successfully.");
-    } catch (error) {
-      console.log("Error clearing cache:", error);
-    }
-  };
+  // const clearCache = async () => {
+  //   try {
+  //     await AsyncStorage.clear();
+  //     console.log("Cache cleared successfully.");
+  //   } catch (error) {
+  //     console.log("Error clearing cache:", error);
+  //   }
+  // };
 
   // GET USERS LIVE LOCATION
   const [location, setLocation] = useState(null);
@@ -75,13 +75,6 @@ const LocationPickScreen = ({ navigation }) => {
     }
   };
 
-  let text = "Waiting..";
-  if (errorMsg) {
-    text = errorMsg;
-  } else if (location) {
-    text = JSON.stringify(location);
-  }
-
   return (
     <View className="px-5 items-center h-screen justify-center text-center">
       <View className="absolute top-0 flex-row justify-between w-full items-center my-5">
@@ -131,13 +124,13 @@ const LocationPickScreen = ({ navigation }) => {
             Choose Location!
           </Text>
 
-          <Text
+          {/* <Text
             className="text-[#F3EBD5] text-lg text-center"
             style={GlobalStyles.fontMedium}
             onPress={clearCache}
           >
             Clear Cache
-          </Text>
+          </Text> */}
         </View>
       </View>
       {liveLocation && (

@@ -226,7 +226,7 @@ const HomeScreen = ({ navigation }) => {
 
           {/* AUTO SLIDING HOT DEALS  */}
           <View className="">
-            <HotDealsSlider />
+            <ExploreSlider />
           </View>
 
           <View className="p-5 justify-center items-center">
@@ -235,20 +235,38 @@ const HomeScreen = ({ navigation }) => {
 
           <View className="flex-row flex-wrap justify-center items-center">
             {promoCardData.map((item, index) => {
-              return (
-                <PromoCard
-                  key={index}
-                  navigation={navigation}
-                  title={item?.title}
-                  desc={item?.desc}
-                  image={item?.image}
-                  redirectTo={item?.redirectTo}
-                  color={item?.color}
-                  activeBgColor={item?.activeBgColor}
-                  textColor={item?.textColor}
-                  descColor={item?.descColor}
-                />
-              );
+              // Assuming Promocards has even length. To always keep 2 in one row
+              if (index % 2 === 0) {
+                return (
+                  <View key={index / 2} className="flex-row">
+                    <PromoCard
+                      navigation={navigation}
+                      title={promoCardData[index].title}
+                      desc={promoCardData[index].desc}
+                      image={promoCardData[index].image}
+                      redirectTo={promoCardData[index].redirectTo}
+                      color={promoCardData[index].color}
+                      activeBgColor={promoCardData[index].activeBgColor}
+                      textColor={promoCardData[index].textColor}
+                      descColor={promoCardData[index].descColor}
+                    />
+                    {index + 1 < promoCardData.length && (
+                      <PromoCard
+                        navigation={navigation}
+                        title={promoCardData[index + 1].title}
+                        desc={promoCardData[index + 1].desc}
+                        image={promoCardData[index + 1].image}
+                        redirectTo={promoCardData[index + 1].redirectTo}
+                        color={promoCardData[index + 1].color}
+                        activeBgColor={promoCardData[index + 1].activeBgColor}
+                        textColor={promoCardData[index + 1].textColor}
+                        descColor={promoCardData[index + 1].descColor}
+                      />
+                    )}
+                  </View>
+                );
+              }
+              return null;
             })}
           </View>
 
@@ -310,19 +328,25 @@ const HomeScreen = ({ navigation }) => {
             </ScrollView>
           </View>
 
-          {filteredFeaturedCategory?.map((category, index) => {
-            // Render the FeaturedHomeRow only if it has data
-            return (
-              <FeaturedHomeRow
-                key={index}
-                id={category._id}
-                title={category.name}
-                navigation={navigation}
-                featuredId={category.featuredId}
-                dataType={["pubs", "cafes", "bars", "lounges"]}
-              />
-            );
-          })}
+          {filteredFeaturedCategory ? (
+            filteredFeaturedCategory?.map((category, index) => {
+              // Render the FeaturedHomeRow only if it has data
+              return (
+                <FeaturedHomeRow
+                  key={index}
+                  id={category._id}
+                  title={category.name}
+                  navigation={navigation}
+                  featuredId={category.featuredId}
+                  dataType={["pubs", "cafes", "bars", "lounges"]}
+                />
+              );
+            })
+          ) : (
+            <Text className="text-white" style={GlobalStyles.fontRegular}>
+              STAY TUUUUNED!! We are coming to your city...
+            </Text>
+          )}
 
           {/* <View className="justify-center items-center p-5"> */}
           {/* <Banner1 width={320} height={60} /> */}

@@ -38,7 +38,7 @@ const useAuth = () => {
 
     if (docSnap.exists()) {
       setUser(docSnap.data());
-      console.log("Users ISSS", docSnap.data());
+      // console.log("Users ISSS", docSnap.data());
     } else {
       setUser(null);
     }
