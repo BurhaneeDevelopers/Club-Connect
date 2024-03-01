@@ -223,7 +223,7 @@ const ExploreCard = ({
               <>
                 <Text className="text-gray-400 text-center">•</Text>
 
-                <View className="flex-row items-center">
+                <View className="flex-row items-center space-x-1">
                   <Car size="16" color="#FF26B9" variant="Bold" />
                   <Text
                     className="text-[#f9f9f9]"
@@ -333,7 +333,7 @@ const TopPickCard = ({
             {
               (latitude,
               longitude ? (
-                <View className="flex-row items-center">
+                <View className="flex-row items-center space-x-1">
                   <Car size="18" color="#f9f9f9" variant="Bold" />
                   <Text
                     className="text-[#f9f9f9]"

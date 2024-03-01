@@ -1,14 +1,56 @@
+import { useEffect } from "react";
 import useLocation from "../../Hooks/useLocation";
 import useSelectedCity from "../../Hooks/useSelectedCity";
+import * as Location from "expo-location";
 
 const UtilitiesFunctions = () => {
-  const { selectedCity } = useSelectedCity();
+  const { selectedCity, setSelectedCity } = useSelectedCity();
   const { latitude, longitude } = useLocation();
+
+  // console.log(latitude, longitude)
+  // // Function to determine city based on latitude and longitude
+  // const fetchCityFromCoordinates = async (latitude, longitude) => {
+  //   try {
+  //     const locationInfo = await Location.reverseGeocodeAsync({
+  //       latitude,
+  //       longitude,
+  //     });
+  //     if (locationInfo) {
+  //       const { city } = locationInfo[0];
+  //       console.log("CITY ISS", city);
+  //       return city;
+  //     } else {
+  //       console.error("No location information found.");
+  //       return null;
+  //     }
+  //   } catch (error) {
+  //     console.error("Error fetching city:", error);
+  //     return null;
+  //   }
+  // };
+
+  // const determineCityFromLocation = async () => {
+  //   try {
+  //     // Use an API or any method to fetch city based on latitude and longitude
+  //     const city = await fetchCityFromCoordinates(latitude, longitude); // Implement this function
+  //     if (city) {
+  //       console.log("CITY ISS", city);
+  //       setSelectedCity(city); // Set the selected city based on the user's location
+  //     }
+  //   } catch (error) {
+  //     console.error("Error fetching city:", error);
+  //   }
+  // };
+
+
+  // useEffect(() => {
+  //   determineCityFromLocation();
+  // }, [latitude, longitude, selectedCity, setSelectedCity]);
 
   const filterDataByCity = (data) => {
     // Filter data based on the selected city or live location
     return data.filter((item) => {
-      const isSameCity = item && item.city === selectedCity;
+      const isSameCity = item && item?.city === selectedCity;
       const isNearby =
         latitude &&
         longitude &&
@@ -20,6 +62,10 @@ const UtilitiesFunctions = () => {
         isSameCity || isNearby || (!selectedCity && !latitude && !longitude)
       );
     });
+  };
+
+  const deg2rad = (deg) => {
+    return deg * (Math.PI / 180);
   };
 
   const calculateDistance = (userLat, userLong, itemLat, itemLong) => {
@@ -46,9 +92,6 @@ const UtilitiesFunctions = () => {
     return distance;
   };
 
-  const deg2rad = (deg) => {
-    return deg * (Math.PI / 180);
-  };
   return { filterDataByCity, calculateDistance, deg2rad };
 };
 

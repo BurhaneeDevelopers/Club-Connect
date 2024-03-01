@@ -11,6 +11,8 @@ import {
 import React, { useEffect, useRef, useState } from "react";
 import { Star1, Location, ArrowLeft, SearchNormal } from "iconsax-react-native";
 import GlobalStyles from "../Styles/GlobalStyles";
+import { Video } from "expo-av";
+import { Demo1, Demo4, Demo5 } from "../Utilities/Videos";
 
 const VibeBannerSlider = () => {
   const flatlistRef = useRef();
@@ -43,21 +45,21 @@ const VibeBannerSlider = () => {
   const carouselData = [
     {
       id: "01",
-      image: require("../assets/Images/VibeCity.png"),
+      videos: Demo4,
       title: "VIP Bash Hosting",
       offer:
         "Elevate your event with our premium hosting services. Experience VIP treatment for a memorable celebration!",
     },
     {
       id: "02",
-      image: require("../assets/Images/Santorini.jpg"),
+      videos: Demo5,
       title: "Seamless Event Solutions",
       offer:
         "Stress-free event hosting! From planning to execution, let us handle it all. Your perfect event starts here",
     },
     {
       id: "03",
-      image: require("../assets/Images/VibeCityTwo.jpeg"),
+      videos: Demo1,
       title: "Event Bliss Awaits!",
       offer:
         "Unlock the magic of flawless events. Join us for seamless hosting and create cherished memories effortlessly.",
@@ -69,9 +71,9 @@ const VibeBannerSlider = () => {
     return (
       <View className="">
         <VibeBannerSliderCard
-          image={item.image}
-          title={item.title}
-          offer={item.offer}
+          videos={item?.videos}
+          title={item?.title}
+          offer={item?.offer}
         />
       </View>
     );
@@ -109,17 +111,30 @@ const VibeBannerSlider = () => {
 
 export default VibeBannerSlider;
 
-const VibeBannerSliderCard = ({ image, offer, title }) => {
-  const screenWidth = Dimensions.get("window").width;
+const VibeBannerSliderCard = ({ videos, offer, title }) => {
+  // const screenWidth = Dimensions.get("window").width;
+
+  const video = useRef(null);
+  const [status, setStatus] = useState({});
+
+  useEffect(() => {
+    video.current.playAsync();
+  }, []);
   return (
     <View className="w-screen">
-      <ImageBackground
-        source={image}
+      <Video
+        ref={video}
+        source={{ uri: videos }}
+        isLooping
+        shouldCorrectPitch={true}
+        isMuted={true}
+        onPlaybackStatusUpdate={(status) => setStatus(() => status)}
+        resizeMode="cover"
         className="w-full h-80 items-start justify-center"
       >
-        <View className="bg-black/40 absolute h-full w-full overflow-hidden" />
+        <View className="bg-black/40 absolute h-full w-full overflow-hidden z-40" />
 
-        <View className="p-5">
+        <View className="p-5 absolute z-50">
           <Text className="text-white text-3xl" style={GlobalStyles.fontBold}>
             {title}
           </Text>
@@ -131,7 +146,7 @@ const VibeBannerSliderCard = ({ image, offer, title }) => {
             {offer}
           </Text>
         </View>
-      </ImageBackground>
+      </Video>
     </View>
   );
 };

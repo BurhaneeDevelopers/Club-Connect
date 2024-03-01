@@ -145,7 +145,7 @@ const ProfileEditScreen = ({ navigation }) => {
         `ProfileImage/${auth.currentUser.uid}`
       );
       const uploadTask = uploadBytesResumable(storageRef, blob);
-
+ 
       await uploadTask;
 
       const downloadURL = await getDownloadURL(storageRef);

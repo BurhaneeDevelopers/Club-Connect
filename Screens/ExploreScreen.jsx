@@ -17,6 +17,7 @@ import GlobalStyles from "../Styles/GlobalStyles";
 import SectionTitles from "../Components/SectionTitles";
 
 const ExploreScreen = ({ navigation }) => {
+
   const RedirectCardData = [
     {
       title: "Explore",
@@ -201,38 +202,38 @@ const ExploreScreen = ({ navigation }) => {
 
 export default ExploreScreen;
 
-const CoupanCard = () => {
-  return (
-    <View className="p-5">
-      <View className="bg-[#262223] h-24 rounded-2xl w-full p-5">
-        <View className="flex-row gap-4 items-center">
-          {/* ICON GIFT  */}
-          <View className="bg-[#FF26B9] p-2 rounded-xl">
-            <Gift size="44" color="#E9FA00" />
-          </View>
+// const CoupanCard = () => {
+//   return (
+//     <View className="p-5">
+//       <View className="bg-[#262223] h-24 rounded-2xl w-full p-5">
+//         <View className="flex-row gap-4 items-center">
+//           {/* ICON GIFT  */}
+//           <View className="bg-[#FF26B9] p-2 rounded-xl">
+//             <Gift size="44" color="#E9FA00" />
+//           </View>
 
-          {/* OFFER CONTENT  */}
-          <View className="">
-            <Text
-              className="text-[#E9FA00] text-2xl"
-              style={GlobalStyles.fontSemiBold}
-            >
-              CLAIM
-              <Text className="text-[#FF26B9]"> FREE </Text>
-              PESO!
-            </Text>
-            <Text
-              className="text-[#f9f9f9] text-xs w-64"
-              style={GlobalStyles.fontRegular}
-            >
-              Share the app and win your 100 peso in your wallet!
-            </Text>
-          </View>
-        </View>
-      </View>
-    </View>
-  );
-};
+//           {/* OFFER CONTENT  */}
+//           <View className="">
+//             <Text
+//               className="text-[#E9FA00] text-2xl"
+//               style={GlobalStyles.fontSemiBold}
+//             >
+//               CLAIM
+//               <Text className="text-[#FF26B9]"> FREE </Text>
+//               PESO!
+//             </Text>
+//             <Text
+//               className="text-[#f9f9f9] text-xs w-64"
+//               style={GlobalStyles.fontRegular}
+//             >
+//               Share the app and win your 100 peso in your wallet!
+//             </Text>
+//           </View>
+//         </View>
+//       </View>
+//     </View>
+//   );
+// };
 
 const RedirectingCards = ({
   navigation,

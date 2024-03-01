@@ -10,6 +10,7 @@ import SectionTitles from "../Components/SectionTitles";
 
 // FONTS
 import GlobalStyles from "../Styles/GlobalStyles";
+import VibeBannerSlider from "../Components/VibeBannerSlider";
 
 // SANITY
 // import client from "../sanity";
@@ -66,12 +67,6 @@ const VibeCityScreen = ({ navigation }) => {
     },
   ];
 
-  const video = useRef(null);
-  const [status, setStatus] = useState({});
-
-  useEffect(() => {
-    video.current.playAsync();
-  }, []);
   return (
     <SafeAreaView className="w-full h-full">
       <ScrollView>
@@ -117,17 +112,7 @@ const VibeCityScreen = ({ navigation }) => {
             </Pressable>
           </View>
 
-          {/* <VibeBannerSlider /> */}
-
-          <Video
-            ref={video}
-            source={require("../assets/Videos/Demo-1.mp4")}
-            isLooping
-            shouldCorrectPitch={true}
-            isMuted={true}
-            onPlaybackStatusUpdate={(status) => setStatus(() => status)}
-            className="w-full h-80 items-start justify-center"
-          />
+          <VibeBannerSlider />
         </View>
 
         <View className="p-5 justify-center items-center">

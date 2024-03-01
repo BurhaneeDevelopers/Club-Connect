@@ -12,6 +12,7 @@ import React, { useEffect, useRef, useState } from "react";
 import { Star1, Location } from "iconsax-react-native";
 import { Video } from "expo-av";
 import * as FileSystem from "expo-file-system";
+import { Demo1, Demo4, Demo5 } from "../Utilities/Videos";
 
 const ExploreSlider = () => {
   const flatlistRef = useRef();
@@ -23,7 +24,7 @@ const ExploreSlider = () => {
   const carouselData = [
     {
       id: "01",
-      video: require("../assets/Videos/Demo-3.mp4"),
+      video: Demo4,
       title: "Mazo",
       city: "Chennai",
       rating: "4.5",
@@ -31,7 +32,7 @@ const ExploreSlider = () => {
     },
     {
       id: "02",
-      video: require("../assets/Videos/Demo-1.mp4"),
+      video: Demo5,
       title: "Music Adda",
       city: "Chennai",
       rating: "4.2",
@@ -39,7 +40,7 @@ const ExploreSlider = () => {
     },
     {
       id: "03",
-      video: require("../assets/Videos/Demo-2.mp4"),
+      video: Demo1,
       title: "Tea Time",
       city: "Chennai",
       rating: "5",
@@ -70,11 +71,7 @@ const ExploreSlider = () => {
 
   //  Display Images // UI
   const renderItem = ({ item, index }) => {
-    return (
-      <View className="">
-        <ExploreDealsCard item={item} />
-      </View>
-    );
+    return <ExploreDealsCard item={item} />;
   };
 
   // Handle Scroll
@@ -91,19 +88,17 @@ const ExploreSlider = () => {
   };
 
   return (
-    <View className="">
-      <FlatList
-        data={carouselData}
-        ref={flatlistRef}
-        getItemLayout={getItemLayout}
-        renderItem={renderItem}
-        keyExtractor={(item) => item.id}
-        horizontal={true}
-        pagingEnabled={true}
-        onScroll={handleScroll}
-        showsHorizontalScrollIndicator={false}
-      />
-    </View>
+    <FlatList
+      data={carouselData}
+      ref={flatlistRef}
+      getItemLayout={getItemLayout}
+      renderItem={renderItem}
+      keyExtractor={(item) => item.id}
+      horizontal={true}
+      pagingEnabled={true}
+      onScroll={handleScroll}
+      showsHorizontalScrollIndicator={false}
+    />
   );
 };
 
@@ -117,35 +112,12 @@ const ExploreDealsCard = ({ item }) => {
     video.current.playAsync();
   }, []);
 
-  useEffect(() => {
-    const downloadVideo = async () => {
-      const videoIndex = item?.video; // Assuming it's an index
-      const videoUri = carouselData[videoIndex]?.video; // Retrieve URI from carouselData
-      const fileUri = FileSystem.cacheDirectory + "cachedVideo.mp4";
-
-      try {
-        const fileInfo = await FileSystem.getInfoAsync(fileUri);
-        if (!fileInfo.exists) {
-          await FileSystem.downloadAsync(videoUri, fileUri);
-        }
-        setStatus({ uri: fileUri });
-      } catch (error) {
-        console.error("Error downloading video:", error);
-      }
-    };
-
-    downloadVideo();
-
-    return () => {
-      // Clean up any resources if needed
-    };
-  }, [item?.video]);
   return (
     <View className="w-screen">
-      <View className=" h-72 my-3 overflow-hidden w-screen mx-auto">
+      <View className="h-72 my-3 overflow-hidden w-screen mx-auto">
         <Video
           ref={video}
-          source={item?.video}
+          source={{ uri: item?.video }}
           isLooping
           shouldCorrectPitch={true}
           isMuted={true}
