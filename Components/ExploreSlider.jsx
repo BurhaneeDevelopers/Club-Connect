@@ -12,7 +12,7 @@ import React, { useEffect, useRef, useState } from "react";
 import { Star1, Location } from "iconsax-react-native";
 import { Video } from "expo-av";
 import * as FileSystem from "expo-file-system";
-import { Demo1, Demo4, Demo5 } from "../Utilities/Videos";
+import { Demo1, Demo4, Demo5, Demo7, Demo8, Demo9 } from "../Utilities/Videos";
 
 const ExploreSlider = () => {
   const flatlistRef = useRef();
@@ -24,7 +24,7 @@ const ExploreSlider = () => {
   const carouselData = [
     {
       id: "01",
-      video: Demo4,
+      video: Demo5,
       title: "Mazo",
       city: "Chennai",
       rating: "4.5",
@@ -32,7 +32,7 @@ const ExploreSlider = () => {
     },
     {
       id: "02",
-      video: Demo5,
+      video: Demo7,
       title: "Music Adda",
       city: "Chennai",
       rating: "4.2",
@@ -40,7 +40,7 @@ const ExploreSlider = () => {
     },
     {
       id: "03",
-      video: Demo1,
+      video: Demo9,
       title: "Tea Time",
       city: "Chennai",
       rating: "5",
@@ -127,7 +127,7 @@ const ExploreDealsCard = ({ item }) => {
         />
         <View className="absolute top-3 right-5 bg-[#E9FA00] items-center justify-center px-3.5 py-1 z-50">
           <Text
-            className="text-[#000000] text-base"
+            className="text-[#000000] text-xs"
             style={GlobalStyles.fontBold}
           >
             25% Off

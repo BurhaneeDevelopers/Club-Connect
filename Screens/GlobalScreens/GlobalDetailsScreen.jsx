@@ -52,12 +52,8 @@ const GlobalDetailsScreen = ({ navigation }) => {
       location,
       shortDescription,
       openingTime,
-      ownerProfileImage,
-      dataType,
     },
   } = useRoute();
-
-  const urlifiedImage = image ? urlFor(image).url() : null;
 
   const [isLiked, setIsLiked] = useState(false);
   const toggleSave = () => {
@@ -75,7 +71,7 @@ const GlobalDetailsScreen = ({ navigation }) => {
   return (
     <View className="">
       <ImageBackground
-        source={{ uri: urlifiedImage }}
+        source={{ uri: image }}
         className="w-full h-80 rounded-b-[30px] overflow-hidden"
       >
         <View className="flex-row w-full  justify-between items-center p-5 bg-black/40">
@@ -136,8 +132,8 @@ const GlobalDetailsScreen = ({ navigation }) => {
       <ScrollView className="">
         <View className="p-5 px-3 pb-96">
           <Text
-            className="text-4xl text-white mb-3"
-            style={GlobalStyles.fontSemiBold}
+            className="text-3xl text-white mb-3"
+            style={GlobalStyles.fontBold}
           >
             {title}
           </Text>
@@ -145,9 +141,9 @@ const GlobalDetailsScreen = ({ navigation }) => {
           <View className="flex-row space-x-1 items-center">
             {/* Location Name */}
 
-            <Location size={"16"} color="#E9FA00" />
+            <Location size={"24"} color="#E9FA00" />
             <Text
-              className="text-[#f9f9f9] max-w-[320px]"
+              className="text-[#f9f9f9] max-w-[320px] text-sm"
               style={GlobalStyles.fontRegular}
             >
               {location}
@@ -158,19 +154,19 @@ const GlobalDetailsScreen = ({ navigation }) => {
             <View className="flex-row space-x-2 items-center">
               {/* Choose Date & Time */}
               <View className="bg-[#262626] p-3 rounded-xl">
-                <Calendar size={"28"} color="#E9FA00" variant="Bulk" />
+                <Calendar size={"24"} color="#E9FA00" variant="Bulk" />
               </View>
 
               <View className="">
                 <Text
-                  className="text-lg text-[#f9f9f9]"
+                  className="text-base text-[#f9f9f9]"
                   style={GlobalStyles.fontMedium}
                 >
                   Choose Date & Time
                 </Text>
 
                 <Text
-                  className="text-[#FF26B9]"
+                  className="text-[#FF26B9] text-xs"
                   style={GlobalStyles.fontMedium}
                 >
                   Tuesday, 8:00Pm - 9:00Pm
@@ -181,19 +177,19 @@ const GlobalDetailsScreen = ({ navigation }) => {
             {/* Choose Members  */}
             <View className="flex-row space-x-2 items-center">
               <View className="bg-[#262626] p-3 rounded-xl">
-                <People size={"28"} color="#E9FA00" variant="Bulk" />
+                <People size={"24"} color="#E9FA00" variant="Bulk" />
               </View>
 
               <View>
                 <Text
-                  className="text-lg text-[#f9f9f9]"
+                  className="text-base text-[#f9f9f9]"
                   style={GlobalStyles.fontRegular}
                 >
                   Choose Members
                 </Text>
 
                 <Text
-                  className="text-[#FF26B9]"
+                  className="text-[#FF26B9] text-xs"
                   style={GlobalStyles.fontRegular}
                 >
                   6 Adults, 3 Kids
@@ -205,20 +201,20 @@ const GlobalDetailsScreen = ({ navigation }) => {
           <View className="my-5 flex-row justify-between items-center">
             <View className="flex-row items-center space-x-3">
               <Image
-                source={{ uri: urlifiedImage }}
+                source={{ uri: image }}
                 className="w-20 h-20 rounded-xl"
                 resizeMode="cover"
               />
 
               <View className="w-44">
                 <Text
-                  className="text-white text-lg"
+                  className="text-white text-base"
                   style={GlobalStyles.fontSemiBold}
                 >
                   {openingTime}
                 </Text>
                 <Text
-                  className="text-[#E9FA00] text-lg"
+                  className="text-[#E9FA00] text-sm"
                   style={GlobalStyles.fontRegular}
                 >
                   Opening hours
@@ -233,7 +229,7 @@ const GlobalDetailsScreen = ({ navigation }) => {
 
           {/* Description  */}
           <Text
-            className="text-white text-base"
+            className="text-white text-sm"
             numberOfLines={4}
             style={GlobalStyles.fontMedium}
           >
@@ -267,9 +263,9 @@ const GlobalDetailsScreen = ({ navigation }) => {
           </ScrollView>
 
           <View className="py-5 space-y-5">
-            <View className="p-4 bg-[#E9FA00] rounded-2xl w-full flex-row space-x-2 items-end justify-center">
+            <View className="p-3 bg-[#E9FA00] rounded-xl w-full flex-row space-x-2 items-end justify-center">
               <Text
-                className="text-center text-xl text-[#000000]"
+                className="text-center text-base text-[#000000]"
                 style={GlobalStyles.fontBold}
               >
                 View Directions
@@ -278,11 +274,11 @@ const GlobalDetailsScreen = ({ navigation }) => {
               <Map size="24" color="#000000" variant="Bold" />
             </View>
             <Pressable
-              className="p-4 bg-[#FF26B9] active:bg-[#c52d95] rounded-2xl flex-row space-x-2 items-end justify-center"
+              className="p-3 bg-[#FF26B9] active:bg-[#c52d95] rounded-xl flex-row space-x-2 items-end justify-center"
               onPress={() => setVisible(true)}
             >
               <Text
-                className="text-center text-xl text-white"
+                className="text-center text-base text-white"
                 style={GlobalStyles.fontBold}
               >
                 Book Now
@@ -301,7 +297,7 @@ const GlobalDetailsScreen = ({ navigation }) => {
                   Feedback
                 </Dialog.Title>
                 <Dialog.Content>
-                  <Text className="text-lg text-white">
+                  <Text className="text-base text-white">
                     Please Provide your valuable Feedback
                   </Text>
 
@@ -377,7 +373,7 @@ const FeatureCards = ({ icon, title, navigateTo, navigation }) => {
         onPress={() => navigation.navigate(navigateTo)}
       >
         {/* {icon} */}
-        <Text style={GlobalStyles.fontSemiBold} className="text-[#f9f9f9]">
+        <Text style={GlobalStyles.fontSemiBold} className="text-[#f9f9f9] text-sm">
           {title}
         </Text>
       </Pressable>

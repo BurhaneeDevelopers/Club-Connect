@@ -2,25 +2,10 @@ import { View, Text, Image, Pressable } from "react-native";
 import React from "react";
 import { SafeAreaView } from "react-native-safe-area-context";
 import GlobalStyles from "../Styles/GlobalStyles";
-import AsyncStorage from "@react-native-async-storage/async-storage";
 import { useEffect, useRef } from "react";
 import LottieView from "lottie-react-native";
-import { UserDetailsContext } from "../context/UserDetailsContext";
-import { useContext } from "react";
 
 const WelcomeScreen = ({ navigation }) => {
-  // const isSignedIn = AsyncStorage.getItem("hasSignedIn");
-
-  // useEffect(() => {
-  //   // If the user is already signed in, navigate to the home screen
-  //   AsyncStorage.getItem("hasSignedIn").then()
-  //   if (isSignedIn == true) {
-  //     console.log(isSignedIn);
-  //     navigation.replace("Index");
-  //   } else {
-  //     navigation.replace("SignIn");
-  //   }
-  // }, [isSignedIn]);
 
   const animation = useRef(null);
 
@@ -30,7 +15,7 @@ const WelcomeScreen = ({ navigation }) => {
 
   return (
     <SafeAreaView className="bg-[#000000] h-screen w-full justify-end items-center mx-auto p-10">
-      <View className="mb-10 ">
+      <View className="mb-10">
         {/* <Image
           source={require("../assets/Illustrations/CreateAccount.png")}
           className="w-96 h-64"
@@ -47,14 +32,16 @@ const WelcomeScreen = ({ navigation }) => {
           <Text
             className="text-[#f9f9f9] text-4xl text-center"
             style={GlobalStyles.fontBold}
+            numberOfLines={1}
           >
             Let's Jump In!
           </Text>
           <Text
             className="text-[#f9f9f9] w-72 text-center"
             style={GlobalStyles.fontRegular}
+            numberOfLines={2}
           >
-            Discover & Savor: Your Nightlife, Your Way! Create a account for
+            Discover & Savor: Your Nightlife, Your Way! Create a account for
             free!
           </Text>
         </View>
@@ -66,7 +53,7 @@ const WelcomeScreen = ({ navigation }) => {
           onPress={() => navigation.navigate("SignIn")}
         >
           <Text
-            className="text-[#f9f9f9] text-lg"
+            className="text-[#f9f9f9] text-base"
             style={GlobalStyles.fontMedium}
           >
             Sign In
@@ -77,7 +64,7 @@ const WelcomeScreen = ({ navigation }) => {
           onPress={() => navigation.navigate("CreateAccount")}
         >
           <Text
-            className="text-[#f9f9f9] active:text-black text-lg"
+            className="text-[#f9f9f9] active:text-black text-base"
             style={GlobalStyles.fontMedium}
           >
             Create Account
@@ -88,8 +75,9 @@ const WelcomeScreen = ({ navigation }) => {
           onPress={() => navigation.navigate("LocationPick")}
         >
           <Text
-            className="text-[#FF26B9] text-lg"
+            className="text-[#FF26B9] text-base"
             style={GlobalStyles.fontMedium}
+            numberOfLines={1}
           >
             Continue as Guest!
           </Text>

@@ -12,7 +12,7 @@ import React, { useEffect, useRef, useState } from "react";
 import { Star1, Location, ArrowLeft, SearchNormal } from "iconsax-react-native";
 import GlobalStyles from "../Styles/GlobalStyles";
 import { Video } from "expo-av";
-import { Demo1, Demo4, Demo5 } from "../Utilities/Videos";
+import { Demo1, Demo4, Demo5, Demo6, Demo8 } from "../Utilities/Videos";
 
 const VibeBannerSlider = () => {
   const flatlistRef = useRef();
@@ -45,7 +45,7 @@ const VibeBannerSlider = () => {
   const carouselData = [
     {
       id: "01",
-      videos: Demo4,
+      videos: Demo8,
       title: "VIP Bash Hosting",
       offer:
         "Elevate your event with our premium hosting services. Experience VIP treatment for a memorable celebration!",
@@ -59,7 +59,7 @@ const VibeBannerSlider = () => {
     },
     {
       id: "03",
-      videos: Demo1,
+      videos: Demo6,
       title: "Event Bliss Awaits!",
       offer:
         "Unlock the magic of flawless events. Join us for seamless hosting and create cherished memories effortlessly.",
@@ -134,7 +134,7 @@ const VibeBannerSliderCard = ({ videos, offer, title }) => {
       >
         <View className="bg-black/40 absolute h-full w-full overflow-hidden z-40" />
 
-        <View className="p-5 absolute z-50">
+        {/* <View className="p-5 absolute z-50">
           <Text className="text-white text-3xl" style={GlobalStyles.fontBold}>
             {title}
           </Text>
@@ -145,7 +145,7 @@ const VibeBannerSliderCard = ({ videos, offer, title }) => {
           >
             {offer}
           </Text>
-        </View>
+        </View> */}
       </Video>
     </View>
   );

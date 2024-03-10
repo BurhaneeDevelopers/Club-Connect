@@ -1,174 +1,159 @@
 import { View, Text, ScrollView } from "react-native";
 import React, { useEffect, useState } from "react";
 import SectionTitles from "./SectionTitles";
-import client from "../sanity";
 import Skeleton from "./Skeleton";
 import * as Cards from "./FeaturedCards/FeaturedCards";
 import UtilitiesFunctions from "./FeaturedCards/UtilitiesFunctions";
+import { collection, getDocs } from "firebase/firestore";
+import { db } from "../firebase";
 
-const FeaturedHomeRow = ({ id, title, navigation, featuredId, dataType }) => {
-  const [itemData, setItemData] = useState([]);
+const categories = [
+  "Explore in your city",
+  "Top picks near you",
+  "Recommended for you!",
+];
+
+const shuffleArray = (array) => {
+  for (let i = array.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [array[i], array[j]] = [array[j], array[i]];
+  }
+  return array;
+};
+
+const FeaturedHomeRow = ({ navigation }) => {
   const [loading, setLoading] = useState(false);
 
+  const [allBusiness, setAllBusiness] = useState([]);
+
+  const fetchAllBusiness = async () => {
+    setLoading(true);
+    try {
+      const querySnapshot = await getDocs(collection(db, "Products"));
+
+      const businesses = querySnapshot.docs.map((doc) => ({
+        id: doc.id,
+        ...doc.data(),
+      }));
+      const shuffledBusinesses = shuffleArray(businesses);
+      distributeBusinesses(shuffledBusinesses);
+      // console.log(allBusiness);
+      setLoading(false);
+    } catch (error) {
+      console.log("Error fetching business: ", error);
+    }
+  };
+
+  const distributeBusinesses = (businesses) => {
+    const distributedBusinesses = [[], [], []]; // Three categories
+    let currentIndex = 0;
+    businesses.forEach((business, index) => {
+      distributedBusinesses[currentIndex].push(business);
+      currentIndex = (currentIndex + 1) % 3; // Distribute evenly among three categories
+    });
+    setAllBusiness(distributedBusinesses);
+  };
+
   useEffect(() => {
-    const fetchDataInFeaturedCategory = () => {
-      setLoading(true);
-
-      try {
-        client
-          .fetch(
-            `*[_type == "featured" && _id == $id]{
-               ...,
-               ${dataType
-                 .map(
-                   (type) =>
-                     `${type}[] -> { ..., dishes[]->, type-> { name } },`
-                 )
-                 .join("")}
-            }[0]
-            `,
-            { id, dataType }
-          )
-          .then((data) => {
-            const itemData = dataType.map((type) => data[type]).flat();
-            setItemData(itemData);
-            setLoading(false);
-            // console.log("DATAAAAAAAAAAA", data)
-          });
-      } catch (error) {
-        console.log(error);
-      }
-    };
-
-    fetchDataInFeaturedCategory();
+    fetchAllBusiness();
   }, []);
-
-  // const { latitude, longitude } = useLocation();
-
-  // useEffect(() => {
-  //   // console.log("LAT", latitude);
-  //   // console.log("LONG", longitude);
-  // }, [latitude, longitude]);
 
   const { calculateDistance, filterDataByCity } = UtilitiesFunctions();
 
-  const renderCards = (itemData, FeaturedCards) => {
-    const filteredData = filterDataByCity(itemData);
-
-    return (
-      <>
-        {filteredData.length === 0 ? (
-          <Text className="text-white" style={GlobalStyles.fontRegular}>
-            STAY TUUUUNED!! We are coming to your city...
-          </Text>
-        ) : (
-          filteredData.map((item, index) => (
-            <FeaturedCards
-              key={index}
-              id={item?._id}
-              image={item?.image}
-              rating={item?.rating}
-              title={item?.name}
-              location={item?.address}
-              shortDescription={item?.short_description}
-              openingTime={item?.openingTime}
-              ownerProfileImage={item?.ownerProfileImage}
-              lat={item?.lat}
-              long={item?.long}
-              calculateDistance={calculateDistance}
-              dataType={dataType}
-              navigation={navigation}
-            />
-          ))
-        )}
-      </>
-    );
-  };
-
   return (
     <View className="pb-3">
-      <View className="px-4 pb-6 pt-4">
-        {/* Featured Title like `Hot Deals Just For You!, Top Picks!` */}
-        <SectionTitles title={title} />
-      </View>
-
-      <ScrollView
-        horizontal={true}
-        showsHorizontalScrollIndicator={false}
-        alwaysBounceHorizontal={true}
-      >
-        {/* {loading && (
-          <Skeleton animation="pulse" circle="true" width={370} height={200} />
-        )} */}
-        <View className="px-5 flex-row items-center overflow-hidden justify-center w-full">
-          {featuredId == 4 &&
-            (loading ? (
-              <>
-                <Skeleton
-                  width={256}
-                  height={90}
-                  customClass="rounded-[30px] mx-2 overflow-hidden bg-[#262626] "
-                />
-                <Skeleton
-                  width={256}
-                  height={90}
-                  customClass="rounded-[30px] mx-2 overflow-hidden bg-[#262626]"
-                />
-                <Skeleton
-                  width={256}
-                  height={90}
-                  customClass="rounded-[30px] mx-2 overflow-hidden bg-[#262626]"
-                />
-              </>
-            ) : (
-              renderCards(itemData, Cards.ExploreCard)
-            ))}
-          {featuredId == 5 &&
-            (loading ? (
-              <>
-                <Skeleton
-                  width={150}
-                  height={256}
-                  customClass="rounded-[30px] mx-2 overflow-hidden"
-                />
-                <Skeleton
-                  width={150}
-                  height={256}
-                  customClass="rounded-[30px] mx-2 overflow-hidden"
-                />
-                <Skeleton
-                  width={150}
-                  height={256}
-                  customClass="rounded-[30px] mx-2 overflow-hidden"
-                />
-              </>
-            ) : (
-              renderCards(itemData, Cards.TopPickCard)
-            ))}
-          {featuredId == 2 &&
-            (loading ? (
-              <>
-                <Skeleton
-                  width={320}
-                  height={320}
-                  customClass="rounded-[30px] mx-2 overflow-hidden bg-[#262626]"
-                />
-                <Skeleton
-                  width={320}
-                  height={320}
-                  customClass="rounded-[30px] mx-2 overflow-hidden bg-[#262626]"
-                />
-                <Skeleton
-                  width={320}
-                  height={320}
-                  customClass="rounded-[30px] mx-2 overflow-hidden bg-[#262626]"
-                />
-              </>
-            ) : (
-              renderCards(itemData, Cards.PopularCafeCards)
-            ))}
+      {categories.map((category, index) => (
+        <View key={index}>
+          <View className="px-4 pb-6 pt-4">
+            <SectionTitles title={category} />
+          </View>
+          <ScrollView
+            horizontal={true}
+            showsHorizontalScrollIndicator={false}
+            alwaysBounceHorizontal={true}
+          >
+            <View className="px-5 flex-row items-center overflow-hidden justify-center w-full">
+              {loading ? (
+                <>
+                  <Skeleton
+                    width={256}
+                    height={90}
+                    customClass="rounded-[30px] mx-2 overflow-hidden bg-[#262626] "
+                  />
+                  <Skeleton
+                    width={256}
+                    height={90}
+                    customClass="rounded-[30px] mx-2 overflow-hidden bg-[#262626] "
+                  />
+                </>
+              ) : (
+                allBusiness[index] &&
+                allBusiness[index].map((item, idx) => {
+                  // Add a check here
+                  switch (category) {
+                    case "Explore in your city":
+                      return (
+                        <Cards.ExploreCard
+                          key={idx}
+                          id={item?.id}
+                          image={item?.productImage}
+                          rating={item?.rating}
+                          title={item?.name}
+                          location={item?.address}
+                          shortDescription={item?.shortDescription}
+                          openingTime={item?.hours}
+                          ownerProfileImage={item?.productImage}
+                          lat={item?.latitude}
+                          long={item?.longitude}
+                          calculateDistance={calculateDistance}
+                          navigation={navigation}
+                        />
+                      );
+                    case "Top picks near you":
+                      return (
+                        <Cards.TopPickCard
+                          key={idx}
+                          id={item?.id}
+                          image={item?.productImage}
+                          rating={item?.rating}
+                          title={item?.name}
+                          location={item?.address}
+                          shortDescription={item?.shortDescription}
+                          openingTime={item?.hours}
+                          ownerProfileImage={item?.productImage}
+                          lat={item?.latitude}
+                          long={item?.longitude}
+                          calculateDistance={calculateDistance}
+                          navigation={navigation}
+                        />
+                      );
+                    case "Recommended for you!":
+                      return (
+                        <Cards.PopularCards
+                          key={idx}
+                          id={item?.id}
+                          image={item?.productImage}
+                          rating={item?.rating}
+                          title={item?.name}
+                          location={item?.address}
+                          shortDescription={item?.shortDescription}
+                          openingTime={item?.hours}
+                          ownerProfileImage={item?.productImage}
+                          lat={item?.latitude}
+                          long={item?.longitude}
+                          calculateDistance={calculateDistance}
+                          navigation={navigation}
+                        />
+                      );
+                    default:
+                      return null;
+                  }
+                })
+              )}
+            </View>
+          </ScrollView>
         </View>
-      </ScrollView>
+      ))}
     </View>
   );
 };

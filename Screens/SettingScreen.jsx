@@ -36,55 +36,55 @@ const SettingScreen = ({ navigation }) => {
     {
       category: "ACCOUNT",
       title: "Security",
-      icon: <ShieldTick size="28" color="#FF26B9" variant="Broken" />,
+      icon: <ShieldTick size="24" color="#FF26B9" variant="Broken" />,
     },
     {
       category: "ACCOUNT",
       title: "Notification",
-      icon: <Notification1 size="28" color="#FF26B9" variant="Broken" />,
+      icon: <Notification1 size="24" color="#FF26B9" variant="Broken" />,
     },
     {
       category: "ACCOUNT",
       title: "Privacy",
-      icon: <Lock1 size="28" color="#FF26B9" variant="Broken" />,
+      icon: <Lock1 size="24" color="#FF26B9" variant="Broken" />,
     },
     {
       category: "ACCOUNT",
       title: "Wallet",
-      icon: <Gift size="28" color="#FF26B9" variant="Broken" />,
+      icon: <Gift size="24" color="#FF26B9" variant="Broken" />,
       redirectTo: "",
     },
     {
       category: "ACCOUNT",
       title: "My activity",
-      icon: <Clock size="28" color="#FF26B9" variant="Broken" />,
+      icon: <Clock size="24" color="#FF26B9" variant="Broken" />,
     },
     {
       category: "SUPPORT",
       title: "My subscription",
-      icon: <BitcoinCard size="28" color="#FF26B9" variant="Broken" />,
+      icon: <BitcoinCard size="24" color="#FF26B9" variant="Broken" />,
       badge: true,
       redirectTo: "Subscription",
     },
     {
       category: "SUPPORT",
       title: "Help & Support",
-      icon: <I24Support size="28" color="#FF26B9" variant="Broken" />,
+      icon: <I24Support size="24" color="#FF26B9" variant="Broken" />,
     },
     {
       category: "SUPPORT",
       title: "Terms & Policies",
-      icon: <InfoCircle size="28" color="#FF26B9" variant="Broken" />,
+      icon: <InfoCircle size="24" color="#FF26B9" variant="Broken" />,
     },
     {
       category: "ACTIONS",
       title: "Report a problem",
-      icon: <Danger size="28" color="#FF26B9" variant="Broken" />,
+      icon: <Danger size="24" color="#FF26B9" variant="Broken" />,
     },
     {
       category: "ACTIONS",
       title: "Add account",
-      icon: <AddCircle size="28" color="#FF26B9" variant="Broken" />,
+      icon: <AddCircle size="24" color="#FF26B9" variant="Broken" />,
     },
   ];
 
@@ -161,9 +161,9 @@ const SettingScreen = ({ navigation }) => {
         <View className="px-4 pb-6">
           <Pressable
             onPress={handleSignOut}
-            className="bg-[#FF26B9] active:bg-[#bb3691] w-full py-3 mt-3 mb-5 rounded-2xl"
+            className="bg-[#FF26B9] active:bg-[#bb3691] w-full py-2 mt-3 mb-5 rounded-xl"
           >
-            <Text className="text-white text-xl font-semibold text-center">
+            <Text className="text-white text-lg font-semibold text-center">
               Sign Out
             </Text>
           </Pressable>
@@ -185,7 +185,7 @@ const SettingTitle = ({ title, icon, navigation, badge, redirectTo }) => {
         {icon}
 
         <Text
-          className="text-[#f9f9f9] text-xl"
+          className="text-[#f9f9f9] text-base"
           style={GlobalStyles.fontRegular}
         >
           {title}
@@ -194,7 +194,7 @@ const SettingTitle = ({ title, icon, navigation, badge, redirectTo }) => {
 
       {badge && (
         <View className="bg-[#E9FA00] p-1 px-2 rounded-md">
-          <Text style={GlobalStyles.fontMedium}>New</Text>
+          <Text style={GlobalStyles.fontMedium} className="text-xs">New</Text>
         </View>
       )}
     </Pressable>

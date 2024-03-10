@@ -4,7 +4,7 @@ import { Car, Heart, Location, Star1, Timer1 } from "iconsax-react-native";
 import useLocation from "../../Hooks/useLocation";
 import { urlFor } from "../../sanity";
 
-const PopularCafeCards = ({
+const PopularCards = ({
   id,
   image,
   rating,
@@ -13,14 +13,11 @@ const PopularCafeCards = ({
   shortDescription,
   openingTime,
   ownerProfileImage,
-  dataType,
   navigation,
   lat,
   long,
   calculateDistance,
 }) => {
-  const urlifiedImage = image ? urlFor(image).url() : null;
-
   const [isLiked, setIsLiked] = useState(false);
   const toggleSave = () => {
     setIsLiked(!isLiked);
@@ -40,7 +37,7 @@ const PopularCafeCards = ({
             pb-3"
       >
         <ImageBackground
-          source={{ uri: urlifiedImage }}
+          source={{ uri: image }}
           defaultSource={require("../../assets/Images/User/Dummy-Profile.png")}
           className="w-full h-36"
         >
@@ -50,7 +47,7 @@ const PopularCafeCards = ({
             onPress={toggleSave}
           >
             <Heart
-              size="24"
+              size="20"
               color={isLiked ? "#FF26B9" : "#f9f9f9"}
               variant={isLiked ? "Bold" : "Outline"}
             />
@@ -58,22 +55,22 @@ const PopularCafeCards = ({
 
           <View className="bg-black/40 flex-row justify-center items-center py-1 px-2 absolute top-3 rounded-lg left-5 space-x-1">
             <Text
-              className="text-lg text-[#f9f9f9]"
+              className="text-xs text-[#f9f9f9]"
               style={GlobalStyles.fontMedium}
             >
               {rating}
             </Text>
 
-            <Star1 size="14" color="#fff" variant="Bold" />
+            <Star1 size="12" color="#fff" variant="Bold" />
           </View>
 
-          <View className="bg-[#000000]/50 w-full h-14 absolute bottom-0 justify-center items-center">
+          <View className="bg-[#000000]/50 w-full h-12 absolute bottom-0 justify-center items-center">
             <View className="w-full px-5">
               <View className="flex-row items-center space-x-2">
-                <Timer1 size="24" color="#fff" variant="Bold" />
+                <Timer1 size="18" color="#fff" variant="Bold" />
 
                 <Text
-                  className="text-lg text-[#f9f9f9]"
+                  className="text-sm text-[#f9f9f9]"
                   style={GlobalStyles.fontMedium}
                 >
                   {openingTime}
@@ -101,9 +98,9 @@ const PopularCafeCards = ({
             (latitude,
             longitude ? (
               <View className="flex-row items-center mt-2 space-x-1">
-                <Car size={"18"} color="#FF26B9" variant="Bold" />
+                <Car size={"16"} color="#FF26B9" variant="Bold" />
                 <Text
-                  className="text-white text-base"
+                  className="text-white text-sm"
                   style={GlobalStyles.fontRegular}
                 >
                   {distance.toFixed(2)}Km from you
@@ -116,9 +113,9 @@ const PopularCafeCards = ({
 
           {/* Location  */}
           <View className="flex-row items-center mt-1 space-x-1">
-            <Location size="18" color="#FF26B9" variant="Bold" />
+            <Location size="16" color="#FF26B9" variant="Bold" />
             <Text
-              className="text-base text-[#f9f9f9] max-w-[280px]"
+              className="text-sm text-[#f9f9f9] max-w-[280px]"
               style={GlobalStyles.fontRegular}
               numberOfLines={1}
             >
@@ -139,12 +136,11 @@ const PopularCafeCards = ({
                 shortDescription,
                 openingTime,
                 ownerProfileImage,
-                dataType,
                 navigation,
               })
             }
           >
-            <Text className="text-[#f9f9f9] text-center">View Details</Text>
+            <Text className="text-[#f9f9f9] text-center text-xs">View Details</Text>
           </Pressable>
         </View>
       </View>
@@ -161,14 +157,11 @@ const ExploreCard = ({
   shortDescription,
   openingTime,
   ownerProfileImage,
-  dataType,
   navigation,
   lat,
   long,
   calculateDistance,
 }) => {
-  const urlifiedImage = image ? urlFor(image).url() : null;
-
   const { latitude, longitude } = useLocation();
 
   // console.log(latitude, longitude);
@@ -193,7 +186,7 @@ const ExploreCard = ({
         // }}
       >
         <Image
-          source={{ uri: urlifiedImage }}
+          source={{ uri: image }}
           defaultSource={require("../../assets/Images/User/Dummy-Profile.png")}
           className="w-20 h-20"
         />
@@ -201,7 +194,7 @@ const ExploreCard = ({
 
       <View className="">
         <Text
-          className="text-[#f9f9f9] w-32 text-base"
+          className="text-[#f9f9f9] w-32 text-sm"
           numberOfLines={1}
           style={GlobalStyles.fontSemiBold}
         >
@@ -209,7 +202,7 @@ const ExploreCard = ({
         </Text>
 
         {/* Rating  */}
-        <View className="flex-row items-center space-x-2 my-2">
+        <View className="flex-row items-center space-x-2 my-1">
           <View className="flex-row items-center space-x-1">
             <Star1 size="18" color="#FF26B9" variant="Bold" />
             <Text className="text-[#f9f9f9]" style={GlobalStyles.fontMedium}>
@@ -224,7 +217,7 @@ const ExploreCard = ({
                 <Text className="text-gray-400 text-center">•</Text>
 
                 <View className="flex-row items-center space-x-1">
-                  <Car size="16" color="#FF26B9" variant="Bold" />
+                  <Car size="14" color="#FF26B9" variant="Bold" />
                   <Text
                     className="text-[#f9f9f9]"
                     style={GlobalStyles.fontMedium}
@@ -250,11 +243,12 @@ const ExploreCard = ({
               shortDescription,
               openingTime,
               ownerProfileImage,
-              dataType,
             })
           }
         >
-          <Text className="text-[#f9f9f9] text-center">View Details</Text>
+          <Text className="text-[#f9f9f9] text-center text-xs">
+            View Details
+          </Text>
         </Pressable>
       </View>
     </View>
@@ -270,14 +264,11 @@ const TopPickCard = ({
   shortDescription,
   openingTime,
   ownerProfileImage,
-  dataType,
   navigation,
   lat,
   long,
   calculateDistance,
 }) => {
-  const urlifiedImage = image ? urlFor(image).url() : null;
-
   const { latitude, longitude } = useLocation();
 
   // console.log(latitude, longitude);
@@ -297,12 +288,11 @@ const TopPickCard = ({
           shortDescription,
           openingTime,
           ownerProfileImage,
-          dataType,
         })
       }
     >
       <ImageBackground
-        source={{ uri: urlifiedImage }}
+        source={{ uri: image }}
         defaultSource={require("../../assets/Images/User/Dummy-Profile.png")}
         className="w-40 h-64 rounded-[30px] overflow-hidden mx-2"
       >
@@ -310,7 +300,7 @@ const TopPickCard = ({
         <View className="flex-col absolute bottom-0 px-4 w-full space-y-1 z-10 bg-black/40 pb-3 pt-2">
           {/* Location Name */}
           <Text
-            className="text-xl text-[#f9f9f9]"
+            className="text-sm text-[#f9f9f9]"
             style={GlobalStyles.fontBold}
             numberOfLines={1}
           >
@@ -318,9 +308,9 @@ const TopPickCard = ({
           </Text>
           {/* Location  */}
           <View className="flex-row items-center space-x-1">
-            <Location size="18" color="#f9f9f9" variant="Bold" />
+            <Location size="14" color="#f9f9f9" variant="Bold" />
             <Text
-              className="text-base text-[#f9f9f9]"
+              className="text-sm text-[#f9f9f9]"
               style={GlobalStyles.fontRegular}
               numberOfLines={1}
             >
@@ -334,7 +324,7 @@ const TopPickCard = ({
               (latitude,
               longitude ? (
                 <View className="flex-row items-center space-x-1">
-                  <Car size="18" color="#f9f9f9" variant="Bold" />
+                  <Car size="16" color="#f9f9f9" variant="Bold" />
                   <Text
                     className="text-[#f9f9f9]"
                     style={GlobalStyles.fontRegular}
@@ -348,7 +338,7 @@ const TopPickCard = ({
             }
             {/* Rating  */}
             <View className="flex-row items-center space-x-1">
-              <Star1 size="18" color="#f9f9f9" variant="Bold" />
+              <Star1 size="14" color="#f9f9f9" variant="Bold" />
               <Text className="text-[#f9f9f9]" style={GlobalStyles.fontRegular}>
                 {rating}
               </Text>
@@ -360,4 +350,4 @@ const TopPickCard = ({
   );
 };
 
-export { PopularCafeCards, ExploreCard, TopPickCard };
+export { PopularCards, ExploreCard, TopPickCard };

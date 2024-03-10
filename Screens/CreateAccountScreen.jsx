@@ -260,7 +260,7 @@ const CreateAccountScreen = ({ navigation, route }) => {
             Create Account
           </Text>
           <Text
-            className="text-[#f9f9f9] text-center w-72 items-center "
+            className="text-[#f9f9f9] text-center w-72 items-center text-sm"
             style={GlobalStyles.fontRegular}
           >
             New to VibeHotspot? Explore our app by creating a account or&nbsp;
@@ -289,7 +289,7 @@ const CreateAccountScreen = ({ navigation, route }) => {
             placeholderTextColor={`${
               activeInput === 1 ? "#000000" : "#f9f9f9"
             }`}
-            className={`border border-[#FF26B9] w-full p-3 py-3 rounded-xl text-[#f9f9f9] text-lg ${
+            className={`border border-[#FF26B9] w-full p-3 py-3 rounded-xl text-[#f9f9f9] text-sm ${
               activeInput === 1 ? "bg-[#FF26B9] text-[#f9f9f9]" : null
             }`}
             onBlur={handleInputBlur}
@@ -316,7 +316,7 @@ const CreateAccountScreen = ({ navigation, route }) => {
               placeholderTextColor={`${
                 activeInput === 2 ? "#000000" : "#f9f9f9"
               }`}
-              className={`border border-[#FF26B9] w-full p-3 py-3 rounded-xl text-[#f9f9f9] place text-lg ${
+              className={`border border-[#FF26B9] w-full p-3 py-3 rounded-xl text-[#f9f9f9] place text-sm ${
                 activeInput === 2 ? "bg-[#FF26B9] text-[#f9f9f9]" : null
               }`}
               onBlur={handleInputBlur}
@@ -327,9 +327,9 @@ const CreateAccountScreen = ({ navigation, route }) => {
             <View className="absolute px-5">
               <Pressable onPress={togglePasswordVisibility}>
                 {isPasswordVisible ? (
-                  <Eye size="28" color="#f9f9f9" />
+                  <Eye size="24" color="#f9f9f9" />
                 ) : (
-                  <EyeSlash size="28" color="#f9f9f9" />
+                  <EyeSlash size="24" color="#f9f9f9" />
                 )}
               </Pressable>
             </View>
@@ -354,7 +354,7 @@ const CreateAccountScreen = ({ navigation, route }) => {
               placeholderTextColor={`${
                 activeInput === 3 ? "#000000" : "#f9f9f9"
               }`}
-              className={`border border-[#FF26B9] w-full p-3 py-3 rounded-xl text-[#f9f9f9] text-lg ${
+              className={`border border-[#FF26B9] w-full p-3 py-3 rounded-xl text-[#f9f9f9] text-sm ${
                 activeInput === 3 ? "bg-[#FF26B9] text-[#f9f9f9]" : null
               }`}
               onBlur={handleInputBlur}
@@ -365,9 +365,9 @@ const CreateAccountScreen = ({ navigation, route }) => {
             <View className="absolute px-5">
               <Pressable onPress={toggleConfirmPasswordVisibility}>
                 {isConfirmPasswordVisible ? (
-                  <Eye size="28" color="#f9f9f9" />
+                  <Eye size="24" color="#f9f9f9" />
                 ) : (
-                  <EyeSlash size="28" color="#f9f9f9" />
+                  <EyeSlash size="24" color="#f9f9f9" />
                 )}
               </Pressable>
             </View>
@@ -439,7 +439,7 @@ const CreateAccountScreen = ({ navigation, route }) => {
 
         <View className="flex-row items-center justify-center my-5">
           <Text
-            className="text-[#f9f9f9] text-center w-72 items-center"
+            className="text-[#f9f9f9] text-center w-72 items-center text-sm"
             style={GlobalStyles.fontRegular}
           >
             By creating an account or signing you agree to our&nbsp;
@@ -452,8 +452,29 @@ const CreateAccountScreen = ({ navigation, route }) => {
           </Text>
         </View>
       </ScrollView>
+
+      <BusinessSignIn navigation={navigation} />
     </KeyboardAvoidingView>
   );
 };
 
 export default CreateAccountScreen;
+
+const BusinessSignIn = ({ navigation }) => {
+  return (
+    <View className="flex justify-center items-center absolute bottom-0 mb-5">
+      <Text
+        className="text-[#f9f9f9] text-center w-72 items-center text-sm"
+        style={GlobalStyles.fontMedium}
+      >
+        Are you a business?{" "}
+        <Text
+          className="text-[#FF26B9] text-center"
+          onPress={() => navigation.navigate("BusinessSignIn")}
+        >
+          Sign In as Business
+        </Text>
+      </Text>
+    </View>
+  );
+};

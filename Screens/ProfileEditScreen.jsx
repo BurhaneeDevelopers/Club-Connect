@@ -292,7 +292,7 @@ const ProfileEditScreen = ({ navigation }) => {
               className="bg-[#FF26B9] w-14 h-14 rounded-full absolute bottom-0 translate-x-14 justify-center items-center"
               onPress={pickImage}
             >
-              <Camera size="36" color="#f9f9f9" />
+              <Camera size="32" color="#f9f9f9" />
             </Pressable>
           </View>
 
@@ -326,14 +326,14 @@ const ProfileEditScreen = ({ navigation }) => {
 
           <View className="py-4 flex-row justify-center items-center space-x-5">
             <Pressable
-              className="w-40 bg-[#FF26B9] active:bg-[#FF26B9]/70 py-3 rounded-2xl items-center"
+              className="w-40 bg-[#FF26B9] active:bg-[#FF26B9]/70 py-2 rounded-xl items-center"
               onPress={() => {
                 handleUpdateData();
                 setAnimationPlayed(true);
               }}
             >
               <Text
-                className="text-[#f9f9f9] text-xl font-semibold"
+                className="text-[#f9f9f9] text-lg font-semibold"
                 style={GlobalStyles.fontMedium}
               >
                 Save changes

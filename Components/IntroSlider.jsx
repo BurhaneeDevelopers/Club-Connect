@@ -12,7 +12,7 @@ import React, { useEffect, useRef, useState } from "react";
 import { Star1, Location } from "iconsax-react-native";
 import { Video } from "expo-av";
 import * as FileSystem from "expo-file-system";
-import { Demo1, Demo4, Demo5 } from "../Utilities/Videos";
+import { Demo1, Demo4, Demo5, Demo6, Demo7, Demo9 } from "../Utilities/Videos";
 
 const IntroSlider = () => {
   const flatlistRef = useRef();
@@ -25,14 +25,6 @@ const IntroSlider = () => {
     {
       id: "01",
       video: Demo4,
-    },
-    {
-      id: "02",
-      video: Demo5,
-    },
-    {
-      id: "03",
-      video: Demo1,
     },
   ];
 

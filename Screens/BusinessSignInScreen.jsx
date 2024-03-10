@@ -11,35 +11,24 @@ import {
   ActivityIndicator,
   ScrollView,
 } from "react-native";
-import { SafeAreaView } from "react-native-safe-area-context";
 import GlobalStyles from "../Styles/GlobalStyles";
 import { useState, useEffect } from "react";
 import { ArrowLeft, Apple, Eye, EyeSlash } from "iconsax-react-native";
-import AsyncStorage from "@react-native-async-storage/async-storage";
-
-// Context
-import { useContext } from "react";
-import { UserDetailsContext } from "../context/UserDetailsContext";
 
 // Components
 import AuthSwitch from "../Components/AuthSwitch";
 
 // FIREBASE
-import {
-  getAuth,
-  signInWithEmailAndPassword,
-  signInAnonymously,
-} from "firebase/auth";
 
 // SVGS
 import AuthSparklePink from "../assets/Illustrations/AuthSparklePink.svg";
-import Google from "../assets/icons/Google.svg";
-import Mail from "../assets/icons/Mail.svg";
-import { doc, setDoc } from "firebase/firestore";
-import { db } from "../firebase";
+import { collection, doc, getDocs, setDoc } from "firebase/firestore";
+import { db, getAuth } from "../firebase";
+import useAllBusiness from "../Hooks/useAllBusiness";
 import useAuth from "../Hooks/useAuth";
+import { createUserWithEmailAndPassword } from "firebase/auth";
 
-const SignInScreen = ({ navigation, route }) => {
+const BusinessSignInScreen = ({ navigation, route }) => {
   const [refreshing, setRefreshing] = React.useState(false);
 
   const onRefresh = React.useCallback(() => {
@@ -62,6 +51,7 @@ const SignInScreen = ({ navigation, route }) => {
   };
 
   const [email, setEmail] = useState("");
+  const [userName, setUserName] = useState("");
   const [password, setPassword] = useState("");
   const [isPasswordVisible, setIsPasswordVisible] = useState(false);
 
@@ -70,48 +60,91 @@ const SignInScreen = ({ navigation, route }) => {
     setIsPasswordVisible(!isPasswordVisible);
   };
 
-  const [toast, setToast] = useState(false);
+  const [toast, setToast] = useState("");
 
   const navigateAfterAccountCreated = (navigation) => {
-    setToast(true);
+    setToast("Yayy! SignIn Successful!");
 
     // Wait for 1-2 seconds and then navigate
     setTimeout(() => {
-      setToast(false);
-      // Navigate to the next screen (e.g., EmailConfirmation)
+      setToast(null);
+      // Navigate to the next screen (e.g., userNameConfirmation)
       navigation.navigate("LocationPick");
     }, 1000); // Adjust the timeout as needed
   };
 
-  const { handleSignIn, handleSignInAnonymously } = useAuth();
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(false);
-  const SignIn = async () => {
-    try {
-      setLoading(true);
-      await handleSignIn(email, password, navigation);
-      navigateAfterAccountCreated(navigation);
-      setError(false);
-      setLoading(false);
-    } catch (error) {
-      setToast(false);
-      setLoading(false);
-      if (error.code == "auth/invalid-email" || "auth/invalid-credential") {
-        setError(true);
-        setLoading(false);
-      }
-      console.log("Error during sign-in:", error);
-      console.log(error.code);
-    }
-  };
 
-  // signInAnonymously
-  const SignInAnonymously = async () => {
+  const { allBusiness, fetchAllBusiness } = useAllBusiness();
+
+  useEffect(() => {
+    fetchAllBusiness();
+  }, []);
+
+  const auth = getAuth();
+
+  const { handleSignIn } = useAuth();
+  const checkCredentials = async () => {
     try {
-      await handleSignInAnonymously(navigation);
-      navigateAfterAccountCreated(navigation);
+      setToast("Analyzing existing accounts");
+      const querySnapshot = await getDocs(collection(db, "Products"));
+
+      querySnapshot.forEach(async (document) => {
+        const data = document.data();
+        if (data.userName === userName && data.password === password) {
+          // If Credentials match
+          console.log("Credentials matched in document:", document?.id);
+
+          try {
+            setToast("Looking for matching credentials!");
+            // Assuming you have allBusiness which contains all the business data
+            const matchedBusiness = allBusiness.find(
+              (business) => business?.id === document?.id
+            );
+
+            if (matchedBusiness) {
+              setToast("Creating account for you!");
+              const userCredential = await createUserWithEmailAndPassword(
+                auth,
+                email,
+                data?.password
+              );
+
+              const user = userCredential?.user;
+
+              if (user) {
+                const userRef = doc(db, "allUsers", auth.currentUser.uid);
+                setDoc(userRef, {
+                  uid: auth.currentUser.uid,
+                  email: user?.email,
+                  password: password,
+                  name: matchedBusiness.name,
+                  userName: matchedBusiness.userName,
+                  bio: "",
+                  location: matchedBusiness.address,
+                  profileImage: matchedBusiness.productImage,
+                  following: [],
+                  followers: [],
+                });
+
+                setToast("Signing In for you!");
+                handleSignIn(email, password, navigation);
+                navigateAfterAccountCreated(navigation);
+              }
+            } else {
+              console.log(
+                "No matching business found for document ID:",
+                document.id
+              );
+            }
+          } catch (error) {
+            console.log(error);
+          }
+        }
+      });
     } catch (error) {
-      console.error("Error during anonymous sign-in:", error);
+      console.error("Error checking credentials:", error);
     }
   };
 
@@ -137,12 +170,12 @@ const SignInScreen = ({ navigation, route }) => {
           <AuthSparklePink width={64} height={64} />
         </View>
 
-        {toast === true && (
+        {toast && (
           <Text
             className="text-[#000000] p-2 rounded-lg px-10 absolute top-10 bg-[#E9FA00] -right-5"
             style={GlobalStyles.fontBold}
           >
-            Yayy! SignIn Successful!
+            {toast}
           </Text>
         )}
 
@@ -158,7 +191,7 @@ const SignInScreen = ({ navigation, route }) => {
               className="text-[#f9f9f9] text-4xl text-center"
               style={GlobalStyles.fontBold}
             >
-              Sign in!
+              Sign in as Business!
             </Text>
             <Text
               className="text-[#f9f9f9] text-center w-72 items-center text-sm"
@@ -173,11 +206,11 @@ const SignInScreen = ({ navigation, route }) => {
           <AuthSwitch navigation={navigation} route={route} />
 
           <View className="my-5 w-full space-y-3">
-            {/* Email Input */}
+            {/* email Input */}
             <TextInput
               onChangeText={(text) => setEmail(text)}
               value={email}
-              placeholder="Enter Your Email..."
+              placeholder="Enter your email..."
               placeholderTextColor={`${
                 activeInput === 1 ? "#000000" : "#c5c5c5"
               }`}
@@ -189,6 +222,22 @@ const SignInScreen = ({ navigation, route }) => {
               style={GlobalStyles.fontMedium}
             />
 
+            {/* userName Input */}
+            <TextInput
+              onChangeText={(text) => setUserName(text)}
+              value={userName}
+              placeholder="Enter your userName..."
+              placeholderTextColor={`${
+                activeInput === 2 ? "#000000" : "#c5c5c5"
+              }`}
+              className={`border border-[#FF26B9] w-full p-3 py-3 rounded-xl text-[#f9f9f9] place text-sm ${
+                activeInput === 2 ? "bg-[#FF26B9] text-[#f9f9f9]" : null
+              }`}
+              onBlur={handleInputBlur}
+              onFocus={() => handleInputFocus(2)}
+              style={GlobalStyles.fontMedium}
+            />
+
             {/* Password Input */}
             <View className="items-end justify-center">
               <TextInput
@@ -197,13 +246,13 @@ const SignInScreen = ({ navigation, route }) => {
                 secureTextEntry={!isPasswordVisible ? true : false}
                 placeholder="Enter Your Password..."
                 placeholderTextColor={`${
-                  activeInput === 2 ? "#000000" : "#c5c5c5"
+                  activeInput === 3 ? "#000000" : "#c5c5c5"
                 }`}
                 className={`border border-[#FF26B9] w-full p-3 py-3 rounded-xl text-[#f9f9f9] place text-sm ${
-                  activeInput === 2 ? "bg-[#FF26B9] text-[#f9f9f9]" : null
+                  activeInput === 3 ? "bg-[#FF26B9] text-[#f9f9f9]" : null
                 }`}
                 onBlur={handleInputBlur}
-                onFocus={() => handleInputFocus(2)}
+                onFocus={() => handleInputFocus(3)}
                 style={GlobalStyles.fontMedium}
               />
 
@@ -228,7 +277,7 @@ const SignInScreen = ({ navigation, route }) => {
                   className="text-[#c22121] text-center mt-3 text-base"
                   style={GlobalStyles.fontSemiBold}
                 >
-                  Invalid Email or Password Credentials
+                  Invalid userName or Password Credentials
                 </Text>
               </>
             )}
@@ -238,64 +287,36 @@ const SignInScreen = ({ navigation, route }) => {
               //   error ? "bg-[#FF26B9]/70" : ""
               // }`}
               className="w-full p-3 rounded-lg items-center bg-[#FF26B9] active:bg-[#c52d95]"
-              onPress={SignIn}
+              onPress={checkCredentials}
             >
-              <Text className="text-[#f9f9f9] text-lg">Sign In</Text>
-            </Pressable>
-          </View>
-
-          <View className="flex-row space-x-4 mt-5 justify-center items-center">
-            <View className="bg-[#f9f9f9] rounded-full p-4">
-              <Google width={32} height={32} />
-            </View>
-            <View className="bg-[#f9f9f9] rounded-full p-4">
-              <Apple size="32" color="#000000" variant="Bold" />
-            </View>
-            <Pressable
-              className="bg-[#f9f9f9] rounded-full p-4"
-              onPress={SignInAnonymously}
-            >
-              <Eye size="32" color="#000000" variant="Bold" />
-            </Pressable>
-          </View>
-
-          <View className="flex-row items-center justify-center my-5 mt-10">
-            <Text
-              className="text-[#f9f9f9] text-center w-72 items-center text-sm"
-              style={GlobalStyles.fontMedium}
-            >
-              New to VibeHotspot?{" "}
-              <Text
-                className="text-[#FF26B9] text-center"
-                onPress={() => navigation.navigate("CreateAccount")}
-              >
-                Create Account
+              <Text className="text-[#f9f9f9] text-lg">
+                Verify & Create Account
               </Text>
-            </Text>
+            </Pressable>
           </View>
         </View>
       </ScrollView>
 
-      <BusinessSignIn navigation={navigation} />
+      <SignIn navigation={navigation} />
     </KeyboardAvoidingView>
   );
 };
 
-export default SignInScreen;
+export default BusinessSignInScreen;
 
-const BusinessSignIn = ({ navigation }) => {
+const SignIn = ({ navigation }) => {
   return (
-    <View className="flex justify-center items-center w-screen absolute bottom-0 mb-5">
+    <View className="absolute bottom-0 mb-5 flex justify-center items-center w-screen">
       <Text
         className="text-[#f9f9f9] text-center w-72 items-center text-sm"
         style={GlobalStyles.fontMedium}
       >
-        Are you a business?{" "}
+        Are you a user?{" "}
         <Text
           className="text-[#FF26B9] text-center"
-          onPress={() => navigation.navigate("BusinessSignIn")}
+          onPress={() => navigation.navigate("SignIn")}
         >
-          Sign In as Business
+          Sign In as user!
         </Text>
       </Text>
     </View>

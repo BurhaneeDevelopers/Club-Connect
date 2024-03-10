@@ -1,5 +1,5 @@
 import React from "react";
-import { Text, View, Image, StatusBar } from "react-native";
+import { Text, View, Image, StatusBar, TextInput } from "react-native";
 import { useState, useEffect } from "react";
 import {
   DefaultTheme,
@@ -73,6 +73,7 @@ import SubscriptionScreen from "./Screens/SubscriptionScreen";
 import InviteVibersScreen from "./Screens/InviteVibersScreen";
 import IntroVideo from "./Screens/IntroVideo";
 import CalendarScreen from "./Screens/CalendarScreen";
+import BusinessSignInScreen from "./Screens/BusinessSignInScreen";
 
 // Default Theme
 const navTheme = DefaultTheme;
@@ -371,6 +372,14 @@ const UnauthenticatedNavigator = () => {
         }}
       />
       <Stack.Screen
+        name="BusinessSignIn"
+        component={BusinessSignInScreen}
+        options={{
+          headerShown: false,
+          ...TransitionPresets.SlideFromRightIOS,
+        }}
+      />
+      <Stack.Screen
         name="EmailConfirmation"
         component={EmailConfirmation}
         options={{
@@ -457,6 +466,21 @@ export default function App({ navigation }) {
   useEffect(() => {
     playSound();
   }, []);
+
+  if (Text.defaultProps) {
+    Text.defaultProps.allowFontScaling = false;
+  } else {
+    Text.defaultProps = {};
+    Text.defaultProps.allowFontScaling = false;
+  }
+
+  // Override Text scaling in input fields
+  if (TextInput.defaultProps) {
+    TextInput.defaultProps.allowFontScaling = false;
+  } else {
+    TextInput.defaultProps = {};
+    TextInput.defaultProps.allowFontScaling = false;
+  }
 
   if (fontsLoaded) {
     return (

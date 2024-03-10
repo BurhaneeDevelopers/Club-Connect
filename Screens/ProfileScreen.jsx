@@ -106,6 +106,7 @@ const ProfileScreen = ({ navigation }) => {
   }, [user?.uid]);
   // Fetch user from Context
 
+  const isBusiness = true;
   return (
     <SafeAreaView>
       <View className="h-80 bg-[#FF26B9] rounded-b-[30px]">
@@ -138,28 +139,41 @@ const ProfileScreen = ({ navigation }) => {
           )}
 
           {/* {console.log(user.profileImage)} */}
-
-          <Text
-            className="text-[#f9f9f9] text-xl"
-            style={GlobalStyles.fontSemiBold}
-          >
-            {/* {user
+          <View className="flex-row space-x-0.5">
+            <Text
+              className="text-[#f9f9f9] text-xl"
+              style={GlobalStyles.fontSemiBold}
+            >
+              {/* {user
               ? user?.userName || "Loading..."
               : anonymousUser?.userName || "Loading..."} */}
-            {user?.userName || anonymousUser?.userName || "Loading..."}
-          </Text>
+              {user?.userName || anonymousUser?.userName || "Loading..."}
+            </Text>
+            {isBusiness ? (
+              <View className="bg-black w-5 h-5 rounded-full flex-row items-center justify-center">
+                <Text
+                  className="text-white text-[10px]"
+                  style={GlobalStyles.fontSemiBold}
+                >
+                  ✓
+                </Text>
+              </View>
+            ) : (
+              ""
+            )}
+          </View>
         </View>
 
         <View className="flex-row bg-[#000000] rounded-full w-80 items-center p-5 justify-around absolute -bottom-10 self-center">
           <View className="flex-col items-center justify-center">
             <Text
-              className="text-xl text-[#f9f9f9]"
+              className="text-lg text-[#f9f9f9]"
               style={GlobalStyles.fontBold}
             >
               {postCount}
             </Text>
             <Text
-              className="text-lg text-[#f9f9f9]"
+              className="text-sm text-[#f9f9f9]"
               style={GlobalStyles.fontMedium}
             >
               Posts
@@ -168,13 +182,13 @@ const ProfileScreen = ({ navigation }) => {
 
           <View className="flex-col items-center justify-center">
             <Text
-              className="text-xl text-[#f9f9f9]"
+              className="text-lg text-[#f9f9f9]"
               style={GlobalStyles.fontBold}
             >
               {user?.followers.length || 0}
             </Text>
             <Text
-              className="text-lg text-[#f9f9f9]"
+              className="text-sm text-[#f9f9f9]"
               style={GlobalStyles.fontMedium}
             >
               Followers
@@ -183,13 +197,13 @@ const ProfileScreen = ({ navigation }) => {
 
           <View className="flex-col items-center justify-center">
             <Text
-              className="text-xl text-[#f9f9f9]"
+              className="text-lg text-[#f9f9f9]"
               style={GlobalStyles.fontBold}
             >
               {user?.following.length || 0}
             </Text>
             <Text
-              className="text-lg text-[#f9f9f9]"
+              className="text-sm text-[#f9f9f9]"
               style={GlobalStyles.fontMedium}
             >
               Following

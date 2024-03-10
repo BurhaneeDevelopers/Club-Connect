@@ -199,7 +199,7 @@ const ServicesCard = ({
         {title}
       </Text>
       <Text
-        className={`text-[${descColor}] text-center`}
+        className={`text-[${descColor}] text-center text-xs`}
         style={GlobalStyles.fontSemiBold}
       >
         {desc}

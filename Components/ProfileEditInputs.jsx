@@ -24,15 +24,13 @@ const ProfileEditInputs = (props) => {
     setLocation,
   } = props.states;
 
-
-  
   return (
     <View>
       <View className="px-3">
         {/* Name  */}
         <View className="my-1">
           <Text
-            className="text-[#f9f9f9] text-base font-bold py-2 px-1"
+            className="text-[#f9f9f9] font-bold py-2 px-1 text-sm"
             style={GlobalStyles.fontMedium}
           >
             NAME
@@ -42,7 +40,7 @@ const ProfileEditInputs = (props) => {
             placeholderTextColor={`${
               activeInput === 1 ? "#000000" : "#61677A"
             }`}
-            className={`border border-[#FF26B9] w-full p-3 py-4 rounded-xl text-[#f9f9f9] text-base ${
+            className={`border border-[#FF26B9] w-full p-3 py-4 rounded-xl text-[#f9f9f9] text-sm ${
               activeInput === 1 ? "bg-[#FF26B9] text-[#f9f9f9]" : null
             }`}
             onBlur={handleInputBlur}
@@ -56,7 +54,7 @@ const ProfileEditInputs = (props) => {
         {/* UserName  */}
         <View className="my-1">
           <Text
-            className="text-[#f9f9f9] text-base font-bold py-2 px-1"
+            className="text-[#f9f9f9] font-bold py-2 px-1 text-sm"
             style={GlobalStyles.fontMedium}
           >
             USERNAME
@@ -66,7 +64,7 @@ const ProfileEditInputs = (props) => {
             placeholderTextColor={`${
               activeInput === 2 ? "#000000" : "#61677A"
             }`}
-            className={`border border-[#FF26B9] w-full p-3 py-4 rounded-xl text-[#f9f9f9] text-base ${
+            className={`border border-[#FF26B9] w-full p-3 py-4 rounded-xl text-[#f9f9f9] text-sm ${
               activeInput === 2 ? "bg-[#FF26B9] text-[#f9f9f9]" : null
             }`}
             onBlur={handleInputBlur}
@@ -80,7 +78,7 @@ const ProfileEditInputs = (props) => {
         {/* Bio  */}
         <View className="my-1">
           <Text
-            className="text-[#f9f9f9] text-base font-bold py-2 px-1"
+            className="text-[#f9f9f9] font-bold py-2 px-1 text-sm"
             style={GlobalStyles.fontMedium}
           >
             BIO
@@ -90,7 +88,7 @@ const ProfileEditInputs = (props) => {
             placeholderTextColor={`${
               activeInput === 3 ? "#000000" : "#61677A"
             }`}
-            className={`border border-[#FF26B9] w-full p-3 py-4 rounded-xl text-[#f9f9f9] text-base ${
+            className={`border border-[#FF26B9] w-full p-3 py-4 rounded-xl text-[#f9f9f9] text-sm ${
               activeInput === 3 ? "bg-[#FF26B9] text-[#f9f9f9]" : null
             }`}
             onBlur={handleInputBlur}
@@ -104,7 +102,7 @@ const ProfileEditInputs = (props) => {
         {/* Location  */}
         <View className="my-1">
           <Text
-            className="text-[#f9f9f9] text-base font-bold py-2 px-1"
+            className="text-[#f9f9f9] font-bold py-2 px-1 text-sm"
             style={GlobalStyles.fontMedium}
           >
             LOCATION
@@ -114,7 +112,7 @@ const ProfileEditInputs = (props) => {
             placeholderTextColor={`${
               activeInput === 4 ? "#000000" : "#61677A"
             }`}
-            className={`border border-[#FF26B9] w-full p-3 py-4 rounded-xl text-[#f9f9f9] text-base ${
+            className={`border border-[#FF26B9] p-3 py-4 rounded-xl text-[#f9f9f9] w-96 text-sm ${
               activeInput === 4 ? "bg-[#FF26B9] text-[#f9f9f9]" : null
             }`}
             onBlur={handleInputBlur}

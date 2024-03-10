@@ -12,9 +12,7 @@
       "resizeMode": "cover",
       "backgroundColor": "#000000"
     },
-    "assetBundlePatterns": [
-      "**/*"
-    ],
+    "assetBundlePatterns": ["**/*"],
     "ios": {
       "supportsTablet": true,
       "bundleIdentifier": ".vibehotspot"
@@ -26,12 +24,8 @@
       },
       "googleServicesFile": "google-services.json",
       "package": "com.taheri_dev72.vibehotspot",
-      "UIBackgroundModes": [
-        "audio"
-      ],
-      "permissions": [
-        "android.permission.RECORD_AUDIO"
-      ]
+      "UIBackgroundModes": ["audio"],
+      "permissions": ["android.permission.RECORD_AUDIO"]
     },
     "plugins": [
       [

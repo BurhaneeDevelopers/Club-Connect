@@ -30,7 +30,7 @@ const TabBar = ({ setPosts, setSaved, setLive }) => {
         onPress={() => handleTabPress("Posts")}
       >
         <Text
-          className="text-white text-xl text-center"
+          className="text-white text-base text-center"
           style={GlobalStyles.fontMedium}
         >
           Posts
@@ -43,7 +43,7 @@ const TabBar = ({ setPosts, setSaved, setLive }) => {
         onPress={() => handleTabPress("Saved")}
       >
         <Text
-          className="text-white text-xl text-center"
+          className="text-white text-base text-center"
           style={GlobalStyles.fontMedium}
         >
           Reels
@@ -56,7 +56,7 @@ const TabBar = ({ setPosts, setSaved, setLive }) => {
         onPress={() => handleTabPress("Live")}
       >
         <Text
-          className="text-white text-xl text-center"
+          className="text-white text-base text-center"
           style={GlobalStyles.fontMedium}
         >
           Live

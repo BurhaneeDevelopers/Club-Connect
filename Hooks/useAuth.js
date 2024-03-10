@@ -50,7 +50,7 @@ const useAuth = () => {
 
     if (docSnap.exists()) {
       setAnonymousUser(docSnap.data());
-      console.log(docSnap.data());
+      // console.log(docSnap.data());
     } else {
       setAnonymousUser(null);
     }

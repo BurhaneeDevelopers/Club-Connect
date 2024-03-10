@@ -84,44 +84,6 @@ const HomeScreen = ({ navigation }) => {
   // Fetch UserName and other Details when user edits his profile
   const { user } = useAuth();
 
-  const [featuredCategory, setFeaturedCategory] = useState([]);
-
-  useEffect(() => {
-    // Fetch Categories for restaurant like Top picks near you, Recommended for you!
-    const fetchCategoriesForRestaurant = () => {
-      try {
-        client
-          .fetch(
-            `*[_type == "featured"]{
-              ...,
-              restaurants -> {
-                ...,
-                dishes[]->
-              },
-              cafes -> {
-                ...,
-                dishes[]->
-              },
-            }
-          `
-          )
-          .then((data) => {
-            setFeaturedCategory(data);
-            // console.log(data);
-          });
-      } catch (error) {
-        console.log(error);
-      }
-    };
-
-    fetchCategoriesForRestaurant();
-  }, []);
-
-  // Filter featuredCategory to include only specific featuredIds
-  const filteredFeaturedCategory = featuredCategory.filter((category) =>
-    ["4", "5", "2"].includes(category.featuredId)
-  );
-
   // console.log(
   //   "FEATURED",
   //   featuredCategory.forEach(({ lounges }) => console.log(lounges))
@@ -293,7 +255,7 @@ const HomeScreen = ({ navigation }) => {
                   {/* {icon} */}
                   <Text
                     style={GlobalStyles.fontSemiBold}
-                    className="text-[#fff] text-base"
+                    className="text-[#fff] text-sm"
                   >
                     Change Location
                   </Text>
@@ -328,25 +290,11 @@ const HomeScreen = ({ navigation }) => {
             </ScrollView>
           </View>
 
-          {filteredFeaturedCategory ? (
-            filteredFeaturedCategory?.map((category, index) => {
-              // Render the FeaturedHomeRow only if it has data
-              return (
-                <FeaturedHomeRow
-                  key={index}
-                  id={category._id}
-                  title={category.name}
-                  navigation={navigation}
-                  featuredId={category.featuredId}
-                  dataType={["pubs", "cafes", "bars", "lounges"]}
-                />
-              );
-            })
-          ) : (
-            <Text className="text-white" style={GlobalStyles.fontRegular}>
-              STAY TUUUUNED!! We are coming to your city...
-            </Text>
-          )}
+          <FeaturedHomeRow
+            // title={category}
+            dataType={["pubs", "cafes", "bars", "lounges"]}
+            navigation={navigation}
+          />
 
           {/* <View className="justify-center items-center p-5"> */}
           {/* <Banner1 width={320} height={60} /> */}
@@ -374,10 +322,7 @@ const MenuCards = ({ icon, title, navigateTo, navigation }) => {
         onPress={() => navigation.navigate(navigateTo)}
       >
         {/* {icon} */}
-        <Text
-          style={GlobalStyles.fontSemiBold}
-          className="text-[#fff] text-base"
-        >
+        <Text style={GlobalStyles.fontSemiBold} className="text-[#fff] text-sm">
           {title}
         </Text>
       </Pressable>
@@ -447,13 +392,13 @@ const PromoCard = ({
       onPress={() => navigation.navigate(redirectTo)}
     >
       <Text
-        className={`text-[${textColor}] text-xl text-center`}
+        className={`text-[${textColor}] text-lg text-center`}
         style={GlobalStyles.fontBold}
       >
         {title}
       </Text>
       <Text
-        className={`text-[${descColor}] text-center`}
+        className={`text-[${descColor}] text-center text-xs`}
         style={GlobalStyles.fontSemiBold}
       >
         {desc}

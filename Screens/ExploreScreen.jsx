@@ -17,7 +17,6 @@ import GlobalStyles from "../Styles/GlobalStyles";
 import SectionTitles from "../Components/SectionTitles";
 
 const ExploreScreen = ({ navigation }) => {
-
   const RedirectCardData = [
     {
       title: "Explore",
@@ -259,7 +258,7 @@ const RedirectingCards = ({
         {title}
       </Text>
       <Text
-        className={`text-[${descColor}]`}
+        className={`text-[${descColor}] text-xs`}
         style={GlobalStyles.fontSemiBold}
         numberOfLines={1}
       >

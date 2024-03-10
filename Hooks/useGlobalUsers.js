@@ -16,12 +16,12 @@ const userGlobalUsers = () => {
       usersSnapshot.forEach((doc) => {
         const userData = doc.data();
         fetchedUsers.push(userData);
-        console.log(userData);
+        // console.log(userData);
       });
 
       setUsers(fetchedUsers);
 
-      console.log("Fetched users:", fetchedUsers);
+      // console.log("Fetched users:", fetchedUsers);
       return users;
     } catch (error) {
       console.error("Error fetching users:", error);

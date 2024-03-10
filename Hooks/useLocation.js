@@ -33,7 +33,7 @@ const useLocation = () => {
       setLatitude(latitude);
       setLongitude(longitude);
 
-      console.log("set:", latitude, longitude);
+      // console.log("set:", latitude, longitude);
     } catch (error) {
       console.error("Error saving selected city:", error);
     }

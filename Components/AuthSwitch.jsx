@@ -27,7 +27,7 @@ const AuthSwitch = ({ navigation, route }) => {
         }}
       >
         <Text
-          className={`text-lg text-center text-[#f9f9f9] ${
+          className={`text-base text-center text-[#f9f9f9] ${
             isCreateAccountActive ? "text-white" : ""
           }`}
         >
@@ -46,7 +46,7 @@ const AuthSwitch = ({ navigation, route }) => {
         }}
       >
         <Text
-          className={`text-lg text-center text-white ${
+          className={`text-base text-center text-white ${
             isSignInActive ? "text-white font-semibold" : ""
           }`}
         >
