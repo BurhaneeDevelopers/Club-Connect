@@ -1,11 +1,13 @@
-import { View, Text, ScrollView } from "react-native";
-import React, { useEffect, useState } from "react";
+import { View, FlatList, ActivityIndicator, Text } from "react-native";
+import React, { useEffect, useMemo, useState } from "react";
 import SectionTitles from "./SectionTitles";
-import Skeleton from "./Skeleton";
 import * as Cards from "./FeaturedCards/FeaturedCards";
 import UtilitiesFunctions from "./FeaturedCards/UtilitiesFunctions";
 import { collection, getDocs } from "firebase/firestore";
 import { db } from "../firebase";
+import useSelectedCity from "../Hooks/useSelectedCity";
+import useLocation from "../Hooks/useLocation";
+import Skeleton from "./Skeleton";
 
 const categories = [
   "Explore in your city",
@@ -23,21 +25,22 @@ const shuffleArray = (array) => {
 
 const FeaturedHomeRow = ({ navigation }) => {
   const [loading, setLoading] = useState(false);
-
   const [allBusiness, setAllBusiness] = useState([]);
+  const { selectedCity } = useSelectedCity();
+  const { latitude, longitude } = useLocation();
+  const { calculateDistance } = UtilitiesFunctions();
+  const [renderedItems, setRenderedItems] = useState(3);
 
   const fetchAllBusiness = async () => {
     setLoading(true);
     try {
       const querySnapshot = await getDocs(collection(db, "Products"));
-
       const businesses = querySnapshot.docs.map((doc) => ({
         id: doc.id,
         ...doc.data(),
       }));
       const shuffledBusinesses = shuffleArray(businesses);
       distributeBusinesses(shuffledBusinesses);
-      // console.log(allBusiness);
       setLoading(false);
     } catch (error) {
       console.log("Error fetching business: ", error);
@@ -58,7 +61,67 @@ const FeaturedHomeRow = ({ navigation }) => {
     fetchAllBusiness();
   }, []);
 
-  const { calculateDistance, filterDataByCity } = UtilitiesFunctions();
+  const loadMoreData = () => {
+    setLoading(true);
+    try {
+      // Increase the number of rendered items by 5
+      setRenderedItems((prev) => prev + 3);
+      setLoading(false);
+    } catch (error) {}
+  };
+
+  const renderItem = ({ item, index, category }) => {
+    if (index >= renderedItems) return null; // Render only items within the renderedItems limit
+    const distance = calculateDistance(
+      latitude,
+      longitude,
+      item?.latitude,
+      item?.longitude
+    );
+
+    let CardComponent;
+    switch (category) {
+      case "Explore in your city":
+        CardComponent = Cards.ExploreCard;
+        break;
+      case "Top picks near you":
+        CardComponent = Cards.TopPickCard;
+        break;
+      case "Recommended for you!":
+        CardComponent = Cards.PopularCards;
+        break;
+      default:
+        CardComponent = null;
+    }
+
+    if (CardComponent) {
+      return (
+        <CardComponent
+          key={index}
+          id={item?.id}
+          image={item?.productImage}
+          rating={item?.rating}
+          title={item?.name}
+          location={item?.address}
+          shortDescription={item?.shortDescription}
+          openingTime={item?.hours}
+          ownerProfileImage={item?.productImage}
+          lat={item?.latitude}
+          long={item?.longitude}
+          calculateDistance={calculateDistance}
+          navigation={navigation}
+          distance={distance}
+        />
+      );
+    } else {
+      return null;
+    }
+  };
+
+  const memoizedRenderItem = useMemo(
+    () => renderItem,
+    [renderedItems, loading]
+  );
 
   return (
     <View className="pb-3">
@@ -67,91 +130,40 @@ const FeaturedHomeRow = ({ navigation }) => {
           <View className="px-4 pb-6 pt-4">
             <SectionTitles title={category} />
           </View>
-          <ScrollView
-            horizontal={true}
-            showsHorizontalScrollIndicator={false}
-            alwaysBounceHorizontal={true}
-          >
-            <View className="px-5 flex-row items-center overflow-hidden justify-center w-full">
-              {loading ? (
-                <>
-                  <Skeleton
-                    width={256}
-                    height={90}
-                    customClass="rounded-[30px] mx-2 overflow-hidden bg-[#262626] "
-                  />
-                  <Skeleton
-                    width={256}
-                    height={90}
-                    customClass="rounded-[30px] mx-2 overflow-hidden bg-[#262626] "
-                  />
-                </>
-              ) : (
-                allBusiness[index] &&
-                allBusiness[index].map((item, idx) => {
-                  // Add a check here
-                  switch (category) {
-                    case "Explore in your city":
-                      return (
-                        <Cards.ExploreCard
-                          key={idx}
-                          id={item?.id}
-                          image={item?.productImage}
-                          rating={item?.rating}
-                          title={item?.name}
-                          location={item?.address}
-                          shortDescription={item?.shortDescription}
-                          openingTime={item?.hours}
-                          ownerProfileImage={item?.productImage}
-                          lat={item?.latitude}
-                          long={item?.longitude}
-                          calculateDistance={calculateDistance}
-                          navigation={navigation}
-                        />
-                      );
-                    case "Top picks near you":
-                      return (
-                        <Cards.TopPickCard
-                          key={idx}
-                          id={item?.id}
-                          image={item?.productImage}
-                          rating={item?.rating}
-                          title={item?.name}
-                          location={item?.address}
-                          shortDescription={item?.shortDescription}
-                          openingTime={item?.hours}
-                          ownerProfileImage={item?.productImage}
-                          lat={item?.latitude}
-                          long={item?.longitude}
-                          calculateDistance={calculateDistance}
-                          navigation={navigation}
-                        />
-                      );
-                    case "Recommended for you!":
-                      return (
-                        <Cards.PopularCards
-                          key={idx}
-                          id={item?.id}
-                          image={item?.productImage}
-                          rating={item?.rating}
-                          title={item?.name}
-                          location={item?.address}
-                          shortDescription={item?.shortDescription}
-                          openingTime={item?.hours}
-                          ownerProfileImage={item?.productImage}
-                          lat={item?.latitude}
-                          long={item?.longitude}
-                          calculateDistance={calculateDistance}
-                          navigation={navigation}
-                        />
-                      );
-                    default:
-                      return null;
-                  }
-                })
-              )}
+
+          {loading ? (
+            <View className="flex-row">
+              <Skeleton
+                width={256}
+                height={90}
+                customClass="rounded-[30px] mx-2 overflow-hidden bg-[#262626]"
+              />
+              <Skeleton
+                width={256}
+                height={90}
+                customClass="rounded-[30px] mx-2 overflow-hidden bg-[#262626]"
+              />
             </View>
-          </ScrollView>
+          ) : (
+            <FlatList
+              horizontal
+              data={allBusiness[index]}
+              renderItem={({ item, index }) =>
+                memoizedRenderItem({ item, index, category })
+              }
+              keyExtractor={(item, index) => index.toString()}
+              showsHorizontalScrollIndicator={false}
+              onEndReached={loadMoreData}
+              onEndReachedThreshold={0.1}
+              ListFooterComponent={
+                loading ? (
+                  <ActivityIndicator />
+                ) : (
+                  <ActivityIndicator size={"large"} className="ml-4 my-auto" />
+                )
+              }
+            />
+          )}
         </View>
       ))}
     </View>

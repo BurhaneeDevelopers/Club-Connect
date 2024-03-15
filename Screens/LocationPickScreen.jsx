@@ -7,10 +7,13 @@ import { useState, useEffect, useRef } from "react";
 // import axios from "axios";
 import { reverseGeocodeAsync } from "expo-location";
 
+import cities from "../CitieswithCoords.json";
+
 // ICONS
 import { ArrowLeft } from "iconsax-react-native";
 import AuthSparklePink from "../assets/Illustrations/AuthSparklePink.svg";
 import useLocation from "../Hooks/useLocation";
+import UtilitiesFunctions from "../Components/FeaturedCards/UtilitiesFunctions";
 
 const LocationPickScreen = ({ navigation }) => {
   // const { updateLiveLocation } = useLocation();
@@ -31,6 +34,7 @@ const LocationPickScreen = ({ navigation }) => {
   const [liveLocation, setLiveLocation] = useState("");
 
   const { saveCordinates } = useLocation();
+  const { calculateDistance } = UtilitiesFunctions();
 
   const handleLocationRequest = async () => {
     setLoading(true);
@@ -60,11 +64,31 @@ const LocationPickScreen = ({ navigation }) => {
       const newLongitude = location.coords.longitude; // New longitude value
       saveCordinates(newLatitude, newLongitude);
 
-      // Get the first address from the array
-      const firstAddress = address[0];
+      let nearestCity = null;
+      let nearestDistance = Number.MAX_VALUE;
 
-      setLiveLocation(firstAddress);
+      cities.cities.forEach((city) => {
+        const distance = calculateDistance(
+          newLatitude,
+          newLongitude,
+          city.lat,
+          city.long
+        );
+        if (distance < nearestDistance) {
+          nearestDistance = distance;
+          nearestCity = city.name;
+        }
+      });
+
+      // You can set the nearest city to your state or wherever you need it
+      setLiveLocation(nearestCity);
+
+      // Get the first address from the array
+      // const firstAddress = address[0];
+
+      // setLiveLocation(firstAddress);
       setLoading(false);
+      AsyncStorage.setItem("selectedCity", nearestCity);
 
       setTimeout(() => {
         navigation.navigate("Authenticate");

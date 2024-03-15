@@ -1,8 +1,8 @@
+import { useState } from "react";
 import { View, Text, Pressable, Image, ImageBackground } from "react-native";
-import React, { useEffect, useState } from "react";
 import { Car, Heart, Location, Star1, Timer1 } from "iconsax-react-native";
 import useLocation from "../../Hooks/useLocation";
-import { urlFor } from "../../sanity";
+import Skeleton from "../Skeleton";
 
 const PopularCards = ({
   id,
@@ -14,22 +14,16 @@ const PopularCards = ({
   openingTime,
   ownerProfileImage,
   navigation,
-  lat,
-  long,
-  calculateDistance,
+  distance,
 }) => {
+  const { latitude, longitude } = useLocation();
+
   const [isLiked, setIsLiked] = useState(false);
   const toggleSave = () => {
     setIsLiked(!isLiked);
   };
 
-  const { latitude, longitude } = useLocation();
-
   // console.log(latitude, longitude);
-  const distance =
-    latitude && longitude && lat && long
-      ? calculateDistance(latitude, longitude, lat, long)
-      : NaN;
   return (
     <>
       <View
@@ -94,22 +88,24 @@ const PopularCards = ({
           </View>
 
           {/* Time  */}
-          {
-            (latitude,
-            longitude ? (
-              <View className="flex-row items-center mt-2 space-x-1">
-                <Car size={"16"} color="#FF26B9" variant="Bold" />
-                <Text
-                  className="text-white text-sm"
-                  style={GlobalStyles.fontRegular}
-                >
-                  {distance.toFixed(2)}Km from you
-                </Text>
-              </View>
-            ) : (
-              ""
-            ))
-          }
+          {distance ? (
+            <View className="flex-row items-center mt-2 space-x-1">
+              <Car size={"16"} color="#FF26B9" variant="Bold" />
+
+              <Text
+                className="text-white text-sm"
+                style={GlobalStyles.fontRegular}
+              >
+                {distance.toFixed(2)}Km from you
+              </Text>
+            </View>
+          ) : (
+            <Skeleton
+              width={10}
+              height={5}
+              customClass="rounded-[30px] overflow-hidden bg-[#101010]"
+            />
+          )}
 
           {/* Location  */}
           <View className="flex-row items-center mt-1 space-x-1">
@@ -140,7 +136,9 @@ const PopularCards = ({
               })
             }
           >
-            <Text className="text-[#f9f9f9] text-center text-xs">View Details</Text>
+            <Text className="text-[#f9f9f9] text-center text-xs">
+              View Details
+            </Text>
           </Pressable>
         </View>
       </View>
@@ -158,32 +156,24 @@ const ExploreCard = ({
   openingTime,
   ownerProfileImage,
   navigation,
-  lat,
-  long,
-  calculateDistance,
+  distance,
 }) => {
   const { latitude, longitude } = useLocation();
-
-  // console.log(latitude, longitude);
-  const distance =
-    latitude && longitude && lat && long
-      ? calculateDistance(latitude, longitude, lat, long)
-      : NaN;
   return (
     <View className="bg-[#262626] rounded-2xl w-64 h-24 p-3 flex-row space-x-4 mx-2 overflow-hidden">
       <View
         className="overflow-hidden rounded-xl"
-        // style={{
-        //   shadowColor: "#000",
-        //   shadowOffset: {
-        //     width: 0,
-        //     height: 8,
-        //   },
-        //   shadowOpacity: 0.21,
-        //   shadowRadius: 8.19,
-        //   elevation: 32,
-        //   // backgroundColor: "#0000",
-        // }}
+        style={{
+          shadowColor: "#000",
+          shadowOffset: {
+            width: 0,
+            height: 8,
+          },
+          shadowOpacity: 0.21,
+          shadowRadius: 8.19,
+          elevation: 32,
+          // backgroundColor: "#0000",
+        }}
       >
         <Image
           source={{ uri: image }}
@@ -204,32 +194,29 @@ const ExploreCard = ({
         {/* Rating  */}
         <View className="flex-row items-center space-x-2 my-1">
           <View className="flex-row items-center space-x-1">
-            <Star1 size="18" color="#FF26B9" variant="Bold" />
-            <Text className="text-[#f9f9f9]" style={GlobalStyles.fontMedium}>
+            <Star1 size="14" color="#FF26B9" variant="Bold" />
+            <Text className="text-[#f9f9f9] text-xs" style={GlobalStyles.fontMedium}>
               {rating}
             </Text>
           </View>
 
-          {
-            (latitude,
-            longitude ? (
-              <>
-                <Text className="text-gray-400 text-center">•</Text>
+          {distance ? (
+            <>
+              <Text className="text-gray-400 text-center mx-1">•</Text>
 
-                <View className="flex-row items-center space-x-1">
-                  <Car size="14" color="#FF26B9" variant="Bold" />
-                  <Text
-                    className="text-[#f9f9f9]"
-                    style={GlobalStyles.fontMedium}
-                  >
-                    {distance.toFixed(2)}Km
-                  </Text>
-                </View>
-              </>
-            ) : (
-              ""
-            ))
-          }
+              <View className="flex-row items-center space-x-1">
+                <Car size="12" color="#FF26B9" variant="Bold" />
+                <Text
+                  className="text-[#f9f9f9] text-xs"
+                  style={GlobalStyles.fontMedium}
+                >
+                  {distance.toFixed(2)}Km
+                </Text>
+              </View>
+            </>
+          ) : (
+            ""
+          )}
         </View>
         <Pressable
           className="py-1 border border-[#E9FA00] active:bg-[#000000] rounded-lg"
@@ -265,17 +252,8 @@ const TopPickCard = ({
   openingTime,
   ownerProfileImage,
   navigation,
-  lat,
-  long,
-  calculateDistance,
+  distance,
 }) => {
-  const { latitude, longitude } = useLocation();
-
-  // console.log(latitude, longitude);
-  const distance =
-    latitude && longitude && lat && long
-      ? calculateDistance(latitude, longitude, lat, long)
-      : NaN;
   return (
     <Pressable
       onPress={() =>
@@ -320,26 +298,33 @@ const TopPickCard = ({
           <View className="flex-row justify-between items-center">
             {/* Price  */}
 
-            {
-              (latitude,
-              longitude ? (
-                <View className="flex-row items-center space-x-1">
-                  <Car size="16" color="#f9f9f9" variant="Bold" />
+            {distance ? (
+              <View className="flex-row items-center space-x-1">
+                <Car size="14" color="#f9f9f9" variant="Bold" />
+
+                {distance ? (
                   <Text
-                    className="text-[#f9f9f9]"
+                    className="text-[#f9f9f9] text-xs"
                     style={GlobalStyles.fontRegular}
                   >
                     {distance.toFixed(2)}Km
                   </Text>
-                </View>
-              ) : (
-                ""
-              ))
-            }
+                ) : (
+                  <Skeleton
+                    width={10}
+                    height={5}
+                    customClass="rounded-[30px] overflow-hidden bg-[#262626]"
+                  />
+                )}
+              </View>
+            ) : (
+              ""
+            )}
+
             {/* Rating  */}
             <View className="flex-row items-center space-x-1">
               <Star1 size="14" color="#f9f9f9" variant="Bold" />
-              <Text className="text-[#f9f9f9]" style={GlobalStyles.fontRegular}>
+              <Text className="text-[#f9f9f9] text-xs" style={GlobalStyles.fontRegular}>
                 {rating}
               </Text>
             </View>

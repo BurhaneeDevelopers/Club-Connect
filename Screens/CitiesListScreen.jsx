@@ -77,8 +77,6 @@ const CitiesListScreen = ({ navigation }) => {
     }
   };
 
-  const { userDetails } = useContext(UserDetailsContext);
-
   const handleCitySelect = (selectedCity) => {
     // Save the selected city to local storage
     AsyncStorage.setItem("selectedCity", selectedCity);

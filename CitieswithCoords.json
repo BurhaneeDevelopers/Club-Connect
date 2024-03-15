@@ -1,0 +1,119 @@
+{
+  "cities": [
+    {
+      "name": "Mumbai",
+      "lat": 19.076,
+      "long": 72.8777
+    },
+    {
+      "name": "Delhi",
+      "lat": 28.7041,
+      "long": 77.1025
+    },
+    {
+      "name": "Bangalore",
+      "lat": 12.9716,
+      "long": 77.5946
+    },
+    {
+      "name": "Kolkata",
+      "lat": 22.5726,
+      "long": 88.3639
+    },
+    {
+      "name": "Chennai",
+      "lat": 13.0827,
+      "long": 80.2707
+    },
+    {
+      "name": "Hyderabad",
+      "lat": 17.385,
+      "long": 78.4867
+    },
+    {
+      "name": "Pune",
+      "lat": 18.5204,
+      "long": 73.8567
+    },
+    {
+      "name": "Ahmedabad",
+      "lat": 23.0225,
+      "long": 72.5714
+    },
+    {
+      "name": "Jaipur",
+      "lat": 26.9124,
+      "long": 75.7873
+    },
+    {
+      "name": "Lucknow",
+      "lat": 26.8467,
+      "long": 80.9462
+    },
+    {
+      "name": "Kanpur",
+      "lat": 26.4499,
+      "long": 80.3319
+    },
+    {
+      "name": "Nagpur",
+      "lat": 21.1458,
+      "long": 79.0882
+    },
+    {
+      "name": "Indore",
+      "lat": 22.7196,
+      "long": 75.8577
+    },
+    {
+      "name": "Bhopal",
+      "lat": 23.2599,
+      "long": 77.4126
+    },
+    {
+      "name": "Visakhapatnam",
+      "lat": 17.6868,
+      "long": 83.2185
+    },
+    {
+      "name": "Patna",
+      "lat": 25.5941,
+      "long": 85.1376
+    },
+    {
+      "name": "Vadodara",
+      "lat": 22.3072,
+      "long": 73.1812
+    },
+    {
+      "name": "Ludhiana",
+      "lat": 30.901,
+      "long": 75.8573
+    },
+    {
+      "name": "Agra",
+      "lat": 27.1767,
+      "long": 78.0081
+    },
+    {
+      "name": "Goa",
+      "lat": 15.2993,
+      "long": 74.124
+    },
+    {
+      "name": "Surat",
+      "lat": 21.1702,
+      "long": 72.8311
+    },
+    {
+      "name": "Rohtak",
+      "lat": 28.8955,
+      "long": 76.6066
+    },
+    {
+      "name": "Gurgaon",
+      "lat": 28.4595,
+      "long": 77.0266
+    }
+  ]
+}

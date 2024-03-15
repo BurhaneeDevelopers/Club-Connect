@@ -29,7 +29,7 @@ const useSelectedCity = () => {
     }
   };
 
-  return { selectedCity, saveSelectedCity };
+  return { selectedCity, saveSelectedCity, setSelectedCity };
 };
 
 export default useSelectedCity;
