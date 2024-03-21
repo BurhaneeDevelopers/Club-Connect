@@ -17,9 +17,7 @@ import { Audio } from "expo-av";
 // Contexts
 import { UserProvider } from "./context/UserContext";
 import { UserContextProvider } from "./context/UserContextProvider";
-import { UserDetailsContext } from "./context/UserDetailsContext";
 import { UserDetailsProvider } from "./context/UserDetailsContext";
-import { useContext } from "react";
 
 // ICONS
 import Castle from "./assets/icons/Castle.svg";
@@ -74,6 +72,7 @@ import InviteVibersScreen from "./Screens/InviteVibersScreen";
 import IntroVideo from "./Screens/IntroVideo";
 import CalendarScreen from "./Screens/CalendarScreen";
 import BusinessSignInScreen from "./Screens/BusinessSignInScreen";
+import CreatePostScreen from "./Screens/CreatePostScreen";
 
 // Default Theme
 const navTheme = DefaultTheme;
@@ -323,6 +322,11 @@ const AuthenticatedNavigator = () => {
         component={CalendarScreen}
         options={{ headerShown: false, ...TransitionPresets.SlideFromRightIOS }}
       />
+      <Stack.Screen
+        name="CreatePost"
+        component={CreatePostScreen}
+        options={{ headerShown: false, ...TransitionPresets.SlideFromRightIOS }}
+      />
     </Stack.Navigator>
   );
 };
@@ -433,39 +437,39 @@ export default function App({ navigation }) {
   }, []);
 
   // MUSIC SOUND
-  const [sound, setSound] = useState();
+  // const [sound, setSound] = useState();
 
-  async function playSound() {
-    console.log("Loading Sound");
-    const { sound } = await Audio.Sound.createAsync(
-      require("./assets/Music/VibeHai.mp3"),
-      {
-        progressUpdateIntervalMillis: 500,
-        shouldPlay: false,
-        shouldCorrectPitch: true,
-        volume: 0.2,
-        isMuted: false,
-        isLooping: true,
-      }
-    );
-    setSound(sound);
+  // async function playSound() {
+  //   console.log("Loading Sound");
+  //   const { sound } = await Audio.Sound.createAsync(
+  //     require("./assets/Music/VibeHai.mp3"),
+  //     {
+  //       progressUpdateIntervalMillis: 500,
+  //       shouldPlay: false,
+  //       shouldCorrectPitch: true,
+  //       volume: 0.01,
+  //       isMuted: true,
+  //       isLooping: true,
+  //     }
+  //   );
+  //   setSound(sound);
 
-    console.log("Playing Sound");
-    await sound.playAsync();
-  }
+  //   console.log("Playing Sound");
+  //   await sound.playAsync();
+  // }
 
-  useEffect(() => {
-    return sound
-      ? () => {
-          console.log("Unloading Sound");
-          sound.unloadAsync();
-        }
-      : undefined;
-  }, [sound]);
+  // useEffect(() => {
+  //   return sound
+  //     ? () => {
+  //         console.log("Unloading Sound");
+  //         sound.unloadAsync();
+  //       }
+  //     : undefined;
+  // }, [sound]);
 
-  useEffect(() => {
-    playSound();
-  }, []);
+  // useEffect(() => {
+  //   playSound();
+  // }, []);
 
   if (Text.defaultProps) {
     Text.defaultProps.allowFontScaling = false;

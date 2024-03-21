@@ -1,28 +1,4 @@
-import useLocation from "../../Hooks/useLocation";
-import useSelectedCity from "../../Hooks/useSelectedCity";
-
 const UtilitiesFunctions = () => {
-  const { selectedCity } = useSelectedCity();
-  const { latitude, longitude } = useLocation();
-
-  const filterDataByCity = (data) => {
-    // Filter data based on the selected city or live location
-    return data.filter((item) => {
-      const isSameCity = item && item?.city === selectedCity;
-      const isNearby =
-        latitude &&
-        longitude &&
-        item &&
-        calculateDistance(latitude, longitude, item.latitude, item.longitude) <=
-          10; // Adjust the distance threshold as needed
-
-      // Show the item if it's the selected city or nearby, or if neither city nor location is selected
-      return (
-        isSameCity || isNearby || (!selectedCity && !latitude && !longitude)
-      );
-    });
-  };
-
   const deg2rad = (deg) => {
     return deg * (Math.PI / 180);
   };
@@ -51,7 +27,7 @@ const UtilitiesFunctions = () => {
     return distance;
   };
 
-  return { filterDataByCity, calculateDistance, deg2rad };
+  return { calculateDistance };
 };
 
 export default UtilitiesFunctions;

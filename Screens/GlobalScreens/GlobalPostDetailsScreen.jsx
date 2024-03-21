@@ -17,8 +17,15 @@ import {
   Send2,
   Share,
 } from "iconsax-react-native";
+import { useRoute } from "@react-navigation/native";
+import useAuth from "../../Hooks/useAuth";
 
 const GlobalPostDetailsScreen = ({ navigation }) => {
+  const {
+    params: { item },
+  } = useRoute();
+
+  const { user } = useAuth();
   return (
     <SafeAreaView>
       <ScrollView>
@@ -51,7 +58,7 @@ const GlobalPostDetailsScreen = ({ navigation }) => {
           <View className="bg-[#FF26B9] flex-row justify-between items-center p-2 py-3 rounded-2xl">
             <View className="flex-row space-x-2 justify-center items-center">
               <Image
-                source={require("../../assets/Illustrations/Avatar.jpg")}
+                source={{ uri: user?.profileImage }}
                 className="w-12 h-12 rounded-full"
               />
 
@@ -59,13 +66,13 @@ const GlobalPostDetailsScreen = ({ navigation }) => {
                 className="text-white text-base"
                 style={GlobalStyles.fontSemiBold}
               >
-                @MohammedJhansi
+                @{user?.userName}
               </Text>
             </View>
           </View>
 
           <ImageBackground
-            source={require("../../assets/Images/Santorini.jpg")}
+            source={{ uri: item?.PostImage }}
             className="h-96 w-full mt-3 rounded-3xl overflow-hidden"
           ></ImageBackground>
           <View className="mt-3 flex-row justify-between items-center">
@@ -80,31 +87,34 @@ const GlobalPostDetailsScreen = ({ navigation }) => {
             </Pressable>
           </View>
 
-          <Text className="text-white my-3" numberOfLines={4}>
-            Lorem ipsum dolor, sit amet consectetur adipisicing elit. Dolorem
-            esse explicabo quisquam consequuntur et culpa laudantium ea sit
-            doloribus dignissimos iure laborum repudiandae tempora dolor enim,
-            porro, rerum modi assumenda suscipit? Eum, laudantium deserunt!
-            Lorem ipsum dolor sit amet consectetur adipisicing elit. Sit iusto
-            impedit a eveniet saepe provident voluptatum tempora autem ad
-            aliquid?
+          <Text
+            className="text-white text-lg my-3"
+            style={GlobalStyles.fontSemiBold}
+            numberOfLines={2}
+          >
+            {item?.postTitle}
+          </Text>
+
+          <Text
+            className="text-white my-3"
+            style={GlobalStyles.fontMedium}
+            numberOfLines={4}
+          >
+            {item?.postDescription}
           </Text>
 
           <View>
-            <Text className="text-base text-white">Tags: </Text>
+            <Text
+              className="text-base text-white"
+              style={GlobalStyles.fontMedium}
+            >
+              Tags:{" "}
+            </Text>
 
             <View className="flex-row flex-wrap items-center mt-2">
-              <Tag title={"BigNews"} />
-              <Tag title={"VeryBigNews"} />
-              <Tag title={"VHSLIFEISAWESOME"} />
-              <Tag title={"VIBEHOTSPOTDEVSROCKS"} />
-              <Tag title={"BigNews"} />
-              <Tag title={"BigNews"} />
-              <Tag title={"BigNews"} />
-              <Tag title={"BigNews"} />
-              <Tag title={"BigNews"} />
-              <Tag title={"BigNews"} />
-              <Tag title={"BigNews"} />
+              {item.postTags.map((tag) => {
+                return <Tag title={tag} />;
+              })}
             </View>
           </View>
         </View>
@@ -118,7 +128,9 @@ export default GlobalPostDetailsScreen;
 const Tag = ({ title }) => {
   return (
     <View className="bg-[#E9FA00] p-1.5 px-2 rounded-lg mr-2 my-1">
-      <Text className="">#{title}</Text>
+      <Text className="" style={GlobalStyles.fontMedium}>
+        #{title}
+      </Text>
     </View>
   );
 };

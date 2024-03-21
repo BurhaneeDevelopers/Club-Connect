@@ -32,12 +32,12 @@ const useAuth = () => {
 
   const auth = getAuth();
 
-  const fetchUserDetails = async (uid) => {
-    const docRef = doc(db, "allUsers", uid);
+  const fetchUserDetails = async () => {
+    const docRef = doc(db, "allUsers", auth.currentUser?.uid);
     const docSnap = await getDoc(docRef);
 
     if (docSnap.exists()) {
-      setUser(docSnap.data());
+      setUser(docSnap?.data());
       // console.log("Users ISSS", docSnap.data());
     } else {
       setUser(null);
@@ -59,8 +59,8 @@ const useAuth = () => {
   useEffect(() => {
     const initializeData = async () => {
       if (auth.currentUser) {
-        await fetchUserDetails(auth.currentUser.uid);
-        await fetchAnonymousUserDetails(auth.currentUser.uid);
+        await fetchUserDetails(auth.currentUser?.uid);
+        await fetchAnonymousUserDetails(auth.currentUser?.uid);
       }
     };
 
@@ -71,11 +71,11 @@ const useAuth = () => {
     await signInWithEmailAndPassword(auth, email, password).then(
       (userCredentials) => {
         try {
-          const user = userCredentials.user;
+          const user = userCredentials?.user;
           if (user) {
-            fetchUserDetails(auth.currentUser.uid);
+            fetchUserDetails(auth.currentUser?.uid);
           }
-          console.log("Logged in with:", user.email);
+          console.log("Logged in with:", user?.email);
           setError(false);
           AsyncStorage.setItem("playAnimation", "true");
           AsyncStorage.setItem("hasSignedIn", "true");
@@ -91,16 +91,16 @@ const useAuth = () => {
     try {
       // Generate a random index to select a name and username from the JSON
       const randomIndex = Math.floor(Math.random() * 35);
-      const selectedName = names.names[randomIndex];
-      const selectedUsername = userNames.usernames[randomIndex];
+      const selectedName = names?.names[randomIndex];
+      const selectedUsername = userNames?.usernames[randomIndex];
 
       await signInAnonymously(auth)
         .then((userCredential) => {
           // User created successfully
-          const user = userCredential.user;
-          const userRef = doc(db, "anonymousUsers", auth.currentUser.uid);
+          const user = userCredential?.user;
+          const userRef = doc(db, "anonymousUsers", auth.currentUser?.uid);
           setDoc(userRef, {
-            uid: auth.currentUser.uid,
+            uid: auth.currentUser?.uid,
             name: selectedName,
             userName: selectedUsername,
           });

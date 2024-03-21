@@ -98,6 +98,9 @@ const ExploreSlider = () => {
       pagingEnabled={true}
       onScroll={handleScroll}
       showsHorizontalScrollIndicator={false}
+      removeClippedSubviews={true}
+      maxToRenderPerBatch={1}
+      initialNumToRender={1}
     />
   );
 };
@@ -105,60 +108,67 @@ const ExploreSlider = () => {
 export default ExploreSlider;
 
 const ExploreDealsCard = ({ item }) => {
-  const videoRef = useRef();
+  // const videoRef = useRef();
+  // const [status, setStatus] = useState({});
+  // const [playbackInstance, setPlaybackInstance] = useState(null); // State to store the playback instance
+
+  // useEffect(() => {
+  //   let shouldPlay = true; // Ensure shouldPlay is set to true initially
+
+  //   const loadVideo = async () => {
+  //     if (videoRef.current) {
+  //       const instance = await videoRef.current.loadAsync();
+  //       setPlaybackInstance(instance); // Store the playback instance in state
+  //       shouldPlay && instance.playAsync(); // Start playback if shouldPlay is true
+  //       instance.setOnPlaybackStatusUpdate(handlePlaybackStatusUpdate);
+  //     }
+  //   };
+
+  //   const handlePlaybackStatusUpdate = (newStatus) => {
+  //     setStatus(newStatus);
+  //     if (newStatus.isLoaded && newStatus.isPlaying) {
+  //       const { durationMillis, positionMillis } = newStatus;
+  //       const remainingTime = durationMillis - positionMillis;
+  //       if (remainingTime < 5000) {
+  //         loadNextPortion();
+  //       }
+  //     }
+  //   };
+
+  //   const loadNextPortion = async () => {
+  //     if (playbackInstance) {
+  //       const { durationMillis, positionMillis } = status;
+  //       const nextPosition = Math.min(positionMillis + 10000, durationMillis);
+  //       await playbackInstance.setStatusAsync({ positionMillis: nextPosition });
+  //     }
+  //   };
+
+  //   loadVideo();
+
+  //   return () => {
+  //     if (playbackInstance) {
+  //       playbackInstance.unloadAsync(); // Unload the playback instance if it exists
+  //     }
+  //   };
+  // }, [item.video, playbackInstance]);
+
+  const video = useRef(null);
   const [status, setStatus] = useState({});
-  const [playbackInstance, setPlaybackInstance] = useState(null); // State to store the playback instance
 
   useEffect(() => {
-    let shouldPlay = true; // Ensure shouldPlay is set to true initially
-
-    const loadVideo = async () => {
-      if (videoRef.current) {
-        const instance = await videoRef.current.loadAsync();
-        setPlaybackInstance(instance); // Store the playback instance in state
-        shouldPlay && instance.playAsync(); // Start playback if shouldPlay is true
-        instance.setOnPlaybackStatusUpdate(handlePlaybackStatusUpdate);
-      }
-    };
-
-    const handlePlaybackStatusUpdate = (newStatus) => {
-      setStatus(newStatus);
-      if (newStatus.isLoaded && newStatus.isPlaying) {
-        const { durationMillis, positionMillis } = newStatus;
-        const remainingTime = durationMillis - positionMillis;
-        if (remainingTime < 5000) {
-          loadNextPortion();
-        }
-      }
-    };
-
-    const loadNextPortion = async () => {
-      if (playbackInstance) {
-        const { durationMillis, positionMillis } = status;
-        const nextPosition = Math.min(positionMillis + 10000, durationMillis);
-        await playbackInstance.setStatusAsync({ positionMillis: nextPosition });
-      }
-    };
-
-    loadVideo();
-
-    return () => {
-      if (playbackInstance) {
-        playbackInstance.unloadAsync(); // Unload the playback instance if it exists
-      }
-    };
-  }, [item.video, playbackInstance]);
-
+    video.current.playAsync();
+  }, []);
   return (
     <View className="w-screen">
       <View className="h-72 my-3 overflow-hidden w-screen mx-auto">
         <Video
-          ref={videoRef}
+          ref={video}
           source={{ uri: item?.video }}
           isLooping
           shouldCorrectPitch={true}
           isMuted={true}
           shouldPlay
+          onPlaybackStatusUpdate={(status) => setStatus(() => status)}
           resizeMode="cover"
           className=" h-72 my-3 overflow-hidden w-screen mx-auto absolute right-0 left-0 top-0 bottom-0 flex-1"
         />

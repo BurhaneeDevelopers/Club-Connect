@@ -3,9 +3,6 @@ import React from "react";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { ArrowLeft } from "iconsax-react-native";
 
-
-
-
 const ClubScreen = ({navigation}) => {
   return (
     <SafeAreaView>

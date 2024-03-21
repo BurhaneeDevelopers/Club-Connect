@@ -5,6 +5,7 @@ import {
   Image,
   Pressable,
   ImageBackground,
+  ActivityIndicator,
 } from "react-native";
 import React from "react";
 import { useState, useEffect } from "react";
@@ -32,6 +33,8 @@ import GlobalStyles from "../Styles/GlobalStyles";
 import { app, db, getAuth } from "../firebase";
 import FollowButton from "../Components/FollowButton";
 import userGlobalUsers from "../Hooks/useGlobalUsers";
+import { FlatList } from "react-native-gesture-handler";
+import Skeleton from "../Components/Skeleton";
 
 const CommunityScreen = ({ navigation }) => {
   const [image, setImage] = useState(null);
@@ -86,11 +89,35 @@ const CommunityScreen = ({ navigation }) => {
     },
   ];
 
-  const { users, fetchUsers } = userGlobalUsers();
+  const { users, fetchUsers, loading } = userGlobalUsers();
 
-  useEffect(() => {
-    fetchUsers();
-  }, []);
+  const renderItem = ({ item }) => (
+    <RecentInteractionCards
+      key={item?.uid}
+      userData={{
+        user: item,
+        navigation: navigation,
+        auth: auth,
+      }}
+    />
+  );
+
+  const renderFooter = () => {
+    return loading ? (
+      <View className="flex-row space-x-5">
+        <Skeleton
+          width={180}
+          height={180}
+          customClass="rounded-[30px] mx-2 overflow-hidden bg-[#262626]"
+        />
+        <Skeleton
+          width={180}
+          height={180}
+          customClass="rounded-[30px] mx-2 overflow-hidden bg-[#262626]"
+        />
+      </View>
+    ) : null;
+  };
 
   const auth = getAuth();
 
@@ -166,44 +193,17 @@ const CommunityScreen = ({ navigation }) => {
         <View className="p-5">
           <SectionTitles title={"Recent Interactions"} />
 
-          <ScrollView
-            horizontal={true}
-            showsHorizontalScrollIndicator={false}
-            alwaysBounceHorizontal={true}
-          >
-            <View className="flex-row mt-5">
-              {/* {users.map((user) => {
-                return (
-                  <>
-                    {auth.currentUser.uid == user.uid ? (
-                      ""
-                    ) : (
-                      <RecentInteractionCards
-                        key={user?.uid}
-                        userData={{
-                          user: user,
-                          navigation: navigation,
-                          auth: auth,
-                        }}
-                      />
-                    )}
-                  </>
-                );
-              })} */}
-              {users.map((user) => {
-                return (
-                  <RecentInteractionCards
-                    key={user?.uid}
-                    userData={{
-                      user: user,
-                      navigation: navigation,
-                      auth: auth,
-                    }}
-                  />
-                );
-              })}
-            </View>
-          </ScrollView>
+          <View className="flex-row mt-5">
+            <FlatList
+              horizontal
+              data={users}
+              renderItem={renderItem}
+              keyExtractor={(item) => item?.uid}
+              onEndReached={fetchUsers}
+              onEndReachedThreshold={0.5}
+              ListFooterComponent={renderFooter}
+            />
+          </View>
         </View>
 
         <View className="p-5">

@@ -16,6 +16,7 @@ import {
   Edit,
   Location,
   Messages1,
+  Add,
 } from "iconsax-react-native";
 import GlobalStyles from "../Styles/GlobalStyles";
 import TabBar from "../Components/TabBar";
@@ -26,54 +27,20 @@ import axios from "axios";
 import useAuth from "../Hooks/useAuth";
 import { getAuth } from "firebase/auth";
 import { doc, getFirestore, onSnapshot } from "firebase/firestore";
+import usePosts from "../Hooks/posts/usePosts";
 
 const ProfileScreen = ({ navigation }) => {
   const [post, setPosts] = useState(true);
   const [saved, setSaved] = useState(false);
   const [live, setLive] = useState(false);
-  const [refreshing, setRefreshing] = React.useState(false);
+  const [refreshing, setRefreshing] = useState(false);
   const [loading, setLoading] = useState(false);
-  const [postItem, setPostItem] = useState([]);
-  const [postCount, setPostCount] = useState(0);
 
-  UNSPLASH_ACCESS_KEY = "6KEJery9EMaZFtuiQjELpzqV5sgo9vVWqm52b_gKYZ4";
-  const fetchPostItem = async (count) => {
-    setLoading(true);
-    try {
-      const response = await axios.get(
-        "https://api.unsplash.com/search/photos",
-        {
-          params: {
-            query: "resorts", // You can modify the query to match your requirements
-            per_page: count, // Specify the number of posts to fetch
-          },
-          headers: {
-            Authorization: `Client-ID ${UNSPLASH_ACCESS_KEY}`,
-          },
-        }
-      );
+  const { posts, postCount } = usePosts();
 
-      const images = response.data.results.map((result) => result.urls.regular);
-      setPostItem(images);
-      setPostCount(count);
-      setLoading(false);
-    } catch (error) {
-      console.error("Error fetching images from Unsplash:", error);
-    }
-  };
-
-  useEffect(() => {
-    // Specify the number of posts to fetch (you can use a random number here)
-    const randomPostCount = Math.floor(Math.random() * 20) + 1; // Change 10 to your desired max post count
-    fetchPostItem(randomPostCount);
-  }, []);
-
-  const PostCards = postItem.map((image, index) => ({
-    img: { uri: image },
-    title: `Hotspot ${index + 1}`,
-    location: "Unknown",
-    price: "100",
-    rating: "4.5",
+  const PostCards = posts.map((item, index) => ({
+    PostImage: { uri: item?.PostImage },
+    item: item,
   }));
 
   const auth = getAuth();
@@ -81,7 +48,7 @@ const ProfileScreen = ({ navigation }) => {
   const { user, anonymousUser, fetchUserDetails, setUser } = useAuth();
   useEffect(() => {
     fetchUserDetails();
-  }, [user, user?.profileImage]);
+  }, [user]);
 
   const onRefresh = () => {
     setRefreshing(true);
@@ -108,7 +75,9 @@ const ProfileScreen = ({ navigation }) => {
 
   const isBusiness = true;
   return (
-    <SafeAreaView>
+    <SafeAreaView className="h-full">
+      <FAB navigation={navigation} />
+
       <View className="h-80 bg-[#FF26B9] rounded-b-[30px]">
         <View className="flex-row justify-between w-full items-center p-5">
           <Pressable onPress={() => navigation.goBack()}>
@@ -237,11 +206,13 @@ const ProfileScreen = ({ navigation }) => {
                   <Pressable
                     key={index}
                     className=" w-24 h-24 rounded-xl overflow-hidden"
-                    onPress={() => navigation.navigate("GlobalPosts")}
+                    onPress={() =>
+                      navigation.navigate("GlobalPosts", { item: card?.item })
+                    }
                   >
                     <ImageBackground
                       key={index}
-                      source={card.img}
+                      source={card?.PostImage}
                       className=" w-24 h-24 rounded-xl overflow-hidden"
                     ></ImageBackground>
                   </Pressable>
@@ -272,3 +243,14 @@ const ProfileScreen = ({ navigation }) => {
 };
 
 export default ProfileScreen;
+
+const FAB = ({ navigation }) => {
+  return (
+    <Pressable
+      className="flex-row items-center justify-center bg-[#FF26B9] active:bg-[#bb3691] rounded-full w-20 h-20 absolute right-10 bottom-10 z-50"
+      onPress={() => navigation.navigate("CreatePost")}
+    >
+      <Add color="#fff" variant="Outline" size="44" />
+    </Pressable>
+  );
+};

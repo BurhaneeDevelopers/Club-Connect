@@ -80,16 +80,13 @@ const LocationPickScreen = ({ navigation }) => {
         }
       });
 
-      // You can set the nearest city to your state or wherever you need it
-      setLiveLocation(nearestCity);
-
       // Get the first address from the array
-      // const firstAddress = address[0];
+      const firstAddress = address[0];
 
-      // setLiveLocation(firstAddress);
+      setLiveLocation(firstAddress);
       setLoading(false);
       AsyncStorage.setItem("selectedCity", nearestCity);
-
+ 
       setTimeout(() => {
         navigation.navigate("Authenticate");
       }, 1000);

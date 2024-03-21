@@ -188,7 +188,7 @@ const HomeScreen = ({ navigation }) => {
 
           {/* AUTO SLIDING HOT DEALS  */}
           <View className="">
-            <ExploreSlider />
+            {/* <ExploreSlider /> */}
           </View>
 
           <View className="p-5 justify-center items-center">

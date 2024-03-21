@@ -135,20 +135,40 @@ const ClubsScreen = ({ navigation }) => {
 
           <View className="flex-row flex-wrap justify-center items-center mt-3">
             {RedirectCardData.map((item, index) => {
-              return (
-                <RedirectingCards
-                  key={index}
-                  navigation={navigation}
-                  title={item?.title}
-                  desc={item?.desc}
-                  image={item?.image}
-                  redirectTo={item?.redirectTo}
-                  color={item?.color}
-                  activeBgColor={item?.activeBgColor}
-                  textColor={item?.textColor}
-                  descColor={item?.descColor}
-                />
-              );
+              // Assuming RedirectCardData has even length. To always keep 2 in one row
+              if (index % 2 === 0) {
+                return (
+                  <View key={index / 2} className="flex-row">
+                    <RedirectingCards
+                      navigation={navigation}
+                      title={RedirectCardData[index].title}
+                      desc={RedirectCardData[index].desc}
+                      image={RedirectCardData[index].image}
+                      redirectTo={RedirectCardData[index].redirectTo}
+                      color={RedirectCardData[index].color}
+                      activeBgColor={RedirectCardData[index].activeBgColor}
+                      textColor={RedirectCardData[index].textColor}
+                      descColor={RedirectCardData[index].descColor}
+                    />
+                    {index + 1 < RedirectCardData.length && (
+                      <RedirectingCards
+                        navigation={navigation}
+                        title={RedirectCardData[index + 1].title}
+                        desc={RedirectCardData[index + 1].desc}
+                        image={RedirectCardData[index + 1].image}
+                        redirectTo={RedirectCardData[index + 1].redirectTo}
+                        color={RedirectCardData[index + 1].color}
+                        activeBgColor={
+                          RedirectCardData[index + 1].activeBgColor
+                        }
+                        textColor={RedirectCardData[index + 1].textColor}
+                        descColor={RedirectCardData[index + 1].descColor}
+                      />
+                    )}
+                  </View>
+                );
+              }
+              return null;
             })}
           </View>
         </View>
@@ -223,12 +243,15 @@ const RedirectingCards = ({
       }}
     >
       <Text
-        className={`text-[${textColor}] text-2xl`}
+        className={`text-[${textColor}] text-xl`}
         style={GlobalStyles.fontBold}
       >
         {title}
       </Text>
-      <Text className={`text-[${descColor}]`} style={GlobalStyles.fontSemiBold}>
+      <Text
+        className={`text-[${descColor}] text-xs`}
+        style={GlobalStyles.fontSemiBold}
+      >
         {desc}
       </Text>
 
@@ -282,10 +305,13 @@ const ExploreClubCard = ({ navigation }) => {
         </Text>
 
         {/* Rating  */}
-        <View className="flex-row items-center space-x-2 my-2">
+        <View className="flex-row items-center space-x-2 my-1">
           <View className="flex-row items-center space-x-1">
-            <Global size="18" color="#FF26B9" variant="Bold" />
-            <Text className="text-[#f9f9f9]" style={GlobalStyles.fontMedium}>
+            <Global size="16" color="#FF26B9" variant="Bold" />
+            <Text
+              className="text-[#f9f9f9] text-xs"
+              style={GlobalStyles.fontMedium}
+            >
               Public
             </Text>
           </View>
@@ -294,7 +320,10 @@ const ExploreClubCard = ({ navigation }) => {
 
           <View className="flex-row items-center">
             <People size="16" color="#FF26B9" variant="Bold" />
-            <Text className="text-[#f9f9f9]" style={GlobalStyles.fontMedium}>
+            <Text
+              className="text-[#f9f9f9] text-xs"
+              style={GlobalStyles.fontMedium}
+            >
               432
             </Text>
           </View>
@@ -303,7 +332,9 @@ const ExploreClubCard = ({ navigation }) => {
           className="py-1 border border-[#E9FA00] active:bg-[#000000] rounded-lg"
           onPress={() => navigation.navigate("GlobalDetails", {})}
         >
-          <Text className="text-[#f9f9f9] text-center">View Details</Text>
+          <Text className="text-[#f9f9f9] text-center text-xs">
+            View Details
+          </Text>
         </Pressable>
       </View>
     </View>

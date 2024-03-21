@@ -69,7 +69,7 @@ const JoinClubScreen = ({ navigation }) => {
               placeholderTextColor={`${
                 activeInput === 1 ? "#000000" : "#c5c5c5"
               }`}
-              className={`bg-[#000000] border border-[#FF26B9] w-full p-3 py-3 rounded-full text-[#f9f9f9] place text-lg overflow-hidden ${
+              className={`bg-[#000000] border border-[#FF26B9] w-full p-3 py-3 rounded-full text-[#f9f9f9] place text-base overflow-hidden ${
                 activeInput === 1 ? "bg-[#FF26B9] text-[#f9f9f9]" : null
               }`}
               onBlur={handleInputBlur}
@@ -160,10 +160,13 @@ const PopularClubCard = ({ navigation }) => {
         </Text>
 
         {/* Rating  */}
-        <View className="flex-row items-center space-x-2 my-2">
+        <View className="flex-row items-center space-x-2 my-1">
           <View className="flex-row items-center space-x-1">
-            <Global size="18" color="#FF26B9" variant="Bold" />
-            <Text className="text-[#f9f9f9]" style={GlobalStyles.fontMedium}>
+            <Global size="16" color="#FF26B9" variant="Bold" />
+            <Text
+              className="text-[#f9f9f9] text-xs"
+              style={GlobalStyles.fontMedium}
+            >
               Public
             </Text>
           </View>
@@ -172,17 +175,21 @@ const PopularClubCard = ({ navigation }) => {
 
           <View className="flex-row items-center">
             <People size="16" color="#FF26B9" variant="Bold" />
-            <Text className="text-[#f9f9f9]" style={GlobalStyles.fontMedium}>
+            <Text
+              className="text-[#f9f9f9] text-xs"
+              style={GlobalStyles.fontMedium}
+            >
               432
             </Text>
           </View>
         </View>
-
         <Pressable
           className="py-1 border border-[#E9FA00] active:bg-[#000000] rounded-lg"
           onPress={() => navigation.navigate("GlobalDetails", {})}
         >
-          <Text className="text-[#f9f9f9] text-center">View Details</Text>
+          <Text className="text-[#f9f9f9] text-center text-xs">
+            View Details
+          </Text>
         </Pressable>
       </View>
     </View>
@@ -213,7 +220,7 @@ const ExploreClubCard = ({}) => {
 
           <View className="">
             <Text
-              className="text-[#f9f9f9] text-lg"
+              className="text-[#f9f9f9] text-base"
               numberOfLines={1}
               style={GlobalStyles.fontSemiBold}
             >
@@ -221,7 +228,7 @@ const ExploreClubCard = ({}) => {
             </Text>
 
             <Text
-              className="text-gray-400"
+              className="text-gray-400 text-xs"
               numberOfLines={1}
               style={GlobalStyles.fontSemiBold}
             >
@@ -232,7 +239,7 @@ const ExploreClubCard = ({}) => {
 
         <View className="flex-row items-center space-x-2">
           <View className="bg-[#E9FA00] px-3 py-1 rounded-lg flex-row items-center space-x-2">
-            <Text style={GlobalStyles.fontSemiBold} className="text-[#000000]">
+            <Text style={GlobalStyles.fontSemiBold} className="text-[#000000] text-sm">
               Voice
             </Text>
             <Microphone2 size="24" color="#FF26B9" variant="Bold" />
@@ -245,11 +252,11 @@ const ExploreClubCard = ({}) => {
       <View className="flex-row items-center justify-between mt-3">
         <View className="bg-[#E9FA00] p-2 w-40 h-32 rounded-xl">
           <View className="px-1">
-            <Text className="text-[#FF26B9]" style={GlobalStyles.fontSemiBold}>
+            <Text className="text-[#FF26B9] text-sm" style={GlobalStyles.fontSemiBold}>
               Topic
             </Text>
             <Text
-              className="text-[#000000] text-base"
+              className="text-[#000000] text-xs"
               numberOfLines={2}
               style={GlobalStyles.fontSemiBold}
             >
@@ -258,11 +265,11 @@ const ExploreClubCard = ({}) => {
           </View>
 
           <View className="px-1">
-            <Text className="text-[#FF26B9]" style={GlobalStyles.fontSemiBold}>
+            <Text className="text-[#FF26B9] text-sm" style={GlobalStyles.fontSemiBold}>
               Description
             </Text>
             <Text
-              className="text-[#000000]"
+              className="text-[#000000] text-xs"
               numberOfLines={2}
               style={GlobalStyles.fontMedium}
             >

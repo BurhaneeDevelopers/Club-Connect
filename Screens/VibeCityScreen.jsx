@@ -112,7 +112,7 @@ const VibeCityScreen = ({ navigation }) => {
             </Pressable>
           </View>
 
-          <VibeBannerSlider />
+          {/* <VibeBannerSlider /> */}
         </View>
 
         <View className="p-5 justify-center items-center">

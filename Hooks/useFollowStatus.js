@@ -121,6 +121,8 @@ const useFollowStatus = (currentUserId, otherUserId) => {
 
   // Function to toggle follow/unfollow
   const toggleFollowStatus = async () => {
+    // Update the local state
+    setIsFollowing(!isFollowing);
     if (isFollowing) {
       // Unfollow the user
       await unfollowUser(otherUserId);
@@ -128,9 +130,6 @@ const useFollowStatus = (currentUserId, otherUserId) => {
       // Follow the user
       await followUser(otherUserId);
     }
-
-    // Update the local state
-    setIsFollowing(!isFollowing);
   };
 
   return {

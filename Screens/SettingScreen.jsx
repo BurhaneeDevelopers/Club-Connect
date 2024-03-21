@@ -3,16 +3,11 @@ import {
   ScrollView,
   Text,
   Pressable,
-  Image,
-  ImageBackground,
-  ActivityIndicator,
-  RefreshControl,
-  TextInput,
   KeyboardAvoidingView,
+  Switch,
 } from "react-native";
 import React from "react";
-import { SafeAreaView } from "react-native-safe-area-context";
-import { ArrowLeft, Camera } from "iconsax-react-native";
+import { ArrowLeft, Camera, Music } from "iconsax-react-native";
 import GlobalStyles from "../Styles/GlobalStyles";
 import { getAuth, signOut } from "@firebase/auth";
 
@@ -30,8 +25,11 @@ import {
   AddCircle,
 } from "iconsax-react-native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import { useState } from "react";
 
 const SettingScreen = ({ navigation }) => {
+  const [musicSwitch, setMusicSwitch] = useState(true);
+
   const SettingsTitle = [
     {
       category: "ACCOUNT",
@@ -58,6 +56,12 @@ const SettingScreen = ({ navigation }) => {
       category: "ACCOUNT",
       title: "My activity",
       icon: <Clock size="24" color="#FF26B9" variant="Broken" />,
+    },
+    {
+      category: "ACCOUNT",
+      title: "Music",
+      icon: <Music size="24" color="#FF26B9" variant="Broken" />,
+      hasMusicSwitch: true,
     },
     {
       category: "SUPPORT",
@@ -150,6 +154,9 @@ const SettingScreen = ({ navigation }) => {
                       navigation={navigation}
                       badge={item?.badge}
                       redirectTo={item?.redirectTo}
+                      setMusicSwitch={setMusicSwitch}
+                      musicSwitch={musicSwitch}
+                      hasMusicSwitch={item?.hasMusicSwitch}
                     />
                   </View>
                 )
@@ -175,7 +182,17 @@ const SettingScreen = ({ navigation }) => {
 
 export default SettingScreen;
 
-const SettingTitle = ({ title, icon, navigation, badge, redirectTo }) => {
+const SettingTitle = ({
+  title,
+  icon,
+  navigation,
+  badge,
+  redirectTo,
+  musicSwitch,
+  setMusicSwitch,
+  hasMusicSwitch,
+}) => {
+  // const { setMusicSwitch } = useToggleMusic();
   return (
     <Pressable
       className="flex-row justify-between items-center"
@@ -194,7 +211,24 @@ const SettingTitle = ({ title, icon, navigation, badge, redirectTo }) => {
 
       {badge && (
         <View className="bg-[#E9FA00] p-1 px-2 rounded-md">
-          <Text style={GlobalStyles.fontMedium} className="text-xs">New</Text>
+          <Text style={GlobalStyles.fontMedium} className="text-xs">
+            New
+          </Text>
+        </View>
+      )}
+
+      {hasMusicSwitch && (
+        <View>
+          <Switch
+            trackColor={{ false: "#101010", true: "#E9FA00" }}
+            thumbColor={musicSwitch ? "#FF26B9" : "#E9FA00"}
+            ios_backgroundColor="#101010"
+            onValueChange={() => {
+              // toggleMusic();
+              setMusicSwitch(!musicSwitch);
+            }}
+            value={musicSwitch}
+          />
         </View>
       )}
     </Pressable>

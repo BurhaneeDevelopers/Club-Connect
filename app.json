@@ -12,7 +12,9 @@
       "resizeMode": "cover",
       "backgroundColor": "#000000"
     },
-    "assetBundlePatterns": ["**/*"],
+    "assetBundlePatterns": [
+      "**/*"
+    ],
     "ios": {
       "supportsTablet": true,
       "bundleIdentifier": ".vibehotspot"
@@ -24,8 +26,12 @@
       },
       "googleServicesFile": "google-services.json",
       "package": "com.taheri_dev72.vibehotspot",
-      "UIBackgroundModes": ["audio"],
-      "permissions": ["android.permission.RECORD_AUDIO"]
+      "UIBackgroundModes": [
+        "audio"
+      ],
+      "permissions": [
+        "android.permission.RECORD_AUDIO"
+      ]
     },
     "plugins": [
       [
@@ -44,9 +50,6 @@
       }
     },
     "owner": "taheri_dev72",
-    "updates": {
-      "url": "https://u.expo.dev/a7079c16-20a2-4dfc-b6ea-918c9d2380fa"
-    },
     "notification": {
       "icon": "./assets/adaptive-icon.png",
       "color": "#000000",
@@ -56,6 +59,9 @@
     },
     "runtimeVersion": {
       "policy": "appVersion"
+    },
+    "updates": {
+      "url": "https://u.expo.dev/a7079c16-20a2-4dfc-b6ea-918c9d2380fa"
     }
   }
 }

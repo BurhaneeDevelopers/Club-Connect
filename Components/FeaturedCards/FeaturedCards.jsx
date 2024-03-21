@@ -16,8 +16,6 @@ const PopularCards = ({
   navigation,
   distance,
 }) => {
-  const { latitude, longitude } = useLocation();
-
   const [isLiked, setIsLiked] = useState(false);
   const toggleSave = () => {
     setIsLiked(!isLiked);
@@ -88,7 +86,7 @@ const PopularCards = ({
           </View>
 
           {/* Time  */}
-          {distance ? (
+          {distance <= 50 ? (
             <View className="flex-row items-center mt-2 space-x-1">
               <Car size={"16"} color="#FF26B9" variant="Bold" />
 
@@ -158,7 +156,6 @@ const ExploreCard = ({
   navigation,
   distance,
 }) => {
-  const { latitude, longitude } = useLocation();
   return (
     <View className="bg-[#262626] rounded-2xl w-64 h-24 p-3 flex-row space-x-4 mx-2 overflow-hidden">
       <View
@@ -195,12 +192,15 @@ const ExploreCard = ({
         <View className="flex-row items-center space-x-2 my-1">
           <View className="flex-row items-center space-x-1">
             <Star1 size="14" color="#FF26B9" variant="Bold" />
-            <Text className="text-[#f9f9f9] text-xs" style={GlobalStyles.fontMedium}>
+            <Text
+              className="text-[#f9f9f9] text-xs"
+              style={GlobalStyles.fontMedium}
+            >
               {rating}
             </Text>
           </View>
 
-          {distance ? (
+          {distance <= 50 ? (
             <>
               <Text className="text-gray-400 text-center mx-1">•</Text>
 
@@ -298,24 +298,16 @@ const TopPickCard = ({
           <View className="flex-row justify-between items-center">
             {/* Price  */}
 
-            {distance ? (
+            {distance <= 50 ? (
               <View className="flex-row items-center space-x-1">
                 <Car size="14" color="#f9f9f9" variant="Bold" />
 
-                {distance ? (
-                  <Text
-                    className="text-[#f9f9f9] text-xs"
-                    style={GlobalStyles.fontRegular}
-                  >
-                    {distance.toFixed(2)}Km
-                  </Text>
-                ) : (
-                  <Skeleton
-                    width={10}
-                    height={5}
-                    customClass="rounded-[30px] overflow-hidden bg-[#262626]"
-                  />
-                )}
+                <Text
+                  className="text-[#f9f9f9] text-xs"
+                  style={GlobalStyles.fontRegular}
+                >
+                  {distance.toFixed(2)}Km
+                </Text>
               </View>
             ) : (
               ""
@@ -324,7 +316,10 @@ const TopPickCard = ({
             {/* Rating  */}
             <View className="flex-row items-center space-x-1">
               <Star1 size="14" color="#f9f9f9" variant="Bold" />
-              <Text className="text-[#f9f9f9] text-xs" style={GlobalStyles.fontRegular}>
+              <Text
+                className="text-[#f9f9f9] text-xs"
+                style={GlobalStyles.fontRegular}
+              >
                 {rating}
               </Text>
             </View>
