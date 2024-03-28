@@ -20,6 +20,8 @@ import {
   getDownloadURL,
 } from "firebase/storage";
 import { db } from "../../firebase";
+import "react-native-get-random-values";
+import { v4 as uuidv4 } from "uuid";
 
 const usePosts = () => {
   const [posts, setPosts] = useState([]);
@@ -46,12 +48,13 @@ const usePosts = () => {
   };
 
   // Function to handle image upload and return the download URL
+  const randomId = uuidv4();
   const uploadImage = async (setLoading) => {
     setLoading(true);
     try {
       const response = await fetch(image);
       const blob = await response.blob();
-      const storageRef = ref(getStorage(), `postImage/${auth.currentUser.uid}`);
+      const storageRef = ref(getStorage(), `postImage/${randomId}`);
       const uploadTask = uploadBytesResumable(storageRef, blob);
 
       await uploadTask;
@@ -91,21 +94,23 @@ const usePosts = () => {
       if (downloadUrl) {
         console.log("IMAGE URL ISSSSSSSSSSs", downloadUrl);
 
-        const userPostsCollectionRef = collection(db, "userPosts");
-
-        await addDoc(userPostsCollectionRef, {
-          id: auth.currentUser?.uid,
-          postTitle: postTitle,
-          postDescription: postDescription,
-          postTags: postTags,
-          PostImage: downloadUrl,
-        });
+        const unsubscribe = await addDoc(
+          collection(db, "allUsers", auth.currentUser?.uid, "userPosts"),
+          {
+            id: randomId, // Assuming randomId is defined somewhere
+            postTitle: postTitle,
+            postDescription: postDescription,
+            postTags: postTags,
+            PostImage: downloadUrl,
+          }
+        );
 
         setSuccess(true);
-        // setAnimationPlayed(!animationPlayed);
         console.log("Created Post");
         setLoading(false);
         navigation.navigate("Profile");
+
+        return unsubscribe;
       }
     } catch (error) {
       setLoading(false);
@@ -115,11 +120,16 @@ const usePosts = () => {
 
   const fetchMyPosts = async () => {
     try {
-      const userPostsCollectionRef = collection(db, "userPosts");
+      const userPostsCollectionRef = collection(
+        db,
+        "allUsers",
+        auth.currentUser?.uid,
+        "userPosts"
+      );
 
       // Subscribe to real-time updates for posts of the current user
       const unsubscribe = onSnapshot(
-        query(userPostsCollectionRef, where("id", "==", auth.currentUser?.uid)),
+        query(userPostsCollectionRef),
         (snapshot) => {
           const userPosts = [];
           snapshot.forEach((doc) => {
@@ -147,7 +157,15 @@ const usePosts = () => {
     fetchMyPosts();
   }, []);
 
-  return { pickImage, handleCreatePost, posts, image, setImage, postCount };
+  return {
+    pickImage,
+    handleCreatePost,
+    posts,
+    image,
+    setImage,
+    postCount,
+    fetchMyPosts,
+  };
 };
 
 export default usePosts;

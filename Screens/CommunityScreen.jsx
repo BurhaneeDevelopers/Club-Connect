@@ -172,7 +172,7 @@ const CommunityScreen = ({ navigation }) => {
                 <Microscope size="28" color={"#FF26B9"} variant={"Outline"} />
               }
               navigation={navigation}
-              redirectTo={""}
+              redirectTo={"GlobalAllPosts"}
             />
             <FilterPageComponent
               title={"Maps"}
@@ -397,7 +397,7 @@ const TopClubCards = ({ title, image }) => {
       source={require("../assets/Images/User/Dummy-Profile.png")}
       className="flex-col items-center justify-end h-44 space-y-1 mr-6 rounded-3xl overflow-hidden"
     >
-      <View className={` bg-black/60 absolute h-full w-full`} />
+      <View className={`bg-black/60 absolute h-full w-full`} />
 
       <View className="p-3 flex-col space-y-2 justify-center items-center">
         <View>
@@ -467,7 +467,7 @@ const WeeklyUpdateCard = ({ item }) => {
           className={` text-[${item.textColor}] text-3xl`}
           style={GlobalStyles.fontBlack}
         >
-          {item.title}
+          {item?.title}
         </Text>
       </View>
     </ImageBackground>

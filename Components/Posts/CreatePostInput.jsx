@@ -26,6 +26,7 @@ const CreatePostInput = (props) => {
       setTagsError(true);
     }
   };
+  
   const {
     postTitle,
     setPostTitle,

@@ -73,6 +73,7 @@ import IntroVideo from "./Screens/IntroVideo";
 import CalendarScreen from "./Screens/CalendarScreen";
 import BusinessSignInScreen from "./Screens/BusinessSignInScreen";
 import CreatePostScreen from "./Screens/CreatePostScreen";
+import GlobalAllPostsScreen from "./Screens/GlobalScreens/GlobalAllPostsScreen";
 
 // Default Theme
 const navTheme = DefaultTheme;
@@ -325,6 +326,11 @@ const AuthenticatedNavigator = () => {
       <Stack.Screen
         name="CreatePost"
         component={CreatePostScreen}
+        options={{ headerShown: false, ...TransitionPresets.SlideFromRightIOS }}
+      />
+      <Stack.Screen
+        name="GlobalAllPosts"
+        component={GlobalAllPostsScreen}
         options={{ headerShown: false, ...TransitionPresets.SlideFromRightIOS }}
       />
     </Stack.Navigator>

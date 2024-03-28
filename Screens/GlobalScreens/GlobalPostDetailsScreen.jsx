@@ -19,6 +19,7 @@ import {
 } from "iconsax-react-native";
 import { useRoute } from "@react-navigation/native";
 import useAuth from "../../Hooks/useAuth";
+import VerticalPostMenu from "../../Components/Posts/VerticalPostMenu";
 
 const GlobalPostDetailsScreen = ({ navigation }) => {
   const {
@@ -46,12 +47,9 @@ const GlobalPostDetailsScreen = ({ navigation }) => {
           </Text>
 
           {/* Button to Save Cafe */}
-          {/* <Pressable
-            className="bg-[#E9FA00] active:bg-[#f7ff8c] justify-center items-center w-10 h-10 rounded-xl absolute top-3 right-5"
-            onPress={() => navigation.navigate("MessageList")}
-          >
-            <Messages size="24" color={"#000000"} variant={"Outline"} />
-          </Pressable> */}
+          <View className="absolute top-6 right-5">
+            <VerticalPostMenu />
+          </View>
         </View>
 
         <View className="p-5">
@@ -112,8 +110,8 @@ const GlobalPostDetailsScreen = ({ navigation }) => {
             </Text>
 
             <View className="flex-row flex-wrap items-center mt-2">
-              {item.postTags.map((tag) => {
-                return <Tag title={tag} />;
+              {item.postTags.map((tag, i) => {
+                return <Tag key={i} title={tag} />;
               })}
             </View>
           </View>

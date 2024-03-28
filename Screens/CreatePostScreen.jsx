@@ -15,7 +15,7 @@ import { ArrowLeft, Camera } from "iconsax-react-native";
 import GlobalStyles from "../Styles/GlobalStyles";
 import { useState } from "react";
 import { SafeAreaView } from "react-native-safe-area-context";
-import CreatePostInput from "../Components/CreatePostInput";
+import CreatePostInput from "../Components/Posts/CreatePostInput";
 import usePosts from "../Hooks/posts/usePosts";
 
 const CreatePostScreen = ({ navigation }) => {
