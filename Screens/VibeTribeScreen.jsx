@@ -36,7 +36,7 @@ import userGlobalUsers from "../Hooks/useGlobalUsers";
 import { FlatList } from "react-native-gesture-handler";
 import Skeleton from "../Components/Skeleton";
 
-const CommunityScreen = ({ navigation }) => {
+const VibeTribeScreen = ({ navigation }) => {
   const [image, setImage] = useState(null);
 
   const pickImage = async () => {
@@ -147,7 +147,7 @@ const CommunityScreen = ({ navigation }) => {
               style={GlobalStyles.fontSemiBold}
               numberOfLines={1}
             >
-              Community
+              Vibe Tribe
             </Text>
 
             {/* Button to Save Cafe */}
@@ -275,7 +275,7 @@ const CommunityScreen = ({ navigation }) => {
   );
 };
 
-export default CommunityScreen;
+export default VibeTribeScreen;
 
 const FloatingCameraButton = ({ pickImage }) => {
   return (

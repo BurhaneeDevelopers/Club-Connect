@@ -51,7 +51,7 @@ const ClubsScreen = ({ navigation }) => {
     },
     {
       title: "Join Club",
-      desc: "Join the Marvelous Club Community of VHS",
+      desc: "Join the Marvelous Club VibeTribe of VHS",
       image: <JoinClub width={75} height={75} />,
       color: "#E9FA00",
       redirectTo: "JoinClub",
@@ -131,7 +131,7 @@ const ClubsScreen = ({ navigation }) => {
         </View> */}
 
         <View className="my-5">
-          <SectionTitles title="Be a part of our community!" />
+          <SectionTitles title="Be a part of our VibeTribe!" />
 
           <View className="flex-row flex-wrap justify-center items-center mt-3">
             {RedirectCardData.map((item, index) => {

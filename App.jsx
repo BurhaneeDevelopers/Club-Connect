@@ -27,7 +27,7 @@ import CastleBold from "./assets/icons/CastleBold.svg";
 // Tab Screens
 import HomeScreen from "./Screens/HomeScreen";
 import EventsScreen from "./Screens/EventsScreen";
-import CommunityScreen from "./Screens/CommunityScreen";
+import VibeTribeScreen from "./Screens/VibeTribeScreen";
 import VibeCityScreen from "./Screens/VibeCityScreen";
 import ExploreScreen from "./Screens/ExploreScreen";
 
@@ -151,8 +151,8 @@ const AuthenticatedNavigator = () => {
         }}
       />
       <Stack.Screen
-        name="Community"
-        component={CommunityScreen}
+        name="VibeTribe"
+        component={VibeTribeScreen}
         options={{
           headerShown: false,
           ...TransitionPresets.SlideFromRightIOS,
@@ -626,8 +626,8 @@ const TabNavigator = ({ Tab }) => {
 
         {/* Events Screen  */}
         <Tab.Screen
-          name="Community"
-          component={CommunityScreen}
+          name="VibeTribe"
+          component={VibeTribeScreen}
           options={{
             headerShown: false,
             tabBarLabelStyle: { display: "none" },

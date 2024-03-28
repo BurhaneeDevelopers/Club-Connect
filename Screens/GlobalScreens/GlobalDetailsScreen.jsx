@@ -268,7 +268,7 @@ const GlobalDetailsScreen = ({ navigation }) => {
                 className="text-center text-base text-[#000000]"
                 style={GlobalStyles.fontBold}
               >
-                View Directions
+                Take me there...
               </Text>
 
               <Map size="24" color="#000000" variant="Bold" />
