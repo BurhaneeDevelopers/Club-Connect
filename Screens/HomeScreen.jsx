@@ -84,16 +84,6 @@ const HomeScreen = ({ navigation }) => {
   // Fetch UserName and other Details when user edits his profile
   const { user } = useAuth();
 
-  // console.log(
-  //   "FEATURED",
-  //   featuredCategory.forEach(({ lounges }) => console.log(lounges))
-  // );
-
-  // useEffect(() => {
-  //   AsyncStorage.clear();
-  //   console.log("Local storage Cleared");
-  // }, []);
-
   const promoCardData = [
     {
       title: "Explore VibeCity",

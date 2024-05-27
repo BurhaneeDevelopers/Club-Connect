@@ -8,6 +8,7 @@ import {
   Keyboard,
   ScrollView,
   RefreshControl,
+  Platform,
 } from "react-native";
 import React, { useRef } from "react";
 import { SafeAreaView } from "react-native-safe-area-context";

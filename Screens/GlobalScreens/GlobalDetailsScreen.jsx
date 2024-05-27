@@ -5,24 +5,13 @@ import {
   Pressable,
   Image,
   ImageBackground,
-  ActivityIndicator,
-  RefreshControl,
-  Keyboard,
-  TextInput,
-  KeyboardAvoidingView,
-  TouchableOpacity,
 } from "react-native";
 import React from "react";
 import { SafeAreaView } from "react-native-safe-area-context";
 import {
   ArrowLeft,
-  Clock,
-  SearchNormal1,
-  Add,
-  Star1,
   Location,
   Heart,
-  Bookmark,
   Calendar,
   People,
   Car,
@@ -33,14 +22,8 @@ import {
 } from "iconsax-react-native";
 import { useState, useEffect } from "react";
 import GlobalStyles from "../../Styles/GlobalStyles";
-import axios from "axios";
 import { useRoute } from "@react-navigation/native";
-import { urlFor } from "../../sanity";
-
-import ThumbsUp from "../../assets/icons/ThumbsUp.svg";
-import ThumbsUpSelected from "../../assets/icons/ThumbsUpSelected.svg";
-import ThumbsDown from "../../assets/icons/ThumbsDown.svg";
-import ThumbsDownSelected from "../../assets/icons/ThumbsDownSelected.svg";
+import GlobalDetailsSlider from "../../Components/GlobalDetailsSlider";
 
 const GlobalDetailsScreen = ({ navigation }) => {
   const {
@@ -55,11 +38,6 @@ const GlobalDetailsScreen = ({ navigation }) => {
     },
   } = useRoute();
 
-  const [isLiked, setIsLiked] = useState(false);
-  const toggleSave = () => {
-    setIsLiked(!isLiked);
-  };
-
   const [visible, setVisible] = React.useState(false);
 
   const [selectedIcon, setSelectedIndex] = useState(null); // Track the currently selected icon
@@ -70,39 +48,7 @@ const GlobalDetailsScreen = ({ navigation }) => {
 
   return (
     <View className="">
-      <ImageBackground
-        source={{ uri: image }}
-        className="w-full h-80 rounded-b-[30px] overflow-hidden"
-      >
-        <View className="flex-row w-full  justify-between items-center p-5 bg-black/40">
-          <Pressable
-            onPress={() => navigation.goBack()}
-            className="absolute ml-5"
-          >
-            <ArrowLeft size="32" color="#f9f9f9" />
-          </Pressable>
-
-          <Text
-            className="text-xl text-[#E9FA00] mx-auto max-w-[192px]"
-            style={GlobalStyles.fontSemiBold}
-            numberOfLines={1}
-          >
-            {title}
-          </Text>
-
-          {/* Button to Save Cafe */}
-          <Pressable
-            className="bg-[#E9FA00] active:bg-[#f7ff8c] justify-center items-center w-10 h-10 rounded-xl absolute top-3 right-5"
-            onPress={toggleSave}
-          >
-            <Heart
-              size="24"
-              color={isLiked ? "#FF26B9" : "#000000"}
-              variant={isLiked ? "Bold" : "Outline"}
-            />
-          </Pressable>
-        </View>
-      </ImageBackground>
+      <GlobalDetailsSlider />
 
       <View className="h-16 w-80 mx-auto -mt-10 rounded-full flex-row px-5 items-center justify-between bg-[#FF26B9]">
         <View className="flex-row my-auto items-center">
@@ -373,7 +319,10 @@ const FeatureCards = ({ icon, title, navigateTo, navigation }) => {
         onPress={() => navigation.navigate(navigateTo)}
       >
         {/* {icon} */}
-        <Text style={GlobalStyles.fontSemiBold} className="text-[#f9f9f9] text-sm">
+        <Text
+          style={GlobalStyles.fontSemiBold}
+          className="text-[#f9f9f9] text-sm"
+        >
           {title}
         </Text>
       </Pressable>

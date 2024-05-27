@@ -4,6 +4,7 @@ import {
   Pressable,
   TextInput,
   KeyboardAvoidingView,
+  Platform,
 } from "react-native";
 import React from "react";
 import GlobalStyles from "../Styles/GlobalStyles";

@@ -5,6 +5,7 @@ import {
   Pressable,
   Image,
   KeyboardAvoidingView,
+  Platform,
 } from "react-native";
 import React, { useEffect, useRef } from "react";
 import { ArrowLeft } from "iconsax-react-native";

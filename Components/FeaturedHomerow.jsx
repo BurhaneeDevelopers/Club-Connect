@@ -3,7 +3,7 @@ import React, { useEffect, useMemo, useState, useCallback } from "react";
 import SectionTitles from "./SectionTitles";
 import * as Cards from "./FeaturedCards/FeaturedCards";
 import UtilitiesFunctions from "./FeaturedCards/UtilitiesFunctions";
-import { collection, getDocs, query, where } from "firebase/firestore";
+import { collection, getDocs, limit, query, where } from "firebase/firestore";
 import { db } from "../firebase";
 import useSelectedCity from "../Hooks/useSelectedCity";
 import useLocation from "../Hooks/useLocation";
@@ -27,7 +27,11 @@ const FeaturedHomeRow = ({ navigation }) => {
     try {
       setLoading(true);
       const querySnapshot = await getDocs(
-        query(collection(db, "Products"), where("city", "==", selectedCity))
+        query(
+          collection(db, "Products"),
+          where("city", "==", selectedCity),
+          limit(5)
+        )
       );
       const businesses = querySnapshot.docs.map((doc) => ({
         id: doc.id,

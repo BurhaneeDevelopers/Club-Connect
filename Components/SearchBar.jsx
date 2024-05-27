@@ -13,7 +13,6 @@ import { useState } from "react";
 const SearchBar = ({
   searchData,
   setSearchData,
-
   handleSearch,
 }) => {
   const [clicked, setClicked] = useState(false);

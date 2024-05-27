@@ -4,21 +4,12 @@ import {
   Text,
   Pressable,
   Image,
-  ImageBackground,
-  ActivityIndicator,
-  RefreshControl,
-  TextInput,
   KeyboardAvoidingView,
+  Platform,
 } from "react-native";
 import React, { useEffect, useRef } from "react";
-import { SafeAreaView } from "react-native-safe-area-context";
-import { ArrowLeft, Location, TicketStar, Wallet1 } from "iconsax-react-native";
+import { ArrowLeft, Location } from "iconsax-react-native";
 import GlobalStyles from "../Styles/GlobalStyles";
-import LottieView from "lottie-react-native";
-
-// SVGS
-import WalletCoin from "../assets/Illustrations/WalletCoin.svg";
-import SectionTitles from "../Components/SectionTitles";
 
 const HostWithUsScreen = ({ navigation }) => {
   const animation = useRef();
@@ -77,8 +68,8 @@ const HostWithUsScreen = ({ navigation }) => {
                 className="text-gray-200 w-64 text-center"
                 style={GlobalStyles.fontMedium}
               >
-                We are crafting a one stop solution for your city's hottest events, cafes,
-                restaurants, and more 🚀✨
+                We are crafting a one stop solution for your city's hottest
+                events, cafes, restaurants, and more 🚀✨
               </Text>
             </View>
           </View>

@@ -10,6 +10,7 @@ import {
   Keyboard,
   ActivityIndicator,
   ScrollView,
+  Platform,
 } from "react-native";
 import GlobalStyles from "../Styles/GlobalStyles";
 import { useState, useEffect } from "react";
