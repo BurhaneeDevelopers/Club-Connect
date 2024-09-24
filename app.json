@@ -12,9 +12,7 @@
       "resizeMode": "cover",
       "backgroundColor": "#000000"
     },
-    "assetBundlePatterns": [
-      "**/*"
-    ],
+    "assetBundlePatterns": ["**/*"],
     "ios": {
       "supportsTablet": true,
       "bundleIdentifier": ".vibehotspot"
@@ -26,18 +24,19 @@
       },
       "googleServicesFile": "google-services.json",
       "package": "com.taheri_dev72.vibehotspot",
-      "UIBackgroundModes": [
-        "audio"
-      ],
-      "permissions": [
-        "android.permission.RECORD_AUDIO"
-      ]
+      "permissions": ["android.permission.RECORD_AUDIO"]
     },
     "plugins": [
       [
         "expo-image-picker",
         {
           "photosPermission": "The app accesses your photos to let you share them with your friends."
+        }
+      ],
+      [
+        "expo-updates",
+        {
+          "username": "taheri_dev72"
         }
       ],
       "expo-font"

@@ -75,6 +75,8 @@ import BusinessSignInScreen from "./Screens/BusinessSignInScreen";
 import CreatePostScreen from "./Screens/CreatePostScreen";
 import GlobalAllPostsScreen from "./Screens/GlobalScreens/GlobalAllPostsScreen";
 
+import * as Updates from "expo-updates";
+
 // Default Theme
 const navTheme = DefaultTheme;
 navTheme.colors.background = "#000000";
@@ -477,6 +479,26 @@ export default function App({ navigation }) {
     playSound();
   }, []);
 
+  const { currentlyRunning, isUpdateAvailable, isUpdatePending } =
+    Updates.useUpdates();
+
+  useEffect(() => {
+    if (isUpdatePending) {
+      // Update has successfully downloaded; apply it now
+      Updates.reloadAsync();
+    }
+  }, [isUpdatePending]);
+
+  useEffect(() => {
+    if (isUpdateAvailable) {
+      Updates.fetchUpdateAsync();
+    }
+  }, []);
+
+  const runTypeMessage = currentlyRunning.isEmbeddedLaunch
+    ? "Updating your experience… almost there :)"
+    : "Updating your experience… almost there :)";
+
   if (Text.defaultProps) {
     Text.defaultProps.allowFontScaling = false;
   } else {
@@ -503,7 +525,17 @@ export default function App({ navigation }) {
               // barStyle="dark-content"
             />
 
-            {user ? <AuthenticatedNavigator /> : <UnauthenticatedNavigator />}
+            {isUpdateAvailable && currentlyRunning ? (
+              <View className="h-screen w-screen flex-col justify-center items-center">
+                <ActivityIndicator color={"#4F46E5"} size={64} />
+
+                <Text>{runTypeMessage}</Text>
+              </View>
+            ) : user ? (
+              <AuthenticatedNavigator Stack={Stack} StackScreen={StackScreen} />
+            ) : (
+              <UnauthenticatedNavigator Stack={Stack} />
+            )}
           </NavigationContainer>
         </UserDetailsProvider>
       </ContextProviders>
