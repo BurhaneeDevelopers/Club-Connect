@@ -10,24 +10,16 @@ import {
 } from "react-native";
 import React from "react";
 import { SafeAreaView } from "react-native-safe-area-context";
-import {
-  ArrowLeft,
-  Setting2,
-  Edit,
-  Location,
-  Messages1,
-  Add,
-} from "iconsax-react-native";
+import { ArrowLeft, Setting2, Edit, Add } from "iconsax-react-native";
 import GlobalStyles from "../Styles/GlobalStyles";
 import TabBar from "../Components/TabBar";
 import { useState, useEffect } from "react";
-import axios from "axios";
 
 // Context
 import useAuth from "../Hooks/useAuth";
-import { getAuth } from "firebase/auth";
-import { doc, getFirestore, onSnapshot } from "firebase/firestore";
 import usePosts from "../Hooks/posts/usePosts";
+import { doc, onSnapshot } from "@react-native-firebase/firestore";
+import { db } from "../firebase";
 
 const ProfileScreen = ({ navigation }) => {
   const [post, setPosts] = useState(true);
@@ -60,7 +52,6 @@ const ProfileScreen = ({ navigation }) => {
 
   // UPDATED FOLLOWERS AND FOLLOW LIST IN REAL TIME
   useEffect(() => {
-    const db = getFirestore();
     const userDocRef = doc(db, "allUsers", auth.currentUser?.uid);
 
     const unsubscribe = onSnapshot(userDocRef, (doc) => {

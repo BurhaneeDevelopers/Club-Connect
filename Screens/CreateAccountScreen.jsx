@@ -23,19 +23,7 @@ import names from "../randomName.json";
 import userNames from "../randomUserName.json";
 
 // FIREBASE
-import {
-  getAuth,
-  createUserWithEmailAndPassword,
-  // onAuthStateChanged,
-  signInAnonymously,
-} from "firebase/auth";
-import app, { db } from "../firebase";
-
-// GoogleSignin.configure({
-//   webClientId:
-//     "534268671571-27v1k8ige012ka2jfas25tiqnluilrv6.apps.googleusercontent.com",
-//   offlineAccess: true,
-// });
+import { db } from "../firebase";
 
 // Components
 import AuthSwitch from "../Components/AuthSwitch";
@@ -43,7 +31,12 @@ import AuthSwitch from "../Components/AuthSwitch";
 // SVGS
 import AuthSparklePink from "../assets/Illustrations/AuthSparklePink.svg";
 import Google from "../assets/icons/Google.svg";
-import { addDoc, collection, doc, setDoc, updateDoc } from "firebase/firestore";
+import {
+  createUserWithEmailAndPassword,
+  getAuth,
+  signInAnonymously,
+} from "@react-native-firebase/auth";
+import { doc, setDoc } from "@react-native-firebase/firestore";
 
 const CreateAccountScreen = ({ navigation, route }) => {
   const [refreshing, setRefreshing] = React.useState(false);

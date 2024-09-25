@@ -10,27 +10,15 @@ import {
 } from "react-native";
 import React from "react";
 import { SafeAreaView } from "react-native-safe-area-context";
-import {
-  ArrowLeft,
-  Setting2,
-  Edit,
-  Location,
-  Messages1,
-} from "iconsax-react-native";
+import { ArrowLeft, Setting2, Messages1 } from "iconsax-react-native";
 import GlobalStyles from "../../Styles/GlobalStyles";
 import TabBar from "../../Components/TabBar";
 import { useState, useEffect } from "react";
 import axios from "axios";
-import AsyncStorage from "@react-native-async-storage/async-storage";
-
-// Context
-import useAuth from "../../Hooks/useAuth";
-import { useFocusEffect, useRoute } from "@react-navigation/native";
+import { useRoute } from "@react-navigation/native";
 import FollowButton from "../../Components/FollowButton";
-import useFollowStatus from "../../Hooks/useFollowStatus";
-import { getAuth } from "firebase/auth";
-import userGlobalUsers from "../../Hooks/useGlobalUsers";
-import { doc, getFirestore, onSnapshot } from "firebase/firestore";
+import { doc, onSnapshot } from "@react-native-firebase/firestore";
+import { db } from "../../firebase";
 
 const GlobalProfileScreen = ({ navigation }) => {
   const [post, setPosts] = useState(true);
@@ -102,7 +90,6 @@ const GlobalProfileScreen = ({ navigation }) => {
   // UPDATED FOLLOWERS AND FOLLOW LIST IN REAL TIME
   const [userDetails, setUserDetails] = useState({});
   useEffect(() => {
-    const db = getFirestore();
     const userDocRef = doc(db, "allUsers", user.uid);
 
     const unsubscribe = onSnapshot(userDocRef, (doc) => {

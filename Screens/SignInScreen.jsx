@@ -7,36 +7,21 @@ import {
   TextInput,
   KeyboardAvoidingView,
   RefreshControl,
-  Keyboard,
   ActivityIndicator,
   ScrollView,
 } from "react-native";
-import { SafeAreaView } from "react-native-safe-area-context";
 import GlobalStyles from "../Styles/GlobalStyles";
-import { useState, useEffect } from "react";
-import { ArrowLeft, Apple, Eye, EyeSlash } from "iconsax-react-native";
-import AsyncStorage from "@react-native-async-storage/async-storage";
-
-// Context
-import { useContext } from "react";
-import { UserDetailsContext } from "../context/UserDetailsContext";
+import { useState } from "react";
+import { Apple, Eye, EyeSlash } from "iconsax-react-native";
 
 // Components
 import AuthSwitch from "../Components/AuthSwitch";
 
 // FIREBASE
-import {
-  getAuth,
-  signInWithEmailAndPassword,
-  signInAnonymously,
-} from "firebase/auth";
 
 // SVGS
 import AuthSparklePink from "../assets/Illustrations/AuthSparklePink.svg";
 import Google from "../assets/icons/Google.svg";
-import Mail from "../assets/icons/Mail.svg";
-import { doc, setDoc } from "firebase/firestore";
-import { db } from "../firebase";
 import useAuth from "../Hooks/useAuth";
 
 const SignInScreen = ({ navigation, route }) => {

@@ -16,16 +16,8 @@ import { ArrowLeft, Camera } from "iconsax-react-native";
 import GlobalStyles from "../Styles/GlobalStyles";
 import { useState, useEffect, useMemo, useRef } from "react";
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import { getDoc, setDoc, updateDoc, doc } from "firebase/firestore";
-import { getAuth } from "firebase/auth";
 import { db } from "../firebase";
 import * as ImagePicker from "expo-image-picker";
-import {
-  getStorage,
-  ref,
-  uploadBytesResumable,
-  getDownloadURL,
-} from "firebase/storage";
 import LottieView from "lottie-react-native";
 
 // Contexts
@@ -33,6 +25,9 @@ import ProfileEditInputs from "../Components/ProfileEditInputs";
 import RBSheet from "react-native-raw-bottom-sheet";
 import useAuth from "../Hooks/useAuth";
 import { SafeAreaView } from "react-native-safe-area-context";
+import { getAuth } from "@react-native-firebase/auth";
+import { doc, getDoc, updateDoc } from "@react-native-firebase/firestore";
+import { getDownloadURL, getStorage, ref, uploadBytesResumable } from "@react-native-firebase/storage";
 
 const ProfileEditScreen = ({ navigation }) => {
   // FETCH EDITED PROFILE DATA

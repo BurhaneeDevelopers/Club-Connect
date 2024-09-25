@@ -3,26 +3,12 @@ import {
   ScrollView,
   Text,
   Pressable,
-  Image,
-  ImageBackground,
-  ActivityIndicator,
-  RefreshControl,
   Keyboard,
   TextInput,
-  KeyboardAvoidingView,
 } from "react-native";
 import React from "react";
 import { SafeAreaView } from "react-native-safe-area-context";
-import {
-  ArrowLeft,
-  Clock,
-  SearchNormal1,
-  Add,
-  Star1,
-  Location,
-  Heart,
-  Gift,
-} from "iconsax-react-native";
+import { ArrowLeft, SearchNormal1, Add, Gift } from "iconsax-react-native";
 import { useState, useEffect } from "react";
 import GlobalStyles from "../Styles/GlobalStyles";
 

@@ -21,16 +21,14 @@ import {
   People,
 } from "iconsax-react-native";
 import MasonryList from "@react-native-seoul/masonry-list";
-import "firebase/database";
 import * as ImagePicker from "expo-image-picker";
-import illustration from "../assets/Illustrations/amico.png";
 
 // Components
 import SectionTitles from "../Components/SectionTitles";
 
 // FONTS
 import GlobalStyles from "../Styles/GlobalStyles";
-import { app, db, getAuth } from "../firebase";
+import { getAuth } from "../firebase";
 import FollowButton from "../Components/FollowButton";
 import userGlobalUsers from "../Hooks/useGlobalUsers";
 import { FlatList } from "react-native-gesture-handler";

@@ -1,17 +1,12 @@
 import { useState, useEffect } from "react";
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import {
-  onAuthStateChanged,
-  signInWithEmailAndPassword,
-  signInAnonymously,
-  getAuth,
-} from "firebase/auth";
-import { doc, getDoc, setDoc } from "firebase/firestore";
 
 // JSON Data
 import names from "../randomName.json";
 import userNames from "../randomUserName.json";
 import { db } from "../firebase";
+import { getAuth, signInAnonymously, signInWithEmailAndPassword } from "@react-native-firebase/auth";
+import { doc, getDoc, setDoc } from "@react-native-firebase/firestore";
 
 const useAuth = () => {
   const [user, setUser] = useState({

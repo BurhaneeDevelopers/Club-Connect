@@ -1,15 +1,8 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import {
-  addDoc,
-  collection,
-  deleteDoc,
-  doc,
-  getDoc,
-  getDocs,
-} from "firebase/firestore";
 import { db } from "../firebase";
+import { addDoc, collection, deleteDoc, doc, getDoc, getDocs } from "@react-native-firebase/firestore";
 
 const useAllBusiness = () => {
   const [allBusiness, setAllBusiness] = useState([]);

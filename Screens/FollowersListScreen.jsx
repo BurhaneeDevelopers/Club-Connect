@@ -4,7 +4,6 @@ import {
   ScrollView,
   Image,
   Pressable,
-  ImageBackground,
   TextInput,
 } from "react-native";
 import React from "react";
@@ -13,23 +12,14 @@ import { SafeAreaView } from "react-native-safe-area-context";
 
 // FONTS
 import GlobalStyles from "../Styles/GlobalStyles";
-import SectionTitles from "../Components/SectionTitles";
 import {
   ArrowLeft,
-  Car,
-  Global,
-  Heart,
-  Location,
-  People,
   SearchNormal,
-  SearchNormal1,
-  Star1,
-  Timer1,
 } from "iconsax-react-native";
 import useFollowStatus from "../Hooks/useFollowStatus";
-import { getAuth } from "firebase/auth";
 import { useRoute } from "@react-navigation/native";
 import FollowButton from "../Components/FollowButton";
+import { getAuth } from "@react-native-firebase/auth";
 
 const FollowersListScreen = ({ navigation }) => {
   const {

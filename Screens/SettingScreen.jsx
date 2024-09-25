@@ -9,7 +9,6 @@ import {
 import React from "react";
 import { ArrowLeft, Camera, Music } from "iconsax-react-native";
 import GlobalStyles from "../Styles/GlobalStyles";
-import { getAuth, signOut } from "@firebase/auth";
 
 // ICONS
 import {
@@ -27,6 +26,7 @@ import {
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { useState } from "react";
 import { Platform } from "react-native";
+import { getAuth } from "@react-native-firebase/auth";
 
 const SettingScreen = ({ navigation }) => {
   const [musicSwitch, setMusicSwitch] = useState(true);

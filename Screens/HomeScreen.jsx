@@ -5,28 +5,17 @@ import {
   ScrollView,
   Image,
   Pressable,
-  ImageBackground,
-  ActivityIndicator,
-  TextInput,
-  Modal,
 } from "react-native";
 import React from "react";
 import { useState, useEffect, useRef } from "react";
 import { SafeAreaView } from "react-native-safe-area-context";
-import HotDealsSlider from "../Components/HotDealsSlider";
 import {
-  SearchNormal1,
-  Buildings2,
   Coffee,
   Building,
   Shop,
   Location,
   Gift,
-  Bill,
-  Add,
-  SearchNormal,
   ArrowLeft,
-  Notification,
 } from "iconsax-react-native";
 import LottieView from "lottie-react-native";
 import FeaturedHomeRow from "../Components/FeaturedHomerow";
@@ -40,7 +29,6 @@ import ExploreSlider from "../Components/ExploreSlider";
 import GlobalStyles from "../Styles/GlobalStyles";
 
 // SANITY
-import client from "../sanity";
 import useAuth from "../Hooks/useAuth";
 
 const HomeScreen = ({ navigation }) => {

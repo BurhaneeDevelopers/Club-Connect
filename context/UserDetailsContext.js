@@ -1,9 +1,7 @@
 import { createContext, useState, useContext, useEffect } from "react";
-import { getAuth } from "firebase/auth";
-import { doc, getDoc } from "firebase/firestore";
 import { db } from "../firebase";
-import { onAuthStateChanged } from "firebase/auth";
-
+import { doc, getDoc } from "@react-native-firebase/firestore";
+import { getAuth } from "@react-native-firebase/auth";
 export const UserDetailsContext = createContext();
 
 export const UserDetailsProvider = ({ children }) => {

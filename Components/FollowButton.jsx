@@ -1,10 +1,10 @@
 import { View, Text, Pressable } from "react-native";
 import React, { useEffect } from "react";
 import useFollowStatus from "../Hooks/useFollowStatus";
-import { getAuth } from "firebase/auth";
 import useAuth from "../Hooks/useAuth";
 import { useFocusEffect } from "@react-navigation/native";
 import usePushNotification from "../Hooks/usePushNotification";
+import { getAuth } from "@react-native-firebase/auth";
 
 const FollowButton = ({ otherUserId, customClass, name }) => {
   const auth = getAuth();

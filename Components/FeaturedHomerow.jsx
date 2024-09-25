@@ -1,13 +1,13 @@
 import { View, FlatList, ActivityIndicator, Text } from "react-native";
-import React, { useEffect, useMemo, useState, useCallback } from "react";
+import React, { useEffect, useState } from "react";
 import SectionTitles from "./SectionTitles";
 import * as Cards from "./FeaturedCards/FeaturedCards";
 import UtilitiesFunctions from "./FeaturedCards/UtilitiesFunctions";
-import { collection, getDocs, limit, query, where } from "firebase/firestore";
 import { db } from "../firebase";
 import useSelectedCity from "../Hooks/useSelectedCity";
 import useLocation from "../Hooks/useLocation";
 import Skeleton from "./Skeleton";
+import { collection, getDocs, limit, query, where } from "@react-native-firebase/firestore";
 
 const categories = [
   "Explore in your city",

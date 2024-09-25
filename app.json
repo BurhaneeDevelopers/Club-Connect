@@ -57,9 +57,7 @@
       "androidMode": "default",
       "androidCollapsedTitle": "VibeHotspot"
     },
-    "runtimeVersion": {
-      "policy": "appVersion"
-    },
+    "runtimeVersion": "1.0.0",
     "updates": {
       "url": "https://u.expo.dev/a7079c16-20a2-4dfc-b6ea-918c9d2380fa"
     }

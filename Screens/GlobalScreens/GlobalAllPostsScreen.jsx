@@ -1,20 +1,15 @@
 import React, { useState, useEffect } from "react";
 import {
   View,
-  FlatList,
-  ActivityIndicator,
   Pressable,
   ImageBackground,
   Text,
 } from "react-native";
-import { collection, query, getDocs } from "firebase/firestore";
-import { getAuth } from "firebase/auth";
 import { db } from "../../firebase";
 import { SafeAreaView } from "react-native-safe-area-context";
-import usePosts from "../../Hooks/posts/usePosts";
 import Skeleton from "../../Components/Skeleton";
-import SectionTitles from "../../Components/SectionTitles";
 import { ArrowLeft } from "iconsax-react-native";
+import { collection, getDocs } from "@react-native-firebase/firestore";
 
 const GlobalAllPostScreen = ({ navigation }) => {
   const [posts, setPosts] = useState([]);

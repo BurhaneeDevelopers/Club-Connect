@@ -2,19 +2,17 @@ import React from "react";
 import {
   View,
   Text,
-  Image,
   Pressable,
   TextInput,
   KeyboardAvoidingView,
   RefreshControl,
-  Keyboard,
   ActivityIndicator,
   ScrollView,
   Platform,
 } from "react-native";
 import GlobalStyles from "../Styles/GlobalStyles";
 import { useState, useEffect } from "react";
-import { ArrowLeft, Apple, Eye, EyeSlash } from "iconsax-react-native";
+import { Eye, EyeSlash } from "iconsax-react-native";
 
 // Components
 import AuthSwitch from "../Components/AuthSwitch";
@@ -23,11 +21,16 @@ import AuthSwitch from "../Components/AuthSwitch";
 
 // SVGS
 import AuthSparklePink from "../assets/Illustrations/AuthSparklePink.svg";
-import { collection, doc, getDocs, setDoc } from "firebase/firestore";
-import { db, getAuth } from "../firebase";
+import { db } from "../firebase";
 import useAllBusiness from "../Hooks/useAllBusiness";
 import useAuth from "../Hooks/useAuth";
-import { createUserWithEmailAndPassword } from "firebase/auth";
+import {
+  collection,
+  doc,
+  getDocs,
+  setDoc,
+} from "@react-native-firebase/firestore";
+import { createUserWithEmailAndPassword, getAuth } from "@react-native-firebase/auth";
 
 const BusinessSignInScreen = ({ navigation, route }) => {
   const [refreshing, setRefreshing] = React.useState(false);
