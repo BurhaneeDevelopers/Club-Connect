@@ -82,7 +82,7 @@ const navTheme = DefaultTheme;
 navTheme.colors.background = "#000000";
 
 // TAB BOTTOM NAVIGATOR
-const StackScreen = ({ appdata }) => {
+const StackScreen = () => {
   return <TabNavigator Tab={Tab} />;
 };
 

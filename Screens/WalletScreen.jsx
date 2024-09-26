@@ -5,6 +5,7 @@ import {
   Pressable,
   Image,
   KeyboardAvoidingView,
+  Platform,
 } from "react-native";
 import React, { useEffect, useRef } from "react";
 import {
@@ -173,7 +174,7 @@ const WalletScreen = ({ navigation }) => {
               </View>
             </View> */}
 
-            <View className="mt-5">
+            {/* <View className="mt-5">
               <View className="mb-3">
                 <SectionTitles title={"My Subscription"} />
               </View>
@@ -193,7 +194,7 @@ const WalletScreen = ({ navigation }) => {
                   Upgrade Membership
                 </Text>
               </View>
-            </View>
+            </View> */}
           </View>
         </View>
       </ScrollView>
@@ -203,51 +204,51 @@ const WalletScreen = ({ navigation }) => {
 
 export default WalletScreen;
 
-const RecentActivityCard = () => {
-  return (
-    <View className="bg-[#262626] rounded-2xl w-80 h-24 p-3 flex-row space-x-4 mx-2 overflow-hidden my-2">
-      <View className="overflow-hidden rounded-xl">
-        <Image
-          source={require("../assets/Images/Santorini.jpg")}
-          defaultSource={require("../assets/Images/User/Dummy-Profile.png")}
-          className="w-20 h-20"
-        />
-      </View>
+// const RecentActivityCard = () => {
+//   return (
+//     <View className="bg-[#262626] rounded-2xl w-80 h-24 p-3 flex-row space-x-4 mx-2 overflow-hidden my-2">
+//       <View className="overflow-hidden rounded-xl">
+//         <Image
+//           source={require("../assets/Images/Santorini.jpg")}
+//           defaultSource={require("../assets/Images/User/Dummy-Profile.png")}
+//           className="w-20 h-20"
+//         />
+//       </View>
 
-      <View className="">
-        <Text
-          className="text-[#f9f9f9] w-44 text-base"
-          numberOfLines={1}
-          style={GlobalStyles.fontSemiBold}
-        >
-          Dancing party at new york and this is longer the text
-        </Text>
+//       <View className="">
+//         <Text
+//           className="text-[#f9f9f9] w-44 text-base"
+//           numberOfLines={1}
+//           style={GlobalStyles.fontSemiBold}
+//         >
+//           Dancing party at new york and this is longer the text
+//         </Text>
 
-        {/* Rating  */}
-        <View className="flex-row items-center space-x-2 my-2">
-          <View className="flex-row items-center space-x-1">
-            <Star1 size="18" color="#FF26B9" variant="Bold" />
-            <Text className="text-[#f9f9f9]" style={GlobalStyles.fontMedium}>
-              4
-            </Text>
-          </View>
+//         {/* Rating  */}
+//         <View className="flex-row items-center space-x-2 my-2">
+//           <View className="flex-row items-center space-x-1">
+//             <Star1 size="18" color="#FF26B9" variant="Bold" />
+//             <Text className="text-[#f9f9f9]" style={GlobalStyles.fontMedium}>
+//               4
+//             </Text>
+//           </View>
 
-          <Text className="text-gray-400 text-center">•</Text>
+//           <Text className="text-gray-400 text-center">•</Text>
 
-          <View className="flex-row items-center">
-            <Car size="16" color="#FF26B9" variant="Bold" />
-            <Text className="text-[#f9f9f9]" style={GlobalStyles.fontMedium}>
-              3km
-            </Text>
-          </View>
-        </View>
-        <Pressable
-          className="py-0.5 border border-[#E9FA00] w-20 active:bg-[#000000] rounded-md"
-          // onPress={() => navigation.navigate("GlobalDetails", {})}
-        >
-          <Text className="text-[#f9f9f9] text-center">Review</Text>
-        </Pressable>
-      </View>
-    </View>
-  );
-};
+//           <View className="flex-row items-center">
+//             <Car size="16" color="#FF26B9" variant="Bold" />
+//             <Text className="text-[#f9f9f9]" style={GlobalStyles.fontMedium}>
+//               3km
+//             </Text>
+//           </View>
+//         </View>
+//         <Pressable
+//           className="py-0.5 border border-[#E9FA00] w-20 active:bg-[#000000] rounded-md"
+//           // onPress={() => navigation.navigate("GlobalDetails", {})}
+//         >
+//           <Text className="text-[#f9f9f9] text-center">Review</Text>
+//         </Pressable>
+//       </View>
+//     </View>
+//   );
+// };
