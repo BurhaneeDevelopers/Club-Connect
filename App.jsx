@@ -495,10 +495,6 @@ export default function App({ navigation }) {
     }
   }, []);
 
-  const runTypeMessage = currentlyRunning.isEmbeddedLaunch
-    ? "Updating your experience… almost there :)"
-    : "Updating your experience… almost there :)";
-
   if (Text.defaultProps) {
     Text.defaultProps.allowFontScaling = false;
   } else {
@@ -529,7 +525,7 @@ export default function App({ navigation }) {
               <View className="h-screen w-screen flex-col justify-center items-center">
                 <ActivityIndicator color={"#4F46E5"} size={64} />
 
-                <Text>{runTypeMessage}</Text>
+                <Text className="text-white">Updating your experience… almost there :)</Text>
               </View>
             ) : user ? (
               <AuthenticatedNavigator Stack={Stack} StackScreen={StackScreen} />
