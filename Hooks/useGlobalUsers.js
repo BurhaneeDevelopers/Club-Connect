@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 
 // JSON Data
 import { db } from "../firebase";
-import { collection, getDocs } from "@react-native-firebase/firestore";
+import { collection, getDocs } from "firebase/firestore";
 
 const userGlobalUsers = () => {
   const [users, setUsers] = useState([]);

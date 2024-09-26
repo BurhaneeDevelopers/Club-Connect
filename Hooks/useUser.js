@@ -1,12 +1,12 @@
 // useUser.js
-import { getAuth, onAuthStateChanged } from "@react-native-firebase/auth";
+import { onAuthStateChanged } from "firebase/auth";
 import { useEffect, useState } from "react";
+import { auth } from "../firebase";
 
 const useUser = () => {
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);
 
-  const auth = getAuth();
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (authUser) => {
       setUser(authUser);

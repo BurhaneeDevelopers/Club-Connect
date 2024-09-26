@@ -23,7 +23,7 @@ import names from "../randomName.json";
 import userNames from "../randomUserName.json";
 
 // FIREBASE
-import { db } from "../firebase";
+import { auth, db } from "../firebase";
 
 // Components
 import AuthSwitch from "../Components/AuthSwitch";
@@ -31,12 +31,8 @@ import AuthSwitch from "../Components/AuthSwitch";
 // SVGS
 import AuthSparklePink from "../assets/Illustrations/AuthSparklePink.svg";
 import Google from "../assets/icons/Google.svg";
-import {
-  createUserWithEmailAndPassword,
-  getAuth,
-  signInAnonymously,
-} from "@react-native-firebase/auth";
-import { doc, setDoc } from "@react-native-firebase/firestore";
+import { createUserWithEmailAndPassword, signInAnonymously } from "firebase/auth";
+import { doc, setDoc } from "firebase/firestore";
 
 const CreateAccountScreen = ({ navigation, route }) => {
   const [refreshing, setRefreshing] = React.useState(false);
@@ -68,8 +64,6 @@ const CreateAccountScreen = ({ navigation, route }) => {
   const [isPasswordVisible, setIsPasswordVisible] = useState(false);
   const [isConfirmPasswordVisible, setIsConfirmPasswordVisible] =
     useState(false);
-
-  const auth = getAuth();
 
   const [toast, setToast] = useState(false);
 

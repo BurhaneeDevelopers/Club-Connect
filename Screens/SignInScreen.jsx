@@ -11,13 +11,11 @@ import {
   ScrollView,
 } from "react-native";
 import GlobalStyles from "../Styles/GlobalStyles";
-import { useState } from "react";
-import { Apple, Eye, EyeSlash } from "iconsax-react-native";
+import { useState, useEffect } from "react";
+import { ArrowLeft, Apple, Eye, EyeSlash } from "iconsax-react-native";
 
 // Components
 import AuthSwitch from "../Components/AuthSwitch";
-
-// FIREBASE
 
 // SVGS
 import AuthSparklePink from "../assets/Illustrations/AuthSparklePink.svg";

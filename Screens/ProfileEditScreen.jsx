@@ -16,7 +16,7 @@ import { ArrowLeft, Camera } from "iconsax-react-native";
 import GlobalStyles from "../Styles/GlobalStyles";
 import { useState, useEffect, useMemo, useRef } from "react";
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import { db } from "../firebase";
+import { auth, db } from "../firebase";
 import * as ImagePicker from "expo-image-picker";
 import LottieView from "lottie-react-native";
 
@@ -25,9 +25,8 @@ import ProfileEditInputs from "../Components/ProfileEditInputs";
 import RBSheet from "react-native-raw-bottom-sheet";
 import useAuth from "../Hooks/useAuth";
 import { SafeAreaView } from "react-native-safe-area-context";
-import { getAuth } from "@react-native-firebase/auth";
-import { doc, getDoc, updateDoc } from "@react-native-firebase/firestore";
-import { getDownloadURL, getStorage, ref, uploadBytesResumable } from "@react-native-firebase/storage";
+import { doc, getDoc } from "firebase/firestore";
+import { getDownloadURL, getStorage, ref, uploadBytesResumable } from "@firebase/storage";
 
 const ProfileEditScreen = ({ navigation }) => {
   // FETCH EDITED PROFILE DATA
@@ -70,7 +69,6 @@ const ProfileEditScreen = ({ navigation }) => {
     }
   }, [animationPlayed]);
 
-  const auth = getAuth();
   useEffect(() => {
     const cleanup = () => {
       // Reset state when component unmounts

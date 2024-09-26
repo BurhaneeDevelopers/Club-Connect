@@ -1,14 +1,12 @@
 import { useState, useEffect } from "react";
-import { db } from "../firebase";
-import { getAuth } from "@react-native-firebase/auth";
-import { arrayRemove, arrayUnion, doc, getDoc, updateDoc } from "@react-native-firebase/firestore";
+import { auth, db } from "../firebase";
+import { arrayRemove, arrayUnion, doc, getDoc, updateDoc } from "firebase/firestore";
 
 const useFollowStatus = (currentUserId, otherUserId) => {
   const [isFollowing, setIsFollowing] = useState(false);
   const [followers, setFollowers] = useState([]);
   const [following, setFollowing] = useState([]);
 
-  const auth = getAuth();
   // Function to follow a user
   const followUser = async (userIdToFollow) => {
     const currentUserRef = doc(db, "allUsers", auth.currentUser.uid);

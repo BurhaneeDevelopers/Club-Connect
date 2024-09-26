@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { db } from "../firebase";
-import { addDoc, collection, deleteDoc, doc, getDoc, getDocs } from "@react-native-firebase/firestore";
+import { addDoc, collection, deleteDoc, doc, getDoc, getDocs } from "firebase/firestore";
 
 const useAllBusiness = () => {
   const [allBusiness, setAllBusiness] = useState([]);

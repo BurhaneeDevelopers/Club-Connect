@@ -18,8 +18,8 @@ import { useState, useEffect } from "react";
 // Context
 import useAuth from "../Hooks/useAuth";
 import usePosts from "../Hooks/posts/usePosts";
-import { doc, onSnapshot } from "@react-native-firebase/firestore";
-import { db } from "../firebase";
+import { auth, db } from "../firebase";
+import { doc, onSnapshot } from "firebase/firestore";
 
 const ProfileScreen = ({ navigation }) => {
   const [post, setPosts] = useState(true);
@@ -34,8 +34,6 @@ const ProfileScreen = ({ navigation }) => {
     PostImage: { uri: item?.PostImage },
     item: item,
   }));
-
-  const auth = getAuth();
 
   const { user, anonymousUser, fetchUserDetails, setUser } = useAuth();
   useEffect(() => {

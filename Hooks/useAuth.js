@@ -4,9 +4,9 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 // JSON Data
 import names from "../randomName.json";
 import userNames from "../randomUserName.json";
-import { db } from "../firebase";
-import { getAuth, signInAnonymously, signInWithEmailAndPassword } from "@react-native-firebase/auth";
-import { doc, getDoc, setDoc } from "@react-native-firebase/firestore";
+import { auth, db } from "../firebase";
+import { doc, getDoc, setDoc } from "firebase/firestore";
+import { signInAnonymously, signInWithEmailAndPassword } from "firebase/auth";
 
 const useAuth = () => {
   const [user, setUser] = useState({
@@ -24,8 +24,6 @@ const useAuth = () => {
     userName: null,
   });
   const [error, setError] = useState(null);
-
-  const auth = getAuth();
 
   const fetchUserDetails = async () => {
     const docRef = doc(db, "allUsers", auth.currentUser?.uid);

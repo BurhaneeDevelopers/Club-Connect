@@ -7,7 +7,7 @@ import { db } from "../firebase";
 import useSelectedCity from "../Hooks/useSelectedCity";
 import useLocation from "../Hooks/useLocation";
 import Skeleton from "./Skeleton";
-import { collection, getDocs, limit, query, where } from "@react-native-firebase/firestore";
+import { collection, getDocs, limit, query, where } from "firebase/firestore";
 
 const categories = [
   "Explore in your city",

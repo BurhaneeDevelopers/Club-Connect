@@ -21,16 +21,11 @@ import AuthSwitch from "../Components/AuthSwitch";
 
 // SVGS
 import AuthSparklePink from "../assets/Illustrations/AuthSparklePink.svg";
-import { db } from "../firebase";
+import { auth, db } from "../firebase";
 import useAllBusiness from "../Hooks/useAllBusiness";
 import useAuth from "../Hooks/useAuth";
-import {
-  collection,
-  doc,
-  getDocs,
-  setDoc,
-} from "@react-native-firebase/firestore";
-import { createUserWithEmailAndPassword, getAuth } from "@react-native-firebase/auth";
+import { collection, doc, getDocs } from "firebase/firestore";
+import { createUserWithEmailAndPassword } from "firebase/auth";
 
 const BusinessSignInScreen = ({ navigation, route }) => {
   const [refreshing, setRefreshing] = React.useState(false);
@@ -85,8 +80,6 @@ const BusinessSignInScreen = ({ navigation, route }) => {
   useEffect(() => {
     fetchAllBusiness();
   }, []);
-
-  const auth = getAuth();
 
   const { handleSignIn } = useAuth();
   const checkCredentials = async () => {

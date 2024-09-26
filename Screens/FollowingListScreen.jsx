@@ -19,7 +19,7 @@ import {
 import useFollowStatus from "../Hooks/useFollowStatus";
 import { useRoute } from "@react-navigation/native";
 import FollowButton from "../Components/FollowButton";
-import { getAuth } from "@react-native-firebase/auth";
+import { auth } from "../firebase";
 
 const FollowingListScreen = ({ navigation }) => {
   const {
@@ -36,7 +36,6 @@ const FollowingListScreen = ({ navigation }) => {
     setActiveInput(null);
   };
 
-  const auth = getAuth();
   const { following, fetchFollowingStatus } = useFollowStatus(
     auth.currentUser.uid,
     userId

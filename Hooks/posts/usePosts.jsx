@@ -1,16 +1,14 @@
 import { useState, useEffect } from "react";
 import * as ImagePicker from "expo-image-picker";
-import { db } from "../../firebase";
+import { auth, db } from "../../firebase";
 import "react-native-get-random-values";
 import { v4 as uuidv4 } from "uuid";
-import { getAuth } from "@react-native-firebase/auth";
-import { getDownloadURL, getStorage, ref, uploadBytesResumable } from "@react-native-firebase/storage";
-import { addDoc, collection, onSnapshot, query } from "@react-native-firebase/firestore";
+import { getDownloadURL, getStorage, ref, uploadBytesResumable } from "@firebase/storage";
+import { addDoc, collection, onSnapshot, query } from "firebase/firestore";
 
 const usePosts = () => {
   const [posts, setPosts] = useState([]);
   const [postCount, setPostCount] = useState(0);
-  const auth = getAuth();
 
   const [image, setImage] = useState(null);
 

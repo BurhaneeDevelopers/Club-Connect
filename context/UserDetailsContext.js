@@ -1,7 +1,7 @@
 import { createContext, useState, useContext, useEffect } from "react";
-import { db } from "../firebase";
-import { doc, getDoc } from "@react-native-firebase/firestore";
-import { getAuth } from "@react-native-firebase/auth";
+import { auth, db } from "../firebase";
+import { doc, getDoc } from "firebase/firestore";
+import { onAuthStateChanged } from "firebase/auth";
 export const UserDetailsContext = createContext();
 
 export const UserDetailsProvider = ({ children }) => {
@@ -14,8 +14,6 @@ export const UserDetailsProvider = ({ children }) => {
   });
 
   const [isSignedIn, setIsSignedIn] = useState(false);
-
-  const auth = getAuth();
 
   const fetchUserDetails = async (uid) => {
     const docRef = doc(db, "users", uid);

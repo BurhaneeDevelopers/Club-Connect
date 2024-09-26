@@ -17,8 +17,8 @@ import { useState, useEffect } from "react";
 import axios from "axios";
 import { useRoute } from "@react-navigation/native";
 import FollowButton from "../../Components/FollowButton";
-import { doc, onSnapshot } from "@react-native-firebase/firestore";
 import { db } from "../../firebase";
+import { doc, onSnapshot } from "firebase/firestore";
 
 const GlobalProfileScreen = ({ navigation }) => {
   const [post, setPosts] = useState(true);

@@ -9,7 +9,7 @@ import { db } from "../../firebase";
 import { SafeAreaView } from "react-native-safe-area-context";
 import Skeleton from "../../Components/Skeleton";
 import { ArrowLeft } from "iconsax-react-native";
-import { collection, getDocs } from "@react-native-firebase/firestore";
+import { collection, getDocs } from "firebase/firestore";
 
 const GlobalAllPostScreen = ({ navigation }) => {
   const [posts, setPosts] = useState([]);
