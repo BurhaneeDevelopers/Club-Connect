@@ -26,7 +26,7 @@ import {
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { useState } from "react";
 import { Platform } from "react-native";
-import { getAuth } from "../firebase";
+import { auth } from "../firebase";
 
 const SettingScreen = ({ navigation }) => {
   const [musicSwitch, setMusicSwitch] = useState(true);
@@ -98,7 +98,6 @@ const SettingScreen = ({ navigation }) => {
   ];
 
   // SIGN OUT
-  const auth = getAuth();
 
   const handleSignOut = () => {
     AsyncStorage.clear();

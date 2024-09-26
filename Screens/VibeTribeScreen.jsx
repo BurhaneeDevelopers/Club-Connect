@@ -28,11 +28,11 @@ import SectionTitles from "../Components/SectionTitles";
 
 // FONTS
 import GlobalStyles from "../Styles/GlobalStyles";
-import { getAuth } from "../firebase";
 import FollowButton from "../Components/FollowButton";
 import userGlobalUsers from "../Hooks/useGlobalUsers";
 import { FlatList } from "react-native-gesture-handler";
 import Skeleton from "../Components/Skeleton";
+import { auth } from "../firebase";
 
 const VibeTribeScreen = ({ navigation }) => {
   const [image, setImage] = useState(null);
@@ -116,8 +116,6 @@ const VibeTribeScreen = ({ navigation }) => {
       </View>
     ) : null;
   };
-
-  const auth = getAuth();
 
   return (
     <SafeAreaView className="h-full w-full">
